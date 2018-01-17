@@ -40,5 +40,8 @@ public:
 
 	//修改字符串的长度，如果新的长度比原来的短，则保留右边的字符，如果新的长度比原来的长，则在左边添加指定的字符
 	static void ChangeStringLength(CString& str, int length, TCHAR ch);
+
+	//向一个Edit box添加字符串
+	static void EditAppendString(const CString& str, HWND hWnd);
 };
 

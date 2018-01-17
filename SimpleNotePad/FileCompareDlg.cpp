@@ -36,25 +36,26 @@ UINT CFileCompareDlg::FileCompareThreadFun(LPVOID lpParam)
 		{
 			if (pInfo->file1->at(i) != pInfo->file2->at(i))
 			{
-				temp.Format(_T("%.8x \t%.2x\t%.2x\r\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)), static_cast<unsigned char>(pInfo->file2->at(i)));
+				temp.Format(_T("%.8x \t%.2x\t%.2x\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)), static_cast<unsigned char>(pInfo->file2->at(i)));
 				pInfo->result_count++;
 				//m_compare_result.emplace_back(i, pInfo->file1->at(i), pInfo->file2->at(i), false, false);
 			}
 		}
 		else if (i >= pInfo->file1->size())
 		{
-			temp.Format(_T("%.8x \t无数据\t%.2x\r\n"), i, static_cast<unsigned char>(pInfo->file2->at(i)));
+			temp.Format(_T("%.8x \t无数据\t%.2x\n"), i, static_cast<unsigned char>(pInfo->file2->at(i)));
 			pInfo->result_count++;
 			//m_compare_result.emplace_back(i, 0, pInfo->file2->at(i), true, false);
 		}
 		else
 		{
-			temp.Format(_T("%.8x \t%.2x\t无数据\r\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)));
+			temp.Format(_T("%.8x \t%.2x\t无数据\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)));
 			pInfo->result_count++;
 			//m_compare_result.emplace_back(i, pInfo->file1->at(i), 0, false, true);
 		}
 		temp.MakeUpper();
-		pInfo->out_info += temp;
+		//pInfo->out_info += temp;
+		//CCommon::EditAppendString(temp, pInfo->edit_handle);
 
 		//如果文件比较窗口已经退出，则退出线程
 		if (theApp.m_compare_dialog_exit)
@@ -69,7 +70,7 @@ UINT CFileCompareDlg::FileCompareThreadFun(LPVOID lpParam)
 			last_progress = progress;
 		}
 	}
-	if (pInfo->out_info.IsEmpty()) pInfo->out_info = _T("两个文件完全相同！");
+	//if (pInfo->out_info.IsEmpty()) pInfo->out_info = _T("两个文件完全相同！");
 	::PostMessage(pInfo->hwnd, WM_COMPARE_COMPLATE, 0, 0);		//文件比较完成后发送一个比较完成消息
 	return 0;
 }
@@ -249,6 +250,7 @@ void CFileCompareDlg::OnBnClickedCompareButton()
 	m_thread_info.file1 = &m_file1;
 	m_thread_info.file2 = &m_file2;
 	m_thread_info.hwnd = m_hWnd;
+	m_thread_info.edit_handle = GetDlgItem(IDC_EDIT_RESULT)->m_hWnd;
 	m_pFileCompareThread = AfxBeginThread(FileCompareThreadFun, &m_thread_info);
 
 	//for (const auto& a_item : m_compare_result)
@@ -310,7 +312,7 @@ void CFileCompareDlg::OnDropFiles(HDROP hDropInfo)
 afx_msg LRESULT CFileCompareDlg::OnCompareComplate(WPARAM wParam, LPARAM lParam)
 {
 	SetDlgItemText(IDC_PROGRESS_STATIC, _T("比较完成，正在输出结果，请稍候……"));
-	SetDlgItemText(IDC_EDIT_RESULT, m_thread_info.out_info);
+	//SetDlgItemText(IDC_EDIT_RESULT, m_thread_info.out_info);
 
 	size_t max_size = (m_file1.size() > m_file2.size() ? m_file1.size() : m_file2.size());
 	size_t min_size = (m_file1.size() < m_file2.size() ? m_file1.size() : m_file2.size());

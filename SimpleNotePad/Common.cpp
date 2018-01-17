@@ -203,3 +203,22 @@ void CCommon::ChangeStringLength(CString& str, int length, TCHAR ch)
 		str = str.Right(length);
 	}
 }
+
+void CCommon::EditAppendString(const CString & str, HWND hWnd)
+{
+	int length = str.GetLength();
+	for (int i = 0; i<length; )	//发送消息到 IDC_REPORT_EDIT
+	{
+		if (str[i]< 128)
+		{
+			::SendMessage(hWnd, WM_CHAR, str[i], 0);
+		}
+		else
+		{
+			::SendMessage(hWnd, WM_CHAR, str[i], 0);
+			::SendMessage(hWnd, WM_CHAR, str[i + 1], 0);
+			i++;
+		}
+		i++;
+	}
+}
