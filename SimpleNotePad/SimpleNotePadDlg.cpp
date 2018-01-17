@@ -118,6 +118,8 @@ bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code)
 		if (MessageBox(info, NULL, MB_OKCANCEL | MB_ICONWARNING) != IDOK) return false;		//如果用户点击了取消按钮，则返回false
 	}
 	ofstream file{ file_path, std::ios::binary };
+	if (!file.good())		//如果无法保存文件，则返回false
+		return false;
 	file << m_edit_str;
 	m_modified = false;
 	ShowStatusBar();		//保存后刷新状态栏
@@ -241,9 +243,16 @@ bool CSimpleNotePadDlg::_OnFileSave()
 	{
 		//已经打开过一个文件时就直接保存，还没有打开一个文件就弹出“另存为”对话框
 		if (!m_file_path.IsEmpty())
-			return SaveFile(m_file_path, m_code);
+		{
+			if (SaveFile(m_file_path, m_code))
+				return true;
+			else
+				return _OnFileSaveAs();		//文件无法保存时弹出“另存为”对话框
+		}
 		else
+		{
 			return _OnFileSaveAs();
+		}
 	}
 	return false;
 }
