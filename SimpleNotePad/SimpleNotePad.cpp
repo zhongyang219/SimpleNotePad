@@ -42,6 +42,11 @@ BOOL CSimpleNotePadApp::InitInstance()
 	//获取配置文件的路径（当前exe文件所在路径\config.ini）
 	m_config_path = CCommon::GetCurrentPath() + L"config.ini";
 
+	wstring cmd_line{ m_lpCmdLine };
+	bool is_restart{ cmd_line.find(L"RestartByRestartManager") != wstring::npos };		//如果命令行参数中含有字符串“RestartByRestartManager”则说明程序是被Windows重新启动的
+	if (is_restart)				//如果程序被重新启动，则直接退出程序
+		return FALSE;
+
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
 	//则需要 InitCommonControlsEx()。  否则，将无法创建窗口。
