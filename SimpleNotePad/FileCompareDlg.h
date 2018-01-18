@@ -67,6 +67,7 @@ protected:
 	void _OnExit();
 
 	void EnableButtons(bool enable = true);
+	void ClearCompareResult();
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
 

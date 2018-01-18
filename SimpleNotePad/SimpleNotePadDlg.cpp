@@ -69,6 +69,8 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	//if (!SaveInquiry())
 	//	return;
 
+	CWaitCursor wait_cursor;
+
 	m_edit_str.clear();
 	m_modified = false;
 	ifstream file{ file_path, std::ios::binary };

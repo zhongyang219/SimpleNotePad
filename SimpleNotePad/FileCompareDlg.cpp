@@ -98,6 +98,7 @@ void CFileCompareDlg::OpenFile(LPCTSTR file_path, string & file)
 		}
 	}
 	file.pop_back();
+	ClearCompareResult();
 }
 
 void CFileCompareDlg::_OnExit()
@@ -112,6 +113,13 @@ void CFileCompareDlg::EnableButtons(bool enable)
 	GetDlgItem(IDC_COMPARE_BUTTON)->EnableWindow(enable);
 	GetDlgItem(IDC_OPEN_BUTTON1)->EnableWindow(enable);
 	GetDlgItem(IDC_OPEN_BUTTON2)->EnableWindow(enable);
+}
+
+void CFileCompareDlg::ClearCompareResult()
+{
+	SetDlgItemText(IDC_EDIT_RESULT, _T(""));
+	for(int i{}; i<=6; i++)
+		m_result_info.SetItemText(i, 1, _T(""));
 }
 
 void CFileCompareDlg::DoDataExchange(CDataExchange* pDX)
@@ -227,6 +235,7 @@ void CFileCompareDlg::OnBnClickedCompareButton()
 	m_thread_info.hwnd = m_hWnd;
 	m_pFileCompareThread = AfxBeginThread(FileCompareThreadFun, &m_thread_info);
 	EnableButtons(false);
+	ClearCompareResult();
 }
 
 
