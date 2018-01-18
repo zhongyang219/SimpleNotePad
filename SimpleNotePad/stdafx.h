@@ -71,4 +71,5 @@ typedef char _tchar;
 
 #define IDC_SAVE_COMBO_BOX 1990		//定义添加到“另存为”对话框中的组合框的ID
 
-#define MAX_FILE_SIZE 52428800		//定义可以打开的最大文件大小为50MB
+#define MAX_FILE_SIZE 10485760		//定义可以打开的最大文件大小
+#define MAX_COMPARE_SIZE 4194304		//定义文件二进制比较时的最大文件大小

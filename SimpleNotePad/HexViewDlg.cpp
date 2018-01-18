@@ -55,6 +55,7 @@ END_MESSAGE_MAP()
 
 void CHexViewDlg::ShowHexData(bool ini)
 {
+	CWaitCursor wait_cursor;
 	string a_line_str;
 	wstring a_line;
 	CString temp;

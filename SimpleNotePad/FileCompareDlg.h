@@ -42,9 +42,9 @@ protected:
 		HWND hwnd;		//对话框的句柄
 		string* file1;		//要比较的文件1的指针
 		string* file2;		//要比较的文件2的指针
-		//CString out_info;		//储存比较结果的输出信息
+		CString out_info;		//储存比较结果的输出信息
 		int result_count;		//储存不同的字节数
-		HWND edit_handle;		//Edit控件的句柄
+		//HWND edit_handle;		//Edit控件的句柄
 		//int complete_ratio;		//完成的比例，取值为0~1000
 	};
 
@@ -65,6 +65,8 @@ protected:
 	void OpenFile(LPCTSTR file_path,string& file);
 
 	void _OnExit();
+
+	void EnableButtons(bool enable = true);
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 

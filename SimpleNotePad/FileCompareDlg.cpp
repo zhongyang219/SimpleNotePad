@@ -29,6 +29,7 @@ UINT CFileCompareDlg::FileCompareThreadFun(LPVOID lpParam)
 	pInfo->result_count = 0;
 	//CString out_info;
 	int progress;
+	pInfo->out_info.Empty();
 	for (unsigned int i{}; i < max_size; i++)
 	{
 		CString temp;
@@ -36,33 +37,29 @@ UINT CFileCompareDlg::FileCompareThreadFun(LPVOID lpParam)
 		{
 			if (pInfo->file1->at(i) != pInfo->file2->at(i))
 			{
-				temp.Format(_T("%.8x \t%.2x\t%.2x\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)), static_cast<unsigned char>(pInfo->file2->at(i)));
+				temp.Format(_T("%.8x \t%.2x\t%.2x\r\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)), static_cast<unsigned char>(pInfo->file2->at(i)));
 				pInfo->result_count++;
-				//m_compare_result.emplace_back(i, pInfo->file1->at(i), pInfo->file2->at(i), false, false);
 			}
 		}
 		else if (i >= pInfo->file1->size())
 		{
-			temp.Format(_T("%.8x \t无数据\t%.2x\n"), i, static_cast<unsigned char>(pInfo->file2->at(i)));
+			temp.Format(_T("%.8x \t无数据\t%.2x\r\n"), i, static_cast<unsigned char>(pInfo->file2->at(i)));
 			pInfo->result_count++;
-			//m_compare_result.emplace_back(i, 0, pInfo->file2->at(i), true, false);
 		}
 		else
 		{
-			temp.Format(_T("%.8x \t%.2x\t无数据\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)));
+			temp.Format(_T("%.8x \t%.2x\t无数据\r\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)));
 			pInfo->result_count++;
-			//m_compare_result.emplace_back(i, pInfo->file1->at(i), 0, false, true);
 		}
 		temp.MakeUpper();
-		//pInfo->out_info += temp;
-		//CCommon::EditAppendString(temp, pInfo->edit_handle);
+		pInfo->out_info += temp;
 
 		//如果文件比较窗口已经退出，则退出线程
 		if (theApp.m_compare_dialog_exit)
 			return 0;
 
 		//更新进度条
-		progress = i * 1000 / max_size;
+		progress = static_cast<int>(static_cast<__int64>(i) * 1000 / max_size);
 		static int last_progress{};
 		if (last_progress != progress)
 		{
@@ -70,13 +67,14 @@ UINT CFileCompareDlg::FileCompareThreadFun(LPVOID lpParam)
 			last_progress = progress;
 		}
 	}
-	//if (pInfo->out_info.IsEmpty()) pInfo->out_info = _T("两个文件完全相同！");
+	if (pInfo->out_info.IsEmpty()) pInfo->out_info = _T("两个文件完全相同！");
 	::PostMessage(pInfo->hwnd, WM_COMPARE_COMPLATE, 0, 0);		//文件比较完成后发送一个比较完成消息
 	return 0;
 }
 
 void CFileCompareDlg::OpenFile(LPCTSTR file_path, string & file)
 {
+	CWaitCursor wait_cursor;
 	ifstream open_file{ file_path, std::ios::binary };
 	if (open_file.fail())
 	{
@@ -89,13 +87,14 @@ void CFileCompareDlg::OpenFile(LPCTSTR file_path, string & file)
 	while (!open_file.eof())
 	{
 		file.push_back(open_file.get());
-		if (file.size() > MAX_FILE_SIZE)	//当文件大小超过50MB时禁止打开
+		if (file.size() > MAX_COMPARE_SIZE)
 		{
 			CString info;
-			info.Format(_T("“%s”文件太大无法比较！"), file_path);
-			MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
-			file.clear();
-			return;
+			info.Format(_T("“%s”文件太大，只读取了前面 %d 个字节！"), file_path, MAX_COMPARE_SIZE);
+			MessageBox(info, NULL, MB_OK | MB_ICONWARNING);
+			//file.clear();
+
+			break;
 		}
 	}
 	file.pop_back();
@@ -106,6 +105,13 @@ void CFileCompareDlg::_OnExit()
 	theApp.m_compare_dialog_exit = true;		//窗口关闭时将标志置为true
 	if (m_pFileCompareThread != nullptr)
 		WaitForSingleObject(m_pFileCompareThread->m_hThread, 1000);	//等待线程退出
+}
+
+void CFileCompareDlg::EnableButtons(bool enable)
+{
+	GetDlgItem(IDC_COMPARE_BUTTON)->EnableWindow(enable);
+	GetDlgItem(IDC_OPEN_BUTTON1)->EnableWindow(enable);
+	GetDlgItem(IDC_OPEN_BUTTON2)->EnableWindow(enable);
 }
 
 void CFileCompareDlg::DoDataExchange(CDataExchange* pDX)
@@ -216,55 +222,11 @@ void CFileCompareDlg::OnBnClickedCompareButton()
 		return;
 	}
 
-	//int result_count{};
-	//CString out_info;
-	//for (unsigned int i{}; i < max_size; i++)
-	//{
-	//	CString temp;
-	//	if (i < m_file1.size() && i < m_file2.size())
-	//	{
-	//		if (m_file1[i] != m_file2[i])
-	//		{
-	//			temp.Format(_T("%.8x \t%.2x\t%.2x\r\n"), i, static_cast<unsigned char>(m_file1[i]), static_cast<unsigned char>(m_file2[i]));
-	//			result_count++;
-	//			//m_compare_result.emplace_back(i, m_file1[i], m_file2[i], false, false);
-	//		}
-	//	}
-	//	else if (i >= m_file1.size())
-	//	{
-	//		temp.Format(_T("%.8x \t无数据\t%.2x\r\n"), i, static_cast<unsigned char>(m_file2[i]));
-	//		result_count++;
-	//		//m_compare_result.emplace_back(i, 0, m_file2[i], true, false);
-	//	}
-	//	else
-	//	{
-	//		temp.Format(_T("%.8x \t%.2x\t无数据\r\n"), i, static_cast<unsigned char>(m_file1[i]));
-	//		result_count++;
-	//		//m_compare_result.emplace_back(i, m_file1[i], 0, false, true);
-	//	}
-	//	temp.MakeUpper();
-	//	out_info += temp;
-	//}
-	//if (out_info.IsEmpty()) out_info = _T("两个文件完全相同！");
-
 	m_thread_info.file1 = &m_file1;
 	m_thread_info.file2 = &m_file2;
 	m_thread_info.hwnd = m_hWnd;
-	m_thread_info.edit_handle = GetDlgItem(IDC_EDIT_RESULT)->m_hWnd;
 	m_pFileCompareThread = AfxBeginThread(FileCompareThreadFun, &m_thread_info);
-
-	//for (const auto& a_item : m_compare_result)
-	//{
-	//	CString temp;
-	//	if (!a_item.no_data1 && !a_item.no_data2)
-	//		temp.Format(_T("%.8x \t%.2x\t%.2x\r\n"), a_item.address, a_item.data1, a_item.data2);
-	//	else if (a_item.no_data1)
-	//		temp.Format(_T("%.8x \t无数据\t%.2x\r\n"), a_item.address, a_item.data2);
-	//	else
-	//		temp.Format(_T("%.8x \t%.2x\t无数据\r\n"), a_item.address, a_item.data1);
-	//	temp.MakeUpper();
-	//	out_info += temp;
-	//}
+	EnableButtons(false);
 }
 
 
@@ -311,17 +273,21 @@ void CFileCompareDlg::OnDropFiles(HDROP hDropInfo)
 
 afx_msg LRESULT CFileCompareDlg::OnCompareComplate(WPARAM wParam, LPARAM lParam)
 {
+	CWaitCursor wait_cursor;
 	SetDlgItemText(IDC_PROGRESS_STATIC, _T("比较完成，正在输出结果，请稍候……"));
-	//SetDlgItemText(IDC_EDIT_RESULT, m_thread_info.out_info);
+	const int MAX_LENGTH{ 50000000 };
+	if (m_thread_info.out_info.GetLength() > MAX_LENGTH)
+	{
+		m_thread_info.out_info = m_thread_info.out_info.Left(MAX_LENGTH);
+		m_thread_info.out_info += _T("\r\n输出结果太长，可能无法完全显示。");
+	}
+
+	SetDlgItemText(IDC_EDIT_RESULT, m_thread_info.out_info);
 
 	size_t max_size = (m_file1.size() > m_file2.size() ? m_file1.size() : m_file2.size());
 	size_t min_size = (m_file1.size() < m_file2.size() ? m_file1.size() : m_file2.size());
-	//CString result_info;
 	int size_difference;
 	size_difference = abs(static_cast<int>(m_file1.size() - m_file2.size()));
-	//result_info.Format(_T("文件1共有%u个字节，文件2共有%u个字节，两个文件大小相差%d个字节，相同的字节数为%u，不同的字节数为%u。"),
-	//	m_file1.size(), m_file2.size(), size_difference, max_size - result_count, result_count - size_difference);
-	//SetDlgItemText(IDC_RESULT_INFO, result_info);
 
 	CString str;
 	//添加第0项数据"文件1字节数"
@@ -346,6 +312,7 @@ afx_msg LRESULT CFileCompareDlg::OnCompareComplate(WPARAM wParam, LPARAM lParam)
 	str.Format(_T("%.2f%%"), (m_thread_info.result_count - size_difference) * 100 / static_cast<float>(min_size));
 	m_result_info.SetItemText(6, 1, str);
 	SetDlgItemText(IDC_PROGRESS_STATIC, _T("比较完成。"));
+	EnableButtons(true);
 	return 0;
 }
 

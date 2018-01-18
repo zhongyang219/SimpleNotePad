@@ -215,6 +215,7 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 		return;
 	}
 
+	CWaitCursor wait_cursor;
 	switch (m_output_box.GetCurSel())
 	{
 	case 0: m_output_format = CodeType::ANSI; break;
