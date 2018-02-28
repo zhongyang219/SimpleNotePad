@@ -85,14 +85,20 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	while (!file.eof())
 	{
 		m_edit_str.push_back(file.get());
-		if (m_edit_str.size() > MAX_FILE_SIZE)	//当文件大小超过50MB时禁止打开
+		if (m_edit_str.size() > MAX_FILE_SIZE)	//当文件大小超过MAX_FILE_SIZE时禁止打开
 		{
 			CString info;
-			info.Format(_T("“%s”太大无法打开，请使用其他文件编辑器打开！"), file_path);
-			MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
-			m_file_path.Empty();
-			m_edit_str.clear();
-			return;
+			info.Format(_T("“%s”文件太大，将只加载文件前面%dMB的内容，要继续吗？"), file_path, MAX_FILE_SIZE / 1024 / 1024);
+			if (MessageBox(info, NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
+			{
+				break;
+			}
+			else
+			{
+				m_file_path.Empty();
+				m_edit_str.clear();
+				return;
+			}
 		}
 	}
 	m_edit_str.pop_back();
