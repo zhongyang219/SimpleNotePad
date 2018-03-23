@@ -325,6 +325,11 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 void CSimpleNotePadDlg::SaveHex()
 {
 	ofstream file{ m_file_path, std::ios::binary };
+	if (file.fail())
+	{
+		MessageBox(_T("±£¥Ê ß∞‹£°"), NULL, MB_ICONWARNING);
+		return;
+	}
 	file << m_edit_str;
 	m_modified = false;
 	ShowStatusBar();
