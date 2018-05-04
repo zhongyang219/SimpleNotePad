@@ -43,5 +43,8 @@ public:
 
 	//向一个Edit box添加字符串
 	static void EditAppendString(const CString& str, HWND hWnd);
+
+	//判断一个字符是不是合法的标识符
+	static bool IsValidNameChar(wchar_t ch);
 };
 

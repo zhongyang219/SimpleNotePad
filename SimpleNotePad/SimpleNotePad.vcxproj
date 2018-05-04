@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
+    <ClInclude Include="EditEx.h" />
     <ClInclude Include="FileCompareDlg.h" />
     <ClInclude Include="FormatConvertDlg.h" />
     <ClInclude Include="HexViewDlg.h" />
@@ -197,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="EditEx.cpp" />
     <ClCompile Include="FileCompareDlg.cpp" />
     <ClCompile Include="FormatConvertDlg.cpp" />
     <ClCompile Include="HexViewDlg.cpp" />

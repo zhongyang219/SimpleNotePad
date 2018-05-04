@@ -6,6 +6,7 @@
 #include "afxwin.h"
 #include "Common.h"
 #include "FileCompareDlg.h"
+#include "EditEx.h"
 
 const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//将FINDMSGSTRING注册为WM_FINDREPLACE消息
 // CSimpleNotePadDlg 对话框
@@ -28,7 +29,7 @@ public:
 protected:
 	HICON m_hIcon;
 	//CMenu m_menu;	//菜单
-	CEdit m_edit;					//编辑框
+	CEditEx m_edit;					//编辑框
 	CStatusBarCtrl m_status_bar;	//状态栏
 	CFont m_font;			//字体
 	CString m_font_name;	//字体名称

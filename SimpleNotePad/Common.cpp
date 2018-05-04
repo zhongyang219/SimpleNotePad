@@ -222,3 +222,8 @@ void CCommon::EditAppendString(const CString & str, HWND hWnd)
 		i++;
 	}
 }
+
+bool CCommon::IsValidNameChar(wchar_t ch)
+{
+	return ((ch >= L'0'&&ch <= L'9') || (ch >= L'a'&&ch <= L'z') || (ch >= L'A'&&ch <= L'Z') || ch == L'_' || ch > 256);
+}

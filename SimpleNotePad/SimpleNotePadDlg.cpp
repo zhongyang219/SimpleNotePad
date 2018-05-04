@@ -877,14 +877,14 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 		return TRUE;
 	if (GetKeyState(VK_CONTROL) & 0x80)
 	{
-		//设置按Ctr+A全选
-		if (pMsg->wParam == 'a' || pMsg->wParam == 'A')
-		{
-			OnEditSelectAll();
-			return TRUE;
-		}
+		////设置按Ctr+A全选
+		//if (pMsg->wParam == 'a' || pMsg->wParam == 'A')
+		//{
+		//	OnEditSelectAll();
+		//	return TRUE;
+		//}
 		//设置Ctr+S保存
-		else if (pMsg->wParam == 's' || pMsg->wParam == 'S')
+		if (pMsg->wParam == 's' || pMsg->wParam == 'S')
 		{
 			_OnFileSave();
 			return TRUE;
