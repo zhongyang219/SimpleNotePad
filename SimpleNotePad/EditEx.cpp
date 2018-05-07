@@ -49,8 +49,9 @@ void CEditEx::OnLButtonDblClk(UINT nFlags, CPoint point)
 	CString edit_str;
 	GetWindowText(edit_str);
 	int length{ edit_str.GetLength() };
-	int cursor_pos = CharFromPos(point);		//获取光标位置
-	cursor_pos = LOWORD(cursor_pos);
+	int cursor_pos;				//光标位置
+	int not_used;
+	GetSel(cursor_pos, not_used);		//获取当前光标的位置，由于双击时不可能选中任何文本，所以此函数的两个参数的值必定一样
 	int start_pos{ cursor_pos };		//选择的起始位置
 	int end_pos{ cursor_pos };			//选择的结束位置
 	while (start_pos >= 0 && CCommon::IsValidNameChar(edit_str[start_pos]))
