@@ -196,6 +196,9 @@ void CSimpleNotePadDlg::SaveConfig()
 	CCommon::WritePrivateProfileInt(L"config", L"window_width", m_window_width, theApp.m_config_path.c_str());
 	CCommon::WritePrivateProfileInt(L"config", L"window_hight", m_window_hight, theApp.m_config_path.c_str());
 	CCommon::WritePrivateProfileInt(L"config", L"word_wrap", m_word_wrap, theApp.m_config_path.c_str());
+
+	CCommon::WritePrivateProfileInt(L"config", L"find_no_case", m_find_no_case, theApp.m_config_path.c_str());
+	CCommon::WritePrivateProfileInt(L"config", L"find_whole_word", m_find_whole_word, theApp.m_config_path.c_str());
 }
 
 void CSimpleNotePadDlg::LoadConfig()
@@ -207,6 +210,9 @@ void CSimpleNotePadDlg::LoadConfig()
 	m_window_width = GetPrivateProfileInt(_T("config"), _T("window_width"), 560, theApp.m_config_path.c_str());
 	m_window_hight = GetPrivateProfileInt(_T("config"), _T("window_hight"), 350, theApp.m_config_path.c_str());
 	m_word_wrap = (GetPrivateProfileInt(_T("config"), _T("word_wrap"), 1, theApp.m_config_path.c_str()) != 0);
+
+	m_find_no_case = (GetPrivateProfileInt(_T("config"), _T("find_no_case"), 0, theApp.m_config_path.c_str()) != 0);
+	m_find_whole_word = (GetPrivateProfileInt(_T("config"), _T("find_whole_word"), 0, theApp.m_config_path.c_str()) != 0);
 }
 
 bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
@@ -1129,7 +1135,16 @@ void CSimpleNotePadDlg::OnFind()
 	if (m_pFindDlg == nullptr)
 	{
 		m_pFindDlg = new CFindReplaceDialog;
-		m_pFindDlg->Create(TRUE, NULL, NULL, FR_DOWN | FR_HIDEWHOLEWORD | FR_HIDEMATCHCASE, this);
+		//初始化“查找”对话框的状态
+		if (m_find_no_case)
+			m_pFindDlg->m_fr.Flags &= (~FR_MATCHCASE);
+		else
+			m_pFindDlg->m_fr.Flags |= FR_MATCHCASE;
+		if (m_find_whole_word)
+			m_pFindDlg->m_fr.Flags |= FR_WHOLEWORD;
+		else
+			m_pFindDlg->m_fr.Flags &= (~FR_WHOLEWORD);
+		m_pFindDlg->Create(TRUE, NULL, NULL, FR_DOWN/* | FR_HIDEWHOLEWORD | FR_HIDEMATCHCASE*/, this);
 	}
 	m_pFindDlg->ShowWindow(SW_SHOW);
 	m_pFindDlg->SetActiveWindow();
@@ -1142,6 +1157,8 @@ LONG CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 	{
 		m_find_str = m_pFindDlg->GetFindString();
 		m_find_down = (m_pFindDlg->SearchDown() != 0);
+		m_find_no_case = (m_pFindDlg->MatchCase() == 0);
+		m_find_whole_word = (m_pFindDlg->MatchWholeWord() != 0);
 		if (m_pFindDlg->FindNext())		//查找下一个时
 		{
 			OnFindNext();
@@ -1212,10 +1229,11 @@ LONG CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 void CSimpleNotePadDlg::OnFindNext()
 {
 	// TODO: 在此添加命令处理程序代码
-	if (m_find_down)
-		m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//向后查找
-	else
-		m_find_index = m_edit_wcs.rfind(m_find_str, m_find_index - 1);	//向前查找
+	//if (m_find_down)
+	//	m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//向后查找
+	//else
+	//	m_find_index = m_edit_wcs.rfind(m_find_str, m_find_index - 1);	//向前查找
+	m_find_index = CCommon::StringFind(m_edit_wcs, m_find_str, m_find_no_case, m_find_whole_word, m_find_down, (m_find_down ? (m_find_index + 1) : (m_find_index - 1)));
 	if (m_find_index == string::npos)
 	{
 		CString info;

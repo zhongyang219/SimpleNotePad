@@ -64,6 +64,8 @@ protected:
 	wstring m_replace_str;	//替换的字符串
 	int m_find_index{ -1 };	//查找的字符串的索引
 	bool m_find_down{ true };		//是否向后查找
+	bool m_find_no_case;			//查找时是否不区分大小写
+	bool m_find_whole_word;			//查找时是否全词匹配
 	bool m_find_flag{ false };
 	
 	void OpenFile(LPCTSTR file_path);					//打开文件的处理

@@ -227,3 +227,111 @@ bool CCommon::IsValidNameChar(wchar_t ch)
 {
 	return ((ch >= L'0'&&ch <= L'9') || (ch >= L'a'&&ch <= L'z') || (ch >= L'A'&&ch <= L'Z') || ch == L'_' || ch > 256);
 }
+
+bool CCommon::StringTransform(wstring & str, bool upper)
+{
+	if (str.empty()) return false;
+	//if (upper)
+	//	std::transform(str.begin(), str.end(), str.begin(), toupper);
+	//else
+	//	std::transform(str.begin(), str.end(), str.begin(), tolower);
+	for (auto& ch : str)
+	{
+		if (upper)
+		{
+			if (ch >= 'a'&&ch <= 'z')
+				ch -= 32;
+		}
+		else
+		{
+			if (ch >= 'A'&&ch <= 'Z')
+				ch += 32;
+		}
+	}
+	return true;
+}
+
+size_t CCommon::StringFindNoCase(const wstring & str, const wstring & find_str, bool find_down, size_t offset)
+{
+	wstring _str{ str }, _find_str{ find_str };
+	StringTransform(_str, false);
+	StringTransform(_find_str, false);
+	if (find_down)
+		return _str.find(_find_str, offset);
+	else
+		return _str.rfind(_find_str, offset);
+}
+
+size_t CCommon::StringFindWholeWord(const wstring & str, const wstring & find_str, bool no_case, bool find_down, size_t offset)
+{
+	wstring _str{ str }, _find_str{ find_str };
+	if (no_case)
+	{
+		StringTransform(_str, false);
+		StringTransform(_find_str, false);
+	}
+	if (find_down)
+	{
+		size_t index{ offset - 1 };
+		int find_str_front_pos, find_str_back_pos;		//找到的字符串在原字符串中前面和后面一个字符的位置
+		int size = _str.size();
+		int find_str_size = _find_str.size();
+		while (true)
+		{
+			index = _str.find(_find_str, index + 1);
+			if (index == wstring::npos) break;
+			find_str_front_pos = index - 1;
+			find_str_back_pos = index + find_str_size;
+			if ((find_str_front_pos < 0 || IsDivideChar(_str[find_str_front_pos])) && (find_str_back_pos >= size || IsDivideChar(_str[find_str_back_pos])))
+				return index;
+			else
+				continue;
+		}
+	}
+	else
+	{
+		int size = _str.size();
+		size_t index{ offset + 1 };
+		int find_str_front_pos, find_str_back_pos;		//找到的字符串在原字符串中前面和后面一个字符的位置
+		int find_str_size = _find_str.size();
+		while (true)
+		{
+			index = _str.rfind(_find_str, index - 1);
+			if (index == wstring::npos) break;
+			find_str_front_pos = index - 1;
+			find_str_back_pos = index + find_str_size;
+			if ((find_str_front_pos < 0 || IsDivideChar(_str[find_str_front_pos])) && (find_str_back_pos >= size || IsDivideChar(_str[find_str_back_pos])))
+				return index;
+			else
+				continue;
+		}
+	}
+	return -1;
+}
+
+bool CCommon::IsDivideChar(wchar_t ch)
+{
+	if ((ch >= L'0' && ch <= L'9') || (ch >= L'a' && ch <= L'z') || (ch >= L'A' && ch <= L'Z') || ch > 255)
+		return false;
+	else
+		return true;
+}
+
+size_t CCommon::StringFind(const wstring & str, const wstring & find_str, bool no_case, bool whole_word, bool find_down, size_t offset)
+{
+	if (!no_case && !whole_word)		//匹配大小写，且不全词匹配时
+	{
+		if (find_down)
+			return str.find(find_str, offset);
+		else
+			return str.rfind(find_str, offset);
+	}
+	else if (no_case && !whole_word)		//不匹配大小写，且不全词匹配时
+	{
+		return StringFindNoCase(str, find_str, find_down, offset);
+	}
+	else									//全词匹配时
+	{
+		return StringFindWholeWord(str, find_str, no_case, find_down, offset);
+	}
+}

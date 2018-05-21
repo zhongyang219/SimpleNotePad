@@ -46,5 +46,19 @@ public:
 
 	//判断一个字符是不是合法的标识符
 	static bool IsValidNameChar(wchar_t ch);
+
+	//转换字符串大小写，如果upper为true，则转换成大写，否则转换成小写
+	static bool StringTransform(wstring& str, bool upper);
+
+	//字符串查找，忽略大小写（find_down：是否向后查找）
+	static size_t StringFindNoCase(const wstring& str, const wstring& find_str, bool find_down, size_t offset);
+
+	//字符串查找，全词匹配（no_case：是否忽略大小写）
+	static size_t StringFindWholeWord(const wstring& str, const wstring& find_str, bool no_case, bool find_down, size_t offset);
+
+	//判断一个字符是否是在全词匹配时的单词分割字符（除了字母、数字和256以上的Unicode字符外的字符）
+	static bool IsDivideChar(wchar_t ch);
+
+	static size_t StringFind(const wstring& str, const wstring& find_str, bool no_case, bool whole_word, bool find_down, size_t offset);
 };
 
