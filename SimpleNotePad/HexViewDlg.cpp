@@ -11,8 +11,8 @@
 
 IMPLEMENT_DYNAMIC(CHexViewDlg, CDialog)
 
-CHexViewDlg::CHexViewDlg(string& data, CodeType code, CWnd* pParent /*=NULL*/)
-	: CDialog(IDD_HEX_VIEW_DIALOG, pParent), m_data(data), m_code(code)
+CHexViewDlg::CHexViewDlg(string& data, CodeType code, const CString& file_path, CWnd* pParent /*=NULL*/)
+	: CDialog(IDD_HEX_VIEW_DIALOG, pParent), m_data(data), m_code(code), m_file_path(file_path)
 {
 }
 
@@ -184,6 +184,8 @@ BOOL CHexViewDlg::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化
 	LoadConfig();
+	if(!m_file_path.IsEmpty())
+		SetWindowText(m_file_path + _T(" - 十六进制查看"));
 
 	ShowHexData(true);
 

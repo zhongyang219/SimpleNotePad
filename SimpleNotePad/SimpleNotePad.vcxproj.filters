@@ -12,76 +12,96 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="头文件和源文件\源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="头文件和源文件\派生的控件类">
       <UniqueIdentifier>{3d711d39-7391-4c90-bfb3-1bbdc2fa66f0}</UniqueIdentifier>
     </Filter>
     <Filter Include="头文件和源文件\对话框类">
       <UniqueIdentifier>{0d71fcbd-9c44-41c2-9d0d-86027e3bbc61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\SimpleNotePad">
+      <UniqueIdentifier>{03243729-e4f8-4857-9170-8fff63fa5d74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\SimpleNotePadDlg">
+      <UniqueIdentifier>{ba9f5bda-7ce7-414e-9abe-38e56f58fd5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\Common">
+      <UniqueIdentifier>{c8968ed5-ca41-4124-97b8-e894da7a05ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\stdafx">
+      <UniqueIdentifier>{ba8ba2c7-1eb7-4cce-83c2-9c2e1e52dc02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\派生的控件类\EditEx">
+      <UniqueIdentifier>{2055b162-ee83-4532-8c94-7d72e5b91010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\对话框类\FileCompareDlg">
+      <UniqueIdentifier>{a29f31ac-41a0-4feb-93ac-639e38221b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\对话框类\FormatConvertDlg">
+      <UniqueIdentifier>{e559a4eb-760d-409e-b0e1-e85a52da5a48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\对话框类\HexViewDlg">
+      <UniqueIdentifier>{ac80fd45-4750-4b1e-8b6e-a3622dfc665f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SimpleNotePad.h">
-      <Filter>头文件和源文件\头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleNotePadDlg.h">
-      <Filter>头文件和源文件\头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>头文件和源文件\头文件</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>头文件和源文件\头文件</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>头文件和源文件\头文件</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleNotePad.h">
+      <Filter>头文件和源文件\SimpleNotePad</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleNotePadDlg.h">
+      <Filter>头文件和源文件\SimpleNotePadDlg</Filter>
+    </ClInclude>
     <ClInclude Include="Common.h">
-      <Filter>头文件和源文件\头文件</Filter>
+      <Filter>头文件和源文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件和源文件\stdafx</Filter>
     </ClInclude>
     <ClInclude Include="EditEx.h">
-      <Filter>头文件和源文件\派生的控件类</Filter>
+      <Filter>头文件和源文件\派生的控件类\EditEx</Filter>
     </ClInclude>
     <ClInclude Include="FileCompareDlg.h">
-      <Filter>头文件和源文件\对话框类</Filter>
+      <Filter>头文件和源文件\对话框类\FileCompareDlg</Filter>
     </ClInclude>
     <ClInclude Include="FormatConvertDlg.h">
-      <Filter>头文件和源文件\对话框类</Filter>
+      <Filter>头文件和源文件\对话框类\FormatConvertDlg</Filter>
     </ClInclude>
     <ClInclude Include="HexViewDlg.h">
-      <Filter>头文件和源文件\对话框类</Filter>
+      <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
-      <Filter>头文件和源文件\源文件</Filter>
+      <Filter>头文件和源文件\SimpleNotePad</Filter>
     </ClCompile>
     <ClCompile Include="SimpleNotePadDlg.cpp">
-      <Filter>头文件和源文件\源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>头文件和源文件\源文件</Filter>
+      <Filter>头文件和源文件\SimpleNotePadDlg</Filter>
     </ClCompile>
     <ClCompile Include="Common.cpp">
-      <Filter>头文件和源文件\源文件</Filter>
+      <Filter>头文件和源文件\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>头文件和源文件\stdafx</Filter>
     </ClCompile>
     <ClCompile Include="EditEx.cpp">
-      <Filter>头文件和源文件\派生的控件类</Filter>
+      <Filter>头文件和源文件\派生的控件类\EditEx</Filter>
     </ClCompile>
     <ClCompile Include="FileCompareDlg.cpp">
-      <Filter>头文件和源文件\对话框类</Filter>
+      <Filter>头文件和源文件\对话框类\FileCompareDlg</Filter>
     </ClCompile>
     <ClCompile Include="FormatConvertDlg.cpp">
-      <Filter>头文件和源文件\对话框类</Filter>
+      <Filter>头文件和源文件\对话框类\FormatConvertDlg</Filter>
     </ClCompile>
     <ClCompile Include="HexViewDlg.cpp">
-      <Filter>头文件和源文件\对话框类</Filter>
+      <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

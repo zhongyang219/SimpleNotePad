@@ -12,7 +12,7 @@ class CHexViewDlg : public CDialog
 	DECLARE_DYNAMIC(CHexViewDlg)
 
 public:
-	CHexViewDlg(string& data, CodeType code, CWnd* pParent = NULL);   // 标准构造函数
+	CHexViewDlg(string& data, CodeType code, const CString& file_path, CWnd* pParent = NULL);   // 标准构造函数
 	virtual ~CHexViewDlg();
 
 // 对话框数据
@@ -50,6 +50,7 @@ protected:
 		//EditUnit edit_unit;
 	};
 
+	const CString& m_file_path;
 	string& m_data;
 	CodeType m_code;
 	CFont m_font;
