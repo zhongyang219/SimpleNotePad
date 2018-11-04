@@ -1070,8 +1070,11 @@ void CSimpleNotePadDlg::OnFileNew()
 void CSimpleNotePadDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	OpenFile(m_file_path);		//如果文件是通过命令行打开的，则延时100毫秒再打开
-	KillTimer(1234);		//定时器响应一次后就将其销毁
+	if (nIDEvent == 1234)
+	{
+		KillTimer(1234);		//定时器响应一次后就将其销毁
+		OpenFile(m_file_path);		//如果文件是通过命令行打开的，则延时100毫秒再打开
+	}
 
 	CDialog::OnTimer(nIDEvent);
 }
