@@ -186,10 +186,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
+    <ClInclude Include="DeleteDataDlg.h" />
     <ClInclude Include="EditEx.h" />
     <ClInclude Include="FileCompareDlg.h" />
     <ClInclude Include="FormatConvertDlg.h" />
     <ClInclude Include="HexViewDlg.h" />
+    <ClInclude Include="InsertDataDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SimpleNotePad.h" />
     <ClInclude Include="SimpleNotePadDlg.h" />
@@ -198,10 +200,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="DeleteDataDlg.cpp" />
     <ClCompile Include="EditEx.cpp" />
     <ClCompile Include="FileCompareDlg.cpp" />
     <ClCompile Include="FormatConvertDlg.cpp" />
     <ClCompile Include="HexViewDlg.cpp" />
+    <ClCompile Include="InsertDataDlg.cpp" />
     <ClCompile Include="SimpleNotePad.cpp" />
     <ClCompile Include="SimpleNotePadDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

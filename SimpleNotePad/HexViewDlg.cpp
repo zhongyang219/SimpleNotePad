@@ -5,7 +5,8 @@
 #include "SimpleNotePad.h"
 #include "HexViewDlg.h"
 #include "afxdialogex.h"
-
+#include "InsertDataDlg.h"
+#include "DeleteDataDlg.h"
 
 // CHexViewDlg 对话框
 
@@ -47,6 +48,8 @@ BEGIN_MESSAGE_MAP(CHexViewDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_SIZE_UNIT_COMBO, &CHexViewDlg::OnCbnSelchangeSizeUnitCombo)
 	ON_BN_CLICKED(IDC_MODIFY_SIZE, &CHexViewDlg::OnBnClickedModifySize)
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_INSERT_DATA_BUTTON, &CHexViewDlg::OnBnClickedInsertDataButton)
+	ON_BN_CLICKED(IDC_DELETE_DATA_BUTTON, &CHexViewDlg::OnBnClickedDeleteDataButton)
 END_MESSAGE_MAP()
 
 
@@ -157,7 +160,7 @@ void CHexViewDlg::ShowSizeInfo()
 		tmp.Format(_T("修改文件大小：（当前：%d B）"), m_data.size());
 		break;
 	case SizeUnit::KB:
-		tmp.Format(_T("修改文件大小：（当前：%.2f kB）"), static_cast<double>(m_data.size()) / 1024.0);
+		tmp.Format(_T("修改文件大小：（当前：%.2f KB）"), static_cast<double>(m_data.size()) / 1024.0);
 		break;
 	case SizeUnit::MB:
 		tmp.Format(_T("修改文件大小：（当前：%.2f MB）"), static_cast<double>(m_data.size()) / 1024.0 / 1024.0);
@@ -240,8 +243,11 @@ BOOL CHexViewDlg::OnInitDialog()
 void CHexViewDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	m_edit.SetWindowText(m_str);	//延迟一定时间显示
-	KillTimer(1235);		//定时器响应一次后就将其销毁
+	if (nIDEvent == 1235)
+	{
+		KillTimer(1235);		//定时器响应一次后就将其销毁
+		m_edit.SetWindowText(m_str);	//延迟一定时间显示
+	}
 
 	CDialog::OnTimer(nIDEvent);
 }
@@ -605,4 +611,79 @@ void CHexViewDlg::OnDestroy()
 
 	// TODO: 在此处添加消息处理程序代码
 	SaveConfig();
+}
+
+
+void CHexViewDlg::OnBnClickedInsertDataButton()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CInsertDataDlg dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		unsigned int address = dlg.GetInsertAddress();
+		unsigned int size = dlg.GetInsertSize();
+
+		if (size <= 0)
+		{
+			MessageBox(_T("数据的长度必须为正数！"), NULL, MB_ICONWARNING | MB_OK);
+			return;
+		}
+
+		CString info;
+		if (address >= m_data.size())
+			info.Format(_T("地址 %08x 超出范围，要在文件末尾插入 %d 个字节的数据吗？"), address, size);
+		else
+			info.Format(_T("确实要在 %08x 地址前插入 %d 个字节的数据吗？"), address, size);
+		if (MessageBox(info, NULL, MB_ICONQUESTION | MB_OKCANCEL) == IDOK)
+		{
+			//更新提示框的信息
+			info.Format(_T("地址 %08x 处插入 %d 字节"), address, size);
+			SetDlgItemText(IDC_STATIC_OUT, info);
+			//插入数据
+			if (address >= m_data.size())
+				m_data.resize(m_data.size() + size);
+			else
+				m_data.insert(address, size, 0);
+			ShowSizeInfo();
+			m_modified = true;
+		}
+	}
+}
+
+
+void CHexViewDlg::OnBnClickedDeleteDataButton()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CDeleteDataDlg dlg;
+	if (dlg.DoModal() == IDOK)
+	{
+		unsigned int address = dlg.GetDeleteAddress();
+		unsigned int size = dlg.GetDeleteSize();
+
+		if (size <= 0)
+		{
+			MessageBox(_T("数据的长度必须为正数！"), NULL, MB_ICONWARNING | MB_OK);
+			return;
+		}
+
+		CString info;
+		if (address >= m_data.size())
+		{
+			info.Format(_T("地址 %08x 超出范围!"), address);
+			MessageBox(info, NULL, MB_ICONWARNING | MB_OK);
+			return;
+		}
+
+		info.Format(_T("确实要删除地址为 %08x 开始的 %d 个字节的数据吗？"), address, size);
+		if (MessageBox(info, NULL, MB_ICONQUESTION | MB_OKCANCEL) == IDOK)
+		{
+			//更新提示框的信息
+			info.Format(_T("地址 %08x 处删除 %d 字节"), address, size);
+			SetDlgItemText(IDC_STATIC_OUT, info);
+			//删除数据
+			m_data.erase(address, size);
+			ShowSizeInfo();
+			m_modified = true;
+		}
+	}
 }

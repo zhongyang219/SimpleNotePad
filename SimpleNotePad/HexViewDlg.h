@@ -98,4 +98,6 @@ public:
 	afx_msg void OnCbnSelchangeSizeUnitCombo();
 	afx_msg void OnBnClickedModifySize();
 	afx_msg void OnDestroy();
+	afx_msg void OnBnClickedInsertDataButton();
+	afx_msg void OnBnClickedDeleteDataButton();
 };

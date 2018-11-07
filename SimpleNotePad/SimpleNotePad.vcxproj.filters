@@ -42,6 +42,12 @@
     <Filter Include="头文件和源文件\对话框类\HexViewDlg">
       <UniqueIdentifier>{ac80fd45-4750-4b1e-8b6e-a3622dfc665f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\对话框类\InsertDataDlg">
+      <UniqueIdentifier>{51aa861a-a756-407f-a96f-f63a6f6c0b1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件和源文件\对话框类\DeleteDataDlg">
+      <UniqueIdentifier>{0b45f8a9-ef9c-4791-83bc-aa5a65b10eaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -77,6 +83,12 @@
     <ClInclude Include="HexViewDlg.h">
       <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
     </ClInclude>
+    <ClInclude Include="InsertDataDlg.h">
+      <Filter>头文件和源文件\对话框类\InsertDataDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteDataDlg.h">
+      <Filter>头文件和源文件\对话框类\DeleteDataDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -102,6 +114,12 @@
     </ClCompile>
     <ClCompile Include="HexViewDlg.cpp">
       <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="InsertDataDlg.cpp">
+      <Filter>头文件和源文件\对话框类\InsertDataDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteDataDlg.cpp">
+      <Filter>头文件和源文件\对话框类\DeleteDataDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,8 @@ using std::wstring;
 using std::ifstream;
 using std::ofstream;
 #include<vector>
+#include <afxwin.h>
+#include <afxcontrolbars.h>
 using std::vector;
 
 
