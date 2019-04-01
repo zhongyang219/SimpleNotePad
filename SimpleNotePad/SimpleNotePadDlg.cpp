@@ -515,6 +515,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	//设置最大文本限制
 	m_edit.SetLimitText(static_cast<UINT>(-1));
 
+	//设置制表符宽度
+	m_edit.SetTabStops(16);
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
