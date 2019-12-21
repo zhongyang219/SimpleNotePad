@@ -143,7 +143,7 @@ bool CCommon::IsUTF8Bytes(const char * data)
 
 void CCommon::WritePrivateProfileInt(const wchar_t * AppName, const wchar_t * KeyName, int value, const wchar_t * Path)
 {
-	wchar_t buff[11];
+	wchar_t buff[16];
 	_itow_s(value, buff, 10);
 	WritePrivateProfileStringW(AppName, KeyName, buff, Path);
 }

@@ -50,6 +50,7 @@ BEGIN_MESSAGE_MAP(CHexViewDlg, CDialog)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_INSERT_DATA_BUTTON, &CHexViewDlg::OnBnClickedInsertDataButton)
 	ON_BN_CLICKED(IDC_DELETE_DATA_BUTTON, &CHexViewDlg::OnBnClickedDeleteDataButton)
+    ON_WM_GETMINMAXINFO()
 END_MESSAGE_MAP()
 
 
@@ -186,6 +187,13 @@ BOOL CHexViewDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
+
+    //获取初始时窗口的大小
+    CRect rect;
+    GetWindowRect(rect);
+    m_min_size.cx = rect.Width();
+    m_min_size.cy = rect.Height();
+
 	LoadConfig();
 	if(!m_file_path.IsEmpty())
 		SetWindowText(m_file_path + _T(" - 十六进制查看"));
@@ -193,7 +201,6 @@ BOOL CHexViewDlg::OnInitDialog()
 	ShowHexData(true);
 
 	m_modified_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
-	CRect rect;
 	m_modified_list.GetClientRect(rect);
 	size_t width1 = rect.Width() * 3 / 10;		//列的宽度：列表宽度的3/10
 	//size_t width2 = rect.Width() / 4;		//第2列的宽度：列表宽度的1/4
@@ -686,4 +693,15 @@ void CHexViewDlg::OnBnClickedDeleteDataButton()
 			m_modified = true;
 		}
 	}
+}
+
+
+void CHexViewDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+    // TODO: 在此添加消息处理程序代码和/或调用默认值
+    //限制窗口最小大小
+    lpMMI->ptMinTrackSize.x = m_min_size.cx;		//设置最小宽度
+    lpMMI->ptMinTrackSize.y = m_min_size.cy;		//设置最小高度
+
+    CDialog::OnGetMinMaxInfo(lpMMI);
 }

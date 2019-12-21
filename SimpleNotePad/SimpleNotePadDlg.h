@@ -54,6 +54,7 @@ protected:
 	int m_status_bar_right_width;	//状态栏第右边部分的宽度
 
 	bool m_word_wrap;		//是否自动换行
+    bool m_always_on_top{ false };
 
 	//const CString CONFIG_PATH{ _T("./config.ini") };
 	//wstring m_config_path;		//配置文件所在的路径
@@ -84,6 +85,8 @@ protected:
 
 	void SaveHex();
 	//void SaveAsHex();
+
+    void SetAlwaysOnTop();
 
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
@@ -138,4 +141,5 @@ public:
 	afx_msg void OnInitMenu(CMenu* pMenu);
 	afx_msg void OnFormatConvert();
 	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
+    afx_msg void OnAlwaysOnTop();
 };

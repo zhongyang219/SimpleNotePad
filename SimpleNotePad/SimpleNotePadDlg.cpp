@@ -196,6 +196,7 @@ void CSimpleNotePadDlg::SaveConfig()
 	CCommon::WritePrivateProfileInt(L"config", L"window_width", m_window_width, theApp.m_config_path.c_str());
 	CCommon::WritePrivateProfileInt(L"config", L"window_hight", m_window_hight, theApp.m_config_path.c_str());
 	CCommon::WritePrivateProfileInt(L"config", L"word_wrap", m_word_wrap, theApp.m_config_path.c_str());
+	CCommon::WritePrivateProfileInt(L"config", L"always_on_top", m_always_on_top, theApp.m_config_path.c_str());
 
 	CCommon::WritePrivateProfileInt(L"config", L"find_no_case", m_find_no_case, theApp.m_config_path.c_str());
 	CCommon::WritePrivateProfileInt(L"config", L"find_whole_word", m_find_whole_word, theApp.m_config_path.c_str());
@@ -210,6 +211,7 @@ void CSimpleNotePadDlg::LoadConfig()
 	m_window_width = GetPrivateProfileInt(_T("config"), _T("window_width"), 560, theApp.m_config_path.c_str());
 	m_window_hight = GetPrivateProfileInt(_T("config"), _T("window_hight"), 350, theApp.m_config_path.c_str());
 	m_word_wrap = (GetPrivateProfileInt(_T("config"), _T("word_wrap"), 1, theApp.m_config_path.c_str()) != 0);
+	m_always_on_top = (GetPrivateProfileInt(_T("config"), _T("always_on_top"), 0, theApp.m_config_path.c_str()) != 0);
 
 	m_find_no_case = (GetPrivateProfileInt(_T("config"), _T("find_no_case"), 0, theApp.m_config_path.c_str()) != 0);
 	m_find_whole_word = (GetPrivateProfileInt(_T("config"), _T("find_whole_word"), 0, theApp.m_config_path.c_str()) != 0);
@@ -342,6 +344,14 @@ void CSimpleNotePadDlg::SaveHex()
 	MessageBox(_T("十六进制编辑的更改已保存"), NULL, MB_ICONINFORMATION);
 }
 
+void CSimpleNotePadDlg::SetAlwaysOnTop()
+{
+    if (m_always_on_top)
+        SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);			//设置置顶
+    else
+        SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);		//取消置顶
+}
+
 //void CSimpleNotePadDlg::SaveAsHex()
 //{
 //	//设置过滤器
@@ -410,6 +420,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CDialog)
 	ON_WM_INITMENU()
 	ON_COMMAND(ID_FORMAT_CONVERT, &CSimpleNotePadDlg::OnFormatConvert)
 	ON_WM_GETMINMAXINFO()
+    ON_COMMAND(ID_ALWAYS_ON_TOP, &CSimpleNotePadDlg::OnAlwaysOnTop)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -500,6 +511,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
 	//设置最大文本限制
 	m_edit.SetLimitText(static_cast<UINT>(-1));
+
+    SetAlwaysOnTop();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -1317,6 +1330,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 	//default: break;
 	//}
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
+	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
 }
 
 
@@ -1338,4 +1352,12 @@ void CSimpleNotePadDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	lpMMI->ptMinTrackSize.y = 150 * m_dpi / 96;		//设置最小高度
 
 	CDialog::OnGetMinMaxInfo(lpMMI);
+}
+
+
+void CSimpleNotePadDlg::OnAlwaysOnTop()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_always_on_top = !m_always_on_top;
+    SetAlwaysOnTop();
 }
