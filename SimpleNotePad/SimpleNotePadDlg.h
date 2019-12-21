@@ -133,8 +133,8 @@ public:
 //	afx_msg void OnUpdateWordWrap(CCmdUI *pCmdUI);
 	afx_msg void OnClose();
 	afx_msg void OnFind();
-	afx_msg LONG OnFindReplace(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnFindNext();
+    afx_msg LRESULT OnFindReplace(WPARAM wParam, LPARAM lParam);
+    afx_msg void OnFindNext();
 	afx_msg void OnMarkAll();
 	afx_msg void OnReplace();
 	afx_msg void OnMenuSelect(UINT nItemID, UINT nFlags, HMENU hSysMenu);

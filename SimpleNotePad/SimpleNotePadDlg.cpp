@@ -426,8 +426,8 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CDialog)
 //	ON_UPDATE_COMMAND_UI(ID_WORD_WRAP, &CSimpleNotePadDlg::OnUpdateWordWrap)
 	ON_WM_CLOSE()
 	ON_COMMAND(ID_EDIT_FIND, &CSimpleNotePadDlg::OnFind)
-	ON_REGISTERED_MESSAGE(WM_FINDREPLACE, OnFindReplace)
-	ON_COMMAND(ID_FIND_NEXT, &CSimpleNotePadDlg::OnFindNext)
+    ON_REGISTERED_MESSAGE(WM_FINDREPLACE, &CSimpleNotePadDlg::OnFindReplace)
+    ON_COMMAND(ID_FIND_NEXT, &CSimpleNotePadDlg::OnFindNext)
 	ON_COMMAND(ID_MARK_ALL, &CSimpleNotePadDlg::OnMarkAll)
 	ON_COMMAND(ID_EDIT_REPLACE, &CSimpleNotePadDlg::OnReplace)
 	ON_WM_MENUSELECT()
@@ -1183,7 +1183,7 @@ void CSimpleNotePadDlg::OnFind()
 	m_pFindDlg->SetActiveWindow();
 }
 
-LONG CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
+afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 {
 	//m_pFindDlg = CFindReplaceDialog::GetNotifier(lParam);
 	if (m_pFindDlg != nullptr)
