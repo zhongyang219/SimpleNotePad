@@ -103,9 +103,9 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	}
 	m_edit_str.pop_back();
 
-	JudgeCode();											//判断编码类型
+	bool code_confirm = JudgeCode();											//判断编码类型
 	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//转换成Unicode
-	if (m_edit_wcs.size() < m_edit_str.size() / 4)		//如果以自动识别的格式转换成Unicode后，Unicode字符串的长度小于多字节字符串长度的1/4，则文本的编码格式可能是UTF16
+	if (!code_confirm && m_edit_wcs.size() < m_edit_str.size() / 4)		//如果以自动识别的格式转换成Unicode后，Unicode字符串的长度小于多字节字符串长度的1/4，则文本的编码格式可能是UTF16
 	{
 		m_code = CodeType::UTF16;
 		m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//重新转换成Unicode
@@ -134,15 +134,29 @@ bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code)
 	return true;
 }
 
-void CSimpleNotePadDlg::JudgeCode()
+bool CSimpleNotePadDlg::JudgeCode()
 {
+	bool rtn = false;
 	if (m_edit_str.size() >= 3 && m_edit_str[0] == -17 && m_edit_str[1] == -69 && m_edit_str[2] == -65)
+	{
 		m_code = CodeType::UTF8;
+		rtn = true;
+	}
 	else if (m_edit_str.size() >= 2 && m_edit_str[0] == -1 && m_edit_str[1] == -2)
+	{
 		m_code = CodeType::UTF16;
+		rtn = true;
+	}
 	else if (CCommon::IsUTF8Bytes(m_edit_str.c_str()))
+	{
 		m_code = CodeType::UTF8_NO_BOM;
-	else m_code = CodeType::ANSI;
+		rtn = true;
+	}
+	else
+	{
+		m_code = CodeType::ANSI;
+	}
+	return rtn;
 }
 
 void CSimpleNotePadDlg::ShowStatusBar()
@@ -511,6 +525,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
 	//设置最大文本限制
 	m_edit.SetLimitText(static_cast<UINT>(-1));
+
+	//设置制表符宽度
+	m_edit.SetTabStops(16);
 
     SetAlwaysOnTop();
 
