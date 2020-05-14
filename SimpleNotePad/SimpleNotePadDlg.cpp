@@ -8,6 +8,7 @@
 #include "afxdialogex.h"
 #include "HexViewDlg.h"
 #include "FormatConvertDlg.h"
+#include "InputDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -190,7 +191,7 @@ void CSimpleNotePadDlg::ShowStatusBar()
 
 void CSimpleNotePadDlg::ChangeCode()
 {
-	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);
+	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code, m_code_page);
 	m_edit.SetWindowText(m_edit_wcs.c_str());
 	//m_flag = true;
 	ShowStatusBar();
@@ -435,6 +436,14 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CDialog)
 	ON_COMMAND(ID_FORMAT_CONVERT, &CSimpleNotePadDlg::OnFormatConvert)
 	ON_WM_GETMINMAXINFO()
     ON_COMMAND(ID_ALWAYS_ON_TOP, &CSimpleNotePadDlg::OnAlwaysOnTop)
+	ON_COMMAND(ID_CODE_PAGE_CHS, &CSimpleNotePadDlg::OnCodePageChs)
+	ON_COMMAND(ID_CODE_PAGE_CHT, &CSimpleNotePadDlg::OnCodePageCht)
+	ON_COMMAND(ID_CODE_PAGE_JP, &CSimpleNotePadDlg::OnCodePageJp)
+	ON_COMMAND(ID_CODE_PAGE_EN, &CSimpleNotePadDlg::OnCodePageEn)
+	ON_COMMAND(ID_CODE_PAGE_KOR, &CSimpleNotePadDlg::OnCodePageKor)
+	ON_COMMAND(ID_CODE_PAGE_THAI, &CSimpleNotePadDlg::OnCodePageThai)
+	ON_COMMAND(ID_CODE_PAGE_VIET, &CSimpleNotePadDlg::OnCodePageViet)
+	ON_COMMAND(ID_SEPCIFY_CODE_PAGE, &CSimpleNotePadDlg::OnSepcifyCodePage)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1346,6 +1355,18 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 	//case CodeType::UTF16: pMenu->CheckMenuRadioItem(ID_SAVE_ANSI, ID_SAVE_UTF16, ID_SAVE_UTF16, MF_BYCOMMAND | MF_CHECKED); break;
 	//default: break;
 	//}
+
+	switch (m_code_page)
+	{
+	case CODE_PAGE_CHS: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHS, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_CHT: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHT, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_JP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_JP, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_EN: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_EN, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_KOR: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_KOR, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_THAI: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_THAI, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_VIET: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_VIET, MF_BYCOMMAND | MF_CHECKED); break;
+	}
+
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
 }
@@ -1377,4 +1398,83 @@ void CSimpleNotePadDlg::OnAlwaysOnTop()
     // TODO: 在此添加命令处理程序代码
     m_always_on_top = !m_always_on_top;
     SetAlwaysOnTop();
+}
+
+
+void CSimpleNotePadDlg::OnCodePageChs()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (!BeforeChangeCode()) return;
+	m_code_page = CODE_PAGE_CHS;
+	ChangeCode();
+}
+
+
+void CSimpleNotePadDlg::OnCodePageCht()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (!BeforeChangeCode()) return;
+	m_code_page = CODE_PAGE_CHT;
+	ChangeCode();
+}
+
+
+void CSimpleNotePadDlg::OnCodePageJp()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (!BeforeChangeCode()) return;
+	m_code_page = CODE_PAGE_JP;
+	ChangeCode();
+}
+
+
+void CSimpleNotePadDlg::OnCodePageEn()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (!BeforeChangeCode()) return;
+	m_code_page = CODE_PAGE_EN;
+	ChangeCode();
+}
+
+
+void CSimpleNotePadDlg::OnCodePageKor()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (!BeforeChangeCode()) return;
+	if (!BeforeChangeCode()) return;
+	m_code_page = CODE_PAGE_KOR;
+	ChangeCode();
+}
+
+
+void CSimpleNotePadDlg::OnCodePageThai()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (!BeforeChangeCode()) return;
+	m_code_page = CODE_PAGE_THAI;
+	ChangeCode();
+}
+
+
+void CSimpleNotePadDlg::OnCodePageViet()
+{
+	// TODO: 在此添加命令处理程序代码
+	if (!BeforeChangeCode()) return;
+	m_code_page = CODE_PAGE_VIET;
+	ChangeCode();
+}
+
+
+void CSimpleNotePadDlg::OnSepcifyCodePage()
+{
+	// TODO: 在此添加命令处理程序代码
+	CInputDlg inputDlg;
+	inputDlg.SetTitle(_T("输入代码页"));
+	inputDlg.SetInfoText(_T("请输入代码页："));
+	if (inputDlg.DoModal() == IDOK)
+	{
+		if (!BeforeChangeCode()) return;
+		m_code_page = _ttoi(inputDlg.GetEditText().GetString());
+		ChangeCode();
+	}
 }

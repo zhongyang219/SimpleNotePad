@@ -3,6 +3,14 @@
 using std::wstring;
 using std::string;
 
+#define CODE_PAGE_CHS 936
+#define CODE_PAGE_CHT 950
+#define CODE_PAGE_JP 932
+#define CODE_PAGE_EN 1252
+#define CODE_PAGE_KOR 949
+#define CODE_PAGE_THAI 874
+#define CODE_PAGE_VIET 1258
+
 enum class CodeType
 {
 	ANSI,
@@ -19,11 +27,11 @@ public:
 	CCommon();
 	~CCommon();
 
-	//将string类型的字符串转换成Unicode编码的wstring字符串
-	static wstring StrToUnicode(const string& str, CodeType code_type = CodeType::ANSI);
+	//将string类型的字符串转换成Unicode编码的wstring字符串，code_type指定转换方式，code_page指定当code_type为ANSI时的代码页
+	static wstring StrToUnicode(const string& str, CodeType code_type = CodeType::ANSI, UINT code_page = CP_ACP);
 
 	//将Unicode编码的wstring字符串转换成string类型的字符串(如果至少有一个字符无法转换，则将char_cannot_convert置为true)
-	static string UnicodeToStr(const wstring& wstr, bool& char_cannot_convert, CodeType code_type = CodeType::ANSI);
+	static string UnicodeToStr(const wstring& wstr, bool& char_cannot_convert, CodeType code_type = CodeType::ANSI, UINT code_page = CP_ACP);
 
 	//判断字符串是否UTF8编码
 	static bool IsUTF8Bytes(const char* data);

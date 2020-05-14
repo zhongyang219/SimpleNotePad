@@ -40,6 +40,7 @@ protected:
 	wstring m_edit_wcs;		//储存显示到窗口的内容
 
 	CodeType m_code{ CodeType::ANSI };		//编码格式
+	UINT m_code_page{ CP_ACP };				//当编码格式指定为ANSI时的代码页
 	CodeType m_save_code{ CodeType::ANSI };	//另存为时的编码格式
 	bool m_modified{ false };				//如果文件被编辑过，则m_modified为true
 	//bool m_flag{ false };			//一个flag，当调用m_edit.SetWindowText()函数将文本显示在文本框内时，将它置为true
@@ -142,4 +143,12 @@ public:
 	afx_msg void OnFormatConvert();
 	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
     afx_msg void OnAlwaysOnTop();
+	afx_msg void OnCodePageChs();
+	afx_msg void OnCodePageCht();
+	afx_msg void OnCodePageJp();
+	afx_msg void OnCodePageEn();
+	afx_msg void OnCodePageKor();
+	afx_msg void OnCodePageThai();
+	afx_msg void OnCodePageViet();
+	afx_msg void OnSepcifyCodePage();
 };

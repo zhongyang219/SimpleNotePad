@@ -48,6 +48,9 @@
     <Filter Include="头文件和源文件\对话框类\DeleteDataDlg">
       <UniqueIdentifier>{0b45f8a9-ef9c-4791-83bc-aa5a65b10eaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\对话框类\InputDlg">
+      <UniqueIdentifier>{e0e1172e-720a-4754-939f-5bb8af76d656}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -89,6 +92,9 @@
     <ClInclude Include="DeleteDataDlg.h">
       <Filter>头文件和源文件\对话框类\DeleteDataDlg</Filter>
     </ClInclude>
+    <ClInclude Include="InputDlg.h">
+      <Filter>头文件和源文件\对话框类\InputDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -120,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="DeleteDataDlg.cpp">
       <Filter>头文件和源文件\对话框类\DeleteDataDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="InputDlg.cpp">
+      <Filter>头文件和源文件\对话框类\InputDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

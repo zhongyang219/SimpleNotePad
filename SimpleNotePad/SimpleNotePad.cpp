@@ -76,7 +76,7 @@ BOOL CSimpleNotePadApp::InitInstance()
 	// 更改用于存储设置的注册表项
 	// TODO: 应适当修改该字符串，
 	// 例如修改为公司或组织名
-	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
+	SetRegistryKey(_T("Apps By ZhongYang"));
 
 	CSimpleNotePadDlg dlg(m_lpCmdLine);
 	m_pMainWnd = &dlg;
@@ -93,8 +93,8 @@ BOOL CSimpleNotePadApp::InitInstance()
 	}
 	else if (nResponse == -1)
 	{
-		TRACE(traceAppMsg, 0, "警告: 对话框创建失败，应用程序将意外终止。\n");
-		TRACE(traceAppMsg, 0, "警告: 如果您在对话框上使用 MFC 控件，则无法 #define _AFX_NO_MFC_CONTROLS_IN_DIALOGS。\n");
+		TRACE(traceAppMsg, 0, "Warning: The dialog creation failed and the application will terminate unexpectedly.\n");
+		TRACE(traceAppMsg, 0, "Warning: If you use MFC controls on the dialog, you cannot #define _AFX_NO_MFC_CONTROLS_IN_DIALOGS.\n");
 	}
 
 	// 删除上面创建的 shell 管理器。

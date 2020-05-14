@@ -12,17 +12,17 @@ CCommon::~CCommon()
 }
 
 
-wstring CCommon::StrToUnicode(const string & str, CodeType code_type)
+wstring CCommon::StrToUnicode(const string & str, CodeType code_type, UINT code_page)
 {
 	if (str.empty()) return wstring();
 	wstring result;
 	int size;
 	if (code_type == CodeType::ANSI)
 	{
-		size = MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, NULL, 0);
+		size = MultiByteToWideChar(code_page, 0, str.c_str(), -1, NULL, 0);
 		if (size <= 0) return wstring();
 		wchar_t* str_unicode = new wchar_t[size + 1];
-		MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, str_unicode, size);
+		MultiByteToWideChar(code_page, 0, str.c_str(), -1, str_unicode, size);
 		result.assign(str_unicode);
 		delete[] str_unicode;
 	}
@@ -57,7 +57,7 @@ wstring CCommon::StrToUnicode(const string & str, CodeType code_type)
 	return result;
 }
 
-string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, CodeType code_type)
+string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, CodeType code_type, UINT code_page)
 {
 	if (wstr.empty()) return string();
 	char_cannot_convert = false;
@@ -66,10 +66,10 @@ string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, Co
 	int size{ 0 };
 	if (code_type == CodeType::ANSI)
 	{
-		size = WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+		size = WideCharToMultiByte(code_page, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
 		if (size <= 0) return string();
 		char* str = new char[size + 1];
-		WideCharToMultiByte(CP_ACP, 0, wstr.c_str(), -1, str, size, NULL, &UsedDefaultChar);
+		WideCharToMultiByte(code_page, 0, wstr.c_str(), -1, str, size, NULL, &UsedDefaultChar);
 		result.assign(str);
 		delete[] str;
 	}
