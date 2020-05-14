@@ -444,6 +444,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CDialog)
 	ON_COMMAND(ID_CODE_PAGE_THAI, &CSimpleNotePadDlg::OnCodePageThai)
 	ON_COMMAND(ID_CODE_PAGE_VIET, &CSimpleNotePadDlg::OnCodePageViet)
 	ON_COMMAND(ID_SEPCIFY_CODE_PAGE, &CSimpleNotePadDlg::OnSepcifyCodePage)
+    ON_COMMAND(ID_CODE_PAGE_LOCAL, &CSimpleNotePadDlg::OnCodePageLocal)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1358,14 +1359,25 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 
 	switch (m_code_page)
 	{
-	case CODE_PAGE_CHS: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHS, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_CHT: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHT, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_JP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_JP, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_EN: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_EN, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_KOR: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_KOR, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_THAI: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_THAI, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_VIET: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_VIET, MF_BYCOMMAND | MF_CHECKED); break;
+	case CP_ACP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_LOCAL, MF_BYCOMMAND | MF_CHECKED); break;
+    case CODE_PAGE_CHS: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHS, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_CHT: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHT, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_JP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_JP, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_EN: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_EN, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_KOR: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_KOR, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_THAI: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_THAI, MF_BYCOMMAND | MF_CHECKED); break;
+	case CODE_PAGE_VIET: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_VIET, MF_BYCOMMAND | MF_CHECKED); break;
 	}
+
+    bool code_page_enable = (m_code == CodeType::ANSI);
+    pMenu->EnableMenuItem(ID_CODE_PAGE_LOCAL, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    pMenu->EnableMenuItem(ID_CODE_PAGE_CHS, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    pMenu->EnableMenuItem(ID_CODE_PAGE_CHT, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    pMenu->EnableMenuItem(ID_CODE_PAGE_JP, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    pMenu->EnableMenuItem(ID_CODE_PAGE_EN, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    pMenu->EnableMenuItem(ID_CODE_PAGE_KOR, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    pMenu->EnableMenuItem(ID_CODE_PAGE_THAI, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    pMenu->EnableMenuItem(ID_CODE_PAGE_VIET, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
 
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
@@ -1477,4 +1489,14 @@ void CSimpleNotePadDlg::OnSepcifyCodePage()
 		m_code_page = _ttoi(inputDlg.GetEditText().GetString());
 		ChangeCode();
 	}
+}
+
+
+void CSimpleNotePadDlg::OnCodePageLocal()
+{
+    // TODO: 在此添加命令处理程序代码
+    if (!BeforeChangeCode()) return;
+    m_code_page = CP_ACP;
+    ChangeCode();
+
 }
