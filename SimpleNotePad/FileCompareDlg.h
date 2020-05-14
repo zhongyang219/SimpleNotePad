@@ -1,34 +1,34 @@
-#pragma once
+ï»¿#pragma once
 #include "afxcmn.h"
 #include "Common.h"
 
-// CFileCompareDlg ¶Ô»°¿ò
+// CFileCompareDlg å¯¹è¯æ¡†
 
 class CFileCompareDlg : public CDialog
 {
 	DECLARE_DYNAMIC(CFileCompareDlg)
 
 public:
-	CFileCompareDlg(CWnd* pParent = NULL);   // ±ê×¼¹¹Ôìº¯Êı
+	CFileCompareDlg(CWnd* pParent = NULL);   // æ ‡å‡†æ„é€ å‡½æ•°
 	virtual ~CFileCompareDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_FILE_COMPARE_DIALOG };
 #endif
 
-#define WM_COMPARE_COMPLATE (WM_USER+101)		//ÎÄ¼ş±È½ÏÍê³ÉÏûÏ¢
-#define WM_COMPARE_PROGRESS (WM_USER+102)		//ÎÄ¼ş±È½Ï½ø¶ÈÏûÏ¢
+#define WM_COMPARE_COMPLATE (WM_USER+101)		//æ–‡ä»¶æ¯”è¾ƒå®Œæˆæ¶ˆæ¯
+#define WM_COMPARE_PROGRESS (WM_USER+102)		//æ–‡ä»¶æ¯”è¾ƒè¿›åº¦æ¶ˆæ¯
 
 protected:
 	//struct ResultItem
 	//{
-	//	unsigned int address;	//µØÖ·
-	//	unsigned char data1;	//ÎÄ¼ş1ÖĞ¸ÃµØÖ·ÉÏµÄÊı¾İ
-	//	unsigned char data2;	//ÎÄ¼ş2ÖĞ¸ÃµØÖ·ÉÏµÄÊı¾İ
-	//	bool no_data1;		//ÎÄ¼ş1ÖĞ¸ÃµØÖ·ÉÏÃ»ÓĞÊı¾İ
-	//	bool no_data2;		//ÎÄ¼ş2ÖĞ¸ÃµØÖ·ÉÏÃ»ÓĞÊı¾İ
-	//	//¹¹Ôìº¯Êı
+	//	unsigned int address;	//åœ°å€
+	//	unsigned char data1;	//æ–‡ä»¶1ä¸­è¯¥åœ°å€ä¸Šçš„æ•°æ®
+	//	unsigned char data2;	//æ–‡ä»¶2ä¸­è¯¥åœ°å€ä¸Šçš„æ•°æ®
+	//	bool no_data1;		//æ–‡ä»¶1ä¸­è¯¥åœ°å€ä¸Šæ²¡æœ‰æ•°æ®
+	//	bool no_data2;		//æ–‡ä»¶2ä¸­è¯¥åœ°å€ä¸Šæ²¡æœ‰æ•°æ®
+	//	//æ„é€ å‡½æ•°
 	//	ResultItem(){}
 	//	ResultItem(unsigned int _address, unsigned char _data1, unsigned char _data2, bool _no_data1, bool _no_data2) :
 	//		address{ _address }, data1{ _data1 }, data2{ _data2 }, no_data1{ _no_data1 }, no_data2{ _no_data2 }
@@ -36,31 +36,31 @@ protected:
 	//};
 	//vector<ResultItem> m_compare_result;
 
-	//ÓÃÓÚÏòÎÄ¼ş±È½Ï¹¤×÷Ïß³Ì´«µİĞÅÏ¢µÄ½á¹¹Ìå
+	//ç”¨äºå‘æ–‡ä»¶æ¯”è¾ƒå·¥ä½œçº¿ç¨‹ä¼ é€’ä¿¡æ¯çš„ç»“æ„ä½“
 	struct CompareThreadInfo
 	{
-		HWND hwnd;		//¶Ô»°¿òµÄ¾ä±ú
-		string* file1;		//Òª±È½ÏµÄÎÄ¼ş1µÄÖ¸Õë
-		string* file2;		//Òª±È½ÏµÄÎÄ¼ş2µÄÖ¸Õë
-		CString out_info;		//´¢´æ±È½Ï½á¹ûµÄÊä³öĞÅÏ¢
-		int result_count;		//´¢´æ²»Í¬µÄ×Ö½ÚÊı
-		//HWND edit_handle;		//Edit¿Ø¼şµÄ¾ä±ú
-		//int complete_ratio;		//Íê³ÉµÄ±ÈÀı£¬È¡ÖµÎª0~1000
+		HWND hwnd;		//å¯¹è¯æ¡†çš„å¥æŸ„
+		string* file1;		//è¦æ¯”è¾ƒçš„æ–‡ä»¶1çš„æŒ‡é’ˆ
+		string* file2;		//è¦æ¯”è¾ƒçš„æ–‡ä»¶2çš„æŒ‡é’ˆ
+		CString out_info;		//å‚¨å­˜æ¯”è¾ƒç»“æœçš„è¾“å‡ºä¿¡æ¯
+		int result_count;		//å‚¨å­˜ä¸åŒçš„å­—èŠ‚æ•°
+		//HWND edit_handle;		//Editæ§ä»¶çš„å¥æŸ„
+		//int complete_ratio;		//å®Œæˆçš„æ¯”ä¾‹ï¼Œå–å€¼ä¸º0~1000
 	};
 
 	static UINT FileCompareThreadFun(LPVOID lpParam);
 
 	CompareThreadInfo m_thread_info;
-	CWinThread* m_pFileCompareThread;		//ÎÄ¼ş±È½ÏµÄÏß³Ì
+	CWinThread* m_pFileCompareThread;		//æ–‡ä»¶æ¯”è¾ƒçš„çº¿ç¨‹
 
 	CListCtrl m_result_info;
 	CProgressCtrl m_progress_ctrl;
 
-	string m_file1;		//ÎÄ¼ş1µÄÄÚÈİ
-	string m_file2;		//ÎÄ¼ş2µÄÄÚÈİ
+	string m_file1;		//æ–‡ä»¶1çš„å†…å®¹
+	string m_file2;		//æ–‡ä»¶2çš„å†…å®¹
 
-	wstring m_file_path1;	//ÎÄ¼ş1µÄÂ·¾¶
-	wstring m_file_path2;	//ÎÄ¼ş2µÄÂ·¾¶
+	wstring m_file_path1;	//æ–‡ä»¶1çš„è·¯å¾„
+	wstring m_file_path2;	//æ–‡ä»¶2çš„è·¯å¾„
 
 	void OpenFile(LPCTSTR file_path,string& file);
 
@@ -69,7 +69,7 @@ protected:
 	void EnableButtons(bool enable = true);
 	void ClearCompareResult();
 
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
 	DECLARE_MESSAGE_MAP()
 public:

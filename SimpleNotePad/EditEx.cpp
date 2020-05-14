@@ -1,4 +1,4 @@
-// EditEx.cpp : ÊµÏÖÎÄ¼þ
+ï»¿// EditEx.cpp : å®žçŽ°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -25,15 +25,15 @@ END_MESSAGE_MAP()
 
 
 
-// CEditEx ÏûÏ¢´¦Àí³ÌÐò
+// CEditEx æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 
 
 
 BOOL CEditEx::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: ÔÚ´ËÌí¼Ó×¨ÓÃ´úÂëºÍ/»òµ÷ÓÃ»ùÀà
-	//°´Ctrl+AÈ«Ñ¡
+	// TODO: åœ¨æ­¤æ·»åŠ ä¸“ç”¨ä»£ç å’Œ/æˆ–è°ƒç”¨åŸºç±»
+	//æŒ‰Ctrl+Aå…¨é€‰
 	if ((GetKeyState(VK_CONTROL) & 0x80) && (pMsg->wParam == 'A'))
 	{
 		SetSel(0, -1);
@@ -45,15 +45,15 @@ BOOL CEditEx::PreTranslateMessage(MSG* pMsg)
 
 void CEditEx::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌÐò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 	CString edit_str;
 	GetWindowText(edit_str);
 	int length{ edit_str.GetLength() };
-	int cursor_pos;				//¹â±êÎ»ÖÃ
+	int cursor_pos;				//å…‰æ ‡ä½ç½®
 	int not_used;
-	GetSel(cursor_pos, not_used);		//»ñÈ¡µ±Ç°¹â±êµÄÎ»ÖÃ£¬ÓÉÓÚË«»÷Ê±²»¿ÉÄÜÑ¡ÖÐÈÎºÎÎÄ±¾£¬ËùÒÔ´Ëº¯ÊýµÄÁ½¸ö²ÎÊýµÄÖµ±Ø¶¨Ò»Ñù
-	int start_pos{ cursor_pos };		//Ñ¡ÔñµÄÆðÊ¼Î»ÖÃ
-	int end_pos{ cursor_pos };			//Ñ¡ÔñµÄ½áÊøÎ»ÖÃ
+	GetSel(cursor_pos, not_used);		//èŽ·å–å½“å‰å…‰æ ‡çš„ä½ç½®ï¼Œç”±äºŽåŒå‡»æ—¶ä¸å¯èƒ½é€‰ä¸­ä»»ä½•æ–‡æœ¬ï¼Œæ‰€ä»¥æ­¤å‡½æ•°çš„ä¸¤ä¸ªå‚æ•°çš„å€¼å¿…å®šä¸€æ ·
+	int start_pos{ cursor_pos };		//é€‰æ‹©çš„èµ·å§‹ä½ç½®
+	int end_pos{ cursor_pos };			//é€‰æ‹©çš„ç»“æŸä½ç½®
 	while (start_pos >= 0 && CCommon::IsValidNameChar(edit_str[start_pos]))
 	{
 		start_pos--;

@@ -1,5 +1,5 @@
-
-// SimpleNotePadDlg.h : Í·ÎÄ¼ş
+ï»¿
+// SimpleNotePadDlg.h : å¤´æ–‡ä»¶
 //
 
 #pragma once
@@ -8,79 +8,79 @@
 #include "FileCompareDlg.h"
 #include "EditEx.h"
 
-const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//½«FINDMSGSTRING×¢²áÎªWM_FINDREPLACEÏûÏ¢
-// CSimpleNotePadDlg ¶Ô»°¿ò
+const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//å°†FINDMSGSTRINGæ³¨å†Œä¸ºWM_FINDREPLACEæ¶ˆæ¯
+// CSimpleNotePadDlg å¯¹è¯æ¡†
 class CSimpleNotePadDlg : public CDialog
 {
-// ¹¹Ôì
+// æ„é€ 
 public:
-	CSimpleNotePadDlg(CString file_path = _T(""), CWnd* pParent = NULL);	// ±ê×¼¹¹Ôìº¯Êı
+	CSimpleNotePadDlg(CString file_path = _T(""), CWnd* pParent = NULL);	// æ ‡å‡†æ„é€ å‡½æ•°
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_SIMPLENOTEPAD_DIALOG };
 #endif
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV æ”¯æŒ
 
 
-// ÊµÏÖ
+// å®ç°
 protected:
 	HICON m_hIcon;
-	//CMenu m_menu;	//²Ëµ¥
-	CEditEx m_edit;					//±à¼­¿ò
-	CStatusBarCtrl m_status_bar;	//×´Ì¬À¸
-	CFont m_font;			//×ÖÌå
-	CString m_font_name;	//×ÖÌåÃû³Æ
-	int m_font_size;		//×ÖÌå´óĞ¡
+	//CMenu m_menu;	//èœå•
+	CEditEx m_edit;					//ç¼–è¾‘æ¡†
+	CStatusBarCtrl m_status_bar;	//çŠ¶æ€æ 
+	CFont m_font;			//å­—ä½“
+	CString m_font_name;	//å­—ä½“åç§°
+	int m_font_size;		//å­—ä½“å¤§å°
 
-	CString m_file_path;	//µ±Ç°´ò¿ªµÄÎÄ¼şÂ·¾¶
-	string m_edit_str;		//´¢´æ´ÓÎÄ¼şÔØÈëµÄÄÚÈİ
-	wstring m_edit_wcs;		//´¢´æÏÔÊ¾µ½´°¿ÚµÄÄÚÈİ
+	CString m_file_path;	//å½“å‰æ‰“å¼€çš„æ–‡ä»¶è·¯å¾„
+	string m_edit_str;		//å‚¨å­˜ä»æ–‡ä»¶è½½å…¥çš„å†…å®¹
+	wstring m_edit_wcs;		//å‚¨å­˜æ˜¾ç¤ºåˆ°çª—å£çš„å†…å®¹
 
-	CodeType m_code{ CodeType::ANSI };		//±àÂë¸ñÊ½
-	CodeType m_save_code{ CodeType::ANSI };	//Áí´æÎªÊ±µÄ±àÂë¸ñÊ½
-	bool m_modified{ false };				//Èç¹ûÎÄ¼ş±»±à¼­¹ı£¬Ôòm_modifiedÎªtrue
-	//bool m_flag{ false };			//Ò»¸öflag£¬µ±µ÷ÓÃm_edit.SetWindowText()º¯Êı½«ÎÄ±¾ÏÔÊ¾ÔÚÎÄ±¾¿òÄÚÊ±£¬½«ËüÖÃÎªtrue
-	int m_dpi;		//µ±Ç°ÏÔÊ¾Æ÷µÄDPIÉèÖÃ100%Ê±Îª96
+	CodeType m_code{ CodeType::ANSI };		//ç¼–ç æ ¼å¼
+	CodeType m_save_code{ CodeType::ANSI };	//å¦å­˜ä¸ºæ—¶çš„ç¼–ç æ ¼å¼
+	bool m_modified{ false };				//å¦‚æœæ–‡ä»¶è¢«ç¼–è¾‘è¿‡ï¼Œåˆ™m_modifiedä¸ºtrue
+	//bool m_flag{ false };			//ä¸€ä¸ªflagï¼Œå½“è°ƒç”¨m_edit.SetWindowText()å‡½æ•°å°†æ–‡æœ¬æ˜¾ç¤ºåœ¨æ–‡æœ¬æ¡†å†…æ—¶ï¼Œå°†å®ƒç½®ä¸ºtrue
+	int m_dpi;		//å½“å‰æ˜¾ç¤ºå™¨çš„DPIè®¾ç½®100%æ—¶ä¸º96
 
-	int m_window_width;			//´°¿Ú¿í¶È
-	int m_window_hight;			//´°¿Ú¸ß¶È
+	int m_window_width;			//çª—å£å®½åº¦
+	int m_window_hight;			//çª—å£é«˜åº¦
 
-	int m_status_bar_hight;		//×´Ì¬À¸¸ß¶È
-	int m_edit_bottom_space;	//±à¼­´°¿Úµ×²¿¾à´°¿Úµ×²¿µÄ¾àÀë
-	int m_status_bar_mid_width;	//×´Ì¬À¸µÚ×ó±ß²¿·ÖµÄ¿í¶È
-	int m_status_bar_right_width;	//×´Ì¬À¸µÚÓÒ±ß²¿·ÖµÄ¿í¶È
+	int m_status_bar_hight;		//çŠ¶æ€æ é«˜åº¦
+	int m_edit_bottom_space;	//ç¼–è¾‘çª—å£åº•éƒ¨è·çª—å£åº•éƒ¨çš„è·ç¦»
+	int m_status_bar_mid_width;	//çŠ¶æ€æ ç¬¬å·¦è¾¹éƒ¨åˆ†çš„å®½åº¦
+	int m_status_bar_right_width;	//çŠ¶æ€æ ç¬¬å³è¾¹éƒ¨åˆ†çš„å®½åº¦
 
-	bool m_word_wrap;		//ÊÇ·ñ×Ô¶¯»»ĞĞ
+	bool m_word_wrap;		//æ˜¯å¦è‡ªåŠ¨æ¢è¡Œ
     bool m_always_on_top{ false };
 
 	//const CString CONFIG_PATH{ _T("./config.ini") };
-	//wstring m_config_path;		//ÅäÖÃÎÄ¼şËùÔÚµÄÂ·¾¶
+	//wstring m_config_path;		//é…ç½®æ–‡ä»¶æ‰€åœ¨çš„è·¯å¾„
 
-	CFindReplaceDialog* m_pFindDlg{};	//²éÕÒ¶Ô»°¿ò
-	CFindReplaceDialog* m_pReplaceDlg{};	//Ìæ»»¶Ô»°¿ò
-	wstring m_find_str;		//²éÕÒµÄ×Ö·û´®
-	wstring m_replace_str;	//Ìæ»»µÄ×Ö·û´®
-	int m_find_index{ -1 };	//²éÕÒµÄ×Ö·û´®µÄË÷Òı
-	bool m_find_down{ true };		//ÊÇ·ñÏòºó²éÕÒ
-	bool m_find_no_case;			//²éÕÒÊ±ÊÇ·ñ²»Çø·Ö´óĞ¡Ğ´
-	bool m_find_whole_word;			//²éÕÒÊ±ÊÇ·ñÈ«´ÊÆ¥Åä
+	CFindReplaceDialog* m_pFindDlg{};	//æŸ¥æ‰¾å¯¹è¯æ¡†
+	CFindReplaceDialog* m_pReplaceDlg{};	//æ›¿æ¢å¯¹è¯æ¡†
+	wstring m_find_str;		//æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
+	wstring m_replace_str;	//æ›¿æ¢çš„å­—ç¬¦ä¸²
+	int m_find_index{ -1 };	//æŸ¥æ‰¾çš„å­—ç¬¦ä¸²çš„ç´¢å¼•
+	bool m_find_down{ true };		//æ˜¯å¦å‘åæŸ¥æ‰¾
+	bool m_find_no_case;			//æŸ¥æ‰¾æ—¶æ˜¯å¦ä¸åŒºåˆ†å¤§å°å†™
+	bool m_find_whole_word;			//æŸ¥æ‰¾æ—¶æ˜¯å¦å…¨è¯åŒ¹é…
 	bool m_find_flag{ false };
 	
-	void OpenFile(LPCTSTR file_path);					//´ò¿ªÎÄ¼şµÄ´¦Àí
-	bool SaveFile(LPCTSTR file_path, CodeType code);	//±£´æÎÄ¼şµÄ´¦Àí
-	bool JudgeCode();				//ÅĞ¶Ï±àÂë¸ñÊ½£¨Èç¹û±àÂë¸ñÊ½¿ÉÒÔÍêÈ«È·¶¨£¬Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse£©
-	void ShowStatusBar();			//Ë¢ĞÂ×´Ì¬À¸
-	void ChangeCode();				//¸ü¸Ä±àÂë¸ñÊ½Ê±µÄ´¦Àí
-	bool BeforeChangeCode();		//ÔÚ¸ü¸Ä±àÂë¸ñÊ½Ç°µÄ´¦Àí
-	void SaveConfig();				//±£´æÉèÖÃ
-	void LoadConfig();				//ÔØÈëÉèÖÃ
-	bool SaveInquiry(LPCTSTR info = NULL);	//Ñ¯ÎÊÓÃ»§ÊÇ·ñ±£´æ£¬²ÎÊıÎªÌáÊ¾ĞÅÏ¢(ÓÃ»§µã»÷ÁËÈ¡Ïûºó·µ»Øfalse£¬·ñÔò·µ»Øtrue)
-	void SetTitle();				//ÉèÖÃ´°¿Ú±êÌâ
+	void OpenFile(LPCTSTR file_path);					//æ‰“å¼€æ–‡ä»¶çš„å¤„ç†
+	bool SaveFile(LPCTSTR file_path, CodeType code);	//ä¿å­˜æ–‡ä»¶çš„å¤„ç†
+	bool JudgeCode();				//åˆ¤æ–­ç¼–ç æ ¼å¼ï¼ˆå¦‚æœç¼–ç æ ¼å¼å¯ä»¥å®Œå…¨ç¡®å®šï¼Œåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›falseï¼‰
+	void ShowStatusBar();			//åˆ·æ–°çŠ¶æ€æ 
+	void ChangeCode();				//æ›´æ”¹ç¼–ç æ ¼å¼æ—¶çš„å¤„ç†
+	bool BeforeChangeCode();		//åœ¨æ›´æ”¹ç¼–ç æ ¼å¼å‰çš„å¤„ç†
+	void SaveConfig();				//ä¿å­˜è®¾ç½®
+	void LoadConfig();				//è½½å…¥è®¾ç½®
+	bool SaveInquiry(LPCTSTR info = NULL);	//è¯¢é—®ç”¨æˆ·æ˜¯å¦ä¿å­˜ï¼Œå‚æ•°ä¸ºæç¤ºä¿¡æ¯(ç”¨æˆ·ç‚¹å‡»äº†å–æ¶ˆåè¿”å›falseï¼Œå¦åˆ™è¿”å›true)
+	void SetTitle();				//è®¾ç½®çª—å£æ ‡é¢˜
 
-	bool _OnFileSave();		//Èç¹ûÒÑ¾­Ö´ĞĞÁË±£´æ²Ù×÷£¬Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+	bool _OnFileSave();		//å¦‚æœå·²ç»æ‰§è¡Œäº†ä¿å­˜æ“ä½œï¼Œåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
 	bool _OnFileSaveAs();	//
 
 	void SaveHex();
@@ -88,7 +88,7 @@ protected:
 
     void SetAlwaysOnTop();
 
-	// Éú³ÉµÄÏûÏ¢Ó³Éäº¯Êı
+	// ç”Ÿæˆçš„æ¶ˆæ¯æ˜ å°„å‡½æ•°
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();

@@ -1,18 +1,18 @@
-
-// SimpleNotePad.h : PROJECT_NAME Ó¦ÓÃ³ÌĞòµÄÖ÷Í·ÎÄ¼ş
+ï»¿
+// SimpleNotePad.h : PROJECT_NAME åº”ç”¨ç¨‹åºçš„ä¸»å¤´æ–‡ä»¶
 //
 
 #pragma once
 
 #ifndef __AFXWIN_H__
-	#error "ÔÚ°üº¬´ËÎÄ¼şÖ®Ç°°üº¬¡°stdafx.h¡±ÒÔÉú³É PCH ÎÄ¼ş"
+	#error "åœ¨åŒ…å«æ­¤æ–‡ä»¶ä¹‹å‰åŒ…å«â€œstdafx.hâ€ä»¥ç”Ÿæˆ PCH æ–‡ä»¶"
 #endif
 
-#include "resource.h"		// Ö÷·ûºÅ
+#include "resource.h"		// ä¸»ç¬¦å·
 
 
 // CSimpleNotePadApp: 
-// ÓĞ¹Ø´ËÀàµÄÊµÏÖ£¬Çë²ÎÔÄ SimpleNotePad.cpp
+// æœ‰å…³æ­¤ç±»çš„å®ç°ï¼Œè¯·å‚é˜… SimpleNotePad.cpp
 //
 
 class CSimpleNotePadApp : public CWinApp
@@ -20,15 +20,15 @@ class CSimpleNotePadApp : public CWinApp
 public:
 	CSimpleNotePadApp();
 
-	wstring m_config_path;		//ÅäÖÃÎÄ¼şËùÔÚµÄÂ·¾¶
+	wstring m_config_path;		//é…ç½®æ–‡ä»¶æ‰€åœ¨çš„è·¯å¾„
 
-	bool m_compare_dialog_exit;	//ÓÃÓÚÖ¸Ê¾ÎÄ¼ş±È½Ï¶Ô»°¿òÊÇ·ñÒÑÍË³ö
+	bool m_compare_dialog_exit;	//ç”¨äºæŒ‡ç¤ºæ–‡ä»¶æ¯”è¾ƒå¯¹è¯æ¡†æ˜¯å¦å·²é€€å‡º
 
-// ÖØĞ´
+// é‡å†™
 public:
 	virtual BOOL InitInstance();
 
-// ÊµÏÖ
+// å®ç°
 
 	DECLARE_MESSAGE_MAP()
 };

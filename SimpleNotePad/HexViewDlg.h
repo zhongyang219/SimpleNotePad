@@ -1,31 +1,31 @@
-#pragma once
+ï»¿#pragma once
 #include "Common.h"
 #include "afxwin.h"
 #include "afxcmn.h"
 
 using std::string;
 
-// CHexViewDlg ¶Ô»°¿ò
+// CHexViewDlg å¯¹è¯æ¡†
 
 class CHexViewDlg : public CDialog
 {
 	DECLARE_DYNAMIC(CHexViewDlg)
 
 public:
-	CHexViewDlg(string& data, CodeType code, const CString& file_path, CWnd* pParent = NULL);   // ±ê×¼¹¹Ôìº¯Êı
+	CHexViewDlg(string& data, CodeType code, const CString& file_path, CWnd* pParent = NULL);   // æ ‡å‡†æ„é€ å‡½æ•°
 	virtual ~CHexViewDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_HEX_VIEW_DIALOG };
 #endif
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
 	DECLARE_MESSAGE_MAP()
 
-	//Ê®Áù½øÖÆ±à¼­µÄµ¥Î»
+	//åå…­è¿›åˆ¶ç¼–è¾‘çš„å•ä½
 	enum class EditUnit
 	{
 		BYTE,
@@ -33,7 +33,7 @@ protected:
 		DWORD
 	};
 
-	//Êı¾İ´óĞ¡µ¥Î»
+	//æ•°æ®å¤§å°å•ä½
 	enum class SizeUnit
 	{
 		B,
@@ -41,7 +41,7 @@ protected:
 		MB
 	};
 
-	//ĞŞ¸Ä¹ıµÄÏîÄ¿
+	//ä¿®æ”¹è¿‡çš„é¡¹ç›®
 	struct Item
 	{
 		unsigned int address;
@@ -55,14 +55,14 @@ protected:
 	CodeType m_code;
 	CFont m_font;
 
-	CString m_str;		//ÎÄ±¾±à¼­¿òÖĞÏÔÊ¾µÄ×Ö·û´®
+	CString m_str;		//æ–‡æœ¬ç¼–è¾‘æ¡†ä¸­æ˜¾ç¤ºçš„å­—ç¬¦ä¸²
 	CEdit m_edit;
 
 	unsigned int m_address;
 	unsigned int m_value;
 
-	vector<Item> m_modified_data;		//±£´æ±à¼­¹ıµÄÊı¾İ
-	bool m_modified;		//ÓÃÓÚ±£´æĞŞ¸Ä¹ıµÄ×´Ì¬£¬Èç¹û±»ĞŞ¸Ä¹ı£¬ÔòÎªtrue
+	vector<Item> m_modified_data;		//ä¿å­˜ç¼–è¾‘è¿‡çš„æ•°æ®
+	bool m_modified;		//ç”¨äºä¿å­˜ä¿®æ”¹è¿‡çš„çŠ¶æ€ï¼Œå¦‚æœè¢«ä¿®æ”¹è¿‡ï¼Œåˆ™ä¸ºtrue
 
 	EditUnit m_edit_unit{};
 	SizeUnit m_size_unit{};
@@ -70,9 +70,9 @@ protected:
     CSize m_min_size;
 
 protected:
-	void ShowHexData(bool ini = false);	//ÔÚÎÄ±¾±à¼­¿òÖĞÏÔÊ¾³öÊ®Áù½øÖÆÊı¾İ(ÔÚ³õÊ¼»¯Ê±µ÷ÓÃÒª°Ñ²ÎÊıÉèÎªtrue)
-	unsigned int GetValueAndStr(unsigned int address, EditUnit edit_unit, CString& value_str);		//¸ù¾İµØÖ·ºÍ±à¼­µ¥Î»·µ»ØÖµ£¬²¢×ª»»³É×Ö·û´®±£´æµ½value_strÖĞ
-	void ShowSizeInfo();		//ÔÚ¡°ĞŞ¸ÄÎÄ¼ş´óĞ¡¡±´¦µÄStatic¿Ø¼şÉÏÏÔÊ¾ÎÄ¼ş´óĞ¡
+	void ShowHexData(bool ini = false);	//åœ¨æ–‡æœ¬ç¼–è¾‘æ¡†ä¸­æ˜¾ç¤ºå‡ºåå…­è¿›åˆ¶æ•°æ®(åœ¨åˆå§‹åŒ–æ—¶è°ƒç”¨è¦æŠŠå‚æ•°è®¾ä¸ºtrue)
+	unsigned int GetValueAndStr(unsigned int address, EditUnit edit_unit, CString& value_str);		//æ ¹æ®åœ°å€å’Œç¼–è¾‘å•ä½è¿”å›å€¼ï¼Œå¹¶è½¬æ¢æˆå­—ç¬¦ä¸²ä¿å­˜åˆ°value_strä¸­
+	void ShowSizeInfo();		//åœ¨â€œä¿®æ”¹æ–‡ä»¶å¤§å°â€å¤„çš„Staticæ§ä»¶ä¸Šæ˜¾ç¤ºæ–‡ä»¶å¤§å°
 
 	void SaveConfig() const;
 	void LoadConfig();

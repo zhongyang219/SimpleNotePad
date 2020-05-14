@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 //#define MAX_STR_SIZE 1024;
 using std::wstring;
 using std::string;
@@ -19,44 +19,44 @@ public:
 	CCommon();
 	~CCommon();
 
-	//½«stringÀàĞÍµÄ×Ö·û´®×ª»»³ÉUnicode±àÂëµÄwstring×Ö·û´®
+	//å°†stringç±»å‹çš„å­—ç¬¦ä¸²è½¬æ¢æˆUnicodeç¼–ç çš„wstringå­—ç¬¦ä¸²
 	static wstring StrToUnicode(const string& str, CodeType code_type = CodeType::ANSI);
 
-	//½«Unicode±àÂëµÄwstring×Ö·û´®×ª»»³ÉstringÀàĞÍµÄ×Ö·û´®(Èç¹ûÖÁÉÙÓĞÒ»¸ö×Ö·ûÎŞ·¨×ª»»£¬Ôò½«char_cannot_convertÖÃÎªtrue)
+	//å°†Unicodeç¼–ç çš„wstringå­—ç¬¦ä¸²è½¬æ¢æˆstringç±»å‹çš„å­—ç¬¦ä¸²(å¦‚æœè‡³å°‘æœ‰ä¸€ä¸ªå­—ç¬¦æ— æ³•è½¬æ¢ï¼Œåˆ™å°†char_cannot_convertç½®ä¸ºtrue)
 	static string UnicodeToStr(const wstring& wstr, bool& char_cannot_convert, CodeType code_type = CodeType::ANSI);
 
-	//ÅĞ¶Ï×Ö·û´®ÊÇ·ñUTF8±àÂë
+	//åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦UTF8ç¼–ç 
 	static bool IsUTF8Bytes(const char* data);
 
 	static void WritePrivateProfileInt(const wchar_t* AppName, const wchar_t* KeyName, int value, const wchar_t* Path);
 
 	//static bool FileExist(const wchar_t* file);
 
-	//»ñÈ¡µ±Ç°exeÎÄ¼şµÄÂ·¾¶£¨²»º¬ÎÄ¼şÃû£©
+	//è·å–å½“å‰exeæ–‡ä»¶çš„è·¯å¾„ï¼ˆä¸å«æ–‡ä»¶åï¼‰
 	static wstring GetCurrentPath();
 
-	//µ÷ÕûCListBox¿Ø¼şµÄ¿í¶È
+	//è°ƒæ•´CListBoxæ§ä»¶çš„å®½åº¦
 	static void AdjustListWidth(CListBox & list);
 
-	//ĞŞ¸Ä×Ö·û´®µÄ³¤¶È£¬Èç¹ûĞÂµÄ³¤¶È±ÈÔ­À´µÄ¶Ì£¬Ôò±£ÁôÓÒ±ßµÄ×Ö·û£¬Èç¹ûĞÂµÄ³¤¶È±ÈÔ­À´µÄ³¤£¬ÔòÔÚ×ó±ßÌí¼ÓÖ¸¶¨µÄ×Ö·û
+	//ä¿®æ”¹å­—ç¬¦ä¸²çš„é•¿åº¦ï¼Œå¦‚æœæ–°çš„é•¿åº¦æ¯”åŸæ¥çš„çŸ­ï¼Œåˆ™ä¿ç•™å³è¾¹çš„å­—ç¬¦ï¼Œå¦‚æœæ–°çš„é•¿åº¦æ¯”åŸæ¥çš„é•¿ï¼Œåˆ™åœ¨å·¦è¾¹æ·»åŠ æŒ‡å®šçš„å­—ç¬¦
 	static void ChangeStringLength(CString& str, int length, TCHAR ch);
 
-	//ÏòÒ»¸öEdit boxÌí¼Ó×Ö·û´®
+	//å‘ä¸€ä¸ªEdit boxæ·»åŠ å­—ç¬¦ä¸²
 	static void EditAppendString(const CString& str, HWND hWnd);
 
-	//ÅĞ¶ÏÒ»¸ö×Ö·ûÊÇ²»ÊÇºÏ·¨µÄ±êÊ¶·û
+	//åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦æ˜¯ä¸æ˜¯åˆæ³•çš„æ ‡è¯†ç¬¦
 	static bool IsValidNameChar(wchar_t ch);
 
-	//×ª»»×Ö·û´®´óĞ¡Ğ´£¬Èç¹ûupperÎªtrue£¬Ôò×ª»»³É´óĞ´£¬·ñÔò×ª»»³ÉĞ¡Ğ´
+	//è½¬æ¢å­—ç¬¦ä¸²å¤§å°å†™ï¼Œå¦‚æœupperä¸ºtrueï¼Œåˆ™è½¬æ¢æˆå¤§å†™ï¼Œå¦åˆ™è½¬æ¢æˆå°å†™
 	static bool StringTransform(wstring& str, bool upper);
 
-	//×Ö·û´®²éÕÒ£¬ºöÂÔ´óĞ¡Ğ´£¨find_down£ºÊÇ·ñÏòºó²éÕÒ£©
+	//å­—ç¬¦ä¸²æŸ¥æ‰¾ï¼Œå¿½ç•¥å¤§å°å†™ï¼ˆfind_downï¼šæ˜¯å¦å‘åæŸ¥æ‰¾ï¼‰
 	static size_t StringFindNoCase(const wstring& str, const wstring& find_str, bool find_down, size_t offset);
 
-	//×Ö·û´®²éÕÒ£¬È«´ÊÆ¥Åä£¨no_case£ºÊÇ·ñºöÂÔ´óĞ¡Ğ´£©
+	//å­—ç¬¦ä¸²æŸ¥æ‰¾ï¼Œå…¨è¯åŒ¹é…ï¼ˆno_caseï¼šæ˜¯å¦å¿½ç•¥å¤§å°å†™ï¼‰
 	static size_t StringFindWholeWord(const wstring& str, const wstring& find_str, bool no_case, bool find_down, size_t offset);
 
-	//ÅĞ¶ÏÒ»¸ö×Ö·ûÊÇ·ñÊÇÔÚÈ«´ÊÆ¥ÅäÊ±µÄµ¥´Ê·Ö¸î×Ö·û£¨³ıÁË×ÖÄ¸¡¢Êı×ÖºÍ256ÒÔÉÏµÄUnicode×Ö·ûÍâµÄ×Ö·û£©
+	//åˆ¤æ–­ä¸€ä¸ªå­—ç¬¦æ˜¯å¦æ˜¯åœ¨å…¨è¯åŒ¹é…æ—¶çš„å•è¯åˆ†å‰²å­—ç¬¦ï¼ˆé™¤äº†å­—æ¯ã€æ•°å­—å’Œ256ä»¥ä¸Šçš„Unicodeå­—ç¬¦å¤–çš„å­—ç¬¦ï¼‰
 	static bool IsDivideChar(wchar_t ch);
 
 	static size_t StringFind(const wstring& str, const wstring& find_str, bool no_case, bool whole_word, bool find_down, size_t offset);

@@ -1,5 +1,5 @@
-
-// SimpleNotePadDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿
+// SimpleNotePadDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -14,22 +14,22 @@
 #endif
 
 
-// ÓÃÓÚÓ¦ÓÃ³ÌĞò¡°¹ØÓÚ¡±²Ëµ¥ÏîµÄ CAboutDlg ¶Ô»°¿ò
+// ç”¨äºåº”ç”¨ç¨‹åºâ€œå…³äºâ€èœå•é¡¹çš„ CAboutDlg å¯¹è¯æ¡†
 
 class CAboutDlg : public CDialog
 {
 public:
 	CAboutDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ABOUTBOX };
 #endif
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
-// ÊµÏÖ
+// å®ç°
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -47,7 +47,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// CSimpleNotePadDlg ¶Ô»°¿ò
+// CSimpleNotePadDlg å¯¹è¯æ¡†
 
 
 
@@ -65,7 +65,7 @@ void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 {
-	////´ò¿ªĞÂÎÄ¼şÇ°Ñ¯ÎÊÓÃ»§ÊÇ·ñ±£´æ
+	////æ‰“å¼€æ–°æ–‡ä»¶å‰è¯¢é—®ç”¨æˆ·æ˜¯å¦ä¿å­˜
 	//if (!SaveInquiry())
 	//	return;
 
@@ -77,7 +77,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	if (file.fail())
 	{
 		CString info;
-		info.Format(_T("ÎŞ·¨´ò¿ªÎÄ¼ş¡°%s¡±£¡"), file_path);
+		info.Format(_T("æ— æ³•æ‰“å¼€æ–‡ä»¶â€œ%sâ€ï¼"), file_path);
 		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
 		m_file_path.Empty();
 		return;
@@ -85,10 +85,10 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	while (!file.eof())
 	{
 		m_edit_str.push_back(file.get());
-		if (m_edit_str.size() > MAX_FILE_SIZE)	//µ±ÎÄ¼ş´óĞ¡³¬¹ıMAX_FILE_SIZEÊ±½ûÖ¹´ò¿ª
+		if (m_edit_str.size() > MAX_FILE_SIZE)	//å½“æ–‡ä»¶å¤§å°è¶…è¿‡MAX_FILE_SIZEæ—¶ç¦æ­¢æ‰“å¼€
 		{
 			CString info;
-			info.Format(_T("¡°%s¡±ÎÄ¼şÌ«´ó£¬½«Ö»¼ÓÔØÎÄ¼şÇ°Ãæ%dMBµÄÄÚÈİ£¬Òª¼ÌĞøÂğ£¿"), file_path, MAX_FILE_SIZE / 1024 / 1024);
+			info.Format(_T("â€œ%sâ€æ–‡ä»¶å¤ªå¤§ï¼Œå°†åªåŠ è½½æ–‡ä»¶å‰é¢%dMBçš„å†…å®¹ï¼Œè¦ç»§ç»­å—ï¼Ÿ"), file_path, MAX_FILE_SIZE / 1024 / 1024);
 			if (MessageBox(info, NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
 			{
 				break;
@@ -103,34 +103,34 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	}
 	m_edit_str.pop_back();
 
-	bool code_confirm = JudgeCode();											//ÅĞ¶Ï±àÂëÀàĞÍ
-	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//×ª»»³ÉUnicode
-	if (!code_confirm && m_edit_wcs.size() < m_edit_str.size() / 4)		//Èç¹ûÒÔ×Ô¶¯Ê¶±ğµÄ¸ñÊ½×ª»»³ÉUnicodeºó£¬Unicode×Ö·û´®µÄ³¤¶ÈĞ¡ÓÚ¶à×Ö½Ú×Ö·û´®³¤¶ÈµÄ1/4£¬ÔòÎÄ±¾µÄ±àÂë¸ñÊ½¿ÉÄÜÊÇUTF16
+	bool code_confirm = JudgeCode();											//åˆ¤æ–­ç¼–ç ç±»å‹
+	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//è½¬æ¢æˆUnicode
+	if (!code_confirm && m_edit_wcs.size() < m_edit_str.size() / 4)		//å¦‚æœä»¥è‡ªåŠ¨è¯†åˆ«çš„æ ¼å¼è½¬æ¢æˆUnicodeåï¼ŒUnicodeå­—ç¬¦ä¸²çš„é•¿åº¦å°äºå¤šå­—èŠ‚å­—ç¬¦ä¸²é•¿åº¦çš„1/4ï¼Œåˆ™æ–‡æœ¬çš„ç¼–ç æ ¼å¼å¯èƒ½æ˜¯UTF16
 	{
 		m_code = CodeType::UTF16;
-		m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//ÖØĞÂ×ª»»³ÉUnicode
+		m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//é‡æ–°è½¬æ¢æˆUnicode
 	}
-	m_edit.SetWindowText(m_edit_wcs.c_str());				//½«ÎÄ¼şÖĞµÄÄÚÈİÏÔÊ¾µ½±à¼©´°¿ÚÖĞ
+	m_edit.SetWindowText(m_edit_wcs.c_str());				//å°†æ–‡ä»¶ä¸­çš„å†…å®¹æ˜¾ç¤ºåˆ°ç¼–ç¼‰çª—å£ä¸­
 	//m_flag = true;
-	ShowStatusBar();										//¸üĞÂ×´Ì¬À¸
+	ShowStatusBar();										//æ›´æ–°çŠ¶æ€æ 
 }
 
 bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code)
 {
 	bool char_connot_convert;
 	m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, char_connot_convert, code);
-	if (char_connot_convert)	//µ±ÎÄ¼şÖĞ°üº¬Unicode×Ö·ûÊ±£¬Ñ¯ÎÊÓÃ»§ÊÇ·ñÒªÑ¡ÔñÒ»¸öUnicode±àÂë¸ñÊ½ÔÙ±£´æ
+	if (char_connot_convert)	//å½“æ–‡ä»¶ä¸­åŒ…å«Unicodeå­—ç¬¦æ—¶ï¼Œè¯¢é—®ç”¨æˆ·æ˜¯å¦è¦é€‰æ‹©ä¸€ä¸ªUnicodeç¼–ç æ ¼å¼å†ä¿å­˜
 	{
 		CString info;
-		info.LoadString(IDS_STRING102);		//´Óstring tableÔØÈë×Ö·û´®
-		if (MessageBox(info, NULL, MB_OKCANCEL | MB_ICONWARNING) != IDOK) return false;		//Èç¹ûÓÃ»§µã»÷ÁËÈ¡Ïû°´Å¥£¬Ôò·µ»Øfalse
+		info.LoadString(IDS_STRING102);		//ä»string tableè½½å…¥å­—ç¬¦ä¸²
+		if (MessageBox(info, NULL, MB_OKCANCEL | MB_ICONWARNING) != IDOK) return false;		//å¦‚æœç”¨æˆ·ç‚¹å‡»äº†å–æ¶ˆæŒ‰é’®ï¼Œåˆ™è¿”å›false
 	}
 	ofstream file{ file_path, std::ios::binary };
-	if (!file.good())		//Èç¹ûÎŞ·¨±£´æÎÄ¼ş£¬Ôò·µ»Øfalse
+	if (!file.good())		//å¦‚æœæ— æ³•ä¿å­˜æ–‡ä»¶ï¼Œåˆ™è¿”å›false
 		return false;
 	file << m_edit_str;
 	m_modified = false;
-	ShowStatusBar();		//±£´æºóË¢ĞÂ×´Ì¬À¸
+	ShowStatusBar();		//ä¿å­˜ååˆ·æ–°çŠ¶æ€æ 
 	return true;
 }
 
@@ -161,31 +161,31 @@ bool CSimpleNotePadDlg::JudgeCode()
 
 void CSimpleNotePadDlg::ShowStatusBar()
 {
-	//ÏÔÊ¾±àÂë¸ñÊ½
-	CString str{_T("±àÂë¸ñÊ½£º")};
+	//æ˜¾ç¤ºç¼–ç æ ¼å¼
+	CString str{_T("ç¼–ç æ ¼å¼ï¼š")};
 	//if (!m_edit_wcs.empty())
 	//{
 		switch (m_code)
 		{
 		case CodeType::ANSI: str += _T("ANSI"); break;
 		case CodeType::UTF8: str += _T("UTF8"); break;
-		case CodeType::UTF8_NO_BOM: str += _T("UTF8ÎŞBOM"); break;
+		case CodeType::UTF8_NO_BOM: str += _T("UTF8æ— BOM"); break;
 		case CodeType::UTF16: str += _T("UTF16"); break;
 		}
 	//}
 	m_status_bar.SetText(str, 2, 0);
 
-	//ÏÔÊ¾×Ö·ûÊı
+	//æ˜¾ç¤ºå­—ç¬¦æ•°
 	//if (m_edit_wcs.empty())
 	//	str.Empty();
 	if (m_edit_str.size() < 1024)
-		str.Format(_T("¹²%d¸ö×Ö½Ú£¬%d¸ö×Ö·û"), m_edit_str.size(), m_edit_wcs.size());
+		str.Format(_T("å…±%dä¸ªå­—èŠ‚ï¼Œ%dä¸ªå­—ç¬¦"), m_edit_str.size(), m_edit_wcs.size());
 	else
-		str.Format(_T("¹²%d¸ö×Ö½Ú(%dKB)£¬%d¸ö×Ö·û"), m_edit_str.size(), m_edit_str.size() / 1024, m_edit_wcs.size());
+		str.Format(_T("å…±%dä¸ªå­—èŠ‚(%dKB)ï¼Œ%dä¸ªå­—ç¬¦"), m_edit_str.size(), m_edit_str.size() / 1024, m_edit_wcs.size());
 	m_status_bar.SetText(str, 0, 0);
 
-	//ÏÔÊ¾ÊÇ·ñĞŞ¸Ä
-	m_status_bar.SetText(m_modified?_T("ÒÑĞŞ¸Ä"):_T("Î´ĞŞ¸Ä"), 1, 0);
+	//æ˜¾ç¤ºæ˜¯å¦ä¿®æ”¹
+	m_status_bar.SetText(m_modified?_T("å·²ä¿®æ”¹"):_T("æœªä¿®æ”¹"), 1, 0);
 }
 
 void CSimpleNotePadDlg::ChangeCode()
@@ -198,15 +198,15 @@ void CSimpleNotePadDlg::ChangeCode()
 
 bool CSimpleNotePadDlg::BeforeChangeCode()
 {
-	return SaveInquiry(_T("×¢Òâ£¬Èç¹û¸ü¸Ä±àÂë¸ñÊ½£¬Î´±£´æµÄËùÓĞ¸ü¸Ä¶¼½«¶ªÊ§£¡ÊÇ·ñÒª±£´æ£¿"));
+	return SaveInquiry(_T("æ³¨æ„ï¼Œå¦‚æœæ›´æ”¹ç¼–ç æ ¼å¼ï¼Œæœªä¿å­˜çš„æ‰€æœ‰æ›´æ”¹éƒ½å°†ä¸¢å¤±ï¼æ˜¯å¦è¦ä¿å­˜ï¼Ÿ"));
 }
 
 void CSimpleNotePadDlg::SaveConfig()
 {
-	//±£´æ×ÖÌåÉèÖÃ
+	//ä¿å­˜å­—ä½“è®¾ç½®
 	WritePrivateProfileString(_T("config"), _T("font_name"), m_font_name, theApp.m_config_path.c_str());
 	CCommon::WritePrivateProfileInt(L"config", L"font_size", m_font_size, theApp.m_config_path.c_str());
-	//±£´æ´°¿Ú´óĞ¡
+	//ä¿å­˜çª—å£å¤§å°
 	CCommon::WritePrivateProfileInt(L"config", L"window_width", m_window_width, theApp.m_config_path.c_str());
 	CCommon::WritePrivateProfileInt(L"config", L"window_hight", m_window_hight, theApp.m_config_path.c_str());
 	CCommon::WritePrivateProfileInt(L"config", L"word_wrap", m_word_wrap, theApp.m_config_path.c_str());
@@ -218,10 +218,10 @@ void CSimpleNotePadDlg::SaveConfig()
 
 void CSimpleNotePadDlg::LoadConfig()
 {
-	//ÔØÈë×ÖÌåÉèÖÃ
-	GetPrivateProfileString(_T("config"), _T("font_name"), _T("Î¢ÈíÑÅºÚ"), m_font_name.GetBuffer(32), 32, theApp.m_config_path.c_str());
+	//è½½å…¥å­—ä½“è®¾ç½®
+	GetPrivateProfileString(_T("config"), _T("font_name"), _T("å¾®è½¯é›…é»‘"), m_font_name.GetBuffer(32), 32, theApp.m_config_path.c_str());
 	m_font_size = GetPrivateProfileInt(_T("config"), _T("font_size"), 10, theApp.m_config_path.c_str());
-	//ÔØÈë´°¿Ú´óĞ¡
+	//è½½å…¥çª—å£å¤§å°
 	m_window_width = GetPrivateProfileInt(_T("config"), _T("window_width"), 560, theApp.m_config_path.c_str());
 	m_window_hight = GetPrivateProfileInt(_T("config"), _T("window_hight"), 350, theApp.m_config_path.c_str());
 	m_word_wrap = (GetPrivateProfileInt(_T("config"), _T("word_wrap"), 1, theApp.m_config_path.c_str()) != 0);
@@ -239,9 +239,9 @@ bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 		if (info == NULL)
 		{
 			if (m_file_path.IsEmpty())
-				text = _T("ÎŞ±êÌâ ÖĞµÄÄÚÈİÒÑ¸ü¸Ä£¬ÊÇ·ñ±£´æ£¿");
+				text = _T("æ— æ ‡é¢˜ ä¸­çš„å†…å®¹å·²æ›´æ”¹ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ");
 			else
-				text.Format(_T("¡°%s¡±ÎÄ¼şÖĞµÄÄÚÈİÒÑ¸ü¸Ä£¬ÊÇ·ñ±£´æ£¿"), m_file_path);
+				text.Format(_T("â€œ%sâ€æ–‡ä»¶ä¸­çš„å†…å®¹å·²æ›´æ”¹ï¼Œæ˜¯å¦ä¿å­˜ï¼Ÿ"), m_file_path);
 		}
 		else
 		{
@@ -264,20 +264,20 @@ void CSimpleNotePadDlg::SetTitle()
 	if(!m_file_path.IsEmpty())
 		SetWindowText(m_file_path + _T(" - SimpleNotePad"));
 	else
-		SetWindowText(_T("ÎŞ±êÌâ - SimpleNotePad"));
+		SetWindowText(_T("æ— æ ‡é¢˜ - SimpleNotePad"));
 }
 
 bool CSimpleNotePadDlg::_OnFileSave()
 {
-	if (m_modified)		//Ö»ÓĞÔÚÒÑ¸ü¸Ä¹ıÖ®ºó²Å±£´æ
+	if (m_modified)		//åªæœ‰åœ¨å·²æ›´æ”¹è¿‡ä¹‹åæ‰ä¿å­˜
 	{
-		//ÒÑ¾­´ò¿ª¹ıÒ»¸öÎÄ¼şÊ±¾ÍÖ±½Ó±£´æ£¬»¹Ã»ÓĞ´ò¿ªÒ»¸öÎÄ¼ş¾Íµ¯³ö¡°Áí´æÎª¡±¶Ô»°¿ò
+		//å·²ç»æ‰“å¼€è¿‡ä¸€ä¸ªæ–‡ä»¶æ—¶å°±ç›´æ¥ä¿å­˜ï¼Œè¿˜æ²¡æœ‰æ‰“å¼€ä¸€ä¸ªæ–‡ä»¶å°±å¼¹å‡ºâ€œå¦å­˜ä¸ºâ€å¯¹è¯æ¡†
 		if (!m_file_path.IsEmpty())
 		{
 			if (SaveFile(m_file_path, m_code))
 				return true;
 			else
-				return _OnFileSaveAs();		//ÎÄ¼şÎŞ·¨±£´æÊ±µ¯³ö¡°Áí´æÎª¡±¶Ô»°¿ò
+				return _OnFileSaveAs();		//æ–‡ä»¶æ— æ³•ä¿å­˜æ—¶å¼¹å‡ºâ€œå¦å­˜ä¸ºâ€å¯¹è¯æ¡†
 		}
 		else
 		{
@@ -289,9 +289,9 @@ bool CSimpleNotePadDlg::_OnFileSave()
 
 bool CSimpleNotePadDlg::_OnFileSaveAs()
 {
-	//ÉèÖÃ¹ıÂËÆ÷
-	const wchar_t* szFilter = _T("ÎÄ±¾ÎÄ¼ş(*.txt)|*.txt|ËùÓĞÎÄ¼ş(*.*)|*.*||");
-	//ÉèÖÃÁí´æÎªÊ±µÄÄ¬ÈÏÎÄ¼şÃû
+	//è®¾ç½®è¿‡æ»¤å™¨
+	const wchar_t* szFilter = _T("æ–‡æœ¬æ–‡ä»¶(*.txt)|*.txt|æ‰€æœ‰æ–‡ä»¶(*.*)|*.*||");
+	//è®¾ç½®å¦å­˜ä¸ºæ—¶çš„é»˜è®¤æ–‡ä»¶å
 	wstring file_name;
 	if (!m_file_path.IsEmpty())
 	{
@@ -301,43 +301,43 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	}
 	else
 	{
-		file_name = L"ÎŞ±êÌâ";
+		file_name = L"æ— æ ‡é¢˜";
 	}
-	//¹¹Ôì±£´æÎÄ¼ş¶Ô»°¿ò
+	//æ„é€ ä¿å­˜æ–‡ä»¶å¯¹è¯æ¡†
 	CFileDialog fileDlg(FALSE, _T("txt"), file_name.c_str(), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
-	//Îª¡°Áí´æÎª¡±¶Ô»°¿òÌí¼ÓÒ»¸ö×éºÏÑ¡Ôñ¿ò
+	//ä¸ºâ€œå¦å­˜ä¸ºâ€å¯¹è¯æ¡†æ·»åŠ ä¸€ä¸ªç»„åˆé€‰æ‹©æ¡†
 	fileDlg.AddComboBox(IDC_SAVE_COMBO_BOX);
-	//Îª×éºÏÑ¡Ôñ¿òÌí¼ÓÏîÄ¿
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 0, _T("ÒÔANSI¸ñÊ½±£´æ"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 1, _T("ÒÔUTF-8¸ñÊ½±£´æ"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 2, _T("ÒÔUTF-8ÎŞBOM¸ñÊ½±£´æ"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 3, _T("ÒÔUTF-16¸ñÊ½±£´æ"));
-	//fileDlg.SetControlLabel(IDC_SAVE_COMBO_BOX, _T("±àÂëÀàĞÍ£º"));
-	//¸ù¾İµ±Ç°ÉèÖÃµÄÁí´æÎª¸ñÊ½Îª×éºÏÑ¡Ôñ¿òÉèÖÃÄ¬ÈÏÑ¡ÖĞµÄÏîÄ¿
+	//ä¸ºç»„åˆé€‰æ‹©æ¡†æ·»åŠ é¡¹ç›®
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 0, _T("ä»¥ANSIæ ¼å¼ä¿å­˜"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 1, _T("ä»¥UTF-8æ ¼å¼ä¿å­˜"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 2, _T("ä»¥UTF-8æ— BOMæ ¼å¼ä¿å­˜"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 3, _T("ä»¥UTF-16æ ¼å¼ä¿å­˜"));
+	//fileDlg.SetControlLabel(IDC_SAVE_COMBO_BOX, _T("ç¼–ç ç±»å‹ï¼š"));
+	//æ ¹æ®å½“å‰è®¾ç½®çš„å¦å­˜ä¸ºæ ¼å¼ä¸ºç»„åˆé€‰æ‹©æ¡†è®¾ç½®é»˜è®¤é€‰ä¸­çš„é¡¹ç›®
 	fileDlg.SetSelectedControlItem(IDC_SAVE_COMBO_BOX, static_cast<DWORD>(m_save_code));
 
-	////ÉèÖÃ¡°Áí´æÎª¡±¶Ô»°¿ò±êÌâ
-	//CString str{ _T("Áí´æÎª") };
+	////è®¾ç½®â€œå¦å­˜ä¸ºâ€å¯¹è¯æ¡†æ ‡é¢˜
+	//CString str{ _T("å¦å­˜ä¸º") };
 	//switch (m_save_code)
 	//{
 	//case CodeType::ANSI: str += _T("ANSI"); break;
 	//case CodeType::UTF8: str += _T("UTF8"); break;
-	//case CodeType::UTF8_NO_BOM: str += _T("UTF8ÎŞBOM"); break;
+	//case CodeType::UTF8_NO_BOM: str += _T("UTF8æ— BOM"); break;
 	//case CodeType::UTF16: str += _T("UTF16"); break;
 	//}
 	//fileDlg.m_ofn.lpstrTitle = str.GetString();
-	//ÏÔÊ¾±£´æÎÄ¼ş¶Ô»°¿ò
+	//æ˜¾ç¤ºä¿å­˜æ–‡ä»¶å¯¹è¯æ¡†
 	if (IDOK == fileDlg.DoModal())
 	{
 		DWORD selected_item;
-		fileDlg.GetSelectedControlItem(IDC_SAVE_COMBO_BOX, selected_item);	//»ñÈ¡¡°±àÂë¸ñÊ½¡±ÖĞÑ¡ÖĞµÄÏîÄ¿
+		fileDlg.GetSelectedControlItem(IDC_SAVE_COMBO_BOX, selected_item);	//è·å–â€œç¼–ç æ ¼å¼â€ä¸­é€‰ä¸­çš„é¡¹ç›®
 		m_save_code = static_cast<CodeType>(selected_item);
 		if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code))
 		{
-			m_file_path = fileDlg.GetPathName();	//Áí´æÎªºó£¬µ±Ç°ÎÄ¼şÃûÎª±£´æµÄÎÄ¼şÃû
-			SetTitle();					//ÓÃĞÂµÄÎÄ¼şÃûÉèÖÃ±êÌâ
-			m_code = m_save_code;		//Áí´æÎªºóµ±Ç°±àÂëÀàĞÍÉèÖÃÎªÁí´æÎªµÄ±àÂëÀàĞÍ
-			ShowStatusBar();			//Ë¢ĞÂ×´Ì¬À¸
+			m_file_path = fileDlg.GetPathName();	//å¦å­˜ä¸ºåï¼Œå½“å‰æ–‡ä»¶åä¸ºä¿å­˜çš„æ–‡ä»¶å
+			SetTitle();					//ç”¨æ–°çš„æ–‡ä»¶åè®¾ç½®æ ‡é¢˜
+			m_code = m_save_code;		//å¦å­˜ä¸ºåå½“å‰ç¼–ç ç±»å‹è®¾ç½®ä¸ºå¦å­˜ä¸ºçš„ç¼–ç ç±»å‹
+			ShowStatusBar();			//åˆ·æ–°çŠ¶æ€æ 
 			return true;
 		}
 	}
@@ -349,38 +349,38 @@ void CSimpleNotePadDlg::SaveHex()
 	ofstream file{ m_file_path, std::ios::binary };
 	if (file.fail())
 	{
-		MessageBox(_T("±£´æÊ§°Ü£¡"), NULL, MB_ICONWARNING);
+		MessageBox(_T("ä¿å­˜å¤±è´¥ï¼"), NULL, MB_ICONWARNING);
 		return;
 	}
 	file << m_edit_str;
 	m_modified = false;
 	ShowStatusBar();
-	MessageBox(_T("Ê®Áù½øÖÆ±à¼­µÄ¸ü¸ÄÒÑ±£´æ"), NULL, MB_ICONINFORMATION);
+	MessageBox(_T("åå…­è¿›åˆ¶ç¼–è¾‘çš„æ›´æ”¹å·²ä¿å­˜"), NULL, MB_ICONINFORMATION);
 }
 
 void CSimpleNotePadDlg::SetAlwaysOnTop()
 {
     if (m_always_on_top)
-        SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);			//ÉèÖÃÖÃ¶¥
+        SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);			//è®¾ç½®ç½®é¡¶
     else
-        SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);		//È¡ÏûÖÃ¶¥
+        SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);		//å–æ¶ˆç½®é¡¶
 }
 
 //void CSimpleNotePadDlg::SaveAsHex()
 //{
-//	//ÉèÖÃ¹ıÂËÆ÷
-//	const wchar_t* szFilter = _T("ÎÄ±¾ÎÄ¼ş(*.txt)|*.txt|ËùÓĞÎÄ¼ş(*.*)|*.*||");
-//	//¹¹Ôì±£´æÎÄ¼ş¶Ô»°¿ò
+//	//è®¾ç½®è¿‡æ»¤å™¨
+//	const wchar_t* szFilter = _T("æ–‡æœ¬æ–‡ä»¶(*.txt)|*.txt|æ‰€æœ‰æ–‡ä»¶(*.*)|*.*||");
+//	//æ„é€ ä¿å­˜æ–‡ä»¶å¯¹è¯æ¡†
 //	CFileDialog fileDlg(FALSE, _T("txt"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
-//	//ÉèÖÃ¡°Áí´æÎª¡±¶Ô»°¿ò±êÌâ
-//	fileDlg.m_ofn.lpstrTitle = _T("Ê®Áù½øÖÆ±£´æ");
-//	//ÏÔÊ¾±£´æÎÄ¼ş¶Ô»°¿ò
+//	//è®¾ç½®â€œå¦å­˜ä¸ºâ€å¯¹è¯æ¡†æ ‡é¢˜
+//	fileDlg.m_ofn.lpstrTitle = _T("åå…­è¿›åˆ¶ä¿å­˜");
+//	//æ˜¾ç¤ºä¿å­˜æ–‡ä»¶å¯¹è¯æ¡†
 //	if (IDOK == fileDlg.DoModal())
 //	{
-//		m_file_path = fileDlg.GetPathName();	//Áí´æÎªºó£¬µ±Ç°ÎÄ¼şÃûÎª±£´æµÄÎÄ¼şÃû
+//		m_file_path = fileDlg.GetPathName();	//å¦å­˜ä¸ºåï¼Œå½“å‰æ–‡ä»¶åä¸ºä¿å­˜çš„æ–‡ä»¶å
 //		SaveHex();
-//		SetTitle();					//ÓÃĞÂµÄÎÄ¼şÃûÉèÖÃ±êÌâ
-//		ShowStatusBar();			//Ë¢ĞÂ×´Ì¬À¸
+//		SetTitle();					//ç”¨æ–°çš„æ–‡ä»¶åè®¾ç½®æ ‡é¢˜
+//		ShowStatusBar();			//åˆ·æ–°çŠ¶æ€æ 
 //	}
 //}
 
@@ -437,15 +437,15 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CDialog)
     ON_COMMAND(ID_ALWAYS_ON_TOP, &CSimpleNotePadDlg::OnAlwaysOnTop)
 END_MESSAGE_MAP()
 
-// CSimpleNotePadDlg ÏûÏ¢´¦Àí³ÌĞò
+// CSimpleNotePadDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 BOOL CSimpleNotePadDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// ½«¡°¹ØÓÚ...¡±²Ëµ¥ÏîÌí¼Óµ½ÏµÍ³²Ëµ¥ÖĞ¡£
+	// å°†â€œå…³äº...â€èœå•é¡¹æ·»åŠ åˆ°ç³»ç»Ÿèœå•ä¸­ã€‚
 
-	// IDM_ABOUTBOX ±ØĞëÔÚÏµÍ³ÃüÁî·¶Î§ÄÚ¡£
+	// IDM_ABOUTBOX å¿…é¡»åœ¨ç³»ç»Ÿå‘½ä»¤èŒƒå›´å†…ã€‚
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -463,23 +463,23 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 		}
 	}
 
-	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£  µ±Ó¦ÓÃ³ÌĞòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
-	//  Ö´ĞĞ´Ë²Ù×÷
-	SetIcon(m_hIcon, TRUE);			// ÉèÖÃ´óÍ¼±ê
-	SetIcon(m_hIcon, FALSE);		// ÉèÖÃĞ¡Í¼±ê
+	// è®¾ç½®æ­¤å¯¹è¯æ¡†çš„å›¾æ ‡ã€‚  å½“åº”ç”¨ç¨‹åºä¸»çª—å£ä¸æ˜¯å¯¹è¯æ¡†æ—¶ï¼Œæ¡†æ¶å°†è‡ªåŠ¨
+	//  æ‰§è¡Œæ­¤æ“ä½œ
+	SetIcon(m_hIcon, TRUE);			// è®¾ç½®å¤§å›¾æ ‡
+	SetIcon(m_hIcon, FALSE);		// è®¾ç½®å°å›¾æ ‡
 
-	// TODO: ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯´úÂë
-	//»ñÈ¡ÅäÖÃÎÄ¼şµÄÂ·¾¶£¨µ±Ç°exeÎÄ¼şËùÔÚÂ·¾¶\config.ini£©
+	// TODO: åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–ä»£ç 
+	//è·å–é…ç½®æ–‡ä»¶çš„è·¯å¾„ï¼ˆå½“å‰exeæ–‡ä»¶æ‰€åœ¨è·¯å¾„\config.iniï¼‰
 	//m_config_path = CCommon::GetCurrentPath() + L"config.ini";
-	//ÔØÈëÉèÖÃ
+	//è½½å…¥è®¾ç½®
 	LoadConfig();
-	//³õÊ¼»¯´°¿Ú´óĞ¡
+	//åˆå§‹åŒ–çª—å£å¤§å°
 	CRect rect;
 	rect.right = m_window_width;
 	rect.bottom = m_window_hight;
 	MoveWindow(rect);
 
-	//¸ù¾İµ±Ç°ÏµÍ³DPIÉèÖÃÉèÖÃ×´Ì¬À¸´óĞ¡
+	//æ ¹æ®å½“å‰ç³»ç»ŸDPIè®¾ç½®è®¾ç½®çŠ¶æ€æ å¤§å°
 	CWindowDC dc(this);
 	HDC hDC = dc.GetSafeHdc();
 	m_dpi = GetDeviceCaps(hDC, LOGPIXELSY);
@@ -488,30 +488,30 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	m_status_bar_mid_width = m_dpi * 60 / 96;
 	m_status_bar_right_width = m_dpi * 160 / 96;
 
-	//³õÊ¼»¯±à¼­¿ò´óĞ¡
+	//åˆå§‹åŒ–ç¼–è¾‘æ¡†å¤§å°
 	GetClientRect(&rect);
 	//rect.bottom = rect.bottom - 22;
 	rect.bottom = rect.bottom - m_edit_bottom_space;
 	m_edit.MoveWindow(rect);
 	
-	//³õÊ¼»¯×´Ì¬À¸
+	//åˆå§‹åŒ–çŠ¶æ€æ 
 	GetClientRect(&rect);
 	//rect.top = rect.bottom - 20;
 	rect.top = rect.bottom - m_status_bar_hight;
 	m_status_bar.Create(WS_VISIBLE | CBRS_BOTTOM, rect, this, 3);
 
-	int nParts[3] = { rect.Width() - m_status_bar_right_width - m_status_bar_mid_width, rect.Width() - m_status_bar_right_width, -1 }; //·Ö¸î³ß´ç
-	m_status_bar.SetParts(3, nParts); //·Ö¸î×´Ì¬À¸
+	int nParts[3] = { rect.Width() - m_status_bar_right_width - m_status_bar_mid_width, rect.Width() - m_status_bar_right_width, -1 }; //åˆ†å‰²å°ºå¯¸
+	m_status_bar.SetParts(3, nParts); //åˆ†å‰²çŠ¶æ€æ 
 	ShowStatusBar();
 
-	//³õÊ¼»¯×ÖÌå
+	//åˆå§‹åŒ–å­—ä½“
 	m_font.CreatePointFont(m_font_size * 10, m_font_name);
 	m_edit.SetFont(&m_font);
 
-	//Èç¹ûm_file_path»ñµÃÁËÍ¨¹ı¹¹Ôìº¯Êı²ÎÊı´«µİµÄ¡¢À´×ÔÃüÁîĞĞµÄÎÄ¼şÂ·¾¶£¬Ôò´ò¿ªÎÄ¼ş
+	//å¦‚æœm_file_pathè·å¾—äº†é€šè¿‡æ„é€ å‡½æ•°å‚æ•°ä¼ é€’çš„ã€æ¥è‡ªå‘½ä»¤è¡Œçš„æ–‡ä»¶è·¯å¾„ï¼Œåˆ™æ‰“å¼€æ–‡ä»¶
 	if (!m_file_path.IsEmpty())
 	{
-		//´ÓÃüÁîĞĞ»ñÈ¡µÄÎÄ¼şÂ·¾¶Èç¹û°üº¬¿Õ¸ñ£¬ËüµÄÇ°ºó»áÓĞÒıºÅ£¬Èç¹ûÓĞ¾Í°ÑËüÃÇÉ¾³ı
+		//ä»å‘½ä»¤è¡Œè·å–çš„æ–‡ä»¶è·¯å¾„å¦‚æœåŒ…å«ç©ºæ ¼ï¼Œå®ƒçš„å‰åä¼šæœ‰å¼•å·ï¼Œå¦‚æœæœ‰å°±æŠŠå®ƒä»¬åˆ é™¤
 		wstring file_path{ m_file_path.GetString() };
 		if (file_path.front() == L'\"')
 			file_path = file_path.substr(1);
@@ -523,15 +523,15 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	}
 	SetTitle();
 
-	//ÉèÖÃ×î´óÎÄ±¾ÏŞÖÆ
+	//è®¾ç½®æœ€å¤§æ–‡æœ¬é™åˆ¶
 	m_edit.SetLimitText(static_cast<UINT>(-1));
 
-	//ÉèÖÃÖÆ±í·û¿í¶È
+	//è®¾ç½®åˆ¶è¡¨ç¬¦å®½åº¦
 	m_edit.SetTabStops(16);
 
     SetAlwaysOnTop();
 
-	return TRUE;  // ³ı·Ç½«½¹µãÉèÖÃµ½¿Ø¼ş£¬·ñÔò·µ»Ø TRUE
+	return TRUE;  // é™¤éå°†ç„¦ç‚¹è®¾ç½®åˆ°æ§ä»¶ï¼Œå¦åˆ™è¿”å› TRUE
 }
 
 void CSimpleNotePadDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -547,19 +547,19 @@ void CSimpleNotePadDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// Èç¹ûÏò¶Ô»°¿òÌí¼Ó×îĞ¡»¯°´Å¥£¬ÔòĞèÒªÏÂÃæµÄ´úÂë
-//  À´»æÖÆ¸ÃÍ¼±ê¡£  ¶ÔÓÚÊ¹ÓÃÎÄµµ/ÊÓÍ¼Ä£ĞÍµÄ MFC Ó¦ÓÃ³ÌĞò£¬
-//  Õâ½«ÓÉ¿ò¼Ü×Ô¶¯Íê³É¡£
+// å¦‚æœå‘å¯¹è¯æ¡†æ·»åŠ æœ€å°åŒ–æŒ‰é’®ï¼Œåˆ™éœ€è¦ä¸‹é¢çš„ä»£ç 
+//  æ¥ç»˜åˆ¶è¯¥å›¾æ ‡ã€‚  å¯¹äºä½¿ç”¨æ–‡æ¡£/è§†å›¾æ¨¡å‹çš„ MFC åº”ç”¨ç¨‹åºï¼Œ
+//  è¿™å°†ç”±æ¡†æ¶è‡ªåŠ¨å®Œæˆã€‚
 
 void CSimpleNotePadDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // ÓÃÓÚ»æÖÆµÄÉè±¸ÉÏÏÂÎÄ
+		CPaintDC dc(this); // ç”¨äºç»˜åˆ¶çš„è®¾å¤‡ä¸Šä¸‹æ–‡
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Ê¹Í¼±êÔÚ¹¤×÷Çø¾ØĞÎÖĞ¾ÓÖĞ
+		// ä½¿å›¾æ ‡åœ¨å·¥ä½œåŒºçŸ©å½¢ä¸­å±…ä¸­
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -567,7 +567,7 @@ void CSimpleNotePadDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// »æÖÆÍ¼±ê
+		// ç»˜åˆ¶å›¾æ ‡
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -576,8 +576,8 @@ void CSimpleNotePadDlg::OnPaint()
 	}
 }
 
-//µ±ÓÃ»§ÍÏ¶¯×îĞ¡»¯´°¿ÚÊ±ÏµÍ³µ÷ÓÃ´Ëº¯ÊıÈ¡µÃ¹â±ê
-//ÏÔÊ¾¡£
+//å½“ç”¨æˆ·æ‹–åŠ¨æœ€å°åŒ–çª—å£æ—¶ç³»ç»Ÿè°ƒç”¨æ­¤å‡½æ•°å–å¾—å…‰æ ‡
+//æ˜¾ç¤ºã€‚
 HCURSOR CSimpleNotePadDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -587,7 +587,7 @@ HCURSOR CSimpleNotePadDlg::OnQueryDragIcon()
 
 void CSimpleNotePadDlg::OnAppAbout()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	CAboutDlg dlgAbout;
 	dlgAbout.DoModal();
 }
@@ -597,14 +597,14 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 
-	// TODO: ÔÚ´Ë´¦Ìí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂë
-	CRect size;		//±à¼­¿ò¾ØĞÎÇøÓò
+	// TODO: åœ¨æ­¤å¤„æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç 
+	CRect size;		//ç¼–è¾‘æ¡†çŸ©å½¢åŒºåŸŸ
 	size.right = cx;
-	//size.bottom = cy - 22;		//´°¿ÚÏÂ·½×´Ì¬À¸Õ¼20¸öÏñËØ¸ß¶È
-	size.bottom = cy - m_edit_bottom_space;		//´°¿ÚÏÂ·½×´Ì¬À¸Õ¼20¸öÏñËØ¸ß¶È
+	//size.bottom = cy - 22;		//çª—å£ä¸‹æ–¹çŠ¶æ€æ å 20ä¸ªåƒç´ é«˜åº¦
+	size.bottom = cy - m_edit_bottom_space;		//çª—å£ä¸‹æ–¹çŠ¶æ€æ å 20ä¸ªåƒç´ é«˜åº¦
 	if (nType != SIZE_MINIMIZED && m_edit.m_hWnd != NULL)
 	{
-		m_edit.MoveWindow(size);		//´°¿Ú´óĞ¡¸Ä±äÊ±¸Ä±ä±à¼­¿ò´óĞ¡
+		m_edit.MoveWindow(size);		//çª—å£å¤§å°æ”¹å˜æ—¶æ”¹å˜ç¼–è¾‘æ¡†å¤§å°
 	}
 
 	CRect status_bar_size;
@@ -615,8 +615,8 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 	if (nType != SIZE_MINIMIZED && m_status_bar.m_hWnd != NULL)
 	{
 		m_status_bar.MoveWindow(status_bar_size);
-		int nParts[3] = { cx - m_status_bar_right_width - m_status_bar_mid_width, cx - m_status_bar_right_width, -1 }; //·Ö¸î³ß´ç
-		m_status_bar.SetParts(3, nParts); //·Ö¸î×´Ì¬À¸
+		int nParts[3] = { cx - m_status_bar_right_width - m_status_bar_mid_width, cx - m_status_bar_right_width, -1 }; //åˆ†å‰²å°ºå¯¸
+		m_status_bar.SetParts(3, nParts); //åˆ†å‰²çŠ¶æ€æ 
 	}
 	if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
 	{
@@ -632,27 +632,27 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 
 void CSimpleNotePadDlg::OnFileOpen()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	//´ò¿ªĞÂÎÄ¼şÇ°Ñ¯ÎÊÓÃ»§ÊÇ·ñ±£´æ
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+	//æ‰“å¼€æ–°æ–‡ä»¶å‰è¯¢é—®ç”¨æˆ·æ˜¯å¦ä¿å­˜
 	if (!SaveInquiry())
 		return;
-	//ÉèÖÃ¹ıÂËÆ÷
-	LPCTSTR szFilter = _T("ÎÄ±¾ÎÄ¼ş(*.txt)|*.txt|ËùÓĞÎÄ¼ş(*.*)|*.*||");
-	//¹¹Ôì´ò¿ªÎÄ¼ş¶Ô»°¿ò
+	//è®¾ç½®è¿‡æ»¤å™¨
+	LPCTSTR szFilter = _T("æ–‡æœ¬æ–‡ä»¶(*.txt)|*.txt|æ‰€æœ‰æ–‡ä»¶(*.*)|*.*||");
+	//æ„é€ æ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
 	CFileDialog fileDlg(TRUE, _T("txt"), NULL, 0, szFilter, this);
-	//ÏÔÊ¾´ò¿ªÎÄ¼ş¶Ô»°¿ò
+	//æ˜¾ç¤ºæ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
 	if (IDOK == fileDlg.DoModal())
 	{
-		m_file_path = fileDlg.GetPathName();	//»ñÈ¡´ò¿ªµÄÎÄ¼şÂ·¾¶
-		OpenFile(m_file_path);					//´ò¿ªÎÄ¼ş
-		SetTitle();								//ÉèÖÃ´°¿Ú±êÌâ
+		m_file_path = fileDlg.GetPathName();	//è·å–æ‰“å¼€çš„æ–‡ä»¶è·¯å¾„
+		OpenFile(m_file_path);					//æ‰“å¼€æ–‡ä»¶
+		SetTitle();								//è®¾ç½®çª—å£æ ‡é¢˜
 	}
 }
 
 
 void CSimpleNotePadDlg::OnCodeAnsi()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	//m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, m_code);
 	if(!BeforeChangeCode()) return;
 	m_code = CodeType::ANSI;
@@ -662,7 +662,7 @@ void CSimpleNotePadDlg::OnCodeAnsi()
 
 void CSimpleNotePadDlg::OnCodeUtf8()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	//m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, m_code);
 	if (!BeforeChangeCode()) return;
 	if(m_code != CodeType::UTF8_NO_BOM)
@@ -673,7 +673,7 @@ void CSimpleNotePadDlg::OnCodeUtf8()
 
 void CSimpleNotePadDlg::OnCodeUtf16()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	//m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, m_code);
 	if (!BeforeChangeCode()) return;
 	m_code = CodeType::UTF16;
@@ -683,21 +683,21 @@ void CSimpleNotePadDlg::OnCodeUtf16()
 
 //void CSimpleNotePadDlg::OnUpdateCodeAnsi(CCmdUI *pCmdUI)
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî¸üĞÂÓÃ»§½çÃæ´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤æ›´æ–°ç”¨æˆ·ç•Œé¢å¤„ç†ç¨‹åºä»£ç 
 //	pCmdUI->SetCheck(m_code == CodeType::ANSI);
 //}
 
 
 //void CSimpleNotePadDlg::OnUpdateCodeUtf8(CCmdUI *pCmdUI)
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî¸üĞÂÓÃ»§½çÃæ´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤æ›´æ–°ç”¨æˆ·ç•Œé¢å¤„ç†ç¨‹åºä»£ç 
 //	pCmdUI->SetCheck(m_code == CodeType::UTF8 || m_code == CodeType::UTF8_NO_BOM);
 //}
 
 
 //void CSimpleNotePadDlg::OnUpdateCodeUtf16(CCmdUI *pCmdUI)
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî¸üĞÂÓÃ»§½çÃæ´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤æ›´æ–°ç”¨æˆ·ç•Œé¢å¤„ç†ç¨‹åºä»£ç 
 //	pCmdUI->SetCheck(m_code == CodeType::UTF16);
 //}
 
@@ -706,7 +706,7 @@ void CSimpleNotePadDlg::OnCodeUtf16()
 //{
 //	CDialog::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 //
-//	// TODO: ÔÚ´Ë´¦Ìí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤å¤„æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç 
 //	ASSERT(pPopupMenu != NULL);
 //	// Check the enabled state of various menu items.
 //
@@ -790,12 +790,12 @@ void CSimpleNotePadDlg::OnCodeUtf16()
 
 void CSimpleNotePadDlg::OnEnChangeEdit1()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+	// TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+	// å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+	// å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+	// åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	CString edit_text;
 	m_edit.GetWindowText(edit_text);
 	m_edit_wcs.assign(edit_text);
@@ -810,96 +810,96 @@ void CSimpleNotePadDlg::OnEnChangeEdit1()
 
 //void CSimpleNotePadDlg::OnSaveAnsi()
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 //	m_save_code = CodeType::ANSI;
 //}
 
 
 //void CSimpleNotePadDlg::OnSaveUtf8()
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 //	m_save_code = CodeType::UTF8;
 //}
 
 
 //void CSimpleNotePadDlg::OnSaveUtf8Nobom()
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 //	m_save_code = CodeType::UTF8_NO_BOM;
 //}
 
 
 //void CSimpleNotePadDlg::OnSaveUtf16()
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 //	m_save_code = CodeType::UTF16;
 //}
 
 
 //void CSimpleNotePadDlg::OnUpdateSaveAnsi(CCmdUI *pCmdUI)
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî¸üĞÂÓÃ»§½çÃæ´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤æ›´æ–°ç”¨æˆ·ç•Œé¢å¤„ç†ç¨‹åºä»£ç 
 //	pCmdUI->SetCheck(m_save_code == CodeType::ANSI);
 //}
 
 
 //void CSimpleNotePadDlg::OnUpdateSaveUtf8(CCmdUI *pCmdUI)
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî¸üĞÂÓÃ»§½çÃæ´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤æ›´æ–°ç”¨æˆ·ç•Œé¢å¤„ç†ç¨‹åºä»£ç 
 //	pCmdUI->SetCheck(m_save_code == CodeType::UTF8);
 //}
 
 
 //void CSimpleNotePadDlg::OnUpdateSaveUtf8Nobom(CCmdUI *pCmdUI)
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî¸üĞÂÓÃ»§½çÃæ´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤æ›´æ–°ç”¨æˆ·ç•Œé¢å¤„ç†ç¨‹åºä»£ç 
 //	pCmdUI->SetCheck(m_save_code == CodeType::UTF8_NO_BOM);
 //}
 
 
 //void CSimpleNotePadDlg::OnUpdateSaveUtf16(CCmdUI *pCmdUI)
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî¸üĞÂÓÃ»§½çÃæ´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤æ›´æ–°ç”¨æˆ·ç•Œé¢å¤„ç†ç¨‹åºä»£ç 
 //	pCmdUI->SetCheck(m_save_code == CodeType::UTF16);
 //}
 
 
 void CSimpleNotePadDlg::OnFileSave()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	_OnFileSave();
 }
 
 
 void CSimpleNotePadDlg::OnFileSaveAs()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	_OnFileSaveAs();
 }
 
 
 void CSimpleNotePadDlg::OnFormatFont()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	LOGFONT lf{ 0 };             //LOGFONT±äÁ¿
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+	LOGFONT lf{ 0 };             //LOGFONTå˜é‡
 	m_font.GetLogFont(&lf);
-	//_tcscpy_s(lf.lfFaceName, LF_FACESIZE, _T("Î¢ÈíÑÅºÚ"));	//½«lfÖĞµÄÔªËØ×ÖÌåÃûÉèÎª¡°Î¢ÈíÑÅºÚ¡±
-	CFontDialog fontDlg(&lf);	//¹¹Ôì×ÖÌå¶Ô»°¿ò£¬³õÊ¼Ñ¡Ôñ×ÖÌåÎªÖ®Ç°×ÖÌå
-	if (IDOK == fontDlg.DoModal())     // ÏÔÊ¾×ÖÌå¶Ô»°¿ò
+	//_tcscpy_s(lf.lfFaceName, LF_FACESIZE, _T("å¾®è½¯é›…é»‘"));	//å°†lfä¸­çš„å…ƒç´ å­—ä½“åè®¾ä¸ºâ€œå¾®è½¯é›…é»‘â€
+	CFontDialog fontDlg(&lf);	//æ„é€ å­—ä½“å¯¹è¯æ¡†ï¼Œåˆå§‹é€‰æ‹©å­—ä½“ä¸ºä¹‹å‰å­—ä½“
+	if (IDOK == fontDlg.DoModal())     // æ˜¾ç¤ºå­—ä½“å¯¹è¯æ¡†
 	{
-		//Èç¹ûm_fontÒÑ¾­¹ØÁªÁËÒ»¸ö×ÖÌå×ÊÔ´¶ÔÏó£¬ÔòÊÍ·ÅËü
+		//å¦‚æœm_fontå·²ç»å…³è”äº†ä¸€ä¸ªå­—ä½“èµ„æºå¯¹è±¡ï¼Œåˆ™é‡Šæ”¾å®ƒ
 		if (m_font.m_hObject)
 		{
 			m_font.DeleteObject();
 		}
-		//Ê¹ÓÃÑ¡¶¨×ÖÌåµÄLOGFONT´´½¨ĞÂµÄ×ÖÌå
+		//ä½¿ç”¨é€‰å®šå­—ä½“çš„LOGFONTåˆ›å»ºæ–°çš„å­—ä½“
 		m_font.CreateFontIndirect(fontDlg.m_cf.lpLogFont);
-		//ÉèÖÃ×ÖÌå
+		//è®¾ç½®å­—ä½“
 		m_edit.SetFont(&m_font);
-		//»ñÈ¡×ÖÌåĞÅÏ¢
+		//è·å–å­—ä½“ä¿¡æ¯
 		m_font_name = fontDlg.m_cf.lpLogFont->lfFaceName;
 		m_font_size = fontDlg.m_cf.iPointSize / 10;
-		//½«×ÖÌåÉèÖÃĞ´Èëµ½iniÎÄ¼ş
+		//å°†å­—ä½“è®¾ç½®å†™å…¥åˆ°iniæ–‡ä»¶
 		SaveConfig();
 	}
 }
@@ -907,62 +907,62 @@ void CSimpleNotePadDlg::OnFormatFont()
 
 BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: ÔÚ´ËÌí¼Ó×¨ÓÃ´úÂëºÍ/»òµ÷ÓÃ»ùÀà
-	//ÆÁ±ÎESC¼üÍË³ö
+	// TODO: åœ¨æ­¤æ·»åŠ ä¸“ç”¨ä»£ç å’Œ/æˆ–è°ƒç”¨åŸºç±»
+	//å±è”½ESCé”®é€€å‡º
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
 		return TRUE;
 	if (GetKeyState(VK_CONTROL) & 0x80)
 	{
-		////ÉèÖÃ°´Ctr+AÈ«Ñ¡
+		////è®¾ç½®æŒ‰Ctr+Aå…¨é€‰
 		//if (pMsg->wParam == 'a' || pMsg->wParam == 'A')
 		//{
 		//	OnEditSelectAll();
 		//	return TRUE;
 		//}
-		//ÉèÖÃCtr+S±£´æ
+		//è®¾ç½®Ctr+Sä¿å­˜
 		if (pMsg->wParam == 's' || pMsg->wParam == 'S')
 		{
 			_OnFileSave();
 			return TRUE;
 		}
-		//ÉèÖÃCtr+O´ò¿ª
+		//è®¾ç½®Ctr+Oæ‰“å¼€
 		else if (pMsg->wParam == 'o' || pMsg->wParam == 'O')
 		{
 			OnFileOpen();
 			return TRUE;
 		}
-		//ÉèÖÃCtr+NĞÂ½¨
+		//è®¾ç½®Ctr+Næ–°å»º
 		else if (pMsg->wParam == 'n' || pMsg->wParam == 'N')
 		{
 			OnFileNew();
 			return TRUE;
 		}
-		//ÉèÖÃCtr+H´ò¿ªÊ®Áù½øÖÆ²é¿´
+		//è®¾ç½®Ctr+Hæ‰“å¼€åå…­è¿›åˆ¶æŸ¥çœ‹
 		else if (pMsg->wParam == 'e' || pMsg->wParam == 'E')
 		{
 			OnHexView();
 			return TRUE;
 		}
-		//ÉèÖÃCtr+F²éÕÒ
+		//è®¾ç½®Ctr+FæŸ¥æ‰¾
 		else if (pMsg->wParam == 'f' || pMsg->wParam == 'F')
 		{
 			OnFind();
 			return TRUE;
 		}
-		//ÉèÖÃCtr+HÌæ»»
+		//è®¾ç½®Ctr+Hæ›¿æ¢
 		else if (pMsg->wParam == 'h' || pMsg->wParam == 'H')
 		{
 			OnReplace();
 			return TRUE;
 		}
 	}
-	//ÉèÖÃ°´F3²éÕÒÏÂÒ»¸ö
+	//è®¾ç½®æŒ‰F3æŸ¥æ‰¾ä¸‹ä¸€ä¸ª
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_F3)
 	{
 		OnFindNext();
 		return TRUE;
 	}
-	//´¦ÀíEditÖĞµÄTAB¼ü
+	//å¤„ç†Editä¸­çš„TABé”®
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_TAB && pMsg->hwnd == m_edit.GetSafeHwnd())
 	{
 		CString str;
@@ -986,43 +986,43 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 
 void CSimpleNotePadDlg::OnEditUndo()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	m_edit.Undo();
 }
 
 
 void CSimpleNotePadDlg::OnEditCut()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	m_edit.Cut();
 }
 
 
 void CSimpleNotePadDlg::OnEditCopy()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	m_edit.Copy();
 }
 
 
 void CSimpleNotePadDlg::OnEditPaste()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	m_edit.Paste();
 }
 
 
 void CSimpleNotePadDlg::OnEditSelectAll()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	m_edit.SetSel(0, -1);
 }
 
 
 void CSimpleNotePadDlg::OnHexView()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	string edit_str{ m_edit_str };		//½øĞĞÊ®Áù½øÖÆ±à¼­Ç°ÏÈ±£´æ±à¼­Ç°µÄÊı¾İ
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+	string edit_str{ m_edit_str };		//è¿›è¡Œåå…­è¿›åˆ¶ç¼–è¾‘å‰å…ˆä¿å­˜ç¼–è¾‘å‰çš„æ•°æ®
 	CHexViewDlg hex_view_dlg(m_edit_str, m_code, m_file_path);
 	ShowWindow(SW_HIDE);
 	hex_view_dlg.DoModal();
@@ -1039,7 +1039,7 @@ void CSimpleNotePadDlg::OnHexView()
 				return;
 			}
 		}
-		if (MessageBox(_T("ÊÇ·ñÒª±£´æÊ®Áù½øÖÆ±à¼­µÄ¸ü¸Ä£¿"), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
+		if (MessageBox(_T("æ˜¯å¦è¦ä¿å­˜åå…­è¿›åˆ¶ç¼–è¾‘çš„æ›´æ”¹ï¼Ÿ"), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
 		{
 			m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);
 			m_edit.SetWindowText(m_edit_wcs.c_str());
@@ -1047,7 +1047,7 @@ void CSimpleNotePadDlg::OnHexView()
 		}
 		else
 		{
-			//Èç¹ûÃ»ÓĞ±£´æÊ®Áù½øÖÆ±à¼­µÄ¸ü¸Ä£¬Ôò»Ö¸´Ô­À´µÄÊı¾İ
+			//å¦‚æœæ²¡æœ‰ä¿å­˜åå…­è¿›åˆ¶ç¼–è¾‘çš„æ›´æ”¹ï¼Œåˆ™æ¢å¤åŸæ¥çš„æ•°æ®
 			m_edit_str = edit_str;
 		}
 	}
@@ -1058,22 +1058,22 @@ void CSimpleNotePadDlg::OnHexView()
 //{
 //	CDialog::OnDestroy();
 //
-//	// TODO: ÔÚ´Ë´¦Ìí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤å¤„æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç 
 //}
 
 
 void CSimpleNotePadDlg::OnDropFiles(HDROP hDropInfo)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
-	//´ò¿ªĞÂÎÄ¼şÇ°Ñ¯ÎÊÓÃ»§ÊÇ·ñ±£´æ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
+	//æ‰“å¼€æ–°æ–‡ä»¶å‰è¯¢é—®ç”¨æˆ·æ˜¯å¦ä¿å­˜
 	if (!SaveInquiry())
 		return;
 	wchar_t file_path[MAX_PATH];
 	DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);
 	m_file_path = file_path;
-	OpenFile(m_file_path);	//´ò¿ªÎÄ¼ş
-	SetTitle();				//ÉèÖÃ´°¿Ú±êÌâ
-	DragFinish(hDropInfo);  //ÍÏ·Å½áÊøºó,ÊÍ·ÅÄÚ´æ
+	OpenFile(m_file_path);	//æ‰“å¼€æ–‡ä»¶
+	SetTitle();				//è®¾ç½®çª—å£æ ‡é¢˜
+	DragFinish(hDropInfo);  //æ‹–æ”¾ç»“æŸå,é‡Šæ”¾å†…å­˜
 
 	CDialog::OnDropFiles(hDropInfo);
 }
@@ -1081,8 +1081,8 @@ void CSimpleNotePadDlg::OnDropFiles(HDROP hDropInfo)
 
 void CSimpleNotePadDlg::OnFileNew()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
-	//Ñ¯ÎÊÊÇ·ñ±£´æ
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
+	//è¯¢é—®æ˜¯å¦ä¿å­˜
 	if (!SaveInquiry())
 		return;
 
@@ -1093,17 +1093,17 @@ void CSimpleNotePadDlg::OnFileNew()
 	m_code = CodeType::ANSI;
 	m_modified = false;
 	ShowStatusBar();
-	SetWindowText(_T("ÎŞ±êÌâ - SimpleNotePad"));
+	SetWindowText(_T("æ— æ ‡é¢˜ - SimpleNotePad"));
 }
 
 
 void CSimpleNotePadDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 	if (nIDEvent == 1234)
 	{
-		KillTimer(1234);		//¶¨Ê±Æ÷ÏìÓ¦Ò»´Îºó¾Í½«ÆäÏú»Ù
-		OpenFile(m_file_path);		//Èç¹ûÎÄ¼şÊÇÍ¨¹ıÃüÁîĞĞ´ò¿ªµÄ£¬ÔòÑÓÊ±100ºÁÃëÔÙ´ò¿ª
+		KillTimer(1234);		//å®šæ—¶å™¨å“åº”ä¸€æ¬¡åå°±å°†å…¶é”€æ¯
+		OpenFile(m_file_path);		//å¦‚æœæ–‡ä»¶æ˜¯é€šè¿‡å‘½ä»¤è¡Œæ‰“å¼€çš„ï¼Œåˆ™å»¶æ—¶100æ¯«ç§’å†æ‰“å¼€
 	}
 
 	CDialog::OnTimer(nIDEvent);
@@ -1112,7 +1112,7 @@ void CSimpleNotePadDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CSimpleNotePadDlg::OnFileCompare()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	CFileCompareDlg aDlg;
 	ShowWindow(SW_HIDE);
 	aDlg.DoModal();
@@ -1122,7 +1122,7 @@ void CSimpleNotePadDlg::OnFileCompare()
 
 void CSimpleNotePadDlg::OnWordWrap()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	if (m_word_wrap)
 	{
 		//m_edit.ModifyStyle(WS_HSCROLL, ES_AUTOHSCROLL);
@@ -1138,17 +1138,17 @@ void CSimpleNotePadDlg::OnWordWrap()
 
 //void CSimpleNotePadDlg::OnUpdateWordWrap(CCmdUI *pCmdUI)
 //{
-//	// TODO: ÔÚ´ËÌí¼ÓÃüÁî¸üĞÂÓÃ»§½çÃæ´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤æ›´æ–°ç”¨æˆ·ç•Œé¢å¤„ç†ç¨‹åºä»£ç 
 //	pCmdUI->SetCheck(m_word_wrap);
 //}
 
 
 void CSimpleNotePadDlg::OnClose()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
-	//Ñ¯ÎÊÊÇ·ñ±£´æ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
+	//è¯¢é—®æ˜¯å¦ä¿å­˜
 	if(!SaveInquiry()) return;
-	//±£´æ´°¿Ú´óĞ¡
+	//ä¿å­˜çª—å£å¤§å°
 	//if (!IsZoomed())
 	//{
 	//	CRect rect;
@@ -1164,11 +1164,11 @@ void CSimpleNotePadDlg::OnClose()
 
 void CSimpleNotePadDlg::OnFind()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	if (m_pFindDlg == nullptr)
 	{
 		m_pFindDlg = new CFindReplaceDialog;
-		//³õÊ¼»¯¡°²éÕÒ¡±¶Ô»°¿òµÄ×´Ì¬
+		//åˆå§‹åŒ–â€œæŸ¥æ‰¾â€å¯¹è¯æ¡†çš„çŠ¶æ€
 		if (m_find_no_case)
 			m_pFindDlg->m_fr.Flags &= (~FR_MATCHCASE);
 		else
@@ -1192,11 +1192,11 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 		m_find_down = (m_pFindDlg->SearchDown() != 0);
 		m_find_no_case = (m_pFindDlg->MatchCase() == 0);
 		m_find_whole_word = (m_pFindDlg->MatchWholeWord() != 0);
-		if (m_pFindDlg->FindNext())		//²éÕÒÏÂÒ»¸öÊ±
+		if (m_pFindDlg->FindNext())		//æŸ¥æ‰¾ä¸‹ä¸€ä¸ªæ—¶
 		{
 			OnFindNext();
 		}
-		if (m_pFindDlg->IsTerminating())	//¹Ø±Õ´°¿ÚÊ±
+		if (m_pFindDlg->IsTerminating())	//å…³é—­çª—å£æ—¶
 		{
 			//m_pFindDlg->DestroyWindow();
 			m_pFindDlg = nullptr;
@@ -1208,36 +1208,36 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 	{
 		m_find_str = m_pReplaceDlg->GetFindString();
 		m_replace_str = m_pReplaceDlg->GetReplaceString();
-		if (m_pReplaceDlg->FindNext())		//²éÕÒÏÂÒ»¸öÊ±
+		if (m_pReplaceDlg->FindNext())		//æŸ¥æ‰¾ä¸‹ä¸€ä¸ªæ—¶
 		{
 			OnFindNext();
 		}
-		if (m_pReplaceDlg->ReplaceCurrent())	//Ìæ»»µ±Ç°Ê±
+		if (m_pReplaceDlg->ReplaceCurrent())	//æ›¿æ¢å½“å‰æ—¶
 		{
 			if (m_find_flag)
 			{
-				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//Ìæ»»ÕÒµ½µÄ×Ö·û´®
+				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//æ›¿æ¢æ‰¾åˆ°çš„å­—ç¬¦ä¸²
 				m_edit.SetWindowText(m_edit_wcs.c_str());
 				m_modified = true;
 				ShowStatusBar();
 				OnFindNext();
-				m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());	//Ñ¡ÖĞÌæ»»µÄ×Ö·û´®
-				SetActiveWindow();		//½«±à¼­Æ÷´°¿ÚÉèÖÃ»î¶¯´°¿Ú
+				m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());	//é€‰ä¸­æ›¿æ¢çš„å­—ç¬¦ä¸²
+				SetActiveWindow();		//å°†ç¼–è¾‘å™¨çª—å£è®¾ç½®æ´»åŠ¨çª—å£
 			}
 			else
 			{
 				OnFindNext();
 			}
 		}
-		if (m_pReplaceDlg->ReplaceAll())		//Ìæ»»È«²¿Ê±
+		if (m_pReplaceDlg->ReplaceAll())		//æ›¿æ¢å…¨éƒ¨æ—¶
 		{
-			int replace_count{};	//Í³¼ÆÌæ»»µÄ×Ö·û´®µÄ¸öÊı
+			int replace_count{};	//ç»Ÿè®¡æ›¿æ¢çš„å­—ç¬¦ä¸²çš„ä¸ªæ•°
 			while (true)
 			{
-				m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//²éÕÒ×Ö·û´®
+				m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//æŸ¥æ‰¾å­—ç¬¦ä¸²
 				if (m_find_index == string::npos)
 					break;
-				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//Ìæ»»ÕÒµ½µÄ×Ö·û´®
+				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//æ›¿æ¢æ‰¾åˆ°çš„å­—ç¬¦ä¸²
 				replace_count++;
 			}
 			m_edit.SetWindowText(m_edit_wcs.c_str());
@@ -1246,7 +1246,7 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 			if (replace_count != 0)
 			{
 				CString info;
-				info.Format(_T("Ìæ»»Íê³É£¬¹²Ìæ»»%d¸ö×Ö·û´®¡£"),replace_count);
+				info.Format(_T("æ›¿æ¢å®Œæˆï¼Œå…±æ›¿æ¢%dä¸ªå­—ç¬¦ä¸²ã€‚"),replace_count);
 				MessageBox(info, NULL, MB_ICONINFORMATION);
 			}
 		}
@@ -1261,31 +1261,31 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 
 void CSimpleNotePadDlg::OnFindNext()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	//if (m_find_down)
-	//	m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//Ïòºó²éÕÒ
+	//	m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//å‘åæŸ¥æ‰¾
 	//else
-	//	m_find_index = m_edit_wcs.rfind(m_find_str, m_find_index - 1);	//ÏòÇ°²éÕÒ
+	//	m_find_index = m_edit_wcs.rfind(m_find_str, m_find_index - 1);	//å‘å‰æŸ¥æ‰¾
 	m_find_index = CCommon::StringFind(m_edit_wcs, m_find_str, m_find_no_case, m_find_whole_word, m_find_down, (m_find_down ? (m_find_index + 1) : (m_find_index - 1)));
 	if (m_find_index == string::npos)
 	{
 		CString info;
-		info.Format(_T("ÕÒ²»µ½¡°%s¡±"), m_find_str.c_str());
+		info.Format(_T("æ‰¾ä¸åˆ°â€œ%sâ€"), m_find_str.c_str());
 		MessageBox(info, NULL, MB_OK | MB_ICONINFORMATION);
 		m_find_flag = false;
 	}
 	else
 	{
-		m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());		//Ñ¡ÖĞÕÒµ½µÄ×Ö·û´®
-		SetActiveWindow();		//½«±à¼­Æ÷´°¿ÚÉèÎª»î¶¯´°¿Ú
+		m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());		//é€‰ä¸­æ‰¾åˆ°çš„å­—ç¬¦ä¸²
+		SetActiveWindow();		//å°†ç¼–è¾‘å™¨çª—å£è®¾ä¸ºæ´»åŠ¨çª—å£
 		m_find_flag = true;
 	}
 }
 
-//¸Ãº¯ÊıÎŞĞ§
+//è¯¥å‡½æ•°æ— æ•ˆ
 void CSimpleNotePadDlg::OnMarkAll()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	if (!m_find_str.empty())
 	{
 		while (true)
@@ -1300,7 +1300,7 @@ void CSimpleNotePadDlg::OnMarkAll()
 
 void CSimpleNotePadDlg::OnReplace()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	if (m_pReplaceDlg == nullptr)
 	{
 		m_pReplaceDlg = new CFindReplaceDialog;
@@ -1315,7 +1315,7 @@ void CSimpleNotePadDlg::OnMenuSelect(UINT nItemID, UINT nFlags, HMENU hSysMenu)
 {
 	CDialog::OnMenuSelect(nItemID, nFlags, hSysMenu);
 
-	// TODO: ÔÚ´Ë´¦Ìí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤å¤„æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç 
 	CString menu_tip;
 	menu_tip.LoadString(nItemID);
 	//int index = menu_tip.Find(_T('\n'));
@@ -1331,7 +1331,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 {
 	CDialog::OnInitMenu(pMenu);
 
-	// TODO: ÔÚ´Ë´¦Ìí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤å¤„æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç 
 	switch (m_code)
 	{
 	case CodeType::ANSI: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_ANSI, MF_BYCOMMAND | MF_CHECKED); break;
@@ -1354,7 +1354,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 
 void CSimpleNotePadDlg::OnFormatConvert()
 {
-	// TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
 	CFormatConvertDlg formatConvertDlg;
 	ShowWindow(SW_HIDE);
 	formatConvertDlg.DoModal();
@@ -1364,9 +1364,9 @@ void CSimpleNotePadDlg::OnFormatConvert()
 
 void CSimpleNotePadDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
-	lpMMI->ptMinTrackSize.x = 200 * m_dpi / 96;		//ÉèÖÃ×îĞ¡¿í¶È
-	lpMMI->ptMinTrackSize.y = 150 * m_dpi / 96;		//ÉèÖÃ×îĞ¡¸ß¶È
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
+	lpMMI->ptMinTrackSize.x = 200 * m_dpi / 96;		//è®¾ç½®æœ€å°å®½åº¦
+	lpMMI->ptMinTrackSize.y = 150 * m_dpi / 96;		//è®¾ç½®æœ€å°é«˜åº¦
 
 	CDialog::OnGetMinMaxInfo(lpMMI);
 }
@@ -1374,7 +1374,7 @@ void CSimpleNotePadDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 
 void CSimpleNotePadDlg::OnAlwaysOnTop()
 {
-    // TODO: ÔÚ´ËÌí¼ÓÃüÁî´¦Àí³ÌĞò´úÂë
+    // TODO: åœ¨æ­¤æ·»åŠ å‘½ä»¤å¤„ç†ç¨‹åºä»£ç 
     m_always_on_top = !m_always_on_top;
     SetAlwaysOnTop();
 }

@@ -1,4 +1,4 @@
-// HexView.cpp : ÊµÏÖÎÄ¼ş
+ï»¿// HexView.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -8,7 +8,7 @@
 #include "InsertDataDlg.h"
 #include "DeleteDataDlg.h"
 
-// CHexViewDlg ¶Ô»°¿ò
+// CHexViewDlg å¯¹è¯æ¡†
 
 IMPLEMENT_DYNAMIC(CHexViewDlg, CDialog)
 
@@ -54,7 +54,7 @@ BEGIN_MESSAGE_MAP(CHexViewDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// CHexViewDlg ÏûÏ¢´¦Àí³ÌĞò
+// CHexViewDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 
 void CHexViewDlg::ShowHexData(bool ini)
@@ -69,17 +69,17 @@ void CHexViewDlg::ShowHexData(bool ini)
 	{
 		if (i % 16 == 0)
 		{
-			//ÏÔÊ¾DumpÇøÓòµÄ×Ö·û´®
+			//æ˜¾ç¤ºDumpåŒºåŸŸçš„å­—ç¬¦ä¸²
 			if (i > 0)
 			{
 				a_line_str = m_data.substr(i - 16, 16);
-				if (m_code == CodeType::UTF16)	//Èç¹û±àÂëÊÇUTF16
+				if (m_code == CodeType::UTF16)	//å¦‚æœç¼–ç æ˜¯UTF16
 				{
 					for (int i{}; i < a_line_str.size() - 1; i++)
 					{
-						if (i % 2 == 0 && a_line_str[i + 1] == 0)	//µÚÆæÊı¸ö×Ö½ÚÊÇ0£¬¼´ÕâÊÇÒ»¸öASCII×Ö·û
+						if (i % 2 == 0 && a_line_str[i + 1] == 0)	//ç¬¬å¥‡æ•°ä¸ªå­—èŠ‚æ˜¯0ï¼Œå³è¿™æ˜¯ä¸€ä¸ªASCIIå­—ç¬¦
 						{
-							if (a_line_str[i] >= 0 && a_line_str[i]<=32)	//Èç¹û¸Ã×Ö·ûÊÇ¿ØÖÆ×Ö·û»ò0£¬Ôò×ª»»³É¿Õ¸ñ
+							if (a_line_str[i] >= 0 && a_line_str[i]<=32)	//å¦‚æœè¯¥å­—ç¬¦æ˜¯æ§åˆ¶å­—ç¬¦æˆ–0ï¼Œåˆ™è½¬æ¢æˆç©ºæ ¼
 							//a_line_str[i + 1] = 32;
 							a_line_str[i] = 32;
 						}
@@ -87,7 +87,7 @@ void CHexViewDlg::ShowHexData(bool ini)
 				}
 				else
 				{
-					for (auto& ch : a_line_str)		//½«¿ØÖÆ×Ö·ûÈ«²¿×ª»»Îª¿Õ¸ñ
+					for (auto& ch : a_line_str)		//å°†æ§åˆ¶å­—ç¬¦å…¨éƒ¨è½¬æ¢ä¸ºç©ºæ ¼
 						if (ch >= 0 && ch < 32) ch = 32;
 				}
 				a_line = CCommon::StrToUnicode(a_line_str, m_code);
@@ -95,7 +95,7 @@ void CHexViewDlg::ShowHexData(bool ini)
 				m_str += a_line.c_str();
 				m_str += _T("\r\n");
 			}
-			//ÏÔÊ¾µØÖ·
+			//æ˜¾ç¤ºåœ°å€
 			if (i < max)
 			{
 				temp.Format(_T("%.8x  "), i);
@@ -103,7 +103,7 @@ void CHexViewDlg::ShowHexData(bool ini)
 				m_str += temp;
 			}
 		}
-		//ÏÔÊ¾Êı¾İ
+		//æ˜¾ç¤ºæ•°æ®
 		if (i < max)
 		{
 			if (i < m_data.size())
@@ -120,7 +120,7 @@ void CHexViewDlg::ShowHexData(bool ini)
 	}
 	//m_edit.SetWindowText(m_str);
 	if (ini)
-		SetTimer(1235, 50, NULL);		//ÔÚ³õÊ¼»¯Ê±µ÷ÓÃ´Ëº¯Êı£¬ĞèÒªÑÓ³Ù50ºÁÃëÔÙÏÔÊ¾ÄÚÈİ
+		SetTimer(1235, 50, NULL);		//åœ¨åˆå§‹åŒ–æ—¶è°ƒç”¨æ­¤å‡½æ•°ï¼Œéœ€è¦å»¶è¿Ÿ50æ¯«ç§’å†æ˜¾ç¤ºå†…å®¹
 	else
 		m_edit.SetWindowText(m_str);
 }
@@ -158,13 +158,13 @@ void CHexViewDlg::ShowSizeInfo()
 	switch (m_size_unit)
 	{
 	case SizeUnit::B:
-		tmp.Format(_T("ĞŞ¸ÄÎÄ¼ş´óĞ¡£º£¨µ±Ç°£º%d B£©"), m_data.size());
+		tmp.Format(_T("ä¿®æ”¹æ–‡ä»¶å¤§å°ï¼šï¼ˆå½“å‰ï¼š%d Bï¼‰"), m_data.size());
 		break;
 	case SizeUnit::KB:
-		tmp.Format(_T("ĞŞ¸ÄÎÄ¼ş´óĞ¡£º£¨µ±Ç°£º%.2f KB£©"), static_cast<double>(m_data.size()) / 1024.0);
+		tmp.Format(_T("ä¿®æ”¹æ–‡ä»¶å¤§å°ï¼šï¼ˆå½“å‰ï¼š%.2f KBï¼‰"), static_cast<double>(m_data.size()) / 1024.0);
 		break;
 	case SizeUnit::MB:
-		tmp.Format(_T("ĞŞ¸ÄÎÄ¼ş´óĞ¡£º£¨µ±Ç°£º%.2f MB£©"), static_cast<double>(m_data.size()) / 1024.0 / 1024.0);
+		tmp.Format(_T("ä¿®æ”¹æ–‡ä»¶å¤§å°ï¼šï¼ˆå½“å‰ï¼š%.2f MBï¼‰"), static_cast<double>(m_data.size()) / 1024.0 / 1024.0);
 		break;
 	}
 	SetDlgItemText(IDC_STATIC_FILESIZE, tmp);
@@ -186,9 +186,9 @@ BOOL CHexViewDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯
+	// TODO:  åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–
 
-    //»ñÈ¡³õÊ¼Ê±´°¿ÚµÄ´óĞ¡
+    //è·å–åˆå§‹æ—¶çª—å£çš„å¤§å°
     CRect rect;
     GetWindowRect(rect);
     m_min_size.cx = rect.Width();
@@ -196,24 +196,24 @@ BOOL CHexViewDlg::OnInitDialog()
 
 	LoadConfig();
 	if(!m_file_path.IsEmpty())
-		SetWindowText(m_file_path + _T(" - Ê®Áù½øÖÆ²é¿´"));
+		SetWindowText(m_file_path + _T(" - åå…­è¿›åˆ¶æŸ¥çœ‹"));
 
 	ShowHexData(true);
 
 	m_modified_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 	m_modified_list.GetClientRect(rect);
-	size_t width1 = rect.Width() * 3 / 10;		//ÁĞµÄ¿í¶È£ºÁĞ±í¿í¶ÈµÄ3/10
-	//size_t width2 = rect.Width() / 4;		//µÚ2ÁĞµÄ¿í¶È£ºÁĞ±í¿í¶ÈµÄ1/4
-	m_modified_list.InsertColumn(0, _T("µØÖ·"), LVCFMT_LEFT, width1);		//²åÈëµÚ1ÁĞ
-	m_modified_list.InsertColumn(1, _T("ĞŞ¸ÄÇ°"), LVCFMT_LEFT, width1);		//²åÈëµÚ2ÁĞ
-	m_modified_list.InsertColumn(2, _T("ĞŞ¸Äºó"), LVCFMT_LEFT, width1);		//²åÈëµÚ3ÁĞ
+	size_t width1 = rect.Width() * 3 / 10;		//åˆ—çš„å®½åº¦ï¼šåˆ—è¡¨å®½åº¦çš„3/10
+	//size_t width2 = rect.Width() / 4;		//ç¬¬2åˆ—çš„å®½åº¦ï¼šåˆ—è¡¨å®½åº¦çš„1/4
+	m_modified_list.InsertColumn(0, _T("åœ°å€"), LVCFMT_LEFT, width1);		//æ’å…¥ç¬¬1åˆ—
+	m_modified_list.InsertColumn(1, _T("ä¿®æ”¹å‰"), LVCFMT_LEFT, width1);		//æ’å…¥ç¬¬2åˆ—
+	m_modified_list.InsertColumn(2, _T("ä¿®æ”¹å"), LVCFMT_LEFT, width1);		//æ’å…¥ç¬¬3åˆ—
 
-	//ÉèÖÃ×ÖÌå
-	m_font.CreatePointFont(100, _T("ĞÂËÎÌå"));
+	//è®¾ç½®å­—ä½“
+	m_font.CreatePointFont(100, _T("æ–°å®‹ä½“"));
 	m_edit.SetFont(&m_font);
 	m_static_head.SetFont(&m_font);
 
-	//ÉèÖÃµ¥Ñ¡¿Ø¼şµÄ³õÊ¼×´Ì¬
+	//è®¾ç½®å•é€‰æ§ä»¶çš„åˆå§‹çŠ¶æ€
 	switch (m_code)
 	{
 	case CodeType::ANSI: ((CButton*)GetDlgItem(IDC_RADIO_ANSI))->SetCheck(TRUE); break;
@@ -229,7 +229,7 @@ BOOL CHexViewDlg::OnInitDialog()
 	default: break;
 	}
 
-	//Îª×éºÏ¿òÌí¼ÓÏîÄ¿
+	//ä¸ºç»„åˆæ¡†æ·»åŠ é¡¹ç›®
 	((CComboBox*)GetDlgItem(IDC_SIZE_UNIT_COMBO))->AddString(_T("B"));
 	((CComboBox*)GetDlgItem(IDC_SIZE_UNIT_COMBO))->AddString(_T("KB"));
 	((CComboBox*)GetDlgItem(IDC_SIZE_UNIT_COMBO))->AddString(_T("MB"));
@@ -237,23 +237,23 @@ BOOL CHexViewDlg::OnInitDialog()
 
 	ShowSizeInfo();
 
-	//ÉèÖÃ¸Ã¶Ô»°¿òÔÚÈÎÎñÀ¸ÏÔÊ¾
+	//è®¾ç½®è¯¥å¯¹è¯æ¡†åœ¨ä»»åŠ¡æ æ˜¾ç¤º
 	ModifyStyleEx(0, WS_EX_APPWINDOW);
 
 	m_modified = false;
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-				  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+				  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
 
 void CHexViewDlg::OnTimer(UINT_PTR nIDEvent)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 	if (nIDEvent == 1235)
 	{
-		KillTimer(1235);		//¶¨Ê±Æ÷ÏìÓ¦Ò»´Îºó¾Í½«ÆäÏú»Ù
-		m_edit.SetWindowText(m_str);	//ÑÓ³ÙÒ»¶¨Ê±¼äÏÔÊ¾
+		KillTimer(1235);		//å®šæ—¶å™¨å“åº”ä¸€æ¬¡åå°±å°†å…¶é”€æ¯
+		m_edit.SetWindowText(m_str);	//å»¶è¿Ÿä¸€å®šæ—¶é—´æ˜¾ç¤º
 	}
 
 	CDialog::OnTimer(nIDEvent);
@@ -262,21 +262,21 @@ void CHexViewDlg::OnTimer(UINT_PTR nIDEvent)
 
 void CHexViewDlg::OnEnChangeEditAddress()
 {
-	// TODO:  Èç¹û¸Ã¿Ø¼şÊÇ RICHEDIT ¿Ø¼ş£¬Ëü½«²»
-	// ·¢ËÍ´ËÍ¨Öª£¬³ı·ÇÖØĞ´ CDialog::OnInitDialog()
-	// º¯Êı²¢µ÷ÓÃ CRichEditCtrl().SetEventMask()£¬
-	// Í¬Ê±½« ENM_CHANGE ±êÖ¾¡°»ò¡±ÔËËãµ½ÑÚÂëÖĞ¡£
+	// TODO:  å¦‚æœè¯¥æ§ä»¶æ˜¯ RICHEDIT æ§ä»¶ï¼Œå®ƒå°†ä¸
+	// å‘é€æ­¤é€šçŸ¥ï¼Œé™¤éé‡å†™ CDialog::OnInitDialog()
+	// å‡½æ•°å¹¶è°ƒç”¨ CRichEditCtrl().SetEventMask()ï¼Œ
+	// åŒæ—¶å°† ENM_CHANGE æ ‡å¿—â€œæˆ–â€è¿ç®—åˆ°æ©ç ä¸­ã€‚
 
-	// TODO:  ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO:  åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	CString address;
 	GetDlgItemText(IDC_EDIT_ADDRESS, address);
 	m_address = wcstoul(address, NULL, 16);
-	if (m_edit_unit == EditUnit::WORD)		//Èç¹û±à¼­µÄµ¥Î»ÊÇWORD£¬ÔòµØÖ·Ö»ÓĞÊÇ2µÄ±¶Êı
+	if (m_edit_unit == EditUnit::WORD)		//å¦‚æœç¼–è¾‘çš„å•ä½æ˜¯WORDï¼Œåˆ™åœ°å€åªæœ‰æ˜¯2çš„å€æ•°
 	{
 		m_address /= 2;
 		m_address *= 2;
 	}
-	else if (m_edit_unit == EditUnit::DWORD)		//Èç¹û±à¼­µÄµ¥Î»ÊÇDWORD£¬ÔòµØÖ·Ö»ÓĞÊÇ4µÄ±¶Êı
+	else if (m_edit_unit == EditUnit::DWORD)		//å¦‚æœç¼–è¾‘çš„å•ä½æ˜¯DWORDï¼Œåˆ™åœ°å€åªæœ‰æ˜¯4çš„å€æ•°
 	{
 		m_address /= 4;
 		m_address *= 4;
@@ -286,9 +286,9 @@ void CHexViewDlg::OnEnChangeEditAddress()
 
 void CHexViewDlg::OnBnClickedSearch()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 
-	//µã»÷²éÕÒºóÖØĞÂÏÔÊ¾µØÖ·¿òÖĞµÄÖµ
+	//ç‚¹å‡»æŸ¥æ‰¾åé‡æ–°æ˜¾ç¤ºåœ°å€æ¡†ä¸­çš„å€¼
 	CString address_str;
 	address_str.Format(_T("%.8x"), m_address);
 	address_str.MakeUpper();
@@ -300,14 +300,14 @@ void CHexViewDlg::OnBnClickedSearch()
 		m_value = GetValueAndStr(m_address, m_edit_unit, value_str);
 		value_str.MakeUpper();
 
-		//²éÕÒºó¹ö¶¯µ½ËùÔÚĞĞ
-		int first_line = m_edit.GetFirstVisibleLine();	//»ñÈ¡±à¼­¿òÖĞ×îÉÏÃæ¿É¼ûĞĞµÄĞĞºÅ
-		int scroll_line = m_address / 16 - first_line;	//¼ÆËãÒªÏòºó¹ö¶¯µÄĞĞÊı
+		//æŸ¥æ‰¾åæ»šåŠ¨åˆ°æ‰€åœ¨è¡Œ
+		int first_line = m_edit.GetFirstVisibleLine();	//è·å–ç¼–è¾‘æ¡†ä¸­æœ€ä¸Šé¢å¯è§è¡Œçš„è¡Œå·
+		int scroll_line = m_address / 16 - first_line;	//è®¡ç®—è¦å‘åæ»šåŠ¨çš„è¡Œæ•°
 		m_edit.LineScroll(scroll_line);
 	}
 	else
 	{
-		value_str = _T("ÎŞÊı¾İ");
+		value_str = _T("æ— æ•°æ®");
 	}
 	SetDlgItemText(IDC_EDIT_VALUE, value_str);
 }
@@ -315,11 +315,11 @@ void CHexViewDlg::OnBnClickedSearch()
 
 //void CHexViewDlg::OnBnClickedButtonPrevious()
 //{
-//	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 //	CString address_str;
-//	GetDlgItemText(IDC_EDIT_ADDRESS, address_str);	//»ñÈ¡²éÕÒ¿òÖĞµÄ×Ö·û´®
+//	GetDlgItemText(IDC_EDIT_ADDRESS, address_str);	//è·å–æŸ¥æ‰¾æ¡†ä¸­çš„å­—ç¬¦ä¸²
 //	m_address = wcstoul(address_str, NULL, 16);
-//	m_address--;		//²éÕÒ¿òÔ­À´µÄµØÖ·¼õ1
+//	m_address--;		//æŸ¥æ‰¾æ¡†åŸæ¥çš„åœ°å€å‡1
 //	address_str.Format(_T("%.8x"), m_address);
 //	address_str.MakeUpper();
 //	SetDlgItemText(IDC_EDIT_ADDRESS, address_str);
@@ -329,11 +329,11 @@ void CHexViewDlg::OnBnClickedSearch()
 
 //void CHexViewDlg::OnBnClickedButtonNext()
 //{
-//	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+//	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 //	CString address_str;
-//	GetDlgItemText(IDC_EDIT_ADDRESS, address_str);	//»ñÈ¡²éÕÒ¿òÖĞµÄ×Ö·û´®
+//	GetDlgItemText(IDC_EDIT_ADDRESS, address_str);	//è·å–æŸ¥æ‰¾æ¡†ä¸­çš„å­—ç¬¦ä¸²
 //	m_address = wcstoul(address_str, NULL, 16);
-//	m_address++;		//²éÕÒ¿òÔ­À´µÄµØÖ·¼Ó1
+//	m_address++;		//æŸ¥æ‰¾æ¡†åŸæ¥çš„åœ°å€åŠ 1
 //	address_str.Format(_T("%.8x"), m_address);
 //	address_str.MakeUpper();
 //	SetDlgItemText(IDC_EDIT_ADDRESS, address_str);
@@ -343,7 +343,7 @@ void CHexViewDlg::OnBnClickedSearch()
 
 void CHexViewDlg::OnBnClickedModify()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	CString out_info;
 	if (m_address < m_data.size())
 	{
@@ -351,10 +351,10 @@ void CHexViewDlg::OnBnClickedModify()
 		CString value_str;
 		CString old_value_str;
 		item.address = m_address;
-		//¸ù¾İµØÖ·»ñÈ¡Ô­À´µÄÖµ
+		//æ ¹æ®åœ°å€è·å–åŸæ¥çš„å€¼
 		item.old_value = GetValueAndStr(m_address, m_edit_unit, old_value_str);
 		old_value_str.MakeUpper();
-		//»ñÈ¡±à¼­¿òÖĞµÄĞŞ¸ÄµÄÖµ
+		//è·å–ç¼–è¾‘æ¡†ä¸­çš„ä¿®æ”¹çš„å€¼
 		GetDlgItemText(IDC_EDIT_VALUE, value_str);
 		value_str.MakeUpper();
 		switch (m_edit_unit)
@@ -368,7 +368,7 @@ void CHexViewDlg::OnBnClickedModify()
 
 		if (item.old_value != item.value)
 		{
-			//½«ĞÂµÄÖµĞ´ÈëÊı¾İ
+			//å°†æ–°çš„å€¼å†™å…¥æ•°æ®
 			//m_data[m_address] = item.value;
 			switch (m_edit_unit)
 			{
@@ -391,15 +391,15 @@ void CHexViewDlg::OnBnClickedModify()
 			m_modified_data.push_back(item);
 			m_modified = true;
 
-			//ÔÚĞŞ¸ÄÊı¾İÁĞ±íÌí¼ÓÏîÄ¿
-			//Ìí¼ÓµØÖ·
+			//åœ¨ä¿®æ”¹æ•°æ®åˆ—è¡¨æ·»åŠ é¡¹ç›®
+			//æ·»åŠ åœ°å€
 			CString str;
 			str.Format(_T("%.8x"), item.address);
 			str.MakeUpper();
 			m_modified_list.InsertItem(m_modified_data.size() - 1, str);
-			//Ìí¼ÓĞŞ¸ÄÇ°µÄÖµ
+			//æ·»åŠ ä¿®æ”¹å‰çš„å€¼
 			m_modified_list.SetItemText(m_modified_data.size() - 1, 1, old_value_str);
-			//Ìí¼ÓĞŞ¸ÄºóµÄÖµ
+			//æ·»åŠ ä¿®æ”¹åçš„å€¼
 			m_modified_list.SetItemText(m_modified_data.size() - 1, 2, value_str);
 		}
 		out_info.Format(_T("%.8x:%s->%s"), item.address, old_value_str, value_str);
@@ -407,7 +407,7 @@ void CHexViewDlg::OnBnClickedModify()
 	}
 	else
 	{
-		out_info = _T("µØÖ·³¬³ö·¶Î§");
+		out_info = _T("åœ°å€è¶…å‡ºèŒƒå›´");
 	}
 	SetDlgItemText(IDC_STATIC_OUT, out_info);
 }
@@ -415,17 +415,17 @@ void CHexViewDlg::OnBnClickedModify()
 
 void CHexViewDlg::OnBnClickedRefreshButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	int first_line = m_edit.GetFirstVisibleLine();	//Ë¢ĞÂÇ°»ñÈ¡×îÉÏ·½¿É¼ûĞĞµÄĞĞºÅ
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+	int first_line = m_edit.GetFirstVisibleLine();	//åˆ·æ–°å‰è·å–æœ€ä¸Šæ–¹å¯è§è¡Œçš„è¡Œå·
 	m_str.Empty();
 	ShowHexData();
-	m_edit.LineScroll(first_line);		//Ë¢ĞÂºó¹ö¶¯µ½Ë¢ĞÂÇ°µÄÎ»ÖÃ
+	m_edit.LineScroll(first_line);		//åˆ·æ–°åæ»šåŠ¨åˆ°åˆ·æ–°å‰çš„ä½ç½®
 }
 
 
 BOOL CHexViewDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: ÔÚ´ËÌí¼Ó×¨ÓÃ´úÂëºÍ/»òµ÷ÓÃ»ùÀà
+	// TODO: åœ¨æ­¤æ·»åŠ ä¸“ç”¨ä»£ç å’Œ/æˆ–è°ƒç”¨åŸºç±»
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
 	{
 		OnBnClickedSearch();
@@ -438,7 +438,7 @@ BOOL CHexViewDlg::PreTranslateMessage(MSG* pMsg)
 
 void CHexViewDlg::OnBnClickedRadioAnsi()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	if (m_code != CodeType::ANSI)
 	{
 		m_code = CodeType::ANSI;
@@ -449,7 +449,7 @@ void CHexViewDlg::OnBnClickedRadioAnsi()
 
 void CHexViewDlg::OnBnClickedRadioUtf8()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	if (m_code != CodeType::UTF8 && m_code != CodeType::UTF8_NO_BOM)
 	{
 		m_code = CodeType::UTF8;
@@ -460,7 +460,7 @@ void CHexViewDlg::OnBnClickedRadioUtf8()
 
 void CHexViewDlg::OnBnClickedRadioUtf16()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	if (m_code != CodeType::UTF16)
 	{
 		m_code = CodeType::UTF16;
@@ -472,19 +472,19 @@ void CHexViewDlg::OnBnClickedRadioUtf16()
 void CHexViewDlg::OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	if (pNMUpDown->iDelta > 0)		//µã»÷ÁËSpinµÄÍùÏÂ¼ıÍ·
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+	if (pNMUpDown->iDelta > 0)		//ç‚¹å‡»äº†Spinçš„å¾€ä¸‹ç®­å¤´
 	{
 		//CString address_str;
-		//GetDlgItemText(IDC_EDIT_ADDRESS, address_str);	//»ñÈ¡²éÕÒ¿òÖĞµÄ×Ö·û´®
+		//GetDlgItemText(IDC_EDIT_ADDRESS, address_str);	//è·å–æŸ¥æ‰¾æ¡†ä¸­çš„å­—ç¬¦ä¸²
 		//m_address = wcstoul(address_str, NULL, 16);
 		switch (m_edit_unit)
 		{
-		case CHexViewDlg::EditUnit::BYTE: m_address--;		//²éÕÒ¿òÔ­À´µÄµØÖ·¼õ1
+		case CHexViewDlg::EditUnit::BYTE: m_address--;		//æŸ¥æ‰¾æ¡†åŸæ¥çš„åœ°å€å‡1
 			break;
-		case CHexViewDlg::EditUnit::WORD: m_address -= 2;		//²éÕÒ¿òÔ­À´µÄµØÖ·¼õ2
+		case CHexViewDlg::EditUnit::WORD: m_address -= 2;		//æŸ¥æ‰¾æ¡†åŸæ¥çš„åœ°å€å‡2
 			break;
-		case CHexViewDlg::EditUnit::DWORD: m_address -= 4;		//²éÕÒ¿òÔ­À´µÄµØÖ·¼õ4
+		case CHexViewDlg::EditUnit::DWORD: m_address -= 4;		//æŸ¥æ‰¾æ¡†åŸæ¥çš„åœ°å€å‡4
 			break;
 		default:
 			break;
@@ -495,18 +495,18 @@ void CHexViewDlg::OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult)
 		//SetDlgItemText(IDC_EDIT_ADDRESS, address_str);
 		OnBnClickedSearch();
 	}
-	else		//µã»÷ÁËSpinµÄÍùÉÏ¼ıÍ·
+	else		//ç‚¹å‡»äº†Spinçš„å¾€ä¸Šç®­å¤´
 	{
 		//CString address_str;
-		//GetDlgItemText(IDC_EDIT_ADDRESS, address_str);	//»ñÈ¡²éÕÒ¿òÖĞµÄ×Ö·û´®
+		//GetDlgItemText(IDC_EDIT_ADDRESS, address_str);	//è·å–æŸ¥æ‰¾æ¡†ä¸­çš„å­—ç¬¦ä¸²
 		//m_address = wcstoul(address_str, NULL, 16);
 		switch (m_edit_unit)
 		{
-		case CHexViewDlg::EditUnit::BYTE: m_address++;		//²éÕÒ¿òÔ­À´µÄµØÖ·¼Ó1
+		case CHexViewDlg::EditUnit::BYTE: m_address++;		//æŸ¥æ‰¾æ¡†åŸæ¥çš„åœ°å€åŠ 1
 			break;
-		case CHexViewDlg::EditUnit::WORD: m_address += 2;		//²éÕÒ¿òÔ­À´µÄµØÖ·¼Ó2
+		case CHexViewDlg::EditUnit::WORD: m_address += 2;		//æŸ¥æ‰¾æ¡†åŸæ¥çš„åœ°å€åŠ 2
 			break;
-		case CHexViewDlg::EditUnit::DWORD: m_address += 4;		//²éÕÒ¿òÔ­À´µÄµØÖ·¼Ó4
+		case CHexViewDlg::EditUnit::DWORD: m_address += 4;		//æŸ¥æ‰¾æ¡†åŸæ¥çš„åœ°å€åŠ 4
 			break;
 		default:
 			break;
@@ -522,7 +522,7 @@ void CHexViewDlg::OnDeltaposSpin1(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CHexViewDlg::OnBnClickedRadioByte()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	m_edit_unit = EditUnit::BYTE;
 	OnEnChangeEditAddress();
 }
@@ -530,7 +530,7 @@ void CHexViewDlg::OnBnClickedRadioByte()
 
 void CHexViewDlg::OnBnClickedRadioWord()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	m_edit_unit = EditUnit::WORD;
 	OnEnChangeEditAddress();
 }
@@ -538,7 +538,7 @@ void CHexViewDlg::OnBnClickedRadioWord()
 
 void CHexViewDlg::OnBnClickedRadioDword()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	m_edit_unit = EditUnit::DWORD;
 	OnEnChangeEditAddress();
 }
@@ -546,7 +546,7 @@ void CHexViewDlg::OnBnClickedRadioDword()
 
 void CHexViewDlg::OnCbnSelchangeSizeUnitCombo()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	m_size_unit = static_cast<SizeUnit>(((CComboBox*)GetDlgItem(IDC_SIZE_UNIT_COMBO))->GetCurSel());
 	ShowSizeInfo();
 }
@@ -554,11 +554,11 @@ void CHexViewDlg::OnCbnSelchangeSizeUnitCombo()
 
 void CHexViewDlg::OnBnClickedModifySize()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	//´Ó±à¼­¿ò»ñÈ¡Òª¸ü¸ÄµÄÎÄ¼ş´óĞ¡
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+	//ä»ç¼–è¾‘æ¡†è·å–è¦æ›´æ”¹çš„æ–‡ä»¶å¤§å°
 	CString size_str;
 	GetDlgItemText(IDC_EDIT_SIZE, size_str);
-	//¸ù¾İÑ¡ÔñµÄµ¥Î»¼ÆËãÎÄ¼ş´óĞ¡µÄ×Ö½ÚÊı
+	//æ ¹æ®é€‰æ‹©çš„å•ä½è®¡ç®—æ–‡ä»¶å¤§å°çš„å­—èŠ‚æ•°
 	int file_size_byte;
 	double file_size;
 	switch (m_size_unit)
@@ -581,30 +581,30 @@ void CHexViewDlg::OnBnClickedModifySize()
 
 	if (file_size_byte < 0)
 	{
-		MessageBox(_T("ÇëÊäÈëÕıÈ·µÄÎÄ¼ş´óĞ¡£¡"), NULL, MB_OK | MB_ICONWARNING);
+		MessageBox(_T("è¯·è¾“å…¥æ­£ç¡®çš„æ–‡ä»¶å¤§å°ï¼"), NULL, MB_OK | MB_ICONWARNING);
 		return;
 	}
 	else if (file_size_byte > MAX_FILE_SIZE)
 	{
-		MessageBox(_T("´óĞ¡²»ÄÜ³¬¹ı50MB£¡"), NULL, MB_OK | MB_ICONWARNING);
+		MessageBox(_T("å¤§å°ä¸èƒ½è¶…è¿‡50MBï¼"), NULL, MB_OK | MB_ICONWARNING);
 		return;
 	}
 
 	CString info;
 	if (file_size_byte < m_data.size())
 	{
-		info.Format(_T("ÄãÒª¸ü¸ÄµÄ´óĞ¡Ğ¡ÓÚÔ­À´µÄ´óĞ¡£¬¶àÓàµÄ²¿·Ö½«±»ÉáÆú£¬ÄãÈ·¶¨Òª½«ÎÄ¼şµÄ´óĞ¡´Ó%u×Ö½Ú¸ü¸ÄÎª%u×Ö½ÚÂğ£¿"), m_data.size(), file_size_byte);
+		info.Format(_T("ä½ è¦æ›´æ”¹çš„å¤§å°å°äºåŸæ¥çš„å¤§å°ï¼Œå¤šä½™çš„éƒ¨åˆ†å°†è¢«èˆå¼ƒï¼Œä½ ç¡®å®šè¦å°†æ–‡ä»¶çš„å¤§å°ä»%uå­—èŠ‚æ›´æ”¹ä¸º%uå­—èŠ‚å—ï¼Ÿ"), m_data.size(), file_size_byte);
 	}
 	else
 	{
-		info.Format(_T("ÄãÈ·¶¨Òª½«ÎÄ¼şµÄ´óĞ¡´Ó%u×Ö½Ú¸ü¸ÄÎª%u×Ö½ÚÂğ£¿"), m_data.size(), file_size_byte);
+		info.Format(_T("ä½ ç¡®å®šè¦å°†æ–‡ä»¶çš„å¤§å°ä»%uå­—èŠ‚æ›´æ”¹ä¸º%uå­—èŠ‚å—ï¼Ÿ"), m_data.size(), file_size_byte);
 	}
 	if (MessageBox(info, NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
 	{
-		//¸üĞÂÌáÊ¾¿òµÄĞÅÏ¢
-		info.Format(_T("ÎÄ¼ş´óĞ¡: %u Byte -> %u Byte"), m_data.size(), file_size_byte);
+		//æ›´æ–°æç¤ºæ¡†çš„ä¿¡æ¯
+		info.Format(_T("æ–‡ä»¶å¤§å°: %u Byte -> %u Byte"), m_data.size(), file_size_byte);
 		SetDlgItemText(IDC_STATIC_OUT, info);
-		//¸ü¸Ä´óĞ¡
+		//æ›´æ”¹å¤§å°
 		m_data.resize(file_size_byte);
 		ShowSizeInfo();
 		m_modified = true;
@@ -616,14 +616,14 @@ void CHexViewDlg::OnDestroy()
 {
 	CDialog::OnDestroy();
 
-	// TODO: ÔÚ´Ë´¦Ìí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤å¤„æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç 
 	SaveConfig();
 }
 
 
 void CHexViewDlg::OnBnClickedInsertDataButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	CInsertDataDlg dlg;
 	if (dlg.DoModal() == IDOK)
 	{
@@ -632,21 +632,21 @@ void CHexViewDlg::OnBnClickedInsertDataButton()
 
 		if (size <= 0)
 		{
-			MessageBox(_T("Êı¾İµÄ³¤¶È±ØĞëÎªÕıÊı£¡"), NULL, MB_ICONWARNING | MB_OK);
+			MessageBox(_T("æ•°æ®çš„é•¿åº¦å¿…é¡»ä¸ºæ­£æ•°ï¼"), NULL, MB_ICONWARNING | MB_OK);
 			return;
 		}
 
 		CString info;
 		if (address >= m_data.size())
-			info.Format(_T("µØÖ· %08x ³¬³ö·¶Î§£¬ÒªÔÚÎÄ¼şÄ©Î²²åÈë %d ¸ö×Ö½ÚµÄÊı¾İÂğ£¿"), address, size);
+			info.Format(_T("åœ°å€ %08x è¶…å‡ºèŒƒå›´ï¼Œè¦åœ¨æ–‡ä»¶æœ«å°¾æ’å…¥ %d ä¸ªå­—èŠ‚çš„æ•°æ®å—ï¼Ÿ"), address, size);
 		else
-			info.Format(_T("È·ÊµÒªÔÚ %08x µØÖ·Ç°²åÈë %d ¸ö×Ö½ÚµÄÊı¾İÂğ£¿"), address, size);
+			info.Format(_T("ç¡®å®è¦åœ¨ %08x åœ°å€å‰æ’å…¥ %d ä¸ªå­—èŠ‚çš„æ•°æ®å—ï¼Ÿ"), address, size);
 		if (MessageBox(info, NULL, MB_ICONQUESTION | MB_OKCANCEL) == IDOK)
 		{
-			//¸üĞÂÌáÊ¾¿òµÄĞÅÏ¢
-			info.Format(_T("µØÖ· %08x ´¦²åÈë %d ×Ö½Ú"), address, size);
+			//æ›´æ–°æç¤ºæ¡†çš„ä¿¡æ¯
+			info.Format(_T("åœ°å€ %08x å¤„æ’å…¥ %d å­—èŠ‚"), address, size);
 			SetDlgItemText(IDC_STATIC_OUT, info);
-			//²åÈëÊı¾İ
+			//æ’å…¥æ•°æ®
 			if (address >= m_data.size())
 				m_data.resize(m_data.size() + size);
 			else
@@ -660,7 +660,7 @@ void CHexViewDlg::OnBnClickedInsertDataButton()
 
 void CHexViewDlg::OnBnClickedDeleteDataButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	CDeleteDataDlg dlg;
 	if (dlg.DoModal() == IDOK)
 	{
@@ -669,25 +669,25 @@ void CHexViewDlg::OnBnClickedDeleteDataButton()
 
 		if (size <= 0)
 		{
-			MessageBox(_T("Êı¾İµÄ³¤¶È±ØĞëÎªÕıÊı£¡"), NULL, MB_ICONWARNING | MB_OK);
+			MessageBox(_T("æ•°æ®çš„é•¿åº¦å¿…é¡»ä¸ºæ­£æ•°ï¼"), NULL, MB_ICONWARNING | MB_OK);
 			return;
 		}
 
 		CString info;
 		if (address >= m_data.size())
 		{
-			info.Format(_T("µØÖ· %08x ³¬³ö·¶Î§!"), address);
+			info.Format(_T("åœ°å€ %08x è¶…å‡ºèŒƒå›´!"), address);
 			MessageBox(info, NULL, MB_ICONWARNING | MB_OK);
 			return;
 		}
 
-		info.Format(_T("È·ÊµÒªÉ¾³ıµØÖ·Îª %08x ¿ªÊ¼µÄ %d ¸ö×Ö½ÚµÄÊı¾İÂğ£¿"), address, size);
+		info.Format(_T("ç¡®å®è¦åˆ é™¤åœ°å€ä¸º %08x å¼€å§‹çš„ %d ä¸ªå­—èŠ‚çš„æ•°æ®å—ï¼Ÿ"), address, size);
 		if (MessageBox(info, NULL, MB_ICONQUESTION | MB_OKCANCEL) == IDOK)
 		{
-			//¸üĞÂÌáÊ¾¿òµÄĞÅÏ¢
-			info.Format(_T("µØÖ· %08x ´¦É¾³ı %d ×Ö½Ú"), address, size);
+			//æ›´æ–°æç¤ºæ¡†çš„ä¿¡æ¯
+			info.Format(_T("åœ°å€ %08x å¤„åˆ é™¤ %d å­—èŠ‚"), address, size);
 			SetDlgItemText(IDC_STATIC_OUT, info);
-			//É¾³ıÊı¾İ
+			//åˆ é™¤æ•°æ®
 			m_data.erase(address, size);
 			ShowSizeInfo();
 			m_modified = true;
@@ -698,10 +698,10 @@ void CHexViewDlg::OnBnClickedDeleteDataButton()
 
 void CHexViewDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 {
-    // TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
-    //ÏŞÖÆ´°¿Ú×îĞ¡´óĞ¡
-    lpMMI->ptMinTrackSize.x = m_min_size.cx;		//ÉèÖÃ×îĞ¡¿í¶È
-    lpMMI->ptMinTrackSize.y = m_min_size.cy;		//ÉèÖÃ×îĞ¡¸ß¶È
+    // TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
+    //é™åˆ¶çª—å£æœ€å°å¤§å°
+    lpMMI->ptMinTrackSize.x = m_min_size.cx;		//è®¾ç½®æœ€å°å®½åº¦
+    lpMMI->ptMinTrackSize.y = m_min_size.cy;		//è®¾ç½®æœ€å°é«˜åº¦
 
     CDialog::OnGetMinMaxInfo(lpMMI);
 }

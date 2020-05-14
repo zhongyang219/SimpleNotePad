@@ -1,4 +1,4 @@
-// FileCompareDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿// FileCompareDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-// CFileCompareDlg ¶Ô»°¿ò
+// CFileCompareDlg å¯¹è¯æ¡†
 
 IMPLEMENT_DYNAMIC(CFileCompareDlg, CDialog)
 
@@ -43,32 +43,32 @@ UINT CFileCompareDlg::FileCompareThreadFun(LPVOID lpParam)
 		}
 		else if (i >= pInfo->file1->size())
 		{
-			temp.Format(_T("%.8x \tÎŞÊı¾İ\t%.2x\r\n"), i, static_cast<unsigned char>(pInfo->file2->at(i)));
+			temp.Format(_T("%.8x \tæ— æ•°æ®\t%.2x\r\n"), i, static_cast<unsigned char>(pInfo->file2->at(i)));
 			pInfo->result_count++;
 		}
 		else
 		{
-			temp.Format(_T("%.8x \t%.2x\tÎŞÊı¾İ\r\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)));
+			temp.Format(_T("%.8x \t%.2x\tæ— æ•°æ®\r\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)));
 			pInfo->result_count++;
 		}
 		temp.MakeUpper();
 		pInfo->out_info += temp;
 
-		//Èç¹ûÎÄ¼ş±È½Ï´°¿ÚÒÑ¾­ÍË³ö£¬ÔòÍË³öÏß³Ì
+		//å¦‚æœæ–‡ä»¶æ¯”è¾ƒçª—å£å·²ç»é€€å‡ºï¼Œåˆ™é€€å‡ºçº¿ç¨‹
 		if (theApp.m_compare_dialog_exit)
 			return 0;
 
-		//¸üĞÂ½ø¶ÈÌõ
+		//æ›´æ–°è¿›åº¦æ¡
 		progress = static_cast<int>(static_cast<__int64>(i) * 1000 / max_size);
 		static int last_progress{};
 		if (last_progress != progress)
 		{
-			::SendMessage(pInfo->hwnd, WM_COMPARE_PROGRESS, (WPARAM)progress, 0);		//½«µ±Ç°±È½Ï½ø¶ÈÍ¨¹ıÏûÏ¢·¢ËÍ¸ø¶Ô»°¿ò
+			::SendMessage(pInfo->hwnd, WM_COMPARE_PROGRESS, (WPARAM)progress, 0);		//å°†å½“å‰æ¯”è¾ƒè¿›åº¦é€šè¿‡æ¶ˆæ¯å‘é€ç»™å¯¹è¯æ¡†
 			last_progress = progress;
 		}
 	}
-	if (pInfo->out_info.IsEmpty()) pInfo->out_info = _T("Á½¸öÎÄ¼şÍêÈ«ÏàÍ¬£¡");
-	::PostMessage(pInfo->hwnd, WM_COMPARE_COMPLATE, 0, 0);		//ÎÄ¼ş±È½ÏÍê³Éºó·¢ËÍÒ»¸ö±È½ÏÍê³ÉÏûÏ¢
+	if (pInfo->out_info.IsEmpty()) pInfo->out_info = _T("ä¸¤ä¸ªæ–‡ä»¶å®Œå…¨ç›¸åŒï¼");
+	::PostMessage(pInfo->hwnd, WM_COMPARE_COMPLATE, 0, 0);		//æ–‡ä»¶æ¯”è¾ƒå®Œæˆåå‘é€ä¸€ä¸ªæ¯”è¾ƒå®Œæˆæ¶ˆæ¯
 	return 0;
 }
 
@@ -79,7 +79,7 @@ void CFileCompareDlg::OpenFile(LPCTSTR file_path, string & file)
 	if (open_file.fail())
 	{
 		CString info;
-		info.Format(_T("ÎŞ·¨´ò¿ªÎÄ¼ş¡°%s¡±£¡"), file_path);
+		info.Format(_T("æ— æ³•æ‰“å¼€æ–‡ä»¶â€œ%sâ€ï¼"), file_path);
 		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
 		return;
 	}
@@ -90,7 +90,7 @@ void CFileCompareDlg::OpenFile(LPCTSTR file_path, string & file)
 		if (file.size() > MAX_COMPARE_SIZE)
 		{
 			CString info;
-			info.Format(_T("¡°%s¡±ÎÄ¼şÌ«´ó£¬Ö»¶ÁÈ¡ÁËÇ°Ãæ %d ¸ö×Ö½Ú£¡"), file_path, MAX_COMPARE_SIZE);
+			info.Format(_T("â€œ%sâ€æ–‡ä»¶å¤ªå¤§ï¼Œåªè¯»å–äº†å‰é¢ %d ä¸ªå­—èŠ‚ï¼"), file_path, MAX_COMPARE_SIZE);
 			MessageBox(info, NULL, MB_OK | MB_ICONWARNING);
 			//file.clear();
 
@@ -103,9 +103,9 @@ void CFileCompareDlg::OpenFile(LPCTSTR file_path, string & file)
 
 void CFileCompareDlg::_OnExit()
 {
-	theApp.m_compare_dialog_exit = true;		//´°¿Ú¹Ø±ÕÊ±½«±êÖ¾ÖÃÎªtrue
+	theApp.m_compare_dialog_exit = true;		//çª—å£å…³é—­æ—¶å°†æ ‡å¿—ç½®ä¸ºtrue
 	if (m_pFileCompareThread != nullptr)
-		WaitForSingleObject(m_pFileCompareThread->m_hThread, 1000);	//µÈ´ıÏß³ÌÍË³ö
+		WaitForSingleObject(m_pFileCompareThread->m_hThread, 1000);	//ç­‰å¾…çº¿ç¨‹é€€å‡º
 }
 
 void CFileCompareDlg::EnableButtons(bool enable)
@@ -144,49 +144,49 @@ BOOL CFileCompareDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯
+	// TODO:  åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–
 	m_result_info.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 	CRect rect;
 	m_result_info.GetClientRect(rect);
-	size_t width1 = rect.Width() * 3 / 5;		//µÚ1ÁĞµÄ¿í¶È£ºÁĞ±í¿í¶ÈµÄ3/5
-	size_t width2 = rect.Width() - width1 - (rect.Width() * 20 / 408);	//µÚ2ÁĞµÄ¿í¶È£ºÁĞ±í¿í¶È-µÚ1ÁĞµÄ¿í¶È-´¹Ö±¹ö¶¯ÌõµÄ¿í¶È
-	m_result_info.InsertColumn(0, _T("ÏîÄ¿"), LVCFMT_LEFT, width1);		//²åÈëµÚ1ÁĞ
-	m_result_info.InsertColumn(1, _T("Öµ"), LVCFMT_LEFT, width2);		//²åÈëµÚ2ÁĞ
-	m_result_info.InsertItem(0, _T("ÎÄ¼ş1×Ö½ÚÊı"));
-	m_result_info.InsertItem(1, _T("ÎÄ¼ş2×Ö½ÚÊı"));
-	m_result_info.InsertItem(2, _T("Á½¸öÎÄ¼ş´óĞ¡Ïà²î×Ö½ÚÊı"));
-	m_result_info.InsertItem(3, _T("ÏàÍ¬µÄ×Ö½ÚÊı"));
-	m_result_info.InsertItem(4, _T("²»Í¬µÄ×Ö½ÚÊı"));
-	m_result_info.InsertItem(5, _T("ÏàÍ¬µÄ×Ö½ÚÊıÕ¼°Ù·Ö±È"));
-	m_result_info.InsertItem(6, _T("²»Í¬µÄ×Ö½ÚÊıÕ¼°Ù·Ö±È"));
+	size_t width1 = rect.Width() * 3 / 5;		//ç¬¬1åˆ—çš„å®½åº¦ï¼šåˆ—è¡¨å®½åº¦çš„3/5
+	size_t width2 = rect.Width() - width1 - (rect.Width() * 20 / 408);	//ç¬¬2åˆ—çš„å®½åº¦ï¼šåˆ—è¡¨å®½åº¦-ç¬¬1åˆ—çš„å®½åº¦-å‚ç›´æ»šåŠ¨æ¡çš„å®½åº¦
+	m_result_info.InsertColumn(0, _T("é¡¹ç›®"), LVCFMT_LEFT, width1);		//æ’å…¥ç¬¬1åˆ—
+	m_result_info.InsertColumn(1, _T("å€¼"), LVCFMT_LEFT, width2);		//æ’å…¥ç¬¬2åˆ—
+	m_result_info.InsertItem(0, _T("æ–‡ä»¶1å­—èŠ‚æ•°"));
+	m_result_info.InsertItem(1, _T("æ–‡ä»¶2å­—èŠ‚æ•°"));
+	m_result_info.InsertItem(2, _T("ä¸¤ä¸ªæ–‡ä»¶å¤§å°ç›¸å·®å­—èŠ‚æ•°"));
+	m_result_info.InsertItem(3, _T("ç›¸åŒçš„å­—èŠ‚æ•°"));
+	m_result_info.InsertItem(4, _T("ä¸åŒçš„å­—èŠ‚æ•°"));
+	m_result_info.InsertItem(5, _T("ç›¸åŒçš„å­—èŠ‚æ•°å ç™¾åˆ†æ¯”"));
+	m_result_info.InsertItem(6, _T("ä¸åŒçš„å­—èŠ‚æ•°å ç™¾åˆ†æ¯”"));
 
 	m_progress_ctrl.SetRange(0, 1000);
 
 	theApp.m_compare_dialog_exit = false;
 
-	//ÉèÖÃ¸Ã¶Ô»°¿òÔÚÈÎÎñÀ¸ÏÔÊ¾
+	//è®¾ç½®è¯¥å¯¹è¯æ¡†åœ¨ä»»åŠ¡æ æ˜¾ç¤º
 	ModifyStyleEx(0, WS_EX_APPWINDOW);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-				  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+				  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
-// CFileCompareDlg ÏûÏ¢´¦Àí³ÌĞò
+// CFileCompareDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 
 void CFileCompareDlg::OnBnClickedOpenButton1()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	//ÉèÖÃ¹ıÂËÆ÷
-	LPCTSTR szFilter = _T("ËùÓĞÎÄ¼ş(*.*)|*.*||");
-	//¹¹Ôì´ò¿ªÎÄ¼ş¶Ô»°¿ò
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+	//è®¾ç½®è¿‡æ»¤å™¨
+	LPCTSTR szFilter = _T("æ‰€æœ‰æ–‡ä»¶(*.*)|*.*||");
+	//æ„é€ æ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
 	CFileDialog fileDlg(TRUE, NULL, NULL, 0, szFilter, this);
-	//ÏÔÊ¾´ò¿ªÎÄ¼ş¶Ô»°¿ò
+	//æ˜¾ç¤ºæ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
 	if (IDOK == fileDlg.DoModal())
 	{
 		//CString file_path;
-		m_file_path1 = fileDlg.GetPathName();	//»ñÈ¡´ò¿ªµÄÎÄ¼şÂ·¾¶
-		OpenFile(m_file_path1.c_str(), m_file1);		//´ò¿ªÎÄ¼ş
+		m_file_path1 = fileDlg.GetPathName();	//è·å–æ‰“å¼€çš„æ–‡ä»¶è·¯å¾„
+		OpenFile(m_file_path1.c_str(), m_file1);		//æ‰“å¼€æ–‡ä»¶
 		SetDlgItemText(IDC_EDIT_OPEN1, m_file_path1.c_str());
 	}
 }
@@ -194,17 +194,17 @@ void CFileCompareDlg::OnBnClickedOpenButton1()
 
 void CFileCompareDlg::OnBnClickedOpenButton2()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	//ÉèÖÃ¹ıÂËÆ÷
-	LPCTSTR szFilter = _T("ËùÓĞÎÄ¼ş(*.*)|*.*||");
-	//¹¹Ôì´ò¿ªÎÄ¼ş¶Ô»°¿ò
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+	//è®¾ç½®è¿‡æ»¤å™¨
+	LPCTSTR szFilter = _T("æ‰€æœ‰æ–‡ä»¶(*.*)|*.*||");
+	//æ„é€ æ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
 	CFileDialog fileDlg(TRUE, NULL, NULL, 0, szFilter, this);
-	//ÏÔÊ¾´ò¿ªÎÄ¼ş¶Ô»°¿ò
+	//æ˜¾ç¤ºæ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
 	if (IDOK == fileDlg.DoModal())
 	{
 		//CString file_path;
-		m_file_path2 = fileDlg.GetPathName();	//»ñÈ¡´ò¿ªµÄÎÄ¼şÂ·¾¶
-		OpenFile(m_file_path2.c_str(), m_file2);		//´ò¿ªÎÄ¼ş
+		m_file_path2 = fileDlg.GetPathName();	//è·å–æ‰“å¼€çš„æ–‡ä»¶è·¯å¾„
+		OpenFile(m_file_path2.c_str(), m_file2);		//æ‰“å¼€æ–‡ä»¶
 		SetDlgItemText(IDC_EDIT_OPEN2, m_file_path2.c_str());
 	}
 }
@@ -212,21 +212,21 @@ void CFileCompareDlg::OnBnClickedOpenButton2()
 
 void CFileCompareDlg::OnBnClickedCompareButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	//m_compare_result.clear();
 	if (m_file_path1.empty())
 	{
-		MessageBox(_T("Çë´ò¿ªÎÄ¼ş1£¡"), NULL, MB_ICONWARNING);
+		MessageBox(_T("è¯·æ‰“å¼€æ–‡ä»¶1ï¼"), NULL, MB_ICONWARNING);
 		return;
 	}
 	if (m_file_path2.empty())
 	{
-		MessageBox(_T("Çë´ò¿ªÎÄ¼ş2£¡"), NULL, MB_ICONWARNING);
+		MessageBox(_T("è¯·æ‰“å¼€æ–‡ä»¶2ï¼"), NULL, MB_ICONWARNING);
 		return;
 	}
 	if (m_file_path1 == m_file_path2)
 	{
-		MessageBox(_T("±È½ÏµÄÊÇÍ¬Ò»¸öÎÄ¼ş£¡"), NULL, MB_ICONWARNING);
+		MessageBox(_T("æ¯”è¾ƒçš„æ˜¯åŒä¸€ä¸ªæ–‡ä»¶ï¼"), NULL, MB_ICONWARNING);
 		return;
 	}
 
@@ -241,38 +241,38 @@ void CFileCompareDlg::OnBnClickedCompareButton()
 
 void CFileCompareDlg::OnDropFiles(HDROP hDropInfo)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 	TCHAR file_path[MAX_PATH];
-	int drop_count = DragQueryFile(hDropInfo, -1, NULL, 0);		//È¡µÃ±»ÍÏ¶¯ÎÄ¼şµÄÊıÄ¿
-	if (drop_count <= 1)		//Èç¹ûÍÏ¶¯½øÀ´µÄÎÄ¼şÖ»ÓĞ1¸ö
+	int drop_count = DragQueryFile(hDropInfo, -1, NULL, 0);		//å–å¾—è¢«æ‹–åŠ¨æ–‡ä»¶çš„æ•°ç›®
+	if (drop_count <= 1)		//å¦‚æœæ‹–åŠ¨è¿›æ¥çš„æ–‡ä»¶åªæœ‰1ä¸ª
 	{
-		DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);		//»ñÈ¡¸ÃÎÄ¼ş
-		if (m_file1.empty())		//Èç¹ûµÚ1¸öÎÄ¼şÃ»ÓĞ´ò¿ª
+		DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);		//è·å–è¯¥æ–‡ä»¶
+		if (m_file1.empty())		//å¦‚æœç¬¬1ä¸ªæ–‡ä»¶æ²¡æœ‰æ‰“å¼€
 		{
-			OpenFile(file_path, m_file1);		//´ò¿ªµÚ1¸öÎÄ¼ş
+			OpenFile(file_path, m_file1);		//æ‰“å¼€ç¬¬1ä¸ªæ–‡ä»¶
 			SetDlgItemText(IDC_EDIT_OPEN1, file_path);
 			m_file_path1 = file_path;
 		}
 		else
 		{
-			OpenFile(file_path, m_file2);		//´ò¿ªµÚ2¸öÎÄ¼ş
+			OpenFile(file_path, m_file2);		//æ‰“å¼€ç¬¬2ä¸ªæ–‡ä»¶
 			SetDlgItemText(IDC_EDIT_OPEN2, file_path);
 			m_file_path2 = file_path;
 		}
 	}
-	else		//Èç¹ûÍÏ¶¯½øÀ´µÄÎÄ¼şÎª1¸öÒÔÉÏ
+	else		//å¦‚æœæ‹–åŠ¨è¿›æ¥çš„æ–‡ä»¶ä¸º1ä¸ªä»¥ä¸Š
 	{
-		DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);		//»ñÈ¡µÚ1¸öÎÄ¼ş
-		OpenFile(file_path, m_file1);		//´ò¿ªµÚ1¸öÎÄ¼ş
+		DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);		//è·å–ç¬¬1ä¸ªæ–‡ä»¶
+		OpenFile(file_path, m_file1);		//æ‰“å¼€ç¬¬1ä¸ªæ–‡ä»¶
 		SetDlgItemText(IDC_EDIT_OPEN1, file_path);
 		m_file_path1 = file_path;
 
-		DragQueryFile(hDropInfo, 1, file_path, MAX_PATH);		//»ñÈ¡µÚ2¸öÎÄ¼ş
-		OpenFile(file_path, m_file2);		//´ò¿ªµÚ2¸öÎÄ¼ş
+		DragQueryFile(hDropInfo, 1, file_path, MAX_PATH);		//è·å–ç¬¬2ä¸ªæ–‡ä»¶
+		OpenFile(file_path, m_file2);		//æ‰“å¼€ç¬¬2ä¸ªæ–‡ä»¶
 		SetDlgItemText(IDC_EDIT_OPEN2, file_path);
 		m_file_path2 = file_path;
 	}
-	DragFinish(hDropInfo); //ÍÏ·Å½áÊøºó,ÊÍ·ÅÄÚ´æ
+	DragFinish(hDropInfo); //æ‹–æ”¾ç»“æŸå,é‡Šæ”¾å†…å­˜
 
 	CDialog::OnDropFiles(hDropInfo);
 }
@@ -283,12 +283,12 @@ void CFileCompareDlg::OnDropFiles(HDROP hDropInfo)
 afx_msg LRESULT CFileCompareDlg::OnCompareComplate(WPARAM wParam, LPARAM lParam)
 {
 	CWaitCursor wait_cursor;
-	SetDlgItemText(IDC_PROGRESS_STATIC, _T("±È½ÏÍê³É£¬ÕıÔÚÊä³ö½á¹û£¬ÇëÉÔºò¡­¡­"));
+	SetDlgItemText(IDC_PROGRESS_STATIC, _T("æ¯”è¾ƒå®Œæˆï¼Œæ­£åœ¨è¾“å‡ºç»“æœï¼Œè¯·ç¨å€™â€¦â€¦"));
 	const int MAX_LENGTH{ 50000000 };
 	if (m_thread_info.out_info.GetLength() > MAX_LENGTH)
 	{
 		m_thread_info.out_info = m_thread_info.out_info.Left(MAX_LENGTH);
-		m_thread_info.out_info += _T("\r\nÊä³ö½á¹ûÌ«³¤£¬¿ÉÄÜÎŞ·¨ÍêÈ«ÏÔÊ¾¡£");
+		m_thread_info.out_info += _T("\r\nè¾“å‡ºç»“æœå¤ªé•¿ï¼Œå¯èƒ½æ— æ³•å®Œå…¨æ˜¾ç¤ºã€‚");
 	}
 
 	SetDlgItemText(IDC_EDIT_RESULT, m_thread_info.out_info);
@@ -299,28 +299,28 @@ afx_msg LRESULT CFileCompareDlg::OnCompareComplate(WPARAM wParam, LPARAM lParam)
 	size_difference = abs(static_cast<int>(m_file1.size() - m_file2.size()));
 
 	CString str;
-	//Ìí¼ÓµÚ0ÏîÊı¾İ"ÎÄ¼ş1×Ö½ÚÊı"
+	//æ·»åŠ ç¬¬0é¡¹æ•°æ®"æ–‡ä»¶1å­—èŠ‚æ•°"
 	str.Format(_T("%u"), m_file1.size());
 	m_result_info.SetItemText(0, 1, str);
-	//Ìí¼ÓµÚ1ÏîÊı¾İ"ÎÄ¼ş2×Ö½ÚÊı"
+	//æ·»åŠ ç¬¬1é¡¹æ•°æ®"æ–‡ä»¶2å­—èŠ‚æ•°"
 	str.Format(_T("%u"), m_file2.size());
 	m_result_info.SetItemText(1, 1, str);
-	//Ìí¼ÓµÚ2ÏîÊı¾İ"Á½¸öÎÄ¼ş´óĞ¡Ïà²î×Ö½ÚÊı"
+	//æ·»åŠ ç¬¬2é¡¹æ•°æ®"ä¸¤ä¸ªæ–‡ä»¶å¤§å°ç›¸å·®å­—èŠ‚æ•°"
 	str.Format(_T("%d"), size_difference);
 	m_result_info.SetItemText(2, 1, str);
-	//Ìí¼ÓµÚ3ÏîÊı¾İ"ÏàÍ¬µÄ×Ö½ÚÊı"
+	//æ·»åŠ ç¬¬3é¡¹æ•°æ®"ç›¸åŒçš„å­—èŠ‚æ•°"
 	str.Format(_T("%u"), max_size - m_thread_info.result_count);
 	m_result_info.SetItemText(3, 1, str);
-	//Ìí¼ÓµÚ4ÏîÊı¾İ"²»Í¬µÄ×Ö½ÚÊı"
+	//æ·»åŠ ç¬¬4é¡¹æ•°æ®"ä¸åŒçš„å­—èŠ‚æ•°"
 	str.Format(_T("%u"), m_thread_info.result_count - size_difference);
 	m_result_info.SetItemText(4, 1, str);
-	//Ìí¼ÓµÚ5ÏîÊı¾İ"ÏàÍ¬µÄ×Ö½ÚÊıÕ¼°Ù·Ö±È"
+	//æ·»åŠ ç¬¬5é¡¹æ•°æ®"ç›¸åŒçš„å­—èŠ‚æ•°å ç™¾åˆ†æ¯”"
 	str.Format(_T("%.2f%%"), (max_size - m_thread_info.result_count) * 100 / static_cast<float>(min_size));
 	m_result_info.SetItemText(5, 1, str);
-	//Ìí¼ÓµÚ6ÏîÊı¾İ"²»Í¬µÄ×Ö½ÚÊıÕ¼°Ù·Ö±È"
+	//æ·»åŠ ç¬¬6é¡¹æ•°æ®"ä¸åŒçš„å­—èŠ‚æ•°å ç™¾åˆ†æ¯”"
 	str.Format(_T("%.2f%%"), (m_thread_info.result_count - size_difference) * 100 / static_cast<float>(min_size));
 	m_result_info.SetItemText(6, 1, str);
-	SetDlgItemText(IDC_PROGRESS_STATIC, _T("±È½ÏÍê³É¡£"));
+	SetDlgItemText(IDC_PROGRESS_STATIC, _T("æ¯”è¾ƒå®Œæˆã€‚"));
 	EnableButtons(true);
 	return 0;
 }
@@ -331,7 +331,7 @@ afx_msg LRESULT CFileCompareDlg::OnCompareProgress(WPARAM wParam, LPARAM lParam)
 	int progress = wParam;
 	m_progress_ctrl.SetPos(progress);
 	CString info;
-	info.Format(_T("ÕıÔÚ±È½Ï£¬ÇëÉÔºò¡­ÒÑÍê³É%.1f%%"), static_cast<float>(progress) / 10.0);
+	info.Format(_T("æ­£åœ¨æ¯”è¾ƒï¼Œè¯·ç¨å€™â€¦å·²å®Œæˆ%.1f%%"), static_cast<float>(progress) / 10.0);
 	SetDlgItemText(IDC_PROGRESS_STATIC, info);
 	return 0;
 }
@@ -339,7 +339,7 @@ afx_msg LRESULT CFileCompareDlg::OnCompareProgress(WPARAM wParam, LPARAM lParam)
 
 void CFileCompareDlg::OnOK()
 {
-	// TODO: ÔÚ´ËÌí¼Ó×¨ÓÃ´úÂëºÍ/»òµ÷ÓÃ»ùÀà
+	// TODO: åœ¨æ­¤æ·»åŠ ä¸“ç”¨ä»£ç å’Œ/æˆ–è°ƒç”¨åŸºç±»
 	_OnExit();
 	CDialog::OnOK();
 }
@@ -347,7 +347,7 @@ void CFileCompareDlg::OnOK()
 
 void CFileCompareDlg::OnCancel()
 {
-	// TODO: ÔÚ´ËÌí¼Ó×¨ÓÃ´úÂëºÍ/»òµ÷ÓÃ»ùÀà
+	// TODO: åœ¨æ­¤æ·»åŠ ä¸“ç”¨ä»£ç å’Œ/æˆ–è°ƒç”¨åŸºç±»
 	_OnExit();
 	CDialog::OnCancel();
 }

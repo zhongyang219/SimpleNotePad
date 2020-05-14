@@ -1,37 +1,37 @@
-
-// stdafx.h : ��׼ϵͳ�����ļ��İ����ļ���
-// ���Ǿ���ʹ�õ��������ĵ�
-// �ض�����Ŀ�İ����ļ�
+﻿
+// stdafx.h : 标准系统包含文件的包含文件，
+// 或是经常使用但不常更改的
+// 特定于项目的包含文件
 
 #pragma once
 
 #ifndef VC_EXTRALEAN
-#define VC_EXTRALEAN            // �� Windows ͷ���ų�����ʹ�õ�����
+#define VC_EXTRALEAN            // 从 Windows 头中排除极少使用的资料
 #endif
 
 #include "targetver.h"
 
-#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // ĳЩ CString ���캯��������ʽ��
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 某些 CString 构造函数将是显式的
 
-// �ر� MFC ��ĳЩ�����������ɷ��ĺ��Եľ�����Ϣ������
+// 关闭 MFC 对某些常见但经常可放心忽略的警告消息的隐藏
 #define _AFX_ALL_WARNINGS
 
-#include <afxwin.h>         // MFC ��������ͱ�׼���
-#include <afxext.h>         // MFC ��չ
+#include <afxwin.h>         // MFC 核心组件和标准组件
+#include <afxext.h>         // MFC 扩展
 
 
-#include <afxdisp.h>        // MFC �Զ�����
+#include <afxdisp.h>        // MFC 自动化类
 
 
 
 #ifndef _AFX_NO_OLE_SUPPORT
-#include <afxdtctl.h>           // MFC �� Internet Explorer 4 �����ؼ���֧��
+#include <afxdtctl.h>           // MFC 对 Internet Explorer 4 公共控件的支持
 #endif
 #ifndef _AFX_NO_AFXCMN_SUPPORT
-#include <afxcmn.h>             // MFC �� Windows �����ؼ���֧��
+#include <afxcmn.h>             // MFC 对 Windows 公共控件的支持
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-#include <afxcontrolbars.h>     // �������Ϳؼ����� MFC ֧��
+#include <afxcontrolbars.h>     // 功能区和控件条的 MFC 支持
 
 
 #include<string>
@@ -71,7 +71,7 @@ typedef char _tchar;
 
 #define HEX_LOG_PATH _T(".\\hex_edit.log")
 
-#define IDC_SAVE_COMBO_BOX 1990		//�������ӵ�������Ϊ���Ի����е���Ͽ��ID
+#define IDC_SAVE_COMBO_BOX 1990		//定义添加到“另存为”对话框中的组合框的ID
 
-#define MAX_FILE_SIZE 10485760		//������Դ򿪵�����ļ���С
-#define MAX_COMPARE_SIZE 4194304		//�����ļ������ƱȽ�ʱ������ļ���С
+#define MAX_FILE_SIZE 10485760		//定义可以打开的最大文件大小
+#define MAX_COMPARE_SIZE 4194304		//定义文件二进制比较时的最大文件大小

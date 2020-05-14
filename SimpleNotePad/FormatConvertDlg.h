@@ -1,36 +1,36 @@
-#pragma once
+ï»¿#pragma once
 #include "Common.h"
 #include "afxwin.h"
 
-// CFormatConvertDlg ¶Ô»°¿ò
+// CFormatConvertDlg å¯¹è¯æ¡†
 
 class CFormatConvertDlg : public CDialog
 {
 	DECLARE_DYNAMIC(CFormatConvertDlg)
 
 public:
-	CFormatConvertDlg(CWnd* pParent = NULL);   // ±ê×¼¹¹Ôìº¯Êı
+	CFormatConvertDlg(CWnd* pParent = NULL);   // æ ‡å‡†æ„é€ å‡½æ•°
 	virtual ~CFormatConvertDlg();
 
-// ¶Ô»°¿òÊı¾İ
+// å¯¹è¯æ¡†æ•°æ®
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_FORMAT_CONVERT_DIALOG };
 #endif
 
 protected:
-	CodeType m_input_format{};		//ÊäÈëµÄ±àÂë¸ñÊ½
-	CodeType m_output_format{};		//Êä³öµÄ±àÂë¸ñÊ½
+	CodeType m_input_format{};		//è¾“å…¥çš„ç¼–ç æ ¼å¼
+	CodeType m_output_format{};		//è¾“å‡ºçš„ç¼–ç æ ¼å¼
 
-	vector<wstring> m_file_list;	//Òª×ª»»µÄÎÄ¼şÁĞ±í
-	wstring m_output_path;			//Êä³öÂ·¾¶
+	vector<wstring> m_file_list;	//è¦è½¬æ¢çš„æ–‡ä»¶åˆ—è¡¨
+	wstring m_output_path;			//è¾“å‡ºè·¯å¾„
 
 	CComboBox m_input_box;
 	CComboBox m_output_box;
 	CListBox m_list_box;
 
-	string m_input_string;		//ÊäÈëÎÄ¼şÖĞµÄÎÄ±¾
-	wstring m_temp_string;		//×ª»»³ÉUnicodeÖ®ºóµÄÎÄ±¾
-	string m_output_string;		//×ª»»³ÉÄ¿±ê¸ñÊ½ºóÓÃÓÚÊä³öµÄÎÄ±¾
+	string m_input_string;		//è¾“å…¥æ–‡ä»¶ä¸­çš„æ–‡æœ¬
+	wstring m_temp_string;		//è½¬æ¢æˆUnicodeä¹‹åçš„æ–‡æœ¬
+	string m_output_string;		//è½¬æ¢æˆç›®æ ‡æ ¼å¼åç”¨äºè¾“å‡ºçš„æ–‡æœ¬
 
 	void ShowFileList();
 
@@ -38,7 +38,7 @@ protected:
 	bool OpenFile(LPCTSTR file_path);
 	bool SaveFile(LPCTSTR file_path);
 
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV Ö§³Ö
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV æ”¯æŒ
 
 	DECLARE_MESSAGE_MAP()
 

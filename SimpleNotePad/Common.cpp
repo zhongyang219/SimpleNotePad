@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "Common.h"
 
 
@@ -29,7 +29,7 @@ wstring CCommon::StrToUnicode(const string & str, CodeType code_type)
 	else if (code_type == CodeType::UTF8 || code_type == CodeType::UTF8_NO_BOM)
 	{
 		string temp;
-		//Èç¹ûÇ°ÃæÓĞBOM£¬ÔòÈ¥µôBOM
+		//å¦‚æœå‰é¢æœ‰BOMï¼Œåˆ™å»æ‰BOM
 		if (str.size() >= 3 && str[0] == -17 && str[1] == -69 && str[2] == -65)
 			temp = str.substr(3);
 		else
@@ -44,7 +44,7 @@ wstring CCommon::StrToUnicode(const string & str, CodeType code_type)
 	else if (code_type == CodeType::UTF16)
 	{
 		string temp;
-		//Èç¹ûÇ°ÃæÓĞBOM£¬ÔòÈ¥µôBOM
+		//å¦‚æœå‰é¢æœ‰BOMï¼Œåˆ™å»æ‰BOM
 		if (str.size() >= 2 && str[0] == -1 && str[1] == -2)
 			temp = str.substr(2);
 		else
@@ -92,7 +92,7 @@ string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, Co
 	else if (code_type == CodeType::UTF16)
 	{
 		result.clear();
-		result.push_back(-1);	//ÔÚÇ°Ãæ¼ÓÉÏUTF16µÄBOM
+		result.push_back(-1);	//åœ¨å‰é¢åŠ ä¸ŠUTF16çš„BOM
 		result.push_back(-2);
 		result.append((const char*)wstr.c_str(), (const char*)wstr.c_str() + wstr.size() * 2);
 		result.push_back('\0');
@@ -103,8 +103,8 @@ string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, Co
 
 bool CCommon::IsUTF8Bytes(const char * data)
 {
-	int charByteCounter = 1;  //¼ÆËãµ±Ç°Õı·ÖÎöµÄ×Ö·ûÓ¦»¹ÓĞµÄ×Ö½ÚÊı
-	unsigned char curByte; //µ±Ç°·ÖÎöµÄ×Ö½Ú.
+	int charByteCounter = 1;  //è®¡ç®—å½“å‰æ­£åˆ†æçš„å­—ç¬¦åº”è¿˜æœ‰çš„å­—èŠ‚æ•°
+	unsigned char curByte; //å½“å‰åˆ†æçš„å­—èŠ‚.
 	bool ascii = true;
 	size_t length{ strlen(data) };
 	for (int i = 0; i < length; i++)
@@ -115,12 +115,12 @@ bool CCommon::IsUTF8Bytes(const char * data)
 			if (curByte >= 0x80)
 			{
 				ascii = false;
-				//ÅĞ¶Ïµ±Ç°
+				//åˆ¤æ–­å½“å‰
 				while (((curByte <<= 1) & 0x80) != 0)
 				{
 					charByteCounter++;
 				}
-				//±ê¼ÇÎ»Ê×Î»ÈôÎª·Ç0 ÔòÖÁÉÙÒÔ2¸ö1¿ªÊ¼ Èç:110XXXXX...........1111110X 
+				//æ ‡è®°ä½é¦–ä½è‹¥ä¸ºé0 åˆ™è‡³å°‘ä»¥2ä¸ª1å¼€å§‹ å¦‚:110XXXXX...........1111110X 
 				if (charByteCounter == 1 || charByteCounter > 6)
 				{
 					return false;
@@ -129,7 +129,7 @@ bool CCommon::IsUTF8Bytes(const char * data)
 		}
 		else
 		{
-			//ÈôÊÇUTF-8 ´ËÊ±µÚÒ»Î»±ØĞëÎª1
+			//è‹¥æ˜¯UTF-8 æ­¤æ—¶ç¬¬ä¸€ä½å¿…é¡»ä¸º1
 			if ((curByte & 0xC0) != 0x80)
 			{
 				return false;
@@ -137,7 +137,7 @@ bool CCommon::IsUTF8Bytes(const char * data)
 			charByteCounter--;
 		}
 	}
-	if (ascii) return false;		//Èç¹ûÈ«ÊÇASCII×Ö·û£¬·µ»Øfalse
+	if (ascii) return false;		//å¦‚æœå…¨æ˜¯ASCIIå­—ç¬¦ï¼Œè¿”å›false
 	else return true;
 }
 
@@ -207,7 +207,7 @@ void CCommon::ChangeStringLength(CString& str, int length, TCHAR ch)
 void CCommon::EditAppendString(const CString & str, HWND hWnd)
 {
 	int length = str.GetLength();
-	for (int i = 0; i<length; )	//·¢ËÍÏûÏ¢µ½ IDC_REPORT_EDIT
+	for (int i = 0; i<length; )	//å‘é€æ¶ˆæ¯åˆ° IDC_REPORT_EDIT
 	{
 		if (str[i]< 128)
 		{
@@ -273,7 +273,7 @@ size_t CCommon::StringFindWholeWord(const wstring & str, const wstring & find_st
 	if (find_down)
 	{
 		size_t index{ offset - 1 };
-		int find_str_front_pos, find_str_back_pos;		//ÕÒµ½µÄ×Ö·û´®ÔÚÔ­×Ö·û´®ÖĞÇ°ÃæºÍºóÃæÒ»¸ö×Ö·ûµÄÎ»ÖÃ
+		int find_str_front_pos, find_str_back_pos;		//æ‰¾åˆ°çš„å­—ç¬¦ä¸²åœ¨åŸå­—ç¬¦ä¸²ä¸­å‰é¢å’Œåé¢ä¸€ä¸ªå­—ç¬¦çš„ä½ç½®
 		int size = _str.size();
 		int find_str_size = _find_str.size();
 		while (true)
@@ -292,7 +292,7 @@ size_t CCommon::StringFindWholeWord(const wstring & str, const wstring & find_st
 	{
 		int size = _str.size();
 		size_t index{ offset + 1 };
-		int find_str_front_pos, find_str_back_pos;		//ÕÒµ½µÄ×Ö·û´®ÔÚÔ­×Ö·û´®ÖĞÇ°ÃæºÍºóÃæÒ»¸ö×Ö·ûµÄÎ»ÖÃ
+		int find_str_front_pos, find_str_back_pos;		//æ‰¾åˆ°çš„å­—ç¬¦ä¸²åœ¨åŸå­—ç¬¦ä¸²ä¸­å‰é¢å’Œåé¢ä¸€ä¸ªå­—ç¬¦çš„ä½ç½®
 		int find_str_size = _find_str.size();
 		while (true)
 		{
@@ -319,18 +319,18 @@ bool CCommon::IsDivideChar(wchar_t ch)
 
 size_t CCommon::StringFind(const wstring & str, const wstring & find_str, bool no_case, bool whole_word, bool find_down, size_t offset)
 {
-	if (!no_case && !whole_word)		//Æ¥Åä´óĞ¡Ğ´£¬ÇÒ²»È«´ÊÆ¥ÅäÊ±
+	if (!no_case && !whole_word)		//åŒ¹é…å¤§å°å†™ï¼Œä¸”ä¸å…¨è¯åŒ¹é…æ—¶
 	{
 		if (find_down)
 			return str.find(find_str, offset);
 		else
 			return str.rfind(find_str, offset);
 	}
-	else if (no_case && !whole_word)		//²»Æ¥Åä´óĞ¡Ğ´£¬ÇÒ²»È«´ÊÆ¥ÅäÊ±
+	else if (no_case && !whole_word)		//ä¸åŒ¹é…å¤§å°å†™ï¼Œä¸”ä¸å…¨è¯åŒ¹é…æ—¶
 	{
 		return StringFindNoCase(str, find_str, find_down, offset);
 	}
-	else									//È«´ÊÆ¥ÅäÊ±
+	else									//å…¨è¯åŒ¹é…æ—¶
 	{
 		return StringFindWholeWord(str, find_str, no_case, find_down, offset);
 	}

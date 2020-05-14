@@ -1,4 +1,4 @@
-// FormatConvertDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿// FormatConvertDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "stdafx.h"
@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-// CFormatConvertDlg ¶Ô»°¿ò
+// CFormatConvertDlg å¯¹è¯æ¡†
 
 IMPLEMENT_DYNAMIC(CFormatConvertDlg, CDialog)
 
@@ -50,7 +50,7 @@ bool CFormatConvertDlg::OpenFile(LPCTSTR file_path)
 	if (file.fail())
 	{
 		CString info;
-		info.Format(_T("ÎŞ·¨´ò¿ªÎÄ¼ş¡°%s¡±£¡"), file_path);
+		info.Format(_T("æ— æ³•æ‰“å¼€æ–‡ä»¶â€œ%sâ€ï¼"), file_path);
 		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
 		return false;
 	}
@@ -62,16 +62,16 @@ bool CFormatConvertDlg::OpenFile(LPCTSTR file_path)
 
 	if (m_input_format != CodeType::AUTO)
 	{
-		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format);	//×ª»»³ÉUnicode
+		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format);	//è½¬æ¢æˆUnicode
 	}
-	else		//ÊäÈë±àÂë¸ñÊ½Îª¡°×Ô¶¯¡±Ê±£¬×Ô¶¯ÅĞ¶Ï±àÂëÀàĞÍ
+	else		//è¾“å…¥ç¼–ç æ ¼å¼ä¸ºâ€œè‡ªåŠ¨â€æ—¶ï¼Œè‡ªåŠ¨åˆ¤æ–­ç¼–ç ç±»å‹
 	{
-		JudgeCode();											//ÅĞ¶Ï±àÂëÀàĞÍ
-		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format);	//×ª»»³ÉUnicode
-		if (m_temp_string.size() < m_input_string.size() / 4)		//Èç¹ûÒÔ×Ô¶¯Ê¶±ğµÄ¸ñÊ½×ª»»³ÉUnicodeºó£¬Unicode×Ö·û´®µÄ³¤¶ÈĞ¡ÓÚ¶à×Ö½Ú×Ö·û´®³¤¶ÈµÄ1/4£¬ÔòÎÄ±¾µÄ±àÂë¸ñÊ½¿ÉÄÜÊÇUTF16
+		JudgeCode();											//åˆ¤æ–­ç¼–ç ç±»å‹
+		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format);	//è½¬æ¢æˆUnicode
+		if (m_temp_string.size() < m_input_string.size() / 4)		//å¦‚æœä»¥è‡ªåŠ¨è¯†åˆ«çš„æ ¼å¼è½¬æ¢æˆUnicodeåï¼ŒUnicodeå­—ç¬¦ä¸²çš„é•¿åº¦å°äºå¤šå­—èŠ‚å­—ç¬¦ä¸²é•¿åº¦çš„1/4ï¼Œåˆ™æ–‡æœ¬çš„ç¼–ç æ ¼å¼å¯èƒ½æ˜¯UTF16
 		{
 			m_input_format = CodeType::UTF16;
-			m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format);	//ÖØĞÂ×ª»»³ÉUnicode
+			m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format);	//é‡æ–°è½¬æ¢æˆUnicode
 		}
 	}
 	return true;
@@ -81,17 +81,17 @@ bool CFormatConvertDlg::SaveFile(LPCTSTR file_path)
 {
 	bool char_connot_convert;
 	m_output_string = CCommon::UnicodeToStr(m_temp_string, char_connot_convert, m_output_format);
-	if (char_connot_convert)	//µ±ÎÄ¼şÖĞ°üº¬Unicode×Ö·ûÊ±£¬ÌáÊ¾ÓĞĞ©×Ö·û¿ÉÄÜÎŞ·¨×ª»»
+	if (char_connot_convert)	//å½“æ–‡ä»¶ä¸­åŒ…å«Unicodeå­—ç¬¦æ—¶ï¼Œæç¤ºæœ‰äº›å­—ç¬¦å¯èƒ½æ— æ³•è½¬æ¢
 	{
 		CString info;
-		info.Format(_T("¾¯¸æ£º%sÎÄ¼şÖĞ´æÔÚÎŞ·¨×ª»»µÄ×Ö·û£¬ÕâĞ©×Ö·ûÒÑ¶ªÊ§¡£Òª±£ÁôÕâĞ©×Ö·û£¬Ó¦¸ÃÑ¡Ôñ×ª»»³ÉÒ»ÖÖUnicode¸ñÊ½µÄ±àÂë¡£"), file_path);
+		info.Format(_T("è­¦å‘Šï¼š%sæ–‡ä»¶ä¸­å­˜åœ¨æ— æ³•è½¬æ¢çš„å­—ç¬¦ï¼Œè¿™äº›å­—ç¬¦å·²ä¸¢å¤±ã€‚è¦ä¿ç•™è¿™äº›å­—ç¬¦ï¼Œåº”è¯¥é€‰æ‹©è½¬æ¢æˆä¸€ç§Unicodeæ ¼å¼çš„ç¼–ç ã€‚"), file_path);
 		MessageBox(info, NULL, MB_ICONWARNING);
 	}
 	ofstream file{ file_path, std::ios::binary };
 	if (file.fail())
 	{
 		CString info;
-		info.Format(_T("¡°%sÎÄ¼şÎŞ·¨±£´æ£¬Çë¼ì²éÊä³öÂ·¾¶ÊÇ·ñÕıÈ·¡±£¡"), file_path);
+		info.Format(_T("â€œ%sæ–‡ä»¶æ— æ³•ä¿å­˜ï¼Œè¯·æ£€æŸ¥è¾“å‡ºè·¯å¾„æ˜¯å¦æ­£ç¡®â€ï¼"), file_path);
 		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
 		return false;
 	}
@@ -120,19 +120,19 @@ BEGIN_MESSAGE_MAP(CFormatConvertDlg, CDialog)
 END_MESSAGE_MAP()
 
 
-// CFormatConvertDlg ÏûÏ¢´¦Àí³ÌĞò
+// CFormatConvertDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 
 BOOL CFormatConvertDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	// TODO:  ÔÚ´ËÌí¼Ó¶îÍâµÄ³õÊ¼»¯
+	// TODO:  åœ¨æ­¤æ·»åŠ é¢å¤–çš„åˆå§‹åŒ–
 
-	//ÉèÖÃ¸Ã¶Ô»°¿òÔÚÈÎÎñÀ¸ÏÔÊ¾
+	//è®¾ç½®è¯¥å¯¹è¯æ¡†åœ¨ä»»åŠ¡æ æ˜¾ç¤º
 	ModifyStyleEx(0, WS_EX_APPWINDOW);
 
-	m_input_box.AddString(_T("×Ô¶¯Ê¶±ğ"));
+	m_input_box.AddString(_T("è‡ªåŠ¨è¯†åˆ«"));
 	m_input_box.AddString(_T("ANSI"));
 	m_input_box.AddString(_T("UTF8"));
 	m_input_box.AddString(_T("UTF16"));
@@ -144,18 +144,18 @@ BOOL CFormatConvertDlg::OnInitDialog()
 	m_output_box.SetCurSel(1);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-				  // Òì³£: OCX ÊôĞÔÒ³Ó¦·µ»Ø FALSE
+				  // å¼‚å¸¸: OCX å±æ€§é¡µåº”è¿”å› FALSE
 }
 
 
 void CFormatConvertDlg::OnBnClickedAddButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
-	//ÉèÖÃ¹ıÂËÆ÷
-	LPCTSTR szFilter = _T("ÎÄ±¾ÎÄ¼ş(*.txt)|*.txt|ËùÓĞÎÄ¼ş(*.*)|*.*||");
-	//¹¹Ôì´ò¿ªÎÄ¼ş¶Ô»°¿ò
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
+	//è®¾ç½®è¿‡æ»¤å™¨
+	LPCTSTR szFilter = _T("æ–‡æœ¬æ–‡ä»¶(*.txt)|*.txt|æ‰€æœ‰æ–‡ä»¶(*.*)|*.*||");
+	//æ„é€ æ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
 	CFileDialog fileDlg(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT, szFilter, this);
-	//ÏÔÊ¾´ò¿ªÎÄ¼ş¶Ô»°¿ò
+	//æ˜¾ç¤ºæ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†
 	if (IDOK == fileDlg.DoModal())
 	{
 		POSITION posFile = fileDlg.GetStartPosition();
@@ -170,12 +170,12 @@ void CFormatConvertDlg::OnBnClickedAddButton()
 
 void CFormatConvertDlg::OnBnClickedRemoveButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	int select;
-	select = m_list_box.GetCurSel();		//»ñÈ¡µ±Ç°Ñ¡ÖĞÏîĞòºÅ
+	select = m_list_box.GetCurSel();		//è·å–å½“å‰é€‰ä¸­é¡¹åºå·
 	if (select >= 0 && select < m_file_list.size())
 	{
-		m_file_list.erase(m_file_list.begin() + select);	//É¾³ıÑ¡ÖĞÏî
+		m_file_list.erase(m_file_list.begin() + select);	//åˆ é™¤é€‰ä¸­é¡¹
 		ShowFileList();
 	}
 }
@@ -183,7 +183,7 @@ void CFormatConvertDlg::OnBnClickedRemoveButton()
 
 void CFormatConvertDlg::OnBnClickedClearButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	m_file_list.clear();
 	ShowFileList();
 }
@@ -191,7 +191,7 @@ void CFormatConvertDlg::OnBnClickedClearButton()
 
 void CFormatConvertDlg::OnBnClickedBrowseButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	CFolderPickerDialog folderPickerDlg;
 	if (folderPickerDlg.DoModal() == IDOK)
 	{
@@ -203,15 +203,15 @@ void CFormatConvertDlg::OnBnClickedBrowseButton()
 
 void CFormatConvertDlg::OnBnClickedConvertButton()
 {
-	// TODO: ÔÚ´ËÌí¼Ó¿Ø¼şÍ¨Öª´¦Àí³ÌĞò´úÂë
+	// TODO: åœ¨æ­¤æ·»åŠ æ§ä»¶é€šçŸ¥å¤„ç†ç¨‹åºä»£ç 
 	if (m_file_list.empty())
 	{
-		MessageBox(_T("ÇëÌí¼ÓÒª×ª»»µÄÎÄ¼ş£¡"), NULL, MB_ICONWARNING);
+		MessageBox(_T("è¯·æ·»åŠ è¦è½¬æ¢çš„æ–‡ä»¶ï¼"), NULL, MB_ICONWARNING);
 		return;
 	}
 	if (m_output_path.empty())
 	{
-		MessageBox(_T("ÇëÑ¡ÔñÊä³öÎÄ¼ş¼Ğ£¡"), NULL, MB_ICONWARNING);
+		MessageBox(_T("è¯·é€‰æ‹©è¾“å‡ºæ–‡ä»¶å¤¹ï¼"), NULL, MB_ICONWARNING);
 		return;
 	}
 
@@ -236,7 +236,7 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 		case 3: m_input_format = CodeType::UTF16; break;
 		default: break;
 		}
-		if(!OpenFile(item.c_str())) continue;		//Èç¹ûµ±Ç°ÎÄ¼şÎŞ·¨´ò¿ª£¬¾ÍÌø¹ıËü
+		if(!OpenFile(item.c_str())) continue;		//å¦‚æœå½“å‰æ–‡ä»¶æ— æ³•æ‰“å¼€ï¼Œå°±è·³è¿‡å®ƒ
 		
 		wstring file_name;
 		size_t index;
@@ -248,16 +248,16 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 	}
 
 	CString info;
-	info.Format(_T("×ª»»Íê³É£¬¹²×ª»»%d¸öÎÄ¼ş¡£"), convert_cnt);
+	info.Format(_T("è½¬æ¢å®Œæˆï¼Œå…±è½¬æ¢%dä¸ªæ–‡ä»¶ã€‚"), convert_cnt);
 	MessageBox(info, NULL, MB_ICONINFORMATION);
 }
 
 
 void CFormatConvertDlg::OnDropFiles(HDROP hDropInfo)
 {
-	// TODO: ÔÚ´ËÌí¼ÓÏûÏ¢´¦Àí³ÌĞò´úÂëºÍ/»òµ÷ÓÃÄ¬ÈÏÖµ
+	// TODO: åœ¨æ­¤æ·»åŠ æ¶ˆæ¯å¤„ç†ç¨‹åºä»£ç å’Œ/æˆ–è°ƒç”¨é»˜è®¤å€¼
 	TCHAR file_path[MAX_PATH];
-	int drop_count = DragQueryFile(hDropInfo, -1, NULL, 0);		//È¡µÃ±»ÍÏ¶¯ÎÄ¼şµÄÊıÄ¿
+	int drop_count = DragQueryFile(hDropInfo, -1, NULL, 0);		//å–å¾—è¢«æ‹–åŠ¨æ–‡ä»¶çš„æ•°ç›®
 	for (int i{}; i < drop_count; i++)
 	{
 		DragQueryFile(hDropInfo, i, file_path, MAX_PATH);
