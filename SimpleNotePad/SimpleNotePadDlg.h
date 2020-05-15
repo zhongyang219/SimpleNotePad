@@ -71,7 +71,7 @@ protected:
 	bool m_find_flag{ false };
 	
 	void OpenFile(LPCTSTR file_path);					//打开文件的处理
-	bool SaveFile(LPCTSTR file_path, CodeType code);	//保存文件的处理
+	bool SaveFile(LPCTSTR file_path, CodeType code, UINT code_page = CP_ACP);	//保存文件的处理
 	bool JudgeCode();				//判断编码格式（如果编码格式可以完全确定，则返回true，否则返回false）
 	void ShowStatusBar();			//刷新状态栏
 	void ChangeCode();				//更改编码格式时的处理

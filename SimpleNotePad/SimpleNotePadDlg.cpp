@@ -116,10 +116,10 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	ShowStatusBar();										//更新状态栏
 }
 
-bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code)
+bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_page)
 {
 	bool char_connot_convert;
-	m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, char_connot_convert, code);
+	m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, char_connot_convert, code, code_page);
 	if (char_connot_convert)	//当文件中包含Unicode字符时，询问用户是否要选择一个Unicode编码格式再保存
 	{
 		CString info;
@@ -329,10 +329,17 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	//为“另存为”对话框添加一个组合选择框
 	fileDlg.AddComboBox(IDC_SAVE_COMBO_BOX);
 	//为组合选择框添加项目
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 0, _T("以ANSI格式保存"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 1, _T("以UTF-8格式保存"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 2, _T("以UTF-8无BOM格式保存"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 3, _T("以UTF-16格式保存"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 0, _T("ANSI (本地代码页)"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 1, _T("UTF-8"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 2, _T("UTF-8无BOM"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 3, _T("简体中文 (GB2312)"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 4, _T("繁体中文 (Big5)"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 5, _T("日文 (Shift-JIS)"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 6, _T("西欧语言 (Windows)"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 7, _T("韩文"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 8, _T("泰文"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 9, _T("越南文"));
+	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 10, _T("设置中指定的代码页"));
 	//fileDlg.SetControlLabel(IDC_SAVE_COMBO_BOX, _T("编码类型："));
 	//根据当前设置的另存为格式为组合选择框设置默认选中的项目
 	fileDlg.SetSelectedControlItem(IDC_SAVE_COMBO_BOX, static_cast<DWORD>(m_save_code));
@@ -353,6 +360,29 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 		DWORD selected_item;
 		fileDlg.GetSelectedControlItem(IDC_SAVE_COMBO_BOX, selected_item);	//获取“编码格式”中选中的项目
 		m_save_code = static_cast<CodeType>(selected_item);
+		UINT save_code_page{ CP_ACP };
+		if (selected_item >= 3)
+		{
+			m_save_code = CodeType::ANSI;
+			if (selected_item == 3)
+				save_code_page = CODE_PAGE_CHS;
+			else if (selected_item == 4)
+				save_code_page = CODE_PAGE_CHT;
+			else if (selected_item == 5)
+				save_code_page = CODE_PAGE_JP;
+			else if (selected_item == 6)
+				save_code_page = CODE_PAGE_EN;
+			else if (selected_item == 7)
+				save_code_page = CODE_PAGE_KOR;
+			else if (selected_item == 8)
+				save_code_page = CODE_PAGE_THAI;
+			else if (selected_item == 9)
+				save_code_page = CODE_PAGE_VIET;
+			//else if (selected_item == 10)
+			//	save_code_page = CODE_PAGE_CHT;
+			else
+				save_code_page = CP_ACP;
+		}
 		if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code))
 		{
 			m_file_path = fileDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
