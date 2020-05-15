@@ -163,17 +163,37 @@ bool CSimpleNotePadDlg::JudgeCode()
 void CSimpleNotePadDlg::ShowStatusBar()
 {
 	//显示编码格式
-	CString str{_T("编码格式：")};
+	CString str{_T("编码格式: ")};
 	//if (!m_edit_wcs.empty())
 	//{
-		switch (m_code)
+	switch (m_code)
+	{
+	case CodeType::ANSI:
+	{
+		switch (m_code_page)
 		{
-		case CodeType::ANSI: str += _T("ANSI"); break;
-		case CodeType::UTF8: str += _T("UTF8"); break;
-		case CodeType::UTF8_NO_BOM: str += _T("UTF8无BOM"); break;
-		case CodeType::UTF16: str += _T("UTF16"); break;
+		case CODE_PAGE_CHS: str += _T("简体中文(GB2312) "); break;
+		case CODE_PAGE_CHT: str += _T("繁体中文(Big5) "); break;
+		case CODE_PAGE_JP: str += _T("日文(Shift-JIS) "); break;
+		case CODE_PAGE_EN: str += _T("西欧语言 (Windows) "); break;
+		case CODE_PAGE_KOR: str += _T("韩文 "); break;
+		case CODE_PAGE_THAI: str += _T("泰文 "); break;
+		case CODE_PAGE_VIET: str += _T("越南文 "); break;
+		default: str += _T("ANSI "); break;
 		}
+		str += _T("代码页: ");
+		if (m_code_page == 0)
+			str += _T("本地代码页");
+		else
+			str += std::to_wstring(m_code_page).c_str();
+	}
+		break;
+	case CodeType::UTF8: str += _T("UTF8"); break;
+	case CodeType::UTF8_NO_BOM: str += _T("UTF8无BOM"); break;
+	case CodeType::UTF16: str += _T("UTF16"); break;
+	}
 	//}
+
 	m_status_bar.SetText(str, 2, 0);
 
 	//显示字符数
@@ -496,7 +516,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	m_status_bar_hight = m_dpi * 20 / 96;
 	m_edit_bottom_space = m_dpi * 22 / 96;
 	m_status_bar_mid_width = m_dpi * 60 / 96;
-	m_status_bar_right_width = m_dpi * 160 / 96;
+	m_status_bar_right_width = m_dpi * 280 / 96;
 
 	//初始化编辑框大小
 	GetClientRect(&rect);
@@ -1357,27 +1377,39 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 	//default: break;
 	//}
 
-	switch (m_code_page)
+	if (m_code == CodeType::ANSI)
 	{
-	case CP_ACP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_LOCAL, MF_BYCOMMAND | MF_CHECKED); break;
-    case CODE_PAGE_CHS: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHS, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_CHT: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHT, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_JP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_JP, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_EN: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_EN, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_KOR: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_KOR, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_THAI: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_THAI, MF_BYCOMMAND | MF_CHECKED); break;
-	case CODE_PAGE_VIET: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_VIET, MF_BYCOMMAND | MF_CHECKED); break;
+		switch (m_code_page)
+		{
+		case CP_ACP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_LOCAL, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_CHS: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHS, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_CHT: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHT, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_JP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_JP, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_EN: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_EN, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_KOR: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_KOR, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_THAI: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_THAI, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_VIET: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_VIET, MF_BYCOMMAND | MF_CHECKED); break;
+		}
+	}
+	else
+	{
+		ASSERT(ID_CODE_PAGE_LOCAL < ID_CODE_PAGE_VIET);
+		for (UINT i = ID_CODE_PAGE_LOCAL; i <= ID_CODE_PAGE_VIET; i++)
+		{
+			pMenu->CheckMenuItem(i, MF_UNCHECKED);
+			//pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, i, MF_BYCOMMAND | MF_UNCHECKED);
+		}
 	}
 
-    bool code_page_enable = (m_code == CodeType::ANSI);
-    pMenu->EnableMenuItem(ID_CODE_PAGE_LOCAL, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    pMenu->EnableMenuItem(ID_CODE_PAGE_CHS, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    pMenu->EnableMenuItem(ID_CODE_PAGE_CHT, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    pMenu->EnableMenuItem(ID_CODE_PAGE_JP, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    pMenu->EnableMenuItem(ID_CODE_PAGE_EN, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    pMenu->EnableMenuItem(ID_CODE_PAGE_KOR, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    pMenu->EnableMenuItem(ID_CODE_PAGE_THAI, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    pMenu->EnableMenuItem(ID_CODE_PAGE_VIET, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    //bool code_page_enable = (m_code == CodeType::ANSI);
+    //pMenu->EnableMenuItem(ID_CODE_PAGE_LOCAL, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    //pMenu->EnableMenuItem(ID_CODE_PAGE_CHS, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    //pMenu->EnableMenuItem(ID_CODE_PAGE_CHT, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    //pMenu->EnableMenuItem(ID_CODE_PAGE_JP, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    //pMenu->EnableMenuItem(ID_CODE_PAGE_EN, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    //pMenu->EnableMenuItem(ID_CODE_PAGE_KOR, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    //pMenu->EnableMenuItem(ID_CODE_PAGE_THAI, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
+    //pMenu->EnableMenuItem(ID_CODE_PAGE_VIET, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
 
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
@@ -1417,6 +1449,7 @@ void CSimpleNotePadDlg::OnCodePageChs()
 {
 	// TODO: 在此添加命令处理程序代码
 	if (!BeforeChangeCode()) return;
+	m_code = CodeType::ANSI;
 	m_code_page = CODE_PAGE_CHS;
 	ChangeCode();
 }
@@ -1426,6 +1459,7 @@ void CSimpleNotePadDlg::OnCodePageCht()
 {
 	// TODO: 在此添加命令处理程序代码
 	if (!BeforeChangeCode()) return;
+	m_code = CodeType::ANSI;
 	m_code_page = CODE_PAGE_CHT;
 	ChangeCode();
 }
@@ -1435,6 +1469,7 @@ void CSimpleNotePadDlg::OnCodePageJp()
 {
 	// TODO: 在此添加命令处理程序代码
 	if (!BeforeChangeCode()) return;
+	m_code = CodeType::ANSI;
 	m_code_page = CODE_PAGE_JP;
 	ChangeCode();
 }
@@ -1444,6 +1479,7 @@ void CSimpleNotePadDlg::OnCodePageEn()
 {
 	// TODO: 在此添加命令处理程序代码
 	if (!BeforeChangeCode()) return;
+	m_code = CodeType::ANSI;
 	m_code_page = CODE_PAGE_EN;
 	ChangeCode();
 }
@@ -1454,6 +1490,7 @@ void CSimpleNotePadDlg::OnCodePageKor()
 	// TODO: 在此添加命令处理程序代码
 	if (!BeforeChangeCode()) return;
 	if (!BeforeChangeCode()) return;
+	m_code = CodeType::ANSI;
 	m_code_page = CODE_PAGE_KOR;
 	ChangeCode();
 }
@@ -1463,6 +1500,7 @@ void CSimpleNotePadDlg::OnCodePageThai()
 {
 	// TODO: 在此添加命令处理程序代码
 	if (!BeforeChangeCode()) return;
+	m_code = CodeType::ANSI;
 	m_code_page = CODE_PAGE_THAI;
 	ChangeCode();
 }
@@ -1472,6 +1510,7 @@ void CSimpleNotePadDlg::OnCodePageViet()
 {
 	// TODO: 在此添加命令处理程序代码
 	if (!BeforeChangeCode()) return;
+	m_code = CodeType::ANSI;
 	m_code_page = CODE_PAGE_VIET;
 	ChangeCode();
 }
@@ -1486,6 +1525,7 @@ void CSimpleNotePadDlg::OnSepcifyCodePage()
 	if (inputDlg.DoModal() == IDOK)
 	{
 		if (!BeforeChangeCode()) return;
+		m_code = CodeType::ANSI;
 		m_code_page = _ttoi(inputDlg.GetEditText().GetString());
 		ChangeCode();
 	}
@@ -1496,7 +1536,8 @@ void CSimpleNotePadDlg::OnCodePageLocal()
 {
     // TODO: 在此添加命令处理程序代码
     if (!BeforeChangeCode()) return;
-    m_code_page = CP_ACP;
+	m_code = CodeType::ANSI;
+	m_code_page = CP_ACP;
     ChangeCode();
 
 }
