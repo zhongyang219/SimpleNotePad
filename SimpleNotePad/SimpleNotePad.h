@@ -10,6 +10,12 @@
 
 #include "resource.h"		// 主符号
 
+struct SettingsData
+{
+    int default_code_page_selected{};
+    UINT default_code_page{};
+};
+
 
 // CSimpleNotePadApp: 
 // 有关此类的实现，请参阅 SimpleNotePad.cpp
@@ -23,6 +29,7 @@ public:
 	wstring m_config_path;		//配置文件所在的路径
 
 	bool m_compare_dialog_exit;	//用于指示文件比较对话框是否已退出
+    SettingsData m_settings_data;
 
 // 重写
 public:

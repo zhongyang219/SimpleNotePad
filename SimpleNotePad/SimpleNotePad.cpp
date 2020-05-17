@@ -1,4 +1,4 @@
-
+﻿
 // SimpleNotePad.cpp : 定义应用程序的类行为。
 //
 
@@ -39,9 +39,6 @@ CSimpleNotePadApp theApp;
 
 BOOL CSimpleNotePadApp::InitInstance()
 {
-	//获取配置文件的路径（当前exe文件所在路径\config.ini）
-	m_config_path = CCommon::GetCurrentPath() + L"config.ini";
-
 	wstring cmd_line{ m_lpCmdLine };
 	bool is_restart{ cmd_line.find(L"RestartByRestartManager") != wstring::npos };		//如果命令行参数中含有字符串“RestartByRestartManager”则说明程序是被Windows重新启动的
 	if (is_restart)				//如果程序被重新启动，则直接退出程序

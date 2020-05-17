@@ -9,6 +9,7 @@
 #include "HexViewDlg.h"
 #include "FormatConvertDlg.h"
 #include "InputDlg.h"
+#include "SettingsDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -105,7 +106,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	m_edit_str.pop_back();
 
 	bool code_confirm = JudgeCode();											//判断编码类型
-	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//转换成Unicode
+	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code, m_code_page);	//转换成Unicode
 	if (!code_confirm && m_edit_wcs.size() < m_edit_str.size() / 4)		//如果以自动识别的格式转换成Unicode后，Unicode字符串的长度小于多字节字符串长度的1/4，则文本的编码格式可能是UTF16
 	{
 		m_code = CodeType::UTF16;
@@ -156,6 +157,7 @@ bool CSimpleNotePadDlg::JudgeCode()
 	else
 	{
 		m_code = CodeType::ANSI;
+        m_code_page = theApp.m_settings_data.default_code_page;
 	}
 	return rtn;
 }
@@ -225,31 +227,39 @@ bool CSimpleNotePadDlg::BeforeChangeCode()
 void CSimpleNotePadDlg::SaveConfig()
 {
 	//保存字体设置
-	WritePrivateProfileString(_T("config"), _T("font_name"), m_font_name, theApp.m_config_path.c_str());
-	CCommon::WritePrivateProfileInt(L"config", L"font_size", m_font_size, theApp.m_config_path.c_str());
+	theApp.WriteProfileStringW(_T("config"), _T("font_name"), m_font_name);
+    theApp.WriteProfileInt(L"config", L"font_size", m_font_size);
 	//保存窗口大小
-	CCommon::WritePrivateProfileInt(L"config", L"window_width", m_window_width, theApp.m_config_path.c_str());
-	CCommon::WritePrivateProfileInt(L"config", L"window_hight", m_window_hight, theApp.m_config_path.c_str());
-	CCommon::WritePrivateProfileInt(L"config", L"word_wrap", m_word_wrap, theApp.m_config_path.c_str());
-	CCommon::WritePrivateProfileInt(L"config", L"always_on_top", m_always_on_top, theApp.m_config_path.c_str());
+	theApp.WriteProfileInt(L"config", L"window_width", m_window_width);
+	theApp.WriteProfileInt(L"config", L"window_hight", m_window_hight);
+	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
+	theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
 
-	CCommon::WritePrivateProfileInt(L"config", L"find_no_case", m_find_no_case, theApp.m_config_path.c_str());
-	CCommon::WritePrivateProfileInt(L"config", L"find_whole_word", m_find_whole_word, theApp.m_config_path.c_str());
+	theApp.WriteProfileInt(L"config", L"find_no_case", m_find_no_case);
+	theApp.WriteProfileInt(L"config", L"find_whole_word", m_find_whole_word);
+
+    //保存选项设置
+    theApp.WriteProfileInt(L"config", L"default_code_page_selected", theApp.m_settings_data.default_code_page_selected);
+    theApp.WriteProfileInt(L"config", L"default_code_page", theApp.m_settings_data.default_code_page);
 }
 
 void CSimpleNotePadDlg::LoadConfig()
 {
 	//载入字体设置
-	GetPrivateProfileString(_T("config"), _T("font_name"), _T("微软雅黑"), m_font_name.GetBuffer(32), 32, theApp.m_config_path.c_str());
-	m_font_size = GetPrivateProfileInt(_T("config"), _T("font_size"), 10, theApp.m_config_path.c_str());
+	m_font_name = theApp.GetProfileStringW(_T("config"), _T("font_name"), _T("微软雅黑"));
+	m_font_size = theApp.GetProfileInt(_T("config"), _T("font_size"), 10);
 	//载入窗口大小
-	m_window_width = GetPrivateProfileInt(_T("config"), _T("window_width"), 560, theApp.m_config_path.c_str());
-	m_window_hight = GetPrivateProfileInt(_T("config"), _T("window_hight"), 350, theApp.m_config_path.c_str());
-	m_word_wrap = (GetPrivateProfileInt(_T("config"), _T("word_wrap"), 1, theApp.m_config_path.c_str()) != 0);
-	m_always_on_top = (GetPrivateProfileInt(_T("config"), _T("always_on_top"), 0, theApp.m_config_path.c_str()) != 0);
+	m_window_width = theApp.GetProfileInt(_T("config"), _T("window_width"), 560);
+	m_window_hight = theApp.GetProfileInt(_T("config"), _T("window_hight"), 350);
+	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
+	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
 
-	m_find_no_case = (GetPrivateProfileInt(_T("config"), _T("find_no_case"), 0, theApp.m_config_path.c_str()) != 0);
-	m_find_whole_word = (GetPrivateProfileInt(_T("config"), _T("find_whole_word"), 0, theApp.m_config_path.c_str()) != 0);
+	m_find_no_case = (theApp.GetProfileInt(_T("config"), _T("find_no_case"), 0) != 0);
+	m_find_whole_word = (theApp.GetProfileInt(_T("config"), _T("find_whole_word"), 0) != 0);
+
+    //载入选项设置
+    theApp.m_settings_data.default_code_page_selected = theApp.GetProfileInt(L"config", L"default_code_page_selected", 0);
+    theApp.m_settings_data.default_code_page = theApp.GetProfileInt(L"config", L"default_code_page", 0);
 }
 
 bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
@@ -329,17 +339,25 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	//为“另存为”对话框添加一个组合选择框
 	fileDlg.AddComboBox(IDC_SAVE_COMBO_BOX);
 	//为组合选择框添加项目
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 0, _T("ANSI (本地代码页)"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 1, _T("UTF-8"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 2, _T("UTF-8无BOM"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 3, _T("简体中文 (GB2312)"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 4, _T("繁体中文 (Big5)"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 5, _T("日文 (Shift-JIS)"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 6, _T("西欧语言 (Windows)"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 7, _T("韩文"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 8, _T("泰文"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 9, _T("越南文"));
-	fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, 10, _T("设置中指定的代码页"));
+    const vector<std::pair<CString, UINT>> combo_list{ {_T("ANSI (本地代码页)"), static_cast<UINT>(CodeType::ANSI)},
+        {_T("UTF-8"), static_cast<UINT>(CodeType::UTF8)},
+        {_T("UTF-8无BOM"), static_cast<UINT>(CodeType::UTF8_NO_BOM)},
+        {_T("UTF-16"), static_cast<UINT>(CodeType::UTF16)},
+        {_T("简体中文 (GB2312)"), CODE_PAGE_CHS},
+        {_T("繁体中文 (Big5)"), CODE_PAGE_CHT},
+        {_T("日文 (Shift-JIS)"), CODE_PAGE_JP},
+        {_T("西欧语言 (Windows)"), CODE_PAGE_EN},
+        {_T("韩文"), CODE_PAGE_KOR},
+        {_T("泰文"), CODE_PAGE_THAI},
+        {_T("越南文"), CODE_PAGE_VIET},
+        {_T("设置中指定的非Unicode默认代码页"), CP_ACP},
+    };
+
+    for (size_t i{}; i < combo_list.size(); i++)
+    {
+        fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, i, combo_list[i].first);
+    }
+
 	//fileDlg.SetControlLabel(IDC_SAVE_COMBO_BOX, _T("编码类型："));
 	//根据当前设置的另存为格式为组合选择框设置默认选中的项目
 	fileDlg.SetSelectedControlItem(IDC_SAVE_COMBO_BOX, static_cast<DWORD>(m_save_code));
@@ -361,27 +379,11 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 		fileDlg.GetSelectedControlItem(IDC_SAVE_COMBO_BOX, selected_item);	//获取“编码格式”中选中的项目
 		m_save_code = static_cast<CodeType>(selected_item);
 		UINT save_code_page{ CP_ACP };
-		if (selected_item >= 3)
+		if (selected_item >= 4)
 		{
 			m_save_code = CodeType::ANSI;
-			if (selected_item == 3)
-				save_code_page = CODE_PAGE_CHS;
-			else if (selected_item == 4)
-				save_code_page = CODE_PAGE_CHT;
-			else if (selected_item == 5)
-				save_code_page = CODE_PAGE_JP;
-			else if (selected_item == 6)
-				save_code_page = CODE_PAGE_EN;
-			else if (selected_item == 7)
-				save_code_page = CODE_PAGE_KOR;
-			else if (selected_item == 8)
-				save_code_page = CODE_PAGE_THAI;
-			else if (selected_item == 9)
-				save_code_page = CODE_PAGE_VIET;
-			//else if (selected_item == 10)
-			//	save_code_page = CODE_PAGE_CHT;
-			else
-				save_code_page = CP_ACP;
+            if(selected_item < combo_list.size())
+			    save_code_page = combo_list[selected_item].second;
 		}
 		if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code))
 		{
@@ -494,7 +496,8 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CDialog)
 	ON_COMMAND(ID_CODE_PAGE_THAI, &CSimpleNotePadDlg::OnCodePageThai)
 	ON_COMMAND(ID_CODE_PAGE_VIET, &CSimpleNotePadDlg::OnCodePageViet)
 	ON_COMMAND(ID_SEPCIFY_CODE_PAGE, &CSimpleNotePadDlg::OnSepcifyCodePage)
-    ON_COMMAND(ID_CODE_PAGE_LOCAL, &CSimpleNotePadDlg::OnCodePageLocal)
+    //ON_COMMAND(ID_CODE_PAGE_LOCAL, &CSimpleNotePadDlg::OnCodePageLocal)
+    ON_COMMAND(ID_TOOL_OPTIONS, &CSimpleNotePadDlg::OnToolOptions)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -716,6 +719,7 @@ void CSimpleNotePadDlg::OnCodeAnsi()
 	//m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, m_code);
 	if(!BeforeChangeCode()) return;
 	m_code = CodeType::ANSI;
+    m_code_page = CP_ACP;
 	ChangeCode();
 }
 
@@ -1392,54 +1396,47 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 	CDialog::OnInitMenu(pMenu);
 
 	// TODO: 在此处添加消息处理程序代码
-	switch (m_code)
-	{
-	case CodeType::ANSI: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_ANSI, MF_BYCOMMAND | MF_CHECKED); break;
-	case CodeType::UTF8: case CodeType::UTF8_NO_BOM: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_UTF8, MF_BYCOMMAND | MF_CHECKED); break;
-	case CodeType::UTF16: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_UTF16, MF_BYCOMMAND | MF_CHECKED); break;
-	}
-	//switch (m_save_code)
-	//{
-	//case CodeType::ANSI: pMenu->CheckMenuRadioItem(ID_SAVE_ANSI, ID_SAVE_UTF16, ID_SAVE_ANSI, MF_BYCOMMAND | MF_CHECKED); break;
-	//case CodeType::UTF8: pMenu->CheckMenuRadioItem(ID_SAVE_ANSI, ID_SAVE_UTF16, ID_SAVE_UTF8, MF_BYCOMMAND | MF_CHECKED); break;
-	//case CodeType::UTF8_NO_BOM: pMenu->CheckMenuRadioItem(ID_SAVE_ANSI, ID_SAVE_UTF16, ID_SAVE_UTF8_NOBOM, MF_BYCOMMAND | MF_CHECKED); break;
-	//case CodeType::UTF16: pMenu->CheckMenuRadioItem(ID_SAVE_ANSI, ID_SAVE_UTF16, ID_SAVE_UTF16, MF_BYCOMMAND | MF_CHECKED); break;
-	//default: break;
-	//}
+    if (m_code == CodeType::ANSI && m_code_page != CP_ACP)
+    {
+        pMenu->CheckMenuItem(ID_CODE_ANSI, MF_UNCHECKED);
+        pMenu->CheckMenuItem(ID_CODE_UTF8, MF_UNCHECKED);
+        pMenu->CheckMenuItem(ID_CODE_UTF16, MF_UNCHECKED);
+    }
+    else
+    {
+	    switch (m_code)
+	    {
+	    case CodeType::ANSI: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_ANSI, MF_BYCOMMAND | MF_CHECKED); break;
+	    case CodeType::UTF8: case CodeType::UTF8_NO_BOM: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_UTF8, MF_BYCOMMAND | MF_CHECKED); break;
+	    case CodeType::UTF16: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_UTF16, MF_BYCOMMAND | MF_CHECKED); break;
+	    }
+    }
 
 	if (m_code == CodeType::ANSI)
 	{
 		switch (m_code_page)
 		{
-		case CP_ACP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_LOCAL, MF_BYCOMMAND | MF_CHECKED); break;
-		case CODE_PAGE_CHS: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHS, MF_BYCOMMAND | MF_CHECKED); break;
-		case CODE_PAGE_CHT: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHT, MF_BYCOMMAND | MF_CHECKED); break;
-		case CODE_PAGE_JP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_JP, MF_BYCOMMAND | MF_CHECKED); break;
-		case CODE_PAGE_EN: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_EN, MF_BYCOMMAND | MF_CHECKED); break;
-		case CODE_PAGE_KOR: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_KOR, MF_BYCOMMAND | MF_CHECKED); break;
-		case CODE_PAGE_THAI: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_THAI, MF_BYCOMMAND | MF_CHECKED); break;
-		case CODE_PAGE_VIET: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, ID_CODE_PAGE_VIET, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_CHS: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHS, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_CHT: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_CHT, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_JP: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_JP, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_EN: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_EN, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_KOR: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_KOR, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_THAI: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_THAI, MF_BYCOMMAND | MF_CHECKED); break;
+		case CODE_PAGE_VIET: pMenu->CheckMenuRadioItem(ID_CODE_PAGE_CHS, ID_CODE_PAGE_VIET, ID_CODE_PAGE_VIET, MF_BYCOMMAND | MF_CHECKED); break;
+        default: goto clear_selected;
+
 		}
 	}
 	else
 	{
-		ASSERT(ID_CODE_PAGE_LOCAL < ID_CODE_PAGE_VIET);
-		for (UINT i = ID_CODE_PAGE_LOCAL; i <= ID_CODE_PAGE_VIET; i++)
+        clear_selected:
+		ASSERT(ID_CODE_PAGE_CHS < ID_CODE_PAGE_VIET);
+		for (UINT i = ID_CODE_PAGE_CHS; i <= ID_CODE_PAGE_VIET; i++)
 		{
 			pMenu->CheckMenuItem(i, MF_UNCHECKED);
 			//pMenu->CheckMenuRadioItem(ID_CODE_PAGE_LOCAL, ID_CODE_PAGE_VIET, i, MF_BYCOMMAND | MF_UNCHECKED);
 		}
 	}
-
-    //bool code_page_enable = (m_code == CodeType::ANSI);
-    //pMenu->EnableMenuItem(ID_CODE_PAGE_LOCAL, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    //pMenu->EnableMenuItem(ID_CODE_PAGE_CHS, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    //pMenu->EnableMenuItem(ID_CODE_PAGE_CHT, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    //pMenu->EnableMenuItem(ID_CODE_PAGE_JP, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    //pMenu->EnableMenuItem(ID_CODE_PAGE_EN, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    //pMenu->EnableMenuItem(ID_CODE_PAGE_KOR, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    //pMenu->EnableMenuItem(ID_CODE_PAGE_THAI, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
-    //pMenu->EnableMenuItem(ID_CODE_PAGE_VIET, MF_BYCOMMAND | (code_page_enable ? MF_ENABLED : MF_GRAYED));
 
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
@@ -1562,12 +1559,24 @@ void CSimpleNotePadDlg::OnSepcifyCodePage()
 }
 
 
-void CSimpleNotePadDlg::OnCodePageLocal()
+//void CSimpleNotePadDlg::OnCodePageLocal()
+//{
+//    // TODO: 在此添加命令处理程序代码
+//    if (!BeforeChangeCode()) return;
+//	m_code = CodeType::ANSI;
+//	m_code_page = CP_ACP;
+//    ChangeCode();
+//
+//}
+
+
+void CSimpleNotePadDlg::OnToolOptions()
 {
     // TODO: 在此添加命令处理程序代码
-    if (!BeforeChangeCode()) return;
-	m_code = CodeType::ANSI;
-	m_code_page = CP_ACP;
-    ChangeCode();
-
+    CSettingsDlg dlg;
+    dlg.m_data = theApp.m_settings_data;
+    if (dlg.DoModal() == IDOK)
+    {
+        theApp.m_settings_data = dlg.m_data;
+    }
 }

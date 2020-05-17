@@ -62,12 +62,12 @@ bool CFormatConvertDlg::OpenFile(LPCTSTR file_path)
 
 	if (m_input_format != CodeType::AUTO)
 	{
-		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format);	//转换成Unicode
+		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format, theApp.m_settings_data.default_code_page);	//转换成Unicode
 	}
 	else		//输入编码格式为“自动”时，自动判断编码类型
 	{
 		JudgeCode();											//判断编码类型
-		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format);	//转换成Unicode
+		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format, theApp.m_settings_data.default_code_page);	//转换成Unicode
 		if (m_temp_string.size() < m_input_string.size() / 4)		//如果以自动识别的格式转换成Unicode后，Unicode字符串的长度小于多字节字符串长度的1/4，则文本的编码格式可能是UTF16
 		{
 			m_input_format = CodeType::UTF16;

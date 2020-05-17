@@ -44,6 +44,7 @@ using std::ofstream;
 #include<vector>
 #include <afxwin.h>
 #include <afxcontrolbars.h>
+#include <afxwin.h>
 using std::vector;
 
 

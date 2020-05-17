@@ -151,5 +151,6 @@ public:
 	afx_msg void OnCodePageThai();
 	afx_msg void OnCodePageViet();
 	afx_msg void OnSepcifyCodePage();
-    afx_msg void OnCodePageLocal();
+    //afx_msg void OnCodePageLocal();
+    afx_msg void OnToolOptions();
 };
