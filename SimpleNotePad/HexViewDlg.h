@@ -2,12 +2,13 @@
 #include "Common.h"
 #include "afxwin.h"
 #include "afxcmn.h"
+#include "BaseDialog.h"
 
 using std::string;
 
 // CHexViewDlg 对话框
 
-class CHexViewDlg : public CDialog
+class CHexViewDlg : public CBaseDialog
 {
 	DECLARE_DYNAMIC(CHexViewDlg)
 
@@ -67,8 +68,6 @@ protected:
 	EditUnit m_edit_unit{};
 	SizeUnit m_size_unit{};
 
-    CSize m_min_size;
-
 protected:
 	void ShowHexData(bool ini = false);	//在文本编辑框中显示出十六进制数据(在初始化时调用要把参数设为true)
 	unsigned int GetValueAndStr(unsigned int address, EditUnit edit_unit, CString& value_str);		//根据地址和编辑单位返回值，并转换成字符串保存到value_str中
@@ -76,6 +75,8 @@ protected:
 
 	void SaveConfig() const;
 	void LoadConfig();
+
+	virtual CString GetDialogName() const override;
 
 public:
 	bool IsModified() { return m_modified; }
@@ -103,5 +104,4 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg void OnBnClickedInsertDataButton();
 	afx_msg void OnBnClickedDeleteDataButton();
-    afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
 };

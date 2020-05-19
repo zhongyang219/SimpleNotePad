@@ -9,10 +9,10 @@
 
 // CFormatConvertDlg 对话框
 
-IMPLEMENT_DYNAMIC(CFormatConvertDlg, CDialog)
+IMPLEMENT_DYNAMIC(CFormatConvertDlg, CBaseDialog)
 
 CFormatConvertDlg::CFormatConvertDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(IDD_FORMAT_CONVERT_DIALOG, pParent)
+	: CBaseDialog(IDD_FORMAT_CONVERT_DIALOG, pParent)
 {
 
 }
@@ -99,18 +99,23 @@ bool CFormatConvertDlg::SaveFile(LPCTSTR file_path)
 	return true;
 }
 
+CString CFormatConvertDlg::GetDialogName() const
+{
+	return _T("FormatConvertDlg");
+}
+
 
 
 void CFormatConvertDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	CBaseDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_INPUT_COMBO, m_input_box);
 	DDX_Control(pDX, IDC_OUTPUT_COMBO, m_output_box);
 	DDX_Control(pDX, IDC_FILE_LIST, m_list_box);
 }
 
 
-BEGIN_MESSAGE_MAP(CFormatConvertDlg, CDialog)
+BEGIN_MESSAGE_MAP(CFormatConvertDlg, CBaseDialog)
 	ON_BN_CLICKED(IDC_ADD_BUTTON, &CFormatConvertDlg::OnBnClickedAddButton)
 	ON_BN_CLICKED(IDC_REMOVE_BUTTON, &CFormatConvertDlg::OnBnClickedRemoveButton)
 	ON_BN_CLICKED(IDC_CLEAR_BUTTON, &CFormatConvertDlg::OnBnClickedClearButton)
@@ -125,7 +130,7 @@ END_MESSAGE_MAP()
 
 BOOL CFormatConvertDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+	CBaseDialog::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
 
@@ -264,5 +269,5 @@ void CFormatConvertDlg::OnDropFiles(HDROP hDropInfo)
 		m_file_list.emplace_back(file_path);
 	}
 	ShowFileList();
-	CDialog::OnDropFiles(hDropInfo);
+	CBaseDialog::OnDropFiles(hDropInfo);
 }

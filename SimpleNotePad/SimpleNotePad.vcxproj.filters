@@ -54,6 +54,9 @@
     <Filter Include="头文件和源文件\对话框类\SettingDlg">
       <UniqueIdentifier>{8a03c136-10ff-4c57-9e04-72b73c5f4203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\对话框类\BaseDialog">
+      <UniqueIdentifier>{6b5c8192-1e4b-45a9-a7bd-16789a7d842e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -101,6 +104,9 @@
     <ClInclude Include="SettingsDlg.h">
       <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
     </ClInclude>
+    <ClInclude Include="BaseDialog.h">
+      <Filter>头文件和源文件\对话框类\BaseDialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -138,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="SettingsDlg.cpp">
       <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseDialog.cpp">
+      <Filter>头文件和源文件\对话框类\BaseDialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

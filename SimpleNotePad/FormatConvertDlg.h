@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include "Common.h"
 #include "afxwin.h"
+#include "BaseDialog.h"
 
 // CFormatConvertDlg 对话框
 
-class CFormatConvertDlg : public CDialog
+class CFormatConvertDlg : public CBaseDialog
 {
 	DECLARE_DYNAMIC(CFormatConvertDlg)
 
@@ -37,6 +38,8 @@ protected:
 	void JudgeCode();
 	bool OpenFile(LPCTSTR file_path);
 	bool SaveFile(LPCTSTR file_path);
+
+	virtual CString GetDialogName() const override;
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 

@@ -10,10 +10,10 @@
 
 // CHexViewDlg 对话框
 
-IMPLEMENT_DYNAMIC(CHexViewDlg, CDialog)
+IMPLEMENT_DYNAMIC(CHexViewDlg, CBaseDialog)
 
 CHexViewDlg::CHexViewDlg(string& data, CodeType code, const CString& file_path, CWnd* pParent /*=NULL*/)
-	: CDialog(IDD_HEX_VIEW_DIALOG, pParent), m_data(data), m_code(code), m_file_path(file_path)
+	: CBaseDialog(IDD_HEX_VIEW_DIALOG, pParent), m_data(data), m_code(code), m_file_path(file_path)
 {
 }
 
@@ -23,14 +23,14 @@ CHexViewDlg::~CHexViewDlg()
 
 void CHexViewDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	CBaseDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_HEX_EDIT, m_edit);
 	DDX_Control(pDX, IDC_MODIFIED_LIST, m_modified_list);
 	DDX_Control(pDX, IDC_STATIC_HEAD, m_static_head);
 }
 
 
-BEGIN_MESSAGE_MAP(CHexViewDlg, CDialog)
+BEGIN_MESSAGE_MAP(CHexViewDlg, CBaseDialog)
 	ON_WM_TIMER()
 	ON_EN_CHANGE(IDC_EDIT_ADDRESS, &CHexViewDlg::OnEnChangeEditAddress)
 	ON_BN_CLICKED(IDC_SEARCH, &CHexViewDlg::OnBnClickedSearch)
@@ -50,7 +50,6 @@ BEGIN_MESSAGE_MAP(CHexViewDlg, CDialog)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_INSERT_DATA_BUTTON, &CHexViewDlg::OnBnClickedInsertDataButton)
 	ON_BN_CLICKED(IDC_DELETE_DATA_BUTTON, &CHexViewDlg::OnBnClickedDeleteDataButton)
-    ON_WM_GETMINMAXINFO()
 END_MESSAGE_MAP()
 
 
@@ -182,17 +181,16 @@ void CHexViewDlg::LoadConfig()
 	m_size_unit = static_cast<SizeUnit>(GetPrivateProfileInt(_T("config"), _T("size_unit"), 0, theApp.m_config_path.c_str()));
 }
 
+CString CHexViewDlg::GetDialogName() const
+{
+	return _T("HexViewDlg");
+}
+
 BOOL CHexViewDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+	CBaseDialog::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
-
-    //获取初始时窗口的大小
-    CRect rect;
-    GetWindowRect(rect);
-    m_min_size.cx = rect.Width();
-    m_min_size.cy = rect.Height();
 
 	LoadConfig();
 	if(!m_file_path.IsEmpty())
@@ -201,6 +199,7 @@ BOOL CHexViewDlg::OnInitDialog()
 	ShowHexData(true);
 
 	m_modified_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
+    CRect rect;
 	m_modified_list.GetClientRect(rect);
 	size_t width1 = rect.Width() * 3 / 10;		//列的宽度：列表宽度的3/10
 	//size_t width2 = rect.Width() / 4;		//第2列的宽度：列表宽度的1/4
@@ -256,14 +255,14 @@ void CHexViewDlg::OnTimer(UINT_PTR nIDEvent)
 		m_edit.SetWindowText(m_str);	//延迟一定时间显示
 	}
 
-	CDialog::OnTimer(nIDEvent);
+	CBaseDialog::OnTimer(nIDEvent);
 }
 
 
 void CHexViewDlg::OnEnChangeEditAddress()
 {
 	// TODO:  如果该控件是 RICHEDIT 控件，它将不
-	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 发送此通知，除非重写 CBaseDialog::OnInitDialog()
 	// 函数并调用 CRichEditCtrl().SetEventMask()，
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
@@ -432,7 +431,7 @@ BOOL CHexViewDlg::PreTranslateMessage(MSG* pMsg)
 		return TRUE;
 	}
 
-	return CDialog::PreTranslateMessage(pMsg);
+	return CBaseDialog::PreTranslateMessage(pMsg);
 }
 
 
@@ -614,7 +613,7 @@ void CHexViewDlg::OnBnClickedModifySize()
 
 void CHexViewDlg::OnDestroy()
 {
-	CDialog::OnDestroy();
+	CBaseDialog::OnDestroy();
 
 	// TODO: 在此处添加消息处理程序代码
 	SaveConfig();
@@ -693,15 +692,4 @@ void CHexViewDlg::OnBnClickedDeleteDataButton()
 			m_modified = true;
 		}
 	}
-}
-
-
-void CHexViewDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
-{
-    // TODO: 在此添加消息处理程序代码和/或调用默认值
-    //限制窗口最小大小
-    lpMMI->ptMinTrackSize.x = m_min_size.cx;		//设置最小宽度
-    lpMMI->ptMinTrackSize.y = m_min_size.cy;		//设置最小高度
-
-    CDialog::OnGetMinMaxInfo(lpMMI);
 }

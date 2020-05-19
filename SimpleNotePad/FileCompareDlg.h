@@ -1,10 +1,11 @@
 ﻿#pragma once
 #include "afxcmn.h"
 #include "Common.h"
+#include "BaseDialog.h"
 
 // CFileCompareDlg 对话框
 
-class CFileCompareDlg : public CDialog
+class CFileCompareDlg : public CBaseDialog
 {
 	DECLARE_DYNAMIC(CFileCompareDlg)
 
@@ -68,6 +69,7 @@ protected:
 
 	void EnableButtons(bool enable = true);
 	void ClearCompareResult();
+	virtual CString GetDialogName() const override;
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 

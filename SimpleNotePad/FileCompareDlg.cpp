@@ -9,10 +9,10 @@
 
 // CFileCompareDlg 对话框
 
-IMPLEMENT_DYNAMIC(CFileCompareDlg, CDialog)
+IMPLEMENT_DYNAMIC(CFileCompareDlg, CBaseDialog)
 
 CFileCompareDlg::CFileCompareDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(IDD_FILE_COMPARE_DIALOG, pParent)
+	: CBaseDialog(IDD_FILE_COMPARE_DIALOG, pParent)
 {
 
 }
@@ -122,15 +122,20 @@ void CFileCompareDlg::ClearCompareResult()
 		m_result_info.SetItemText(i, 1, _T(""));
 }
 
+CString CFileCompareDlg::GetDialogName() const
+{
+	return _T("FileCompareDlg");
+}
+
 void CFileCompareDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	CBaseDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST_RESULT, m_result_info);
 	DDX_Control(pDX, IDC_PROGRESS1, m_progress_ctrl);
 }
 
 
-BEGIN_MESSAGE_MAP(CFileCompareDlg, CDialog)
+BEGIN_MESSAGE_MAP(CFileCompareDlg, CBaseDialog)
 	ON_BN_CLICKED(IDC_OPEN_BUTTON1, &CFileCompareDlg::OnBnClickedOpenButton1)
 	ON_BN_CLICKED(IDC_OPEN_BUTTON2, &CFileCompareDlg::OnBnClickedOpenButton2)
 	ON_BN_CLICKED(IDC_COMPARE_BUTTON, &CFileCompareDlg::OnBnClickedCompareButton)
@@ -142,7 +147,7 @@ END_MESSAGE_MAP()
 
 BOOL CFileCompareDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+	CBaseDialog::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
 	m_result_info.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
@@ -274,7 +279,7 @@ void CFileCompareDlg::OnDropFiles(HDROP hDropInfo)
 	}
 	DragFinish(hDropInfo); //拖放结束后,释放内存
 
-	CDialog::OnDropFiles(hDropInfo);
+	CBaseDialog::OnDropFiles(hDropInfo);
 }
 
 
@@ -341,7 +346,7 @@ void CFileCompareDlg::OnOK()
 {
 	// TODO: 在此添加专用代码和/或调用基类
 	_OnExit();
-	CDialog::OnOK();
+	CBaseDialog::OnOK();
 }
 
 
@@ -349,5 +354,5 @@ void CFileCompareDlg::OnCancel()
 {
 	// TODO: 在此添加专用代码和/或调用基类
 	_OnExit();
-	CDialog::OnCancel();
+	CBaseDialog::OnCancel();
 }

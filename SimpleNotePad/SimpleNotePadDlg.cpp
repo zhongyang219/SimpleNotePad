@@ -54,14 +54,14 @@ END_MESSAGE_MAP()
 
 
 CSimpleNotePadDlg::CSimpleNotePadDlg(CString file_path, CWnd* pParent /*=NULL*/)
-	: CDialog(IDD_SIMPLENOTEPAD_DIALOG, pParent), m_file_path(file_path)
+	: CBaseDialog(IDD_SIMPLENOTEPAD_DIALOG, pParent), m_file_path(file_path)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	CBaseDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_EDIT1, m_edit);
 }
 
@@ -229,9 +229,7 @@ void CSimpleNotePadDlg::SaveConfig()
 	//保存字体设置
 	theApp.WriteProfileStringW(_T("config"), _T("font_name"), m_font_name);
     theApp.WriteProfileInt(L"config", L"font_size", m_font_size);
-	//保存窗口大小
-	theApp.WriteProfileInt(L"config", L"window_width", m_window_width);
-	theApp.WriteProfileInt(L"config", L"window_hight", m_window_hight);
+
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
 	theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
 
@@ -248,9 +246,9 @@ void CSimpleNotePadDlg::LoadConfig()
 	//载入字体设置
 	m_font_name = theApp.GetProfileStringW(_T("config"), _T("font_name"), _T("微软雅黑"));
 	m_font_size = theApp.GetProfileInt(_T("config"), _T("font_size"), 10);
-	//载入窗口大小
-	m_window_width = theApp.GetProfileInt(_T("config"), _T("window_width"), 560);
-	m_window_hight = theApp.GetProfileInt(_T("config"), _T("window_hight"), 350);
+	////载入窗口大小
+	//m_window_width = theApp.GetProfileInt(_T("config"), _T("window_width"), 560);
+	//m_window_hight = theApp.GetProfileInt(_T("config"), _T("window_hight"), 350);
 	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
 	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
 
@@ -419,6 +417,11 @@ void CSimpleNotePadDlg::SetAlwaysOnTop()
         SetWindowPos(&wndNoTopMost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);		//取消置顶
 }
 
+CString CSimpleNotePadDlg::GetDialogName() const
+{
+	return _T("MainWindow");
+}
+
 //void CSimpleNotePadDlg::SaveAsHex()
 //{
 //	//设置过滤器
@@ -438,7 +441,7 @@ void CSimpleNotePadDlg::SetAlwaysOnTop()
 //}
 
 
-BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CDialog)
+BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
@@ -486,7 +489,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CDialog)
 	ON_WM_MENUSELECT()
 	ON_WM_INITMENU()
 	ON_COMMAND(ID_FORMAT_CONVERT, &CSimpleNotePadDlg::OnFormatConvert)
-	ON_WM_GETMINMAXINFO()
+//	ON_WM_GETMINMAXINFO()
     ON_COMMAND(ID_ALWAYS_ON_TOP, &CSimpleNotePadDlg::OnAlwaysOnTop)
 	ON_COMMAND(ID_CODE_PAGE_CHS, &CSimpleNotePadDlg::OnCodePageChs)
 	ON_COMMAND(ID_CODE_PAGE_CHT, &CSimpleNotePadDlg::OnCodePageCht)
@@ -504,7 +507,7 @@ END_MESSAGE_MAP()
 
 BOOL CSimpleNotePadDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+	CBaseDialog::OnInitDialog();
 
 	// 将“关于...”菜单项添加到系统菜单中。
 
@@ -536,11 +539,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	//m_config_path = CCommon::GetCurrentPath() + L"config.ini";
 	//载入设置
 	LoadConfig();
-	//初始化窗口大小
-	CRect rect;
-	rect.right = m_window_width;
-	rect.bottom = m_window_hight;
-	MoveWindow(rect);
+	////初始化窗口大小
+	//SetWindowPos(nullptr, 0, 0, m_window_width, m_window_hight, SWP_NOZORDER | SWP_NOMOVE);
 
 	//根据当前系统DPI设置设置状态栏大小
 	CWindowDC dc(this);
@@ -551,7 +551,10 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	m_status_bar_mid_width = m_dpi * 60 / 96;
 	m_status_bar_right_width = m_dpi * 280 / 96;
 
+	SetMinSize(200 * m_dpi / 96, 150 * m_dpi / 96);
+
 	//初始化编辑框大小
+	CRect rect;
 	GetClientRect(&rect);
 	//rect.bottom = rect.bottom - 22;
 	rect.bottom = rect.bottom - m_edit_bottom_space;
@@ -606,7 +609,7 @@ void CSimpleNotePadDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 	else
 	{
-		CDialog::OnSysCommand(nID, lParam);
+		CBaseDialog::OnSysCommand(nID, lParam);
 	}
 }
 
@@ -635,7 +638,7 @@ void CSimpleNotePadDlg::OnPaint()
 	}
 	else
 	{
-		CDialog::OnPaint();
+		CBaseDialog::OnPaint();
 	}
 }
 
@@ -658,7 +661,7 @@ void CSimpleNotePadDlg::OnAppAbout()
 
 void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 {
-	CDialog::OnSize(nType, cx, cy);
+	CBaseDialog::OnSize(nType, cx, cy);
 
 	// TODO: 在此处添加消息处理程序代码
 	CRect size;		//编辑框矩形区域
@@ -681,15 +684,15 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 		int nParts[3] = { cx - m_status_bar_right_width - m_status_bar_mid_width, cx - m_status_bar_right_width, -1 }; //分割尺寸
 		m_status_bar.SetParts(3, nParts); //分割状态栏
 	}
-	if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
-	{
-		//m_window_width = cx;
-		//m_window_hight = cy;
-		CRect rect;
-		GetWindowRect(&rect);
-		m_window_width = rect.Width();
-		m_window_hight = rect.Height();
-	}
+	//if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
+	//{
+	//	//m_window_width = cx;
+	//	//m_window_hight = cy;
+	//	CRect rect;
+	//	GetWindowRect(&rect);
+	//	m_window_width = rect.Width();
+	//	m_window_hight = rect.Height();
+	//}
 }
 
 
@@ -768,7 +771,7 @@ void CSimpleNotePadDlg::OnCodeUtf16()
 
 //void CSimpleNotePadDlg::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
 //{
-//	CDialog::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
+//	CBaseDialog::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
 //
 //	// TODO: 在此处添加消息处理程序代码
 //	ASSERT(pPopupMenu != NULL);
@@ -855,7 +858,7 @@ void CSimpleNotePadDlg::OnCodeUtf16()
 void CSimpleNotePadDlg::OnEnChangeEdit1()
 {
 	// TODO:  如果该控件是 RICHEDIT 控件，它将不
-	// 发送此通知，除非重写 CDialog::OnInitDialog()
+	// 发送此通知，除非重写 CBaseDialog::OnInitDialog()
 	// 函数并调用 CRichEditCtrl().SetEventMask()，
 	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
 
@@ -1044,7 +1047,7 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 		ShowStatusBar();
 		return TRUE;
 	}
-	return CDialog::PreTranslateMessage(pMsg);
+	return CBaseDialog::PreTranslateMessage(pMsg);
 }
 
 
@@ -1120,7 +1123,7 @@ void CSimpleNotePadDlg::OnHexView()
 
 //void CSimpleNotePadDlg::OnDestroy()
 //{
-//	CDialog::OnDestroy();
+//	CBaseDialog::OnDestroy();
 //
 //	// TODO: 在此处添加消息处理程序代码
 //}
@@ -1139,7 +1142,7 @@ void CSimpleNotePadDlg::OnDropFiles(HDROP hDropInfo)
 	SetTitle();				//设置窗口标题
 	DragFinish(hDropInfo);  //拖放结束后,释放内存
 
-	CDialog::OnDropFiles(hDropInfo);
+	CBaseDialog::OnDropFiles(hDropInfo);
 }
 
 
@@ -1170,7 +1173,7 @@ void CSimpleNotePadDlg::OnTimer(UINT_PTR nIDEvent)
 		OpenFile(m_file_path);		//如果文件是通过命令行打开的，则延时100毫秒再打开
 	}
 
-	CDialog::OnTimer(nIDEvent);
+	CBaseDialog::OnTimer(nIDEvent);
 }
 
 
@@ -1222,7 +1225,7 @@ void CSimpleNotePadDlg::OnClose()
 	//}
 	SaveConfig();
 
-	CDialog::OnClose();
+	CBaseDialog::OnClose();
 }
 
 
@@ -1377,7 +1380,7 @@ void CSimpleNotePadDlg::OnReplace()
 
 void CSimpleNotePadDlg::OnMenuSelect(UINT nItemID, UINT nFlags, HMENU hSysMenu)
 {
-	CDialog::OnMenuSelect(nItemID, nFlags, hSysMenu);
+	CBaseDialog::OnMenuSelect(nItemID, nFlags, hSysMenu);
 
 	// TODO: 在此处添加消息处理程序代码
 	CString menu_tip;
@@ -1393,7 +1396,7 @@ void CSimpleNotePadDlg::OnMenuSelect(UINT nItemID, UINT nFlags, HMENU hSysMenu)
 
 void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 {
-	CDialog::OnInitMenu(pMenu);
+	CBaseDialog::OnInitMenu(pMenu);
 
 	// TODO: 在此处添加消息处理程序代码
     if (m_code == CodeType::ANSI && m_code_page != CP_ACP)
@@ -1454,14 +1457,14 @@ void CSimpleNotePadDlg::OnFormatConvert()
 }
 
 
-void CSimpleNotePadDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
-{
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	lpMMI->ptMinTrackSize.x = 200 * m_dpi / 96;		//设置最小宽度
-	lpMMI->ptMinTrackSize.y = 150 * m_dpi / 96;		//设置最小高度
-
-	CDialog::OnGetMinMaxInfo(lpMMI);
-}
+//void CSimpleNotePadDlg::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+//{
+//	// TODO: 在此添加消息处理程序代码和/或调用默认值
+//	lpMMI->ptMinTrackSize.x = 200 * m_dpi / 96;		//设置最小宽度
+//	lpMMI->ptMinTrackSize.y = 150 * m_dpi / 96;		//设置最小高度
+//
+//	CBaseDialog::OnGetMinMaxInfo(lpMMI);
+//}
 
 
 void CSimpleNotePadDlg::OnAlwaysOnTop()
