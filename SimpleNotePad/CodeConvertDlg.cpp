@@ -10,10 +10,10 @@
 
 // CCodeConvertDlg 对话框
 
-IMPLEMENT_DYNAMIC(CCodeConvertDlg, CDialog)
+IMPLEMENT_DYNAMIC(CCodeConvertDlg, CBaseDialog)
 
 CCodeConvertDlg::CCodeConvertDlg(CWnd* pParent /*=nullptr*/)
-	: CDialog(IDD_CODE_CONVERT_DIALOG, pParent)
+	: CBaseDialog(IDD_CODE_CONVERT_DIALOG, pParent)
 {
 
 }
@@ -33,15 +33,20 @@ void CCodeConvertDlg::InitComboBox(CComboBox& combo_box)
         combo_box.SetCurSel(0);
 }
 
+CString CCodeConvertDlg::GetDialogName() const
+{
+    return _T("CodeConvertDlg");
+}
+
 void CCodeConvertDlg::DoDataExchange(CDataExchange* pDX)
 {
-    CDialog::DoDataExchange(pDX);
+    CBaseDialog::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_INPUT_COMBO, m_input_combo);
     DDX_Control(pDX, IDC_OUTPUT_COMBO, m_output_combo);
 }
 
 
-BEGIN_MESSAGE_MAP(CCodeConvertDlg, CDialog)
+BEGIN_MESSAGE_MAP(CCodeConvertDlg, CBaseDialog)
     ON_BN_CLICKED(IDC_BUTTON1, &CCodeConvertDlg::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
@@ -51,7 +56,7 @@ END_MESSAGE_MAP()
 
 BOOL CCodeConvertDlg::OnInitDialog()
 {
-    CDialog::OnInitDialog();
+    CBaseDialog::OnInitDialog();
 
     // TODO:  在此添加额外的初始化
     //初始化下拉列表

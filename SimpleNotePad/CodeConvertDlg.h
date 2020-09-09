@@ -1,9 +1,10 @@
 ﻿#pragma once
+#include "BaseDialog.h"
 
 
 // CCodeConvertDlg 对话框
 
-class CCodeConvertDlg : public CDialog
+class CCodeConvertDlg : public CBaseDialog
 {
 	DECLARE_DYNAMIC(CCodeConvertDlg)
 
@@ -19,7 +20,8 @@ public:
 protected:
     void InitComboBox(CComboBox& combo_box);
 
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+    virtual CString GetDialogName() const override;
+    virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
 public:
