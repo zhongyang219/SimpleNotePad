@@ -10,6 +10,7 @@
 #include "FormatConvertDlg.h"
 #include "InputDlg.h"
 #include "SettingsDlg.h"
+#include "CodeConvertDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -120,7 +121,9 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_page)
 {
 	bool char_connot_convert;
-	m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, char_connot_convert, code, code_page);
+    if (code_page == CODE_PAGE_DEFAULT)
+        code_page = theApp.m_settings_data.default_code_page;
+    m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, char_connot_convert, code, code_page);
 	if (char_connot_convert)	//当文件中包含Unicode字符时，询问用户是否要选择一个Unicode编码格式再保存
 	{
 		CString info;
@@ -303,7 +306,7 @@ bool CSimpleNotePadDlg::_OnFileSave()
 		//已经打开过一个文件时就直接保存，还没有打开一个文件就弹出“另存为”对话框
 		if (!m_file_path.IsEmpty())
 		{
-			if (SaveFile(m_file_path, m_code))
+			if (SaveFile(m_file_path, m_code, m_code_page))
 				return true;
 			else
 				return _OnFileSaveAs();		//文件无法保存时弹出“另存为”对话框
@@ -337,23 +340,10 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	//为“另存为”对话框添加一个组合选择框
 	fileDlg.AddComboBox(IDC_SAVE_COMBO_BOX);
 	//为组合选择框添加项目
-    const vector<std::pair<CString, UINT>> combo_list{ {_T("ANSI (本地代码页)"), static_cast<UINT>(CodeType::ANSI)},
-        {_T("UTF-8"), static_cast<UINT>(CodeType::UTF8)},
-        {_T("UTF-8无BOM"), static_cast<UINT>(CodeType::UTF8_NO_BOM)},
-        {_T("UTF-16"), static_cast<UINT>(CodeType::UTF16)},
-        {_T("简体中文 (GB2312)"), CODE_PAGE_CHS},
-        {_T("繁体中文 (Big5)"), CODE_PAGE_CHT},
-        {_T("日文 (Shift-JIS)"), CODE_PAGE_JP},
-        {_T("西欧语言 (Windows)"), CODE_PAGE_EN},
-        {_T("韩文"), CODE_PAGE_KOR},
-        {_T("泰文"), CODE_PAGE_THAI},
-        {_T("越南文"), CODE_PAGE_VIET},
-        {_T("设置中指定的非Unicode默认代码页"), CP_ACP},
-    };
 
-    for (size_t i{}; i < combo_list.size(); i++)
+    for (size_t i{}; i < CONST_VAL::code_list.size(); i++)
     {
-        fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, i, combo_list[i].first);
+        fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, i, CONST_VAL::code_list[i].name);
     }
 
 	//fileDlg.SetControlLabel(IDC_SAVE_COMBO_BOX, _T("编码类型："));
@@ -375,22 +365,22 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	{
 		DWORD selected_item;
 		fileDlg.GetSelectedControlItem(IDC_SAVE_COMBO_BOX, selected_item);	//获取“编码格式”中选中的项目
-		m_save_code = static_cast<CodeType>(selected_item);
-		UINT save_code_page{ CP_ACP };
-		if (selected_item >= 4)
-		{
-			m_save_code = CodeType::ANSI;
-            if(selected_item < combo_list.size())
-			    save_code_page = combo_list[selected_item].second;
-		}
-		if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code))
-		{
-			m_file_path = fileDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
-			SetTitle();					//用新的文件名设置标题
-			m_code = m_save_code;		//另存为后当前编码类型设置为另存为的编码类型
-			ShowStatusBar();			//刷新状态栏
-			return true;
-		}
+        if (selected_item >= 0 && selected_item < static_cast<DWORD>(CONST_VAL::code_list.size()))
+        {
+		    m_save_code = CONST_VAL::code_list[selected_item].code_type;
+		    UINT save_code_page = CONST_VAL::code_list[selected_item].code_page;
+            if (save_code_page == CODE_PAGE_DEFAULT)
+                save_code_page = theApp.m_settings_data.default_code_page;
+		    if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code, save_code_page))
+		    {
+			    m_file_path = fileDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
+			    SetTitle();					//用新的文件名设置标题
+			    m_code = m_save_code;		//另存为后当前编码类型设置为另存为的编码类型
+			    ShowStatusBar();			//刷新状态栏
+			    return true;
+		    }
+
+        }
 	}
 	return false;
 }
@@ -501,6 +491,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
 	ON_COMMAND(ID_SEPCIFY_CODE_PAGE, &CSimpleNotePadDlg::OnSepcifyCodePage)
     //ON_COMMAND(ID_CODE_PAGE_LOCAL, &CSimpleNotePadDlg::OnCodePageLocal)
     ON_COMMAND(ID_TOOL_OPTIONS, &CSimpleNotePadDlg::OnToolOptions)
+    ON_COMMAND(ID_CODE_CONVERT, &CSimpleNotePadDlg::OnCodeConvert)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1582,4 +1573,12 @@ void CSimpleNotePadDlg::OnToolOptions()
     {
         theApp.m_settings_data = dlg.m_data;
     }
+}
+
+
+void CSimpleNotePadDlg::OnCodeConvert()
+{
+    // TODO: 在此添加命令处理程序代码
+    CCodeConvertDlg dlg;
+    dlg.DoModal();
 }

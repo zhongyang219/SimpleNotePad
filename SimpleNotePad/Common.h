@@ -11,14 +11,42 @@ using std::string;
 #define CODE_PAGE_THAI 874
 #define CODE_PAGE_VIET 1258
 
+#define CODE_PAGE_DEFAULT (UINT32_MAX)
+
 enum class CodeType
 {
-	ANSI,
-	UTF8,
-	UTF8_NO_BOM,
-	UTF16,
-	AUTO
+    ANSI,
+    UTF8,
+    UTF8_NO_BOM,
+    UTF16,
+    AUTO
 };
+
+struct CodeTypeItem
+{
+    CString name;
+    CodeType code_type{};
+    UINT code_page{};
+};
+
+
+namespace CONST_VAL
+{
+    const vector<CodeTypeItem> code_list{ {_T("ANSI (本地代码页)"), CodeType::ANSI, CP_ACP},
+        {_T("UTF-8"), CodeType::UTF8, CP_ACP},
+        {_T("UTF-8无BOM"), CodeType::UTF8_NO_BOM, CP_ACP},
+        {_T("UTF-16"), CodeType::UTF16, CP_ACP},
+        {_T("简体中文 (GB2312)"), CodeType::ANSI, CODE_PAGE_CHS},
+        {_T("繁体中文 (Big5)"), CodeType::ANSI, CODE_PAGE_CHT},
+        {_T("日文 (Shift-JIS)"), CodeType::ANSI, CODE_PAGE_JP},
+        {_T("西欧语言 (Windows)"), CodeType::ANSI, CODE_PAGE_EN},
+        {_T("韩文"), CodeType::ANSI, CODE_PAGE_KOR},
+        {_T("泰文"), CodeType::ANSI, CODE_PAGE_THAI},
+        {_T("越南文"), CodeType::ANSI, CODE_PAGE_VIET},
+        {_T("设置中指定的非Unicode默认代码页"), CodeType::ANSI, CODE_PAGE_DEFAULT},
+    };
+
+}
 
 
 class CCommon
