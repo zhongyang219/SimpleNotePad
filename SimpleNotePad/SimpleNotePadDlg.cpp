@@ -1434,6 +1434,8 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
+
+    pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
 }
 
 
