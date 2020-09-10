@@ -1582,5 +1582,7 @@ void CSimpleNotePadDlg::OnCodeConvert()
 {
     // TODO: 在此添加命令处理程序代码
     CCodeConvertDlg dlg;
+    ShowWindow(SW_HIDE);
     dlg.DoModal();
+    ShowWindow(SW_SHOW);
 }

@@ -59,9 +59,14 @@ BOOL CCodeConvertDlg::OnInitDialog()
     CBaseDialog::OnInitDialog();
 
     // TODO:  在此添加额外的初始化
+    SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), FALSE);
+
     //初始化下拉列表
     InitComboBox(m_input_combo);
     InitComboBox(m_output_combo);
+
+    //设置该对话框在任务栏显示
+    ModifyStyleEx(0, WS_EX_APPWINDOW);
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 异常: OCX 属性页应返回 FALSE
