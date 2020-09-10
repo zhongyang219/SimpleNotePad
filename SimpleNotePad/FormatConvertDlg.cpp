@@ -60,14 +60,14 @@ bool CFormatConvertDlg::OpenFile(LPCTSTR file_path)
 	}
 	m_input_string.pop_back();
 
-	if (m_input_format != CodeType::AUTO)
+	if (!m_input_auto_detect)
 	{
-		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format, theApp.m_settings_data.default_code_page);	//转换成Unicode
+		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format, m_code_page);	//转换成Unicode
 	}
 	else		//输入编码格式为“自动”时，自动判断编码类型
 	{
 		JudgeCode();											//判断编码类型
-		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format, theApp.m_settings_data.default_code_page);	//转换成Unicode
+		m_temp_string = CCommon::StrToUnicode(m_input_string, m_input_format, m_code_page);	//转换成Unicode
 		if (m_temp_string.size() < m_input_string.size() / 4)		//如果以自动识别的格式转换成Unicode后，Unicode字符串的长度小于多字节字符串长度的1/4，则文本的编码格式可能是UTF16
 		{
 			m_input_format = CodeType::UTF16;
@@ -80,7 +80,7 @@ bool CFormatConvertDlg::OpenFile(LPCTSTR file_path)
 bool CFormatConvertDlg::SaveFile(LPCTSTR file_path)
 {
 	bool char_connot_convert;
-	m_output_string = CCommon::UnicodeToStr(m_temp_string, char_connot_convert, m_output_format);
+	m_output_string = CCommon::UnicodeToStr(m_temp_string, char_connot_convert, m_output_format, m_code_page);
 	if (char_connot_convert)	//当文件中包含Unicode字符时，提示有些字符可能无法转换
 	{
 		CString info;
@@ -108,10 +108,11 @@ CString CFormatConvertDlg::GetDialogName() const
 
 void CFormatConvertDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CBaseDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_INPUT_COMBO, m_input_box);
-	DDX_Control(pDX, IDC_OUTPUT_COMBO, m_output_box);
-	DDX_Control(pDX, IDC_FILE_LIST, m_list_box);
+    CBaseDialog::DoDataExchange(pDX);
+    DDX_Control(pDX, IDC_INPUT_COMBO, m_input_box);
+    DDX_Control(pDX, IDC_OUTPUT_COMBO, m_output_box);
+    DDX_Control(pDX, IDC_FILE_LIST, m_list_box);
+    DDX_Control(pDX, IDC_INPUT_COMBO2, m_input_codepage_box);
 }
 
 
@@ -147,6 +148,13 @@ BOOL CFormatConvertDlg::OnInitDialog()
 	m_output_box.AddString(_T("UTF8"));
 	m_output_box.AddString(_T("UTF16"));
 	m_output_box.SetCurSel(1);
+
+    for (size_t i{}; i < CONST_VAL::code_page_list.size() - 1; i++)
+    {
+        m_input_codepage_box.AddString(CONST_VAL::code_page_list[i].name);
+    }
+    if (!CONST_VAL::code_page_list.empty())
+        m_input_codepage_box.SetCurSel(0);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
@@ -230,17 +238,24 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 		break;
 	}
 
+    switch (m_input_box.GetCurSel())
+    {
+    case 0: m_input_format = CodeType::AUTO; break;
+    case 1: m_input_format = CodeType::ANSI; break;
+    case 2: m_input_format = CodeType::UTF8; break;
+    case 3: m_input_format = CodeType::UTF16; break;
+    default: break;
+    }
+    m_input_auto_detect = (m_input_box.GetCurSel() == 0);
+
+    m_code_page = 0;
+    int index = m_input_codepage_box.GetCurSel();
+    if (index >= 0 && index < static_cast<int>(CONST_VAL::code_page_list.size()))
+        m_code_page = CONST_VAL::code_page_list[index].code_page;
+
 	int convert_cnt{};
 	for (const auto& item : m_file_list)
 	{
-		switch (m_input_box.GetCurSel())
-		{
-		case 0: m_input_format = CodeType::AUTO; break;
-		case 1: m_input_format = CodeType::ANSI; break;
-		case 2: m_input_format = CodeType::UTF8; break;
-		case 3: m_input_format = CodeType::UTF16; break;
-		default: break;
-		}
 		if(!OpenFile(item.c_str())) continue;		//如果当前文件无法打开，就跳过它
 		
 		wstring file_name;

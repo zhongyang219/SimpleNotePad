@@ -45,9 +45,9 @@ BOOL CSettingsDlg::OnInitDialog()
     // TODO:  在此添加额外的初始化
 
     //初始化下拉列表
-    for (size_t i{}; i < m_combo_list.size(); i++)
+    for (size_t i{}; i < CONST_VAL::code_page_list.size(); i++)
     {
-        m_default_page_code_combo.AddString(m_combo_list[i].first);
+        m_default_page_code_combo.AddString(CONST_VAL::code_page_list[i].name);
     }
     m_default_page_code_combo.SetCurSel(m_data.default_code_page_selected);
 
@@ -63,10 +63,10 @@ void CSettingsDlg::OnCbnSelchangeDefaultCodePageCombo()
     // TODO: 在此添加控件通知处理程序代码
     int index = m_default_page_code_combo.GetCurSel();
     m_data.default_code_page_selected = index;
-    if (index >= 0 && index < m_combo_list.size())
-        m_data.default_code_page = m_combo_list[index].second;
+    if (index >= 0 && index < CONST_VAL::code_page_list.size())
+        m_data.default_code_page = CONST_VAL::code_page_list[index].code_page;
 
-    if (index == m_combo_list.size() - 1)
+    if (index == CONST_VAL::code_page_list.size() - 1)
     {
         CInputDlg inputDlg;
         inputDlg.SetTitle(_T("输入代码页"));

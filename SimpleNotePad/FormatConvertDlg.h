@@ -21,13 +21,16 @@ public:
 protected:
 	CodeType m_input_format{};		//输入的编码格式
 	CodeType m_output_format{};		//输出的编码格式
+    UINT m_code_page{};             //非unicode时的默认代码页
+    bool m_input_auto_detect{};     //输入编码格式自动识别
 
 	vector<wstring> m_file_list;	//要转换的文件列表
 	wstring m_output_path;			//输出路径
 
 	CComboBox m_input_box;
 	CComboBox m_output_box;
-	CListBox m_list_box;
+    CComboBox m_input_codepage_box;
+    CListBox m_list_box;
 
 	string m_input_string;		//输入文件中的文本
 	wstring m_temp_string;		//转换成Unicode之后的文本

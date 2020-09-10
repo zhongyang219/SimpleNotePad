@@ -29,6 +29,12 @@ struct CodeTypeItem
     UINT code_page{};
 };
 
+struct CodePageItem
+{
+    CString name;
+    UINT code_page{};
+};
+
 
 namespace CONST_VAL
 {
@@ -44,6 +50,18 @@ namespace CONST_VAL
         {_T("泰文"), CodeType::ANSI, CODE_PAGE_THAI},
         {_T("越南文"), CodeType::ANSI, CODE_PAGE_VIET},
         {_T("设置中指定的非Unicode默认代码页"), CodeType::ANSI, CODE_PAGE_DEFAULT},
+    };
+
+    const vector<CodePageItem> code_page_list{
+        {_T("本地代码页"), CP_ACP},
+        {_T("简体中文 (GB2312)"), CODE_PAGE_CHS},
+        {_T("繁体中文 (Big5)"), CODE_PAGE_CHT},
+        {_T("日文 (Shift-JIS)"), CODE_PAGE_JP},
+        {_T("西欧语言 (Windows)"), CODE_PAGE_EN},
+        {_T("韩文"), CODE_PAGE_KOR},
+        {_T("泰文"), CODE_PAGE_THAI},
+        {_T("越南文"), CODE_PAGE_VIET},
+        {_T("手动指定代码页"), 0}
     };
 
 }
