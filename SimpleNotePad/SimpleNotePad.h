@@ -31,6 +31,9 @@ public:
 	bool m_compare_dialog_exit;	//用于指示文件比较对话框是否已退出
     SettingsData m_settings_data;
 
+private:
+    HMODULE m_hScintillaModule;
+
 // 重写
 public:
 	virtual BOOL InitInstance();

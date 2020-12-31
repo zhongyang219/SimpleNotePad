@@ -60,6 +60,9 @@
     <Filter Include="头文件和源文件\对话框类\CodeConvertDlg">
       <UniqueIdentifier>{cbe82370-0b29-473d-8495-f1963e6cba36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\ScintillaEditView">
+      <UniqueIdentifier>{c6cc31f7-77fb-421b-845c-38166a975887}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -113,6 +116,9 @@
     <ClInclude Include="CodeConvertDlg.h">
       <Filter>头文件和源文件\对话框类\CodeConvertDlg</Filter>
     </ClInclude>
+    <ClInclude Include="ScintillaEditView.h">
+      <Filter>头文件和源文件\ScintillaEditView</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -156,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="CodeConvertDlg.cpp">
       <Filter>头文件和源文件\对话框类\CodeConvertDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="ScintillaEditView.cpp">
+      <Filter>头文件和源文件\ScintillaEditView</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

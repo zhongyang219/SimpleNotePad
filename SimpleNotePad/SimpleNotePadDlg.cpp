@@ -63,7 +63,7 @@ CSimpleNotePadDlg::CSimpleNotePadDlg(CString file_path, CWnd* pParent /*=NULL*/)
 void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CBaseDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_EDIT1, m_edit);
+	//DDX_Control(pDX, IDC_EDIT1, m_edit);
 }
 
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
@@ -113,7 +113,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 		m_code = CodeType::UTF16;
 		m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//重新转换成Unicode
 	}
-	m_edit.SetWindowText(m_edit_wcs.c_str());				//将文件中的内容显示到编缉窗口中
+	m_view->SetText(m_edit_wcs);				//将文件中的内容显示到编缉窗口中
 	//m_flag = true;
 	ShowStatusBar();										//更新状态栏
 }
@@ -217,7 +217,7 @@ void CSimpleNotePadDlg::ShowStatusBar()
 void CSimpleNotePadDlg::ChangeCode()
 {
 	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code, m_code_page);
-	m_edit.SetWindowText(m_edit_wcs.c_str());
+	m_view->SetText(m_edit_wcs);
 	//m_flag = true;
 	ShowStatusBar();
 }
@@ -445,7 +445,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
 //	ON_UPDATE_COMMAND_UI(ID_CODE_UTF8, &CSimpleNotePadDlg::OnUpdateCodeUtf8)
 //	ON_UPDATE_COMMAND_UI(ID_CODE_UTF16, &CSimpleNotePadDlg::OnUpdateCodeUtf16)
 //	ON_WM_INITMENUPOPUP()
-	ON_EN_CHANGE(IDC_EDIT1, &CSimpleNotePadDlg::OnEnChangeEdit1)
+	//ON_EN_CHANGE(IDC_EDIT1, &CSimpleNotePadDlg::OnEnChangeEdit1)
 //	ON_COMMAND(ID_SAVE_ANSI, &CSimpleNotePadDlg::OnSaveAnsi)
 //	ON_COMMAND(ID_SAVE_UTF8, &CSimpleNotePadDlg::OnSaveUtf8)
 //	ON_COMMAND(ID_SAVE_UTF8_NOBOM, &CSimpleNotePadDlg::OnSaveUtf8Nobom)
@@ -549,8 +549,14 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	GetClientRect(&rect);
 	//rect.bottom = rect.bottom - 22;
 	rect.bottom = rect.bottom - m_edit_bottom_space;
-	m_edit.MoveWindow(rect);
-	
+	//m_edit.MoveWindow(rect);
+
+    m_view = (CScintillaEditView*)RUNTIME_CLASS(CScintillaEditView)->CreateObject();
+    m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 3000);
+    m_view->OnInitialUpdate();
+    m_view->ShowWindow(SW_SHOW);
+    m_view->SendMessage(SCI_SETCODEPAGE, SC_CP_UTF8);       //总是使用Unicode
+
 	//初始化状态栏
 	GetClientRect(&rect);
 	//rect.top = rect.bottom - 20;
@@ -562,8 +568,10 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	ShowStatusBar();
 
 	//初始化字体
-	m_font.CreatePointFont(m_font_size * 10, m_font_name);
-	m_edit.SetFont(&m_font);
+	//m_font.CreatePointFont(m_font_size * 10, m_font_name);
+	//m_edit.SetFont(&m_font);
+    m_view->SetFontFace(m_font_name.GetString());
+    m_view->SetFontSize(m_font_size);
 
 	//如果m_file_path获得了通过构造函数参数传递的、来自命令行的文件路径，则打开文件
 	if (!m_file_path.IsEmpty())
@@ -581,10 +589,10 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	SetTitle();
 
 	//设置最大文本限制
-	m_edit.SetLimitText(static_cast<UINT>(-1));
+	//m_edit.SetLimitText(static_cast<UINT>(-1));
 
 	//设置制表符宽度
-	m_edit.SetTabStops(16);
+    m_view->SetTabSize(4);
 
     SetAlwaysOnTop();
 
@@ -659,9 +667,10 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 	size.right = cx;
 	//size.bottom = cy - 22;		//窗口下方状态栏占20个像素高度
 	size.bottom = cy - m_edit_bottom_space;		//窗口下方状态栏占20个像素高度
-	if (nType != SIZE_MINIMIZED && m_edit.m_hWnd != NULL)
+	if (nType != SIZE_MINIMIZED && m_view->GetSafeHwnd() != NULL)
 	{
-		m_edit.MoveWindow(size);		//窗口大小改变时改变编辑框大小
+        //窗口大小改变时改变编辑框大小
+        m_view->SetWindowPos(nullptr, 0, 0, size.Width(), size.Height(), SWP_NOMOVE | SWP_NOZORDER);
 	}
 
 	CRect status_bar_size;
@@ -846,24 +855,24 @@ void CSimpleNotePadDlg::OnCodeUtf16()
 
 
 
-void CSimpleNotePadDlg::OnEnChangeEdit1()
-{
-	// TODO:  如果该控件是 RICHEDIT 控件，它将不
-	// 发送此通知，除非重写 CBaseDialog::OnInitDialog()
-	// 函数并调用 CRichEditCtrl().SetEventMask()，
-	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
-
-	// TODO:  在此添加控件通知处理程序代码
-	CString edit_text;
-	m_edit.GetWindowText(edit_text);
-	m_edit_wcs.assign(edit_text);
-	//m_flag = false;
-	//if (!m_flag)
-	//{
-		m_modified = true;
-	//}
-	ShowStatusBar();
-}
+//void CSimpleNotePadDlg::OnEnChangeEdit1()
+//{
+//	// TODO:  如果该控件是 RICHEDIT 控件，它将不
+//	// 发送此通知，除非重写 CBaseDialog::OnInitDialog()
+//	// 函数并调用 CRichEditCtrl().SetEventMask()，
+//	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
+//
+//	// TODO:  在此添加控件通知处理程序代码
+//	CString edit_text;
+//	m_edit.GetWindowText(edit_text);
+//	m_edit_wcs.assign(edit_text);
+//	//m_flag = false;
+//	//if (!m_flag)
+//	//{
+//		m_modified = true;
+//	//}
+//	ShowStatusBar();
+//}
 
 
 //void CSimpleNotePadDlg::OnSaveAnsi()
@@ -940,23 +949,24 @@ void CSimpleNotePadDlg::OnFormatFont()
 {
 	// TODO: 在此添加命令处理程序代码
 	LOGFONT lf{ 0 };             //LOGFONT变量
-	m_font.GetLogFont(&lf);
-	//_tcscpy_s(lf.lfFaceName, LF_FACESIZE, _T("微软雅黑"));	//将lf中的元素字体名设为“微软雅黑”
-	CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
+	//m_font.GetLogFont(&lf);
+	_tcscpy_s(lf.lfFaceName, LF_FACESIZE, m_font_name.GetString());	//将lf中的元素字体名设为“微软雅黑”
+    CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
 	if (IDOK == fontDlg.DoModal())     // 显示字体对话框
 	{
-		//如果m_font已经关联了一个字体资源对象，则释放它
-		if (m_font.m_hObject)
-		{
-			m_font.DeleteObject();
-		}
+		////如果m_font已经关联了一个字体资源对象，则释放它
+		//if (m_font.m_hObject)
+		//{
+		//	m_font.DeleteObject();
+		//}
 		//使用选定字体的LOGFONT创建新的字体
-		m_font.CreateFontIndirect(fontDlg.m_cf.lpLogFont);
-		//设置字体
-		m_edit.SetFont(&m_font);
+		//m_font.CreateFontIndirect(fontDlg.m_cf.lpLogFont);
 		//获取字体信息
 		m_font_name = fontDlg.m_cf.lpLogFont->lfFaceName;
 		m_font_size = fontDlg.m_cf.iPointSize / 10;
+		//设置字体
+        m_view->SetFontFace(m_font_name.GetString());
+        m_view->SetFontSize(m_font_size);
 		//将字体设置写入到ini文件
 		SaveConfig();
 	}
@@ -1020,24 +1030,24 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 		OnFindNext();
 		return TRUE;
 	}
-	//处理Edit中的TAB键
-	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_TAB && pMsg->hwnd == m_edit.GetSafeHwnd())
-	{
-		CString str;
-		m_edit.GetWindowText(str);
-		int nStart, nEnd;
-		m_edit.GetSel(nStart, nEnd);
-		if (nStart != nEnd)
-		{
-			str = str.Left(nStart) + str.Mid(nEnd);
-		}
-		str.Insert(nStart, _T("\t"));
-		m_edit.SetWindowText(str);
-		m_edit.SetSel(nStart + 1, nStart + 1);
-		m_edit_wcs = str.GetString();
-		ShowStatusBar();
-		return TRUE;
-	}
+	////处理Edit中的TAB键
+	//if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_TAB && pMsg->hwnd == m_edit.GetSafeHwnd())
+	//{
+	//	CString str;
+	//	m_edit.GetWindowText(str);
+	//	int nStart, nEnd;
+	//	m_edit.GetSel(nStart, nEnd);
+	//	if (nStart != nEnd)
+	//	{
+	//		str = str.Left(nStart) + str.Mid(nEnd);
+	//	}
+	//	str.Insert(nStart, _T("\t"));
+	//	m_edit.SetWindowText(str);
+	//	m_edit.SetSel(nStart + 1, nStart + 1);
+	//	m_edit_wcs = str.GetString();
+	//	ShowStatusBar();
+	//	return TRUE;
+	//}
 	return CBaseDialog::PreTranslateMessage(pMsg);
 }
 
@@ -1045,35 +1055,35 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 void CSimpleNotePadDlg::OnEditUndo()
 {
 	// TODO: 在此添加命令处理程序代码
-	m_edit.Undo();
+	m_view->Undo();
 }
 
 
 void CSimpleNotePadDlg::OnEditCut()
 {
 	// TODO: 在此添加命令处理程序代码
-	m_edit.Cut();
+    m_view->Cut();
 }
 
 
 void CSimpleNotePadDlg::OnEditCopy()
 {
 	// TODO: 在此添加命令处理程序代码
-	m_edit.Copy();
+    m_view->Copy();
 }
 
 
 void CSimpleNotePadDlg::OnEditPaste()
 {
 	// TODO: 在此添加命令处理程序代码
-	m_edit.Paste();
+    m_view->Paste();
 }
 
 
 void CSimpleNotePadDlg::OnEditSelectAll()
 {
 	// TODO: 在此添加命令处理程序代码
-	m_edit.SetSel(0, -1);
+    m_view->SelectAll();
 }
 
 
@@ -1100,7 +1110,7 @@ void CSimpleNotePadDlg::OnHexView()
 		if (MessageBox(_T("是否要保存十六进制编辑的更改？"), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
 		{
 			m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);
-			m_edit.SetWindowText(m_edit_wcs.c_str());
+            m_view->SetText(m_edit_wcs);
 			SaveHex();
 		}
 		else
@@ -1147,8 +1157,8 @@ void CSimpleNotePadDlg::OnFileNew()
 	m_edit_str.clear();
 	m_edit_wcs.clear();
 	m_file_path.Empty();
-	m_edit.SetWindowText(_T(""));
-	m_code = CodeType::ANSI;
+    m_view->SetText(L"");
+    m_code = CodeType::ANSI;
 	m_modified = false;
 	ShowStatusBar();
 	SetWindowText(_T("无标题 - SimpleNotePad"));
@@ -1244,75 +1254,75 @@ void CSimpleNotePadDlg::OnFind()
 afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 {
 	//m_pFindDlg = CFindReplaceDialog::GetNotifier(lParam);
-	if (m_pFindDlg != nullptr)
-	{
-		m_find_str = m_pFindDlg->GetFindString();
-		m_find_down = (m_pFindDlg->SearchDown() != 0);
-		m_find_no_case = (m_pFindDlg->MatchCase() == 0);
-		m_find_whole_word = (m_pFindDlg->MatchWholeWord() != 0);
-		if (m_pFindDlg->FindNext())		//查找下一个时
-		{
-			OnFindNext();
-		}
-		if (m_pFindDlg->IsTerminating())	//关闭窗口时
-		{
-			//m_pFindDlg->DestroyWindow();
-			m_pFindDlg = nullptr;
-		}
-	}
-	//delete m_pFindDlg;
+	//if (m_pFindDlg != nullptr)
+	//{
+	//	m_find_str = m_pFindDlg->GetFindString();
+	//	m_find_down = (m_pFindDlg->SearchDown() != 0);
+	//	m_find_no_case = (m_pFindDlg->MatchCase() == 0);
+	//	m_find_whole_word = (m_pFindDlg->MatchWholeWord() != 0);
+	//	if (m_pFindDlg->FindNext())		//查找下一个时
+	//	{
+	//		OnFindNext();
+	//	}
+	//	if (m_pFindDlg->IsTerminating())	//关闭窗口时
+	//	{
+	//		//m_pFindDlg->DestroyWindow();
+	//		m_pFindDlg = nullptr;
+	//	}
+	//}
+	////delete m_pFindDlg;
 
-	if (m_pReplaceDlg != nullptr)
-	{
-		m_find_str = m_pReplaceDlg->GetFindString();
-		m_replace_str = m_pReplaceDlg->GetReplaceString();
-		if (m_pReplaceDlg->FindNext())		//查找下一个时
-		{
-			OnFindNext();
-		}
-		if (m_pReplaceDlg->ReplaceCurrent())	//替换当前时
-		{
-			if (m_find_flag)
-			{
-				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
-				m_edit.SetWindowText(m_edit_wcs.c_str());
-				m_modified = true;
-				ShowStatusBar();
-				OnFindNext();
-				m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());	//选中替换的字符串
-				SetActiveWindow();		//将编辑器窗口设置活动窗口
-			}
-			else
-			{
-				OnFindNext();
-			}
-		}
-		if (m_pReplaceDlg->ReplaceAll())		//替换全部时
-		{
-			int replace_count{};	//统计替换的字符串的个数
-			while (true)
-			{
-				m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//查找字符串
-				if (m_find_index == string::npos)
-					break;
-				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
-				replace_count++;
-			}
-			m_edit.SetWindowText(m_edit_wcs.c_str());
-			m_modified = true;
-			ShowStatusBar();
-			if (replace_count != 0)
-			{
-				CString info;
-				info.Format(_T("替换完成，共替换%d个字符串。"),replace_count);
-				MessageBox(info, NULL, MB_ICONINFORMATION);
-			}
-		}
-		if (m_pReplaceDlg->IsTerminating())
-		{
-			m_pReplaceDlg = nullptr;
-		}
-	}
+	//if (m_pReplaceDlg != nullptr)
+	//{
+	//	m_find_str = m_pReplaceDlg->GetFindString();
+	//	m_replace_str = m_pReplaceDlg->GetReplaceString();
+	//	if (m_pReplaceDlg->FindNext())		//查找下一个时
+	//	{
+	//		OnFindNext();
+	//	}
+	//	if (m_pReplaceDlg->ReplaceCurrent())	//替换当前时
+	//	{
+	//		if (m_find_flag)
+	//		{
+	//			m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
+ //               m_view->SetText(m_edit_wcs);
+	//			m_modified = true;
+	//			ShowStatusBar();
+	//			OnFindNext();
+	//			m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());	//选中替换的字符串
+	//			SetActiveWindow();		//将编辑器窗口设置活动窗口
+	//		}
+	//		else
+	//		{
+	//			OnFindNext();
+	//		}
+	//	}
+	//	if (m_pReplaceDlg->ReplaceAll())		//替换全部时
+	//	{
+	//		int replace_count{};	//统计替换的字符串的个数
+	//		while (true)
+	//		{
+	//			m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//查找字符串
+	//			if (m_find_index == string::npos)
+	//				break;
+	//			m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
+	//			replace_count++;
+	//		}
+ //           m_view->SetText(m_edit_wcs);
+ //           m_modified = true;
+	//		ShowStatusBar();
+	//		if (replace_count != 0)
+	//		{
+	//			CString info;
+	//			info.Format(_T("替换完成，共替换%d个字符串。"),replace_count);
+	//			MessageBox(info, NULL, MB_ICONINFORMATION);
+	//		}
+	//	}
+	//	if (m_pReplaceDlg->IsTerminating())
+	//	{
+	//		m_pReplaceDlg = nullptr;
+	//	}
+	//}
 	return 0;
 }
 
@@ -1320,39 +1330,35 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 void CSimpleNotePadDlg::OnFindNext()
 {
 	// TODO: 在此添加命令处理程序代码
-	//if (m_find_down)
-	//	m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//向后查找
+	//m_find_index = CCommon::StringFind(m_edit_wcs, m_find_str, m_find_no_case, m_find_whole_word, m_find_down, (m_find_down ? (m_find_index + 1) : (m_find_index - 1)));
+	//if (m_find_index == string::npos)
+	//{
+	//	CString info;
+	//	info.Format(_T("找不到“%s”"), m_find_str.c_str());
+	//	MessageBox(info, NULL, MB_OK | MB_ICONINFORMATION);
+	//	m_find_flag = false;
+	//}
 	//else
-	//	m_find_index = m_edit_wcs.rfind(m_find_str, m_find_index - 1);	//向前查找
-	m_find_index = CCommon::StringFind(m_edit_wcs, m_find_str, m_find_no_case, m_find_whole_word, m_find_down, (m_find_down ? (m_find_index + 1) : (m_find_index - 1)));
-	if (m_find_index == string::npos)
-	{
-		CString info;
-		info.Format(_T("找不到“%s”"), m_find_str.c_str());
-		MessageBox(info, NULL, MB_OK | MB_ICONINFORMATION);
-		m_find_flag = false;
-	}
-	else
-	{
-		m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());		//选中找到的字符串
-		SetActiveWindow();		//将编辑器窗口设为活动窗口
-		m_find_flag = true;
-	}
+	//{
+	//	m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());		//选中找到的字符串
+	//	SetActiveWindow();		//将编辑器窗口设为活动窗口
+	//	m_find_flag = true;
+	//}
 }
 
 //该函数无效
 void CSimpleNotePadDlg::OnMarkAll()
 {
 	// TODO: 在此添加命令处理程序代码
-	if (!m_find_str.empty())
-	{
-		while (true)
-		{
-			m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);
-			if (m_find_index == string::npos) return;
-			m_edit.SetHighlight(m_find_index, m_find_index + m_find_str.size());
-		}
-	}
+	//if (!m_find_str.empty())
+	//{
+	//	while (true)
+	//	{
+	//		m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);
+	//		if (m_find_index == string::npos) return;
+	//		m_edit.SetHighlight(m_find_index, m_find_index + m_find_str.size());
+	//	}
+	//}
 }
 
 

@@ -8,6 +8,7 @@
 #include "FileCompareDlg.h"
 #include "EditEx.h"
 #include "BaseDialog.h"
+#include "ScintillaEditView.h"
 
 const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//将FINDMSGSTRING注册为WM_FINDREPLACE消息
 // CSimpleNotePadDlg 对话框
@@ -30,9 +31,9 @@ public:
 protected:
 	HICON m_hIcon;
 	//CMenu m_menu;	//菜单
-	CEditEx m_edit;					//编辑框
+    CScintillaEditView* m_view;     //Scintilla编辑控件
 	CStatusBarCtrl m_status_bar;	//状态栏
-	CFont m_font;			//字体
+	//CFont m_font;			//字体
 	CString m_font_name;	//字体名称
 	int m_font_size;		//字体大小
 
@@ -106,7 +107,7 @@ public:
 //	afx_msg void OnUpdateCodeUtf8(CCmdUI *pCmdUI);
 //	afx_msg void OnUpdateCodeUtf16(CCmdUI *pCmdUI);
 //	afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
-	afx_msg void OnEnChangeEdit1();
+	//afx_msg void OnEnChangeEdit1();
 //	afx_msg void OnSaveAnsi();
 //	afx_msg void OnSaveUtf8();
 //	afx_msg void OnSaveUtf8Nobom();
