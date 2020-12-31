@@ -557,6 +557,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->ShowWindow(SW_SHOW);
     m_view->SendMessage(SCI_SETCODEPAGE, SC_CP_UTF8);       //总是使用Unicode
 
+    m_view->SetWordWrap(m_word_wrap);
+
 	//初始化状态栏
 	GetClientRect(&rect);
 	//rect.top = rect.bottom - 20;
@@ -1191,16 +1193,8 @@ void CSimpleNotePadDlg::OnFileCompare()
 void CSimpleNotePadDlg::OnWordWrap()
 {
 	// TODO: 在此添加命令处理程序代码
-	if (m_word_wrap)
-	{
-		//m_edit.ModifyStyle(WS_HSCROLL, ES_AUTOHSCROLL);
-		m_word_wrap = false;
-	}
-	else
-	{
-		//m_edit.ModifyStyle(ES_AUTOHSCROLL, WS_HSCROLL);
-		m_word_wrap = true;
-	}
+    m_word_wrap = !m_word_wrap;
+    m_view->SetWordWrap(m_word_wrap);
 }
 
 
@@ -1441,7 +1435,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
 
-    pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
+    //pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
 }
 
 

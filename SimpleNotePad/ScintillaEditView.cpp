@@ -47,6 +47,10 @@ void CScintillaEditView::Dump(CDumpContext& dc) const
 	CView::Dump(dc);
 }
 
+#endif
+#endif //_DEBUG
+
+
 void CScintillaEditView::SetText(const wstring& text)
 {
     bool char_connot_connvert;
@@ -106,8 +110,10 @@ void CScintillaEditView::SelectAll()
     SendMessage(SCI_SELECTALL);
 }
 
-#endif
-#endif //_DEBUG
+void CScintillaEditView::SetWordWrap(bool word_wrap)
+{
+    SendMessage(SCI_SETWRAPMODE, word_wrap ? SC_WRAP_WORD : SC_WRAP_NONE);
+}
 
 
 // CScintillaEditView 消息处理程序

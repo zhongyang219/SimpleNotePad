@@ -35,6 +35,8 @@ public:
     void Paste();
     void SelectAll();
 
+    void SetWordWrap(bool word_wrap);
+
 protected:
 	DECLARE_MESSAGE_MAP()
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
