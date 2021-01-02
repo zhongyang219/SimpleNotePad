@@ -23,6 +23,7 @@ public:
 #endif
 
     void SetText(const wstring& text);
+    void GetText(wstring& text);
     void SetFontFace(const char* font_face);
     void SetFontFace(const wchar_t* font_face);
     void SetFontSize(int font_size);
@@ -37,12 +38,18 @@ public:
 
     void SetWordWrap(bool word_wrap);
 
+    bool IsEditChangeNotificationEnable();
+
+private:
+    bool m_change_notification_enable = true;      //如果为false，则不响应文本改变消息
+
 protected:
 	DECLARE_MESSAGE_MAP()
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 public:
     afx_msg void OnPaint();
     virtual void PreSubclassWindow();
+    virtual void OnInitialUpdate();
 };
 
 

@@ -555,7 +555,6 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 3000);
     m_view->OnInitialUpdate();
     m_view->ShowWindow(SW_SHOW);
-    m_view->SendMessage(SCI_SETCODEPAGE, SC_CP_UTF8);       //总是使用Unicode
 
     m_view->SetWordWrap(m_word_wrap);
 
@@ -1585,4 +1584,24 @@ void CSimpleNotePadDlg::OnCodeConvert()
     ShowWindow(SW_HIDE);
     dlg.DoModal();
     ShowWindow(SW_SHOW);
+}
+
+
+BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
+{
+    // TODO: 在此添加专用代码和/或调用基类
+    SCNotification *notification = reinterpret_cast<SCNotification *>(lParam);
+    if (notification->nmhdr.hwndFrom == m_view->GetSafeHwnd())
+    {
+        //响应编辑器文本变化
+        if (notification->nmhdr.code == SCN_MODIFIED && (notification->modificationType & SC_MOD_BEFOREINSERT) == 0 && m_view->IsEditChangeNotificationEnable())
+        {
+            int n = SendMessage(SCI_GETMODIFY);
+            m_view->GetText(m_edit_wcs);
+		    m_modified = true;
+	        ShowStatusBar();
+        }
+    }
+
+    return CBaseDialog::OnNotify(wParam, lParam, pResult);
 }

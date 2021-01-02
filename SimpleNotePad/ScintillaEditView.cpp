@@ -53,9 +53,29 @@ void CScintillaEditView::Dump(CDumpContext& dc) const
 
 void CScintillaEditView::SetText(const wstring& text)
 {
-    bool char_connot_connvert;
-    string str_utf8 = CCommon::UnicodeToStr(text, char_connot_connvert, CodeType::UTF8_NO_BOM);
-    SendMessage(SCI_SETTEXT, 0, (LPARAM)str_utf8.c_str());
+    m_change_notification_enable = false;       //确保正在执行SetText时不响应文本改变消息
+    int size = WideCharToMultiByte(CP_UTF8, 0, text.c_str(), -1, NULL, 0, NULL, NULL);
+    if (size <= 0) return;
+    char* str = new char[size + 1];
+    WideCharToMultiByte(CP_UTF8, 0, text.c_str(), -1, str, size, NULL, NULL);
+    SendMessage(SCI_SETTEXT, 0, (LPARAM)str);
+    delete[] str;
+    m_change_notification_enable = true;
+}
+
+void CScintillaEditView::GetText(wstring& text)
+{
+    auto length = SendMessage(SCI_GETLENGTH);
+    char* buf = new char[length + 1];
+    SendMessage(SCI_GETTEXT, length + 1, reinterpret_cast<LPARAM>(buf));
+
+    int size = MultiByteToWideChar(CP_UTF8, 0, buf, -1, NULL, 0);
+    if (size <= 0) return;
+    wchar_t* str_unicode = new wchar_t[size + 1];
+    MultiByteToWideChar(CP_UTF8, 0, buf, -1, str_unicode, size);
+    text.assign(str_unicode);
+    delete[] str_unicode;
+    delete[] buf;
 }
 
 void CScintillaEditView::SetFontFace(const char * font_face)
@@ -116,6 +136,11 @@ void CScintillaEditView::SetWordWrap(bool word_wrap)
 }
 
 
+bool CScintillaEditView::IsEditChangeNotificationEnable()
+{
+    return m_change_notification_enable;
+}
+
 // CScintillaEditView 消息处理程序
 
 
@@ -143,4 +168,14 @@ void CScintillaEditView::PreSubclassWindow()
     // TODO: 在此添加专用代码和/或调用基类
 
     CView::PreSubclassWindow();
+}
+
+
+void CScintillaEditView::OnInitialUpdate()
+{
+    CView::OnInitialUpdate();
+
+    // TODO: 在此添加专用代码和/或调用基类
+    SendMessage(SCI_SETCODEPAGE, SC_CP_UTF8);       //总是使用Unicode
+
 }

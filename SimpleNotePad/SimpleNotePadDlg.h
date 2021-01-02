@@ -155,4 +155,5 @@ public:
     //afx_msg void OnCodePageLocal();
     afx_msg void OnToolOptions();
     afx_msg void OnCodeConvert();
+    virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
 };
