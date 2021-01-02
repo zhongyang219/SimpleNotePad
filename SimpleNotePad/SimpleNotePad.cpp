@@ -76,6 +76,11 @@ BOOL CSimpleNotePadApp::InitInstance()
 	SetRegistryKey(_T("Apps By ZhongYang"));
 
     m_hScintillaModule = LoadLibrary(_T("SciLexer.dll"));
+    if (m_hScintillaModule == NULL)
+    {
+        AfxMessageBox(_T("加载 SciLexer.dll 失败，程序即将退出！"), MB_ICONERROR | MB_OK);
+        return FALSE;
+    }
     
     CSimpleNotePadDlg dlg(m_lpCmdLine);
 	m_pMainWnd = &dlg;

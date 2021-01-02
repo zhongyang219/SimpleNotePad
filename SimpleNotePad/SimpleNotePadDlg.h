@@ -89,6 +89,11 @@ protected:
     void SetAlwaysOnTop();
 	virtual CString GetDialogName() const override;
 
+    void SetSel(int start, int end);
+
+private:
+    int CharactorPosToBytePos(int pos);     //将字符的位置转换成字节的位置（使用UTF8编码）
+
 protected:
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();

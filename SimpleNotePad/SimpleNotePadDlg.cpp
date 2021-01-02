@@ -114,6 +114,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 		m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//重新转换成Unicode
 	}
 	m_view->SetText(m_edit_wcs);				//将文件中的内容显示到编缉窗口中
+    m_view->EmptyUndoBuffer();
 	//m_flag = true;
 	ShowStatusBar();										//更新状态栏
 }
@@ -218,7 +219,8 @@ void CSimpleNotePadDlg::ChangeCode()
 {
 	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code, m_code_page);
 	m_view->SetText(m_edit_wcs);
-	//m_flag = true;
+    m_view->EmptyUndoBuffer();
+    //m_flag = true;
 	ShowStatusBar();
 }
 
@@ -410,6 +412,18 @@ void CSimpleNotePadDlg::SetAlwaysOnTop()
 CString CSimpleNotePadDlg::GetDialogName() const
 {
 	return _T("MainWindow");
+}
+
+void CSimpleNotePadDlg::SetSel(int start, int end)
+{
+    int byte_start = CharactorPosToBytePos(start);
+    int byte_end = CharactorPosToBytePos(end);
+    m_view->SetSel(byte_start, byte_end);
+}
+
+int CSimpleNotePadDlg::CharactorPosToBytePos(int pos)
+{
+    return WideCharToMultiByte(CP_UTF8, 0, m_edit_wcs.c_str(), pos, NULL, 0, NULL, NULL);
 }
 
 //void CSimpleNotePadDlg::SaveAsHex()
@@ -749,189 +763,6 @@ void CSimpleNotePadDlg::OnCodeUtf16()
 }
 
 
-//void CSimpleNotePadDlg::OnUpdateCodeAnsi(CCmdUI *pCmdUI)
-//{
-//	// TODO: 在此添加命令更新用户界面处理程序代码
-//	pCmdUI->SetCheck(m_code == CodeType::ANSI);
-//}
-
-
-//void CSimpleNotePadDlg::OnUpdateCodeUtf8(CCmdUI *pCmdUI)
-//{
-//	// TODO: 在此添加命令更新用户界面处理程序代码
-//	pCmdUI->SetCheck(m_code == CodeType::UTF8 || m_code == CodeType::UTF8_NO_BOM);
-//}
-
-
-//void CSimpleNotePadDlg::OnUpdateCodeUtf16(CCmdUI *pCmdUI)
-//{
-//	// TODO: 在此添加命令更新用户界面处理程序代码
-//	pCmdUI->SetCheck(m_code == CodeType::UTF16);
-//}
-
-
-//void CSimpleNotePadDlg::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu)
-//{
-//	CBaseDialog::OnInitMenuPopup(pPopupMenu, nIndex, bSysMenu);
-//
-//	// TODO: 在此处添加消息处理程序代码
-//	ASSERT(pPopupMenu != NULL);
-//	// Check the enabled state of various menu items.
-//
-//	CCmdUI state;
-//	state.m_pMenu = pPopupMenu;
-//	ASSERT(state.m_pOther == NULL);
-//	ASSERT(state.m_pParentMenu == NULL);
-//
-//	// Determine if menu is popup in top-level menu and set m_pOther to
-//	// it if so (m_pParentMenu == NULL indicates that it is secondary popup).
-//	HMENU hParentMenu;
-//	if (AfxGetThreadState()->m_hTrackingMenu == pPopupMenu->m_hMenu)
-//		state.m_pParentMenu = pPopupMenu;    // Parent == child for tracking popup.
-//	else if ((hParentMenu = ::GetMenu(m_hWnd)) != NULL)
-//	{
-//		CWnd* pParent = this;
-//		// Child Windows dont have menus--need to go to the top!
-//		if (pParent != NULL &&
-//			(hParentMenu = ::GetMenu(pParent->m_hWnd)) != NULL)
-//		{
-//			int nIndexMax = ::GetMenuItemCount(hParentMenu);
-//			for (int nIndex = 0; nIndex < nIndexMax; nIndex++)
-//			{
-//				if (::GetSubMenu(hParentMenu, nIndex) == pPopupMenu->m_hMenu)
-//				{
-//					// When popup is found, m_pParentMenu is containing menu.
-//					state.m_pParentMenu = CMenu::FromHandle(hParentMenu);
-//					break;
-//				}
-//			}
-//		}
-//	}
-//
-//	state.m_nIndexMax = pPopupMenu->GetMenuItemCount();
-//	for (state.m_nIndex = 0; state.m_nIndex < state.m_nIndexMax;
-//		state.m_nIndex++)
-//	{
-//		state.m_nID = pPopupMenu->GetMenuItemID(state.m_nIndex);
-//		if (state.m_nID == 0)
-//			continue; // Menu separator or invalid cmd - ignore it.
-//
-//		ASSERT(state.m_pOther == NULL);
-//		ASSERT(state.m_pMenu != NULL);
-//		if (state.m_nID == (UINT)-1)
-//		{
-//			// Possibly a popup menu, route to first item of that popup.
-//			state.m_pSubMenu = pPopupMenu->GetSubMenu(state.m_nIndex);
-//			if (state.m_pSubMenu == NULL ||
-//				(state.m_nID = state.m_pSubMenu->GetMenuItemID(0)) == 0 ||
-//				state.m_nID == (UINT)-1)
-//			{
-//				continue;       // First item of popup cant be routed to.
-//			}
-//			state.DoUpdate(this, TRUE);   // Popups are never auto disabled.
-//		}
-//		else
-//		{
-//			// Normal menu item.
-//			// Auto enable/disable if frame window has m_bAutoMenuEnable
-//			// set and command is _not_ a system command.
-//			state.m_pSubMenu = NULL;
-//			state.DoUpdate(this, FALSE);
-//		}
-//
-//		// Adjust for menu deletions and additions.
-//		UINT nCount = pPopupMenu->GetMenuItemCount();
-//		if (nCount < state.m_nIndexMax)
-//		{
-//			state.m_nIndex -= (state.m_nIndexMax - nCount);
-//			while (state.m_nIndex < nCount &&
-//				pPopupMenu->GetMenuItemID(state.m_nIndex) == state.m_nID)
-//			{
-//				state.m_nIndex++;
-//			}
-//		}
-//		state.m_nIndexMax = nCount;
-//	}
-//}
-
-
-
-//void CSimpleNotePadDlg::OnEnChangeEdit1()
-//{
-//	// TODO:  如果该控件是 RICHEDIT 控件，它将不
-//	// 发送此通知，除非重写 CBaseDialog::OnInitDialog()
-//	// 函数并调用 CRichEditCtrl().SetEventMask()，
-//	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
-//
-//	// TODO:  在此添加控件通知处理程序代码
-//	CString edit_text;
-//	m_edit.GetWindowText(edit_text);
-//	m_edit_wcs.assign(edit_text);
-//	//m_flag = false;
-//	//if (!m_flag)
-//	//{
-//		m_modified = true;
-//	//}
-//	ShowStatusBar();
-//}
-
-
-//void CSimpleNotePadDlg::OnSaveAnsi()
-//{
-//	// TODO: 在此添加命令处理程序代码
-//	m_save_code = CodeType::ANSI;
-//}
-
-
-//void CSimpleNotePadDlg::OnSaveUtf8()
-//{
-//	// TODO: 在此添加命令处理程序代码
-//	m_save_code = CodeType::UTF8;
-//}
-
-
-//void CSimpleNotePadDlg::OnSaveUtf8Nobom()
-//{
-//	// TODO: 在此添加命令处理程序代码
-//	m_save_code = CodeType::UTF8_NO_BOM;
-//}
-
-
-//void CSimpleNotePadDlg::OnSaveUtf16()
-//{
-//	// TODO: 在此添加命令处理程序代码
-//	m_save_code = CodeType::UTF16;
-//}
-
-
-//void CSimpleNotePadDlg::OnUpdateSaveAnsi(CCmdUI *pCmdUI)
-//{
-//	// TODO: 在此添加命令更新用户界面处理程序代码
-//	pCmdUI->SetCheck(m_save_code == CodeType::ANSI);
-//}
-
-
-//void CSimpleNotePadDlg::OnUpdateSaveUtf8(CCmdUI *pCmdUI)
-//{
-//	// TODO: 在此添加命令更新用户界面处理程序代码
-//	pCmdUI->SetCheck(m_save_code == CodeType::UTF8);
-//}
-
-
-//void CSimpleNotePadDlg::OnUpdateSaveUtf8Nobom(CCmdUI *pCmdUI)
-//{
-//	// TODO: 在此添加命令更新用户界面处理程序代码
-//	pCmdUI->SetCheck(m_save_code == CodeType::UTF8_NO_BOM);
-//}
-
-
-//void CSimpleNotePadDlg::OnUpdateSaveUtf16(CCmdUI *pCmdUI)
-//{
-//	// TODO: 在此添加命令更新用户界面处理程序代码
-//	pCmdUI->SetCheck(m_save_code == CodeType::UTF16);
-//}
-
-
 void CSimpleNotePadDlg::OnFileSave()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -982,12 +813,6 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 		return TRUE;
 	if (GetKeyState(VK_CONTROL) & 0x80)
 	{
-		////设置按Ctr+A全选
-		//if (pMsg->wParam == 'a' || pMsg->wParam == 'A')
-		//{
-		//	OnEditSelectAll();
-		//	return TRUE;
-		//}
 		//设置Ctr+S保存
 		if (pMsg->wParam == 's' || pMsg->wParam == 'S')
 		{
@@ -1024,6 +849,11 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 			OnReplace();
 			return TRUE;
 		}
+        //else if (pMsg->wParam == 'Q')
+        //{
+        //    SetSel(2, 3);
+        //    return TRUE;
+        //}
 	}
 	//设置按F3查找下一个
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_F3)
@@ -1031,24 +861,6 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 		OnFindNext();
 		return TRUE;
 	}
-	////处理Edit中的TAB键
-	//if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_TAB && pMsg->hwnd == m_edit.GetSafeHwnd())
-	//{
-	//	CString str;
-	//	m_edit.GetWindowText(str);
-	//	int nStart, nEnd;
-	//	m_edit.GetSel(nStart, nEnd);
-	//	if (nStart != nEnd)
-	//	{
-	//		str = str.Left(nStart) + str.Mid(nEnd);
-	//	}
-	//	str.Insert(nStart, _T("\t"));
-	//	m_edit.SetWindowText(str);
-	//	m_edit.SetSel(nStart + 1, nStart + 1);
-	//	m_edit_wcs = str.GetString();
-	//	ShowStatusBar();
-	//	return TRUE;
-	//}
 	return CBaseDialog::PreTranslateMessage(pMsg);
 }
 
@@ -1112,7 +924,8 @@ void CSimpleNotePadDlg::OnHexView()
 		{
 			m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);
             m_view->SetText(m_edit_wcs);
-			SaveHex();
+            m_view->EmptyUndoBuffer();
+            SaveHex();
 		}
 		else
 		{
@@ -1159,6 +972,7 @@ void CSimpleNotePadDlg::OnFileNew()
 	m_edit_wcs.clear();
 	m_file_path.Empty();
     m_view->SetText(L"");
+    m_view->EmptyUndoBuffer();
     m_code = CodeType::ANSI;
 	m_modified = false;
 	ShowStatusBar();
@@ -1246,76 +1060,76 @@ void CSimpleNotePadDlg::OnFind()
 
 afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 {
-	//m_pFindDlg = CFindReplaceDialog::GetNotifier(lParam);
-	//if (m_pFindDlg != nullptr)
-	//{
-	//	m_find_str = m_pFindDlg->GetFindString();
-	//	m_find_down = (m_pFindDlg->SearchDown() != 0);
-	//	m_find_no_case = (m_pFindDlg->MatchCase() == 0);
-	//	m_find_whole_word = (m_pFindDlg->MatchWholeWord() != 0);
-	//	if (m_pFindDlg->FindNext())		//查找下一个时
-	//	{
-	//		OnFindNext();
-	//	}
-	//	if (m_pFindDlg->IsTerminating())	//关闭窗口时
-	//	{
-	//		//m_pFindDlg->DestroyWindow();
-	//		m_pFindDlg = nullptr;
-	//	}
-	//}
-	////delete m_pFindDlg;
+	m_pFindDlg = CFindReplaceDialog::GetNotifier(lParam);
+	if (m_pFindDlg != nullptr)
+	{
+		m_find_str = m_pFindDlg->GetFindString();
+		m_find_down = (m_pFindDlg->SearchDown() != 0);
+		m_find_no_case = (m_pFindDlg->MatchCase() == 0);
+		m_find_whole_word = (m_pFindDlg->MatchWholeWord() != 0);
+		if (m_pFindDlg->FindNext())		//查找下一个时
+		{
+			OnFindNext();
+		}
+		if (m_pFindDlg->IsTerminating())	//关闭窗口时
+		{
+			//m_pFindDlg->DestroyWindow();
+			m_pFindDlg = nullptr;
+		}
+	}
+	//delete m_pFindDlg;
 
-	//if (m_pReplaceDlg != nullptr)
-	//{
-	//	m_find_str = m_pReplaceDlg->GetFindString();
-	//	m_replace_str = m_pReplaceDlg->GetReplaceString();
-	//	if (m_pReplaceDlg->FindNext())		//查找下一个时
-	//	{
-	//		OnFindNext();
-	//	}
-	//	if (m_pReplaceDlg->ReplaceCurrent())	//替换当前时
-	//	{
-	//		if (m_find_flag)
-	//		{
-	//			m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
- //               m_view->SetText(m_edit_wcs);
-	//			m_modified = true;
-	//			ShowStatusBar();
-	//			OnFindNext();
-	//			m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());	//选中替换的字符串
-	//			SetActiveWindow();		//将编辑器窗口设置活动窗口
-	//		}
-	//		else
-	//		{
-	//			OnFindNext();
-	//		}
-	//	}
-	//	if (m_pReplaceDlg->ReplaceAll())		//替换全部时
-	//	{
-	//		int replace_count{};	//统计替换的字符串的个数
-	//		while (true)
-	//		{
-	//			m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//查找字符串
-	//			if (m_find_index == string::npos)
-	//				break;
-	//			m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
-	//			replace_count++;
-	//		}
- //           m_view->SetText(m_edit_wcs);
- //           m_modified = true;
-	//		ShowStatusBar();
-	//		if (replace_count != 0)
-	//		{
-	//			CString info;
-	//			info.Format(_T("替换完成，共替换%d个字符串。"),replace_count);
-	//			MessageBox(info, NULL, MB_ICONINFORMATION);
-	//		}
-	//	}
-	//	if (m_pReplaceDlg->IsTerminating())
-	//	{
-	//		m_pReplaceDlg = nullptr;
-	//	}
-	//}
+	if (m_pReplaceDlg != nullptr)
+	{
+		m_find_str = m_pReplaceDlg->GetFindString();
+		m_replace_str = m_pReplaceDlg->GetReplaceString();
+		if (m_pReplaceDlg->FindNext())		//查找下一个时
+		{
+			OnFindNext();
+		}
+		if (m_pReplaceDlg->ReplaceCurrent())	//替换当前时
+		{
+			if (m_find_flag)
+			{
+				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
+                m_view->SetText(m_edit_wcs);
+				m_modified = true;
+				ShowStatusBar();
+				OnFindNext();
+				SetSel(m_find_index, m_find_index + m_find_str.size());	//选中替换的字符串
+				SetActiveWindow();		//将编辑器窗口设置活动窗口
+			}
+			else
+			{
+				OnFindNext();
+			}
+		}
+		if (m_pReplaceDlg->ReplaceAll())		//替换全部时
+		{
+			int replace_count{};	//统计替换的字符串的个数
+			while (true)
+			{
+				m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//查找字符串
+				if (m_find_index == string::npos)
+					break;
+				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
+				replace_count++;
+			}
+            m_view->SetText(m_edit_wcs);
+            m_modified = true;
+			ShowStatusBar();
+			if (replace_count != 0)
+			{
+				CString info;
+				info.Format(_T("替换完成，共替换%d个字符串。"),replace_count);
+				MessageBox(info, NULL, MB_ICONINFORMATION);
+			}
+		}
+		if (m_pReplaceDlg->IsTerminating())
+		{
+			m_pReplaceDlg = nullptr;
+		}
+	}
 	return 0;
 }
 
@@ -1323,20 +1137,20 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 void CSimpleNotePadDlg::OnFindNext()
 {
 	// TODO: 在此添加命令处理程序代码
-	//m_find_index = CCommon::StringFind(m_edit_wcs, m_find_str, m_find_no_case, m_find_whole_word, m_find_down, (m_find_down ? (m_find_index + 1) : (m_find_index - 1)));
-	//if (m_find_index == string::npos)
-	//{
-	//	CString info;
-	//	info.Format(_T("找不到“%s”"), m_find_str.c_str());
-	//	MessageBox(info, NULL, MB_OK | MB_ICONINFORMATION);
-	//	m_find_flag = false;
-	//}
-	//else
-	//{
-	//	m_edit.SetSel(m_find_index, m_find_index + m_find_str.size());		//选中找到的字符串
-	//	SetActiveWindow();		//将编辑器窗口设为活动窗口
-	//	m_find_flag = true;
-	//}
+	m_find_index = CCommon::StringFind(m_edit_wcs, m_find_str, m_find_no_case, m_find_whole_word, m_find_down, (m_find_down ? (m_find_index + 1) : (m_find_index - 1)));
+	if (m_find_index == string::npos)
+	{
+		CString info;
+		info.Format(_T("找不到“%s”"), m_find_str.c_str());
+		MessageBox(info, NULL, MB_OK | MB_ICONINFORMATION);
+		m_find_flag = false;
+	}
+	else
+	{
+		SetSel(m_find_index, m_find_index + m_find_str.size());		//选中找到的字符串
+		SetActiveWindow();		//将编辑器窗口设为活动窗口
+		m_find_flag = true;
+	}
 }
 
 //该函数无效
@@ -1433,6 +1247,13 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
+
+    bool is_selection_empty = m_view->IsSelectionEmpty();
+    pMenu->EnableMenuItem(ID_EDIT_COPY, is_selection_empty ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_EDIT_CUT, is_selection_empty ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_EDIT_UNDO, m_view->CanUndo() ? MF_ENABLED : MF_GRAYED);
+    pMenu->EnableMenuItem(ID_EDIT_REDO, m_view->CanRedo() ? MF_ENABLED : MF_GRAYED);
+    pMenu->EnableMenuItem(ID_EDIT_PASTE, m_view->CanPaste() ? MF_ENABLED : MF_GRAYED);
 
     //pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
 }

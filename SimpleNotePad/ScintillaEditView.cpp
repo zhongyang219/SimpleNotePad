@@ -100,6 +100,11 @@ void CScintillaEditView::SetTabSize(int tab_size)
     SendMessage(SCI_SETTABWIDTH, tab_size);
 }
 
+void CScintillaEditView::SetSel(int start, int end)
+{
+    SendMessage(SCI_SETSEL, start, end);
+}
+
 void CScintillaEditView::Undo()
 {
     SendMessage(SCI_UNDO);
@@ -130,6 +135,11 @@ void CScintillaEditView::SelectAll()
     SendMessage(SCI_SELECTALL);
 }
 
+void CScintillaEditView::EmptyUndoBuffer()
+{
+    SendMessage(SCI_EMPTYUNDOBUFFER);
+}
+
 void CScintillaEditView::SetWordWrap(bool word_wrap)
 {
     SendMessage(SCI_SETWRAPMODE, word_wrap ? SC_WRAP_WORD : SC_WRAP_NONE);
@@ -139,6 +149,28 @@ void CScintillaEditView::SetWordWrap(bool word_wrap)
 bool CScintillaEditView::IsEditChangeNotificationEnable()
 {
     return m_change_notification_enable;
+}
+
+bool CScintillaEditView::CanUndo()
+{
+    return (SendMessage(SCI_CANUNDO) != 0);
+}
+
+bool CScintillaEditView::CanRedo()
+{
+    return (SendMessage(SCI_CANREDO) != 0);
+}
+
+bool CScintillaEditView::CanPaste()
+{
+    return (SendMessage(SCI_CANPASTE) != 0);
+}
+
+bool CScintillaEditView::IsSelectionEmpty()
+{
+    int anchor = SendMessage(SCI_GETANCHOR);
+    int current_pos = SendMessage(SCI_GETCURRENTPOS);
+    return anchor == current_pos;
 }
 
 // CScintillaEditView 消息处理程序

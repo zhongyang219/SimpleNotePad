@@ -28,6 +28,7 @@ public:
     void SetFontFace(const wchar_t* font_face);
     void SetFontSize(int font_size);
     void SetTabSize(int tab_size);
+    void SetSel(int start, int end);        //设置选中范围（位置以字节为单位而非字符为单位）
 
     void Undo();
     void Redo();
@@ -35,10 +36,18 @@ public:
     void Copy();
     void Paste();
     void SelectAll();
+    void EmptyUndoBuffer();     //清空撤销缓存
 
     void SetWordWrap(bool word_wrap);
 
     bool IsEditChangeNotificationEnable();
+
+    bool CanUndo();
+    bool CanRedo();
+    bool CanPaste();
+    bool IsSelectionEmpty();
+
+private:
 
 private:
     bool m_change_notification_enable = true;      //如果为false，则不响应文本改变消息
