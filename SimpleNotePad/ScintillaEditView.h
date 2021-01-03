@@ -53,6 +53,9 @@ public:
     void ShowLineNumber(bool show);
     void SetLineNumberColor(COLORREF color);
 
+    int GetZoom();
+    void SetZoom(int zoom);
+
 private:
 
 private:

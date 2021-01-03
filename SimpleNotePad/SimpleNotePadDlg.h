@@ -48,6 +48,7 @@ protected:
 	bool m_modified{ false };				//如果文件被编辑过，则m_modified为true
 	//bool m_flag{ false };			//一个flag，当调用m_edit.SetWindowText()函数将文本显示在文本框内时，将它置为true
 	int m_dpi;		//当前显示器的DPI设置100%时为96
+    int m_zoom{};
 
 	int m_status_bar_hight;		//状态栏高度
 	int m_edit_bottom_space;	//编辑窗口底部距窗口底部的距离

@@ -142,6 +142,7 @@ bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_pag
 	file << m_edit_str;
 	m_modified = false;
 	ShowStatusBar();		//保存后刷新状态栏
+    SetTitle();
 	return true;
 }
 
@@ -216,8 +217,14 @@ void CSimpleNotePadDlg::ShowStatusBar()
 		str.Format(_T("共%d个字节(%dKB)，%d个字符"), m_edit_str.size(), m_edit_str.size() / 1024, m_edit_wcs.size());
 	m_status_bar.SetText(str, 0, 0);
 
-	//显示是否修改
-	m_status_bar.SetText(m_modified?_T("已修改"):_T("未修改"), 1, 0);
+	////显示是否修改
+	//m_status_bar.SetText(m_modified?_T("已修改"):_T("未修改"), 1, 0);
+
+    //显示缩放比例
+    int scale = 100 + m_zoom * 10;
+    CString str_zoom;
+    str_zoom.Format(_T("%d%%"), scale);
+    m_status_bar.SetText(str_zoom, 1, 0);
 }
 
 void CSimpleNotePadDlg::ChangeCode()
@@ -292,9 +299,14 @@ bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 		int rtn = MessageBox(text, NULL, MB_YESNOCANCEL | MB_ICONWARNING);
 		switch (rtn)
 		{
-		case IDYES: return _OnFileSave();
-		case IDNO: m_modified = false; break;
-		default: return false;
+		case IDYES:
+            return _OnFileSave();
+		case IDNO:
+            m_modified = false;
+            SetTitle();
+            break;
+		default:
+            return false;
 		}
 	}
 	return true;
@@ -302,10 +314,14 @@ bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 
 void CSimpleNotePadDlg::SetTitle()
 {
+    CString str_title;
+    if (m_modified)
+        str_title += _T('*');
 	if(!m_file_path.IsEmpty())
-		SetWindowText(m_file_path + _T(" - SimpleNotePad"));
+        str_title += m_file_path + _T(" - SimpleNotePad");
 	else
-		SetWindowText(_T("无标题 - SimpleNotePad"));
+        str_title += _T("无标题 - SimpleNotePad");
+    SetWindowText(str_title);
 }
 
 bool CSimpleNotePadDlg::_OnFileSave()
@@ -404,7 +420,7 @@ void CSimpleNotePadDlg::SaveHex()
 	}
 	file << m_edit_str;
 	m_modified = false;
-	ShowStatusBar();
+	SetTitle();
 	MessageBox(_T("十六进制编辑的更改已保存"), NULL, MB_ICONINFORMATION);
 }
 
@@ -1106,7 +1122,7 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
                 m_view->SetText(m_edit_wcs);
 				m_modified = true;
-				ShowStatusBar();
+				SetTitle();
 				OnFindNext();
 				SetSel(m_find_index, m_find_index + m_find_str.size());	//选中替换的字符串
 				SetActiveWindow();		//将编辑器窗口设置活动窗口
@@ -1129,8 +1145,8 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 			}
             m_view->SetText(m_edit_wcs);
             m_modified = true;
-			ShowStatusBar();
-			if (replace_count != 0)
+            SetTitle();
+            if (replace_count != 0)
 			{
 				CString info;
 				info.Format(_T("替换完成，共替换%d个字符串。"),replace_count);
@@ -1434,6 +1450,12 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             m_view->GetText(m_edit_wcs);
 		    m_modified = true;
 	        ShowStatusBar();
+            SetTitle();
+        }
+        else if (notification->nmhdr.code == SCN_ZOOM)
+        {
+            m_zoom = m_view->GetZoom();
+            ShowStatusBar();
         }
     }
 

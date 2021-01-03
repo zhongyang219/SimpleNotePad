@@ -191,6 +191,16 @@ void CScintillaEditView::SetLineNumberColor(COLORREF color)
     SendMessage(SCI_STYLESETFORE, STYLE_LINENUMBER, color);
 }
 
+int CScintillaEditView::GetZoom()
+{
+    return SendMessage(SCI_GETZOOM);
+}
+
+void CScintillaEditView::SetZoom(int zoom)
+{
+    SendMessage(SCI_SETZOOM, zoom);
+}
+
 // CScintillaEditView 消息处理程序
 
 
