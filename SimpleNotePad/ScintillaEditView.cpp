@@ -201,6 +201,84 @@ void CScintillaEditView::SetZoom(int zoom)
     SendMessage(SCI_SETZOOM, zoom);
 }
 
+void CScintillaEditView::SetEolMode(eEolMode eolMode)
+{
+    int mode = 0;
+    switch (eolMode)
+    {
+    case EOL_CRLF:
+        mode = SC_EOL_CRLF;
+        break;
+    case EOL_CR:
+        mode = SC_EOL_CR;
+        break;
+    case EOL_LF:
+        mode = SC_EOL_LF;
+        break;
+    default:
+        break;
+    }
+    SendMessage(SCI_SETEOLMODE, mode);
+}
+
+CScintillaEditView::eEolMode CScintillaEditView::GetEolMode()
+{
+    int mode = SendMessage(SCI_GETEOLMODE);
+    switch (mode)
+    {
+    case SC_EOL_CR:
+        return EOL_CR;
+    case SC_EOL_LF:
+        return EOL_LF;
+    default:
+        return EOL_CRLF;
+        break;
+    }
+}
+
+void CScintillaEditView::ConvertEolMode(eEolMode eolMode)
+{
+    int mode = 0;
+    switch (eolMode)
+    {
+    case EOL_CRLF:
+        mode = SC_EOL_CRLF;
+        break;
+    case EOL_CR:
+        mode = SC_EOL_CR;
+        break;
+    case EOL_LF:
+        mode = SC_EOL_LF;
+        break;
+    default:
+        break;
+    }
+    SendMessage(SCI_CONVERTEOLS, mode);
+}
+
+void CScintillaEditView::SetViewEol(bool show)
+{
+    SendMessage(SCI_SETVIEWEOL, show);
+}
+
+CScintillaEditView::eEolMode CScintillaEditView::JudgeEolMode(const wstring& str)
+{
+    size_t index = str.find(L"\r\n");
+    if (index != wstring::npos)
+        return EOL_CRLF;
+
+    index = str.find(L'\n');
+    if (index != wstring::npos)
+        return EOL_LF;
+    
+    index = str.find(L'\r');
+    if (index != wstring::npos)
+        return EOL_CR;
+
+    return EOL_CRLF;
+
+}
+
 // CScintillaEditView 消息处理程序
 
 
@@ -237,6 +315,5 @@ void CScintillaEditView::OnInitialUpdate()
 
     // TODO: 在此添加专用代码和/或调用基类
     SendMessage(SCI_SETCODEPAGE, SC_CP_UTF8);       //总是使用Unicode
-
     SendMessage(SCI_SETMARGINTYPEN, SCINTILLA_MARGIN_LINENUMBER, SC_MARGIN_NUMBER);
 }

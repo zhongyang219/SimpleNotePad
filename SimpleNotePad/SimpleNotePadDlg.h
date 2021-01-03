@@ -52,12 +52,11 @@ protected:
 
 	int m_status_bar_hight;		//状态栏高度
 	int m_edit_bottom_space;	//编辑窗口底部距窗口底部的距离
-	int m_status_bar_mid_width;	//状态栏第左边部分的宽度
-	int m_status_bar_right_width;	//状态栏第右边部分的宽度
 
 	bool m_word_wrap;		//是否自动换行
     bool m_always_on_top{ false };
     bool m_show_line_number{ false };
+    bool m_show_eol{ false };
 
 	//const CString CONFIG_PATH{ _T("./config.ini") };
 	//wstring m_config_path;		//配置文件所在的路径
@@ -82,6 +81,8 @@ protected:
 	void LoadConfig();				//载入设置
 	bool SaveInquiry(LPCTSTR info = NULL);	//询问用户是否保存，参数为提示信息(用户点击了取消后返回false，否则返回true)
 	void SetTitle();				//设置窗口标题
+
+    void GetStatusbarWidth(std::vector<int>& part_widths);
 
 	bool _OnFileSave();		//如果已经执行了保存操作，则返回true，否则返回false
 	bool _OnFileSaveAs();	//
@@ -165,4 +166,8 @@ public:
     afx_msg void OnCodeConvert();
     virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
     afx_msg void OnShowLineNumber();
+    afx_msg void OnEolCrlf();
+    afx_msg void OnEolCr();
+    afx_msg void OnEolLf();
+    afx_msg void OnShowEol();
 };

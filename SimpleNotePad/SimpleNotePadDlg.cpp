@@ -121,6 +121,8 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	m_view->SetText(m_edit_wcs);				//将文件中的内容显示到编缉窗口中
     m_view->EmptyUndoBuffer();
 	//m_flag = true;
+    CScintillaEditView::eEolMode eol_mode = CScintillaEditView::JudgeEolMode(m_edit_wcs);
+    m_view->SetEolMode(eol_mode);
 	ShowStatusBar();										//更新状态栏
 }
 
@@ -206,7 +208,7 @@ void CSimpleNotePadDlg::ShowStatusBar()
 	}
 	//}
 
-	m_status_bar.SetText(str, 2, 0);
+	m_status_bar.SetText(str, 3, 0);
 
 	//显示字符数
 	//if (m_edit_wcs.empty())
@@ -220,11 +222,31 @@ void CSimpleNotePadDlg::ShowStatusBar()
 	////显示是否修改
 	//m_status_bar.SetText(m_modified?_T("已修改"):_T("未修改"), 1, 0);
 
+    //显示换行符
+    CScintillaEditView::eEolMode eol_mode = m_view->GetEolMode();
+    CString str_eol;
+    switch (eol_mode)
+    {
+    case CScintillaEditView::EOL_CRLF:
+        str_eol = _T("CRLF");
+        break;
+    case CScintillaEditView::EOL_CR:
+        str_eol = _T("CR");
+        break;
+    case CScintillaEditView::EOL_LF:
+        str_eol = _T("LF");
+        break;
+    default:
+        break;
+    }
+    m_status_bar.SetText(str_eol, 1, 0);
+
     //显示缩放比例
     int scale = 100 + m_zoom * 10;
     CString str_zoom;
     str_zoom.Format(_T("%d%%"), scale);
-    m_status_bar.SetText(str_zoom, 1, 0);
+    m_status_bar.SetText(str_zoom, 2, 0);
+
 }
 
 void CSimpleNotePadDlg::ChangeCode()
@@ -250,6 +272,7 @@ void CSimpleNotePadDlg::SaveConfig()
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
 	theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
 	theApp.WriteProfileInt(L"config", L"show_line_number", m_show_line_number);
+    theApp.WriteProfileInt(L"config", L"show_eol", m_show_eol);
 
 	theApp.WriteProfileInt(L"config", L"find_no_case", m_find_no_case);
 	theApp.WriteProfileInt(L"config", L"find_whole_word", m_find_whole_word);
@@ -270,6 +293,7 @@ void CSimpleNotePadDlg::LoadConfig()
 	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
 	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
     m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 0) != 0);
+    m_show_eol = (theApp.GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
 
 	m_find_no_case = (theApp.GetProfileInt(_T("config"), _T("find_no_case"), 0) != 0);
 	m_find_whole_word = (theApp.GetProfileInt(_T("config"), _T("find_whole_word"), 0) != 0);
@@ -322,6 +346,32 @@ void CSimpleNotePadDlg::SetTitle()
 	else
         str_title += _T("无标题 - SimpleNotePad");
     SetWindowText(str_title);
+}
+
+void CSimpleNotePadDlg::GetStatusbarWidth(std::vector<int>& part_widths)
+{
+    const int PARTS = 4;
+    part_widths.resize(PARTS);
+
+    const int WIDTHS = PARTS - 1;
+    std::vector<int> widths;
+    widths.resize(WIDTHS);
+    widths[WIDTHS - 1] = DPI(260);
+    widths[WIDTHS - 2] = DPI(60);
+    widths[WIDTHS - 3] = DPI(40);
+
+    CRect rect;
+    GetClientRect(rect);
+
+    for (int i = 0; i < PARTS - 1; i++)
+    {
+        part_widths[i] = rect.Width();
+        for (int j = WIDTHS - 1; j >= i; j--)
+        {
+            part_widths[i] -= widths[j];
+        }
+    }
+    part_widths[PARTS - 1] = -1;
 }
 
 bool CSimpleNotePadDlg::_OnFileSave()
@@ -530,6 +580,10 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_TOOL_OPTIONS, &CSimpleNotePadDlg::OnToolOptions)
     ON_COMMAND(ID_CODE_CONVERT, &CSimpleNotePadDlg::OnCodeConvert)
     ON_COMMAND(ID_SHOW_LINE_NUMBER, &CSimpleNotePadDlg::OnShowLineNumber)
+    ON_COMMAND(ID_EOL_CRLF, &CSimpleNotePadDlg::OnEolCrlf)
+    ON_COMMAND(ID_EOL_CR, &CSimpleNotePadDlg::OnEolCr)
+    ON_COMMAND(ID_EOL_LF, &CSimpleNotePadDlg::OnEolLf)
+    ON_COMMAND(ID_SHOW_EOL, &CSimpleNotePadDlg::OnShowEol)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -577,8 +631,6 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	m_dpi = GetDeviceCaps(hDC, LOGPIXELSY);
 	m_status_bar_hight = m_dpi * 20 / 96;
 	m_edit_bottom_space = m_dpi * 22 / 96;
-	m_status_bar_mid_width = m_dpi * 60 / 96;
-	m_status_bar_right_width = m_dpi * 280 / 96;
 
 	SetMinSize(200 * m_dpi / 96, 150 * m_dpi / 96);
 
@@ -599,6 +651,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->SetLineNumberWidth(DPI(36));
     m_view->ShowLineNumber(m_show_line_number);
     m_view->SetLineNumberColor(RGB(75, 145, 175));
+    m_view->SetViewEol(m_show_eol);
 
 	//初始化状态栏
 	GetClientRect(&rect);
@@ -606,8 +659,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	rect.top = rect.bottom - m_status_bar_hight;
 	m_status_bar.Create(WS_VISIBLE | CBRS_BOTTOM, rect, this, 3);
 
-	int nParts[3] = { rect.Width() - m_status_bar_right_width - m_status_bar_mid_width, rect.Width() - m_status_bar_right_width, -1 }; //分割尺寸
-	m_status_bar.SetParts(3, nParts); //分割状态栏
+    vector<int> parts;
+    GetStatusbarWidth(parts);
+	m_status_bar.SetParts(parts.size(), parts.data()); //分割状态栏
 	ShowStatusBar();
 
 	//初始化字体
@@ -724,8 +778,11 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 	if (nType != SIZE_MINIMIZED && m_status_bar.m_hWnd != NULL)
 	{
 		m_status_bar.MoveWindow(status_bar_size);
-		int nParts[3] = { cx - m_status_bar_right_width - m_status_bar_mid_width, cx - m_status_bar_right_width, -1 }; //分割尺寸
-		m_status_bar.SetParts(3, nParts); //分割状态栏
+		//int nParts[3] = { cx - m_status_bar_right_width - m_status_bar_mid_width, cx - m_status_bar_right_width, -1 }; //分割尺寸
+        vector<int> parts;
+        GetStatusbarWidth(parts);
+
+        m_status_bar.SetParts(parts.size(), parts.data()); //分割状态栏
 	}
 	//if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
 	//{
@@ -1276,6 +1333,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_SHOW_LINE_NUMBER, MF_BYCOMMAND | (m_show_line_number ? MF_CHECKED : MF_UNCHECKED));
+	pMenu->CheckMenuItem(ID_SHOW_EOL, MF_BYCOMMAND | (m_show_eol ? MF_CHECKED : MF_UNCHECKED));
 
     bool is_selection_empty = m_view->IsSelectionEmpty();
     pMenu->EnableMenuItem(ID_EDIT_COPY, is_selection_empty ? MF_GRAYED : MF_ENABLED);
@@ -1285,6 +1343,21 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
     pMenu->EnableMenuItem(ID_EDIT_PASTE, m_view->CanPaste() ? MF_ENABLED : MF_GRAYED);
 
     //pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
+
+    CScintillaEditView::eEolMode eolMode = m_view->GetEolMode();
+    switch (eolMode)
+    {
+    case CScintillaEditView::EOL_CRLF:
+        pMenu->CheckMenuRadioItem(ID_EOL_CRLF, ID_EOL_LF, ID_EOL_CRLF, MF_BYCOMMAND | MF_CHECKED);
+        break;
+    case CScintillaEditView::EOL_CR:
+        pMenu->CheckMenuRadioItem(ID_EOL_CRLF, ID_EOL_LF, ID_EOL_CR, MF_BYCOMMAND | MF_CHECKED);
+        break;
+    case CScintillaEditView::EOL_LF:
+        pMenu->CheckMenuRadioItem(ID_EOL_CRLF, ID_EOL_LF, ID_EOL_LF, MF_BYCOMMAND | MF_CHECKED);
+        break;
+    }
+
 }
 
 
@@ -1468,4 +1541,39 @@ void CSimpleNotePadDlg::OnShowLineNumber()
     // TODO: 在此添加命令处理程序代码
     m_show_line_number = !m_show_line_number;
     m_view->ShowLineNumber(m_show_line_number);
+}
+
+
+void CSimpleNotePadDlg::OnEolCrlf()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_view->SetEolMode(CScintillaEditView::EOL_CRLF);
+    m_view->ConvertEolMode(CScintillaEditView::EOL_CRLF);
+    ShowStatusBar();
+}
+
+
+void CSimpleNotePadDlg::OnEolCr()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_view->SetEolMode(CScintillaEditView::EOL_CR);
+    m_view->ConvertEolMode(CScintillaEditView::EOL_CR);
+    ShowStatusBar();
+}
+
+
+void CSimpleNotePadDlg::OnEolLf()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_view->SetEolMode(CScintillaEditView::EOL_LF);
+    m_view->ConvertEolMode(CScintillaEditView::EOL_LF);
+    ShowStatusBar();
+}
+
+
+void CSimpleNotePadDlg::OnShowEol()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_show_eol = !m_show_eol;
+    m_view->SetViewEol(m_show_eol);
 }

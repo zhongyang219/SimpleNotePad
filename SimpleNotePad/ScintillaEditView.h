@@ -56,6 +56,21 @@ public:
     int GetZoom();
     void SetZoom(int zoom);
 
+    enum eEolMode
+    {
+        EOL_CRLF,
+        EOL_CR,
+        EOL_LF
+    };
+    void SetEolMode(eEolMode eolMode);
+    eEolMode GetEolMode();
+
+    void ConvertEolMode(eEolMode eolMode);
+
+    void SetViewEol(bool show);
+
+    static eEolMode JudgeEolMode(const wstring& str);
+
 private:
 
 private:
