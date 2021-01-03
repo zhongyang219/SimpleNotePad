@@ -63,6 +63,9 @@
     <Filter Include="头文件和源文件\ScintillaEditView">
       <UniqueIdentifier>{c6cc31f7-77fb-421b-845c-38166a975887}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\头文件\scintilla">
+      <UniqueIdentifier>{5cefd671-5925-40be-a18a-e6e4c1835b36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -118,6 +121,15 @@
     </ClInclude>
     <ClInclude Include="ScintillaEditView.h">
       <Filter>头文件和源文件\ScintillaEditView</Filter>
+    </ClInclude>
+    <ClInclude Include="Scintilla\Sci_Position.h">
+      <Filter>头文件和源文件\头文件\scintilla</Filter>
+    </ClInclude>
+    <ClInclude Include="Scintilla\SciLexer.h">
+      <Filter>头文件和源文件\头文件\scintilla</Filter>
+    </ClInclude>
+    <ClInclude Include="Scintilla\Scintilla.h">
+      <Filter>头文件和源文件\头文件\scintilla</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

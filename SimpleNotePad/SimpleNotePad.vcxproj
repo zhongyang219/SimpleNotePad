@@ -197,6 +197,9 @@
     <ClInclude Include="InsertDataDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScintillaEditView.h" />
+    <ClInclude Include="Scintilla\SciLexer.h" />
+    <ClInclude Include="Scintilla\Scintilla.h" />
+    <ClInclude Include="Scintilla\Sci_Position.h" />
     <ClInclude Include="SettingsDlg.h" />
     <ClInclude Include="SimpleNotePad.h" />
     <ClInclude Include="SimpleNotePadDlg.h" />
