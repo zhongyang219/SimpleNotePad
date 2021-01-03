@@ -66,6 +66,11 @@ void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 	//DDX_Control(pDX, IDC_EDIT1, m_edit);
 }
 
+int CSimpleNotePadDlg::DPI(int pixel)
+{
+    return pixel * m_dpi / 96;
+}
+
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 {
 	////打开新文件前询问用户是否保存
@@ -237,6 +242,7 @@ void CSimpleNotePadDlg::SaveConfig()
 
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
 	theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
+	theApp.WriteProfileInt(L"config", L"show_line_number", m_show_line_number);
 
 	theApp.WriteProfileInt(L"config", L"find_no_case", m_find_no_case);
 	theApp.WriteProfileInt(L"config", L"find_whole_word", m_find_whole_word);
@@ -256,6 +262,7 @@ void CSimpleNotePadDlg::LoadConfig()
 	//m_window_hight = theApp.GetProfileInt(_T("config"), _T("window_hight"), 350);
 	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
 	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
+    m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 0) != 0);
 
 	m_find_no_case = (theApp.GetProfileInt(_T("config"), _T("find_no_case"), 0) != 0);
 	m_find_whole_word = (theApp.GetProfileInt(_T("config"), _T("find_whole_word"), 0) != 0);
@@ -506,6 +513,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     //ON_COMMAND(ID_CODE_PAGE_LOCAL, &CSimpleNotePadDlg::OnCodePageLocal)
     ON_COMMAND(ID_TOOL_OPTIONS, &CSimpleNotePadDlg::OnToolOptions)
     ON_COMMAND(ID_CODE_CONVERT, &CSimpleNotePadDlg::OnCodeConvert)
+    ON_COMMAND(ID_SHOW_LINE_NUMBER, &CSimpleNotePadDlg::OnShowLineNumber)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -571,6 +579,10 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->ShowWindow(SW_SHOW);
 
     m_view->SetWordWrap(m_word_wrap);
+
+    m_view->SetLineNumberWidth(DPI(36));
+    m_view->ShowLineNumber(m_show_line_number);
+    m_view->SetLineNumberColor(RGB(75, 145, 175));
 
 	//初始化状态栏
 	GetClientRect(&rect);
@@ -1247,6 +1259,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
+	pMenu->CheckMenuItem(ID_SHOW_LINE_NUMBER, MF_BYCOMMAND | (m_show_line_number ? MF_CHECKED : MF_UNCHECKED));
 
     bool is_selection_empty = m_view->IsSelectionEmpty();
     pMenu->EnableMenuItem(ID_EDIT_COPY, is_selection_empty ? MF_GRAYED : MF_ENABLED);
@@ -1425,4 +1438,12 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
     }
 
     return CBaseDialog::OnNotify(wParam, lParam, pResult);
+}
+
+
+void CSimpleNotePadDlg::OnShowLineNumber()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_show_line_number = !m_show_line_number;
+    m_view->ShowLineNumber(m_show_line_number);
 }

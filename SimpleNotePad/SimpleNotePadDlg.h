@@ -26,6 +26,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
+    int DPI(int pixel);
 
 // 实现
 protected:
@@ -55,6 +56,7 @@ protected:
 
 	bool m_word_wrap;		//是否自动换行
     bool m_always_on_top{ false };
+    bool m_show_line_number{ false };
 
 	//const CString CONFIG_PATH{ _T("./config.ini") };
 	//wstring m_config_path;		//配置文件所在的路径
@@ -161,4 +163,5 @@ public:
     afx_msg void OnToolOptions();
     afx_msg void OnCodeConvert();
     virtual BOOL OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult);
+    afx_msg void OnShowLineNumber();
 };

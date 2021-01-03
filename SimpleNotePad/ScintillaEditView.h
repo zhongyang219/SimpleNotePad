@@ -5,6 +5,8 @@
 
 // CScintillaEditView 视图
 
+#define SCINTILLA_MARGIN_LINENUMBER 0
+
 class CScintillaEditView : public CView
 {
 	DECLARE_DYNCREATE(CScintillaEditView)
@@ -47,10 +49,15 @@ public:
     bool CanPaste();
     bool IsSelectionEmpty();
 
+    void SetLineNumberWidth(int width);
+    void ShowLineNumber(bool show);
+    void SetLineNumberColor(COLORREF color);
+
 private:
 
 private:
     bool m_change_notification_enable = true;      //如果为false，则不响应文本改变消息
+    int m_line_number_width = 36;
 
 protected:
 	DECLARE_MESSAGE_MAP()

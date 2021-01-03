@@ -173,6 +173,24 @@ bool CScintillaEditView::IsSelectionEmpty()
     return anchor == current_pos;
 }
 
+void CScintillaEditView::SetLineNumberWidth(int width)
+{
+    m_line_number_width = width;
+}
+
+void CScintillaEditView::ShowLineNumber(bool show)
+{
+    if (show)
+        SendMessage(SCI_SETMARGINWIDTHN, SCINTILLA_MARGIN_LINENUMBER, m_line_number_width);
+    else
+        SendMessage(SCI_SETMARGINWIDTHN, SCINTILLA_MARGIN_LINENUMBER, 0);
+}
+
+void CScintillaEditView::SetLineNumberColor(COLORREF color)
+{
+    SendMessage(SCI_STYLESETFORE, STYLE_LINENUMBER, color);
+}
+
 // CScintillaEditView 消息处理程序
 
 
@@ -210,4 +228,5 @@ void CScintillaEditView::OnInitialUpdate()
     // TODO: 在此添加专用代码和/或调用基类
     SendMessage(SCI_SETCODEPAGE, SC_CP_UTF8);       //总是使用Unicode
 
+    SendMessage(SCI_SETMARGINTYPEN, SCINTILLA_MARGIN_LINENUMBER, SC_MARGIN_NUMBER);
 }
