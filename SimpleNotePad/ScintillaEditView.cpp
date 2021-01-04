@@ -78,16 +78,11 @@ void CScintillaEditView::GetText(wstring& text)
     delete[] buf;
 }
 
-void CScintillaEditView::SetFontFace(const char * font_face)
-{
-    SendMessage(SCI_STYLESETFONT, STYLE_DEFAULT, (sptr_t)font_face);
-}
-
 void CScintillaEditView::SetFontFace(const wchar_t* font_face)
 {
     bool char_connot_convert;
-    string str_font_face = CCommon::UnicodeToStr(font_face, char_connot_convert);
-    SetFontFace(str_font_face.c_str());
+    string str_font_face = CCommon::UnicodeToStr(font_face, char_connot_convert, CodeType::UTF8_NO_BOM);
+    SendMessage(SCI_STYLESETFONT, STYLE_DEFAULT, (sptr_t)str_font_face.c_str());
 }
 
 void CScintillaEditView::SetFontSize(int font_size)

@@ -26,7 +26,6 @@ public:
 
     void SetText(const wstring& text);
     void GetText(wstring& text);
-    void SetFontFace(const char* font_face);
     void SetFontFace(const wchar_t* font_face);
     void SetFontSize(int font_size);
     void SetTabSize(int tab_size);
