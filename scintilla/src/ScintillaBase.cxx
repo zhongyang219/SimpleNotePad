@@ -60,6 +60,9 @@
 
 #include "ExternalLexer.h"
 
+#undef max
+#undef min
+
 using namespace Scintilla;
 
 ScintillaBase::ScintillaBase() {
@@ -514,15 +517,15 @@ void ScintillaBase::ContextMenu(Point pt) {
 	if (displayPopupMenu) {
 		const bool writable = !WndProc(SCI_GETREADONLY, 0, 0);
 		popup.CreatePopUp();
-		AddToPopUp("Undo", idcmdUndo, writable && pdoc->CanUndo());
-		AddToPopUp("Redo", idcmdRedo, writable && pdoc->CanRedo());
-		AddToPopUp("");
-		AddToPopUp("Cut", idcmdCut, writable && !sel.Empty());
-		AddToPopUp("Copy", idcmdCopy, !sel.Empty());
-		AddToPopUp("Paste", idcmdPaste, writable && WndProc(SCI_CANPASTE, 0, 0));
-		AddToPopUp("Delete", idcmdDelete, writable && !sel.Empty());
-		AddToPopUp("");
-		AddToPopUp("Select All", idcmdSelectAll);
+		AddToPopUp(_T("撤销\tCtrl+Z"), idcmdUndo, writable && pdoc->CanUndo());
+		AddToPopUp(_T("重做\tCtrl+Y"), idcmdRedo, writable && pdoc->CanRedo());
+		AddToPopUp(_T(""));
+		AddToPopUp(_T("剪切\tCtrl+X"), idcmdCut, writable && !sel.Empty());
+		AddToPopUp(_T("复制\tCtrl+C"), idcmdCopy, !sel.Empty());
+		AddToPopUp(_T("粘贴\tCtrl+V"), idcmdPaste, writable && WndProc(SCI_CANPASTE, 0, 0));
+		AddToPopUp(_T("删除"), idcmdDelete, writable && !sel.Empty());
+		AddToPopUp(_T(""));
+		AddToPopUp(_T("全选\tCtrl+A"), idcmdSelectAll);
 		popup.Show(pt, wMain);
 	}
 }

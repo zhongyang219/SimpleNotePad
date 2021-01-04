@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+﻿// Scintilla source code edit control
 /** @file ScintillaWin.cxx
  ** Windows specific subclass of ScintillaBase.
  **/
@@ -431,7 +431,7 @@ class ScintillaWin :
 	bool CanPaste() override;
 	void Paste() override;
 	void CreateCallTipWindow(PRectangle rc) override;
-	void AddToPopUp(const char *label, int cmd = 0, bool enabled = true) override;
+	void AddToPopUp(LPCTSTR label, int cmd = 0, bool enabled = true) override;
 	void ClaimSelection() override;
 
 	void GetIntelliMouseParameters() noexcept;
@@ -2552,14 +2552,14 @@ void ScintillaWin::CreateCallTipWindow(PRectangle) {
 	}
 }
 
-void ScintillaWin::AddToPopUp(const char *label, int cmd, bool enabled) {
+void ScintillaWin::AddToPopUp(LPCTSTR label, int cmd, bool enabled) {
 	HMENU hmenuPopup = static_cast<HMENU>(popup.GetID());
 	if (!label[0])
-		::AppendMenuA(hmenuPopup, MF_SEPARATOR, 0, "");
+		::AppendMenu(hmenuPopup, MF_SEPARATOR, 0, _T(""));
 	else if (enabled)
-		::AppendMenuA(hmenuPopup, MF_STRING, cmd, label);
+		::AppendMenu(hmenuPopup, MF_STRING, cmd, label);
 	else
-		::AppendMenuA(hmenuPopup, MF_STRING | MF_DISABLED | MF_GRAYED, cmd, label);
+		::AppendMenu(hmenuPopup, MF_STRING | MF_DISABLED | MF_GRAYED, cmd, label);
 }
 
 void ScintillaWin::ClaimSelection() {
