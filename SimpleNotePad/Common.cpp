@@ -335,3 +335,11 @@ size_t CCommon::StringFind(const wstring & str, const wstring & find_str, bool n
 		return StringFindWholeWord(str, find_str, no_case, find_down, offset);
 	}
 }
+
+int CCommon::FontSizeToLfHeight(int font_size)
+{
+    HDC hDC = ::GetDC(HWND_DESKTOP);
+    int lfHeight = -MulDiv(font_size, GetDeviceCaps(hDC, LOGPIXELSY), 72);
+    ::ReleaseDC(HWND_DESKTOP, hDC);
+    return lfHeight;
+}

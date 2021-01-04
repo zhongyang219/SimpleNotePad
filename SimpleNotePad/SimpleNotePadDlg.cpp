@@ -177,7 +177,7 @@ bool CSimpleNotePadDlg::JudgeCode()
 void CSimpleNotePadDlg::ShowStatusBar()
 {
 	//显示编码格式
-	CString str{_T("编码格式: ")};
+	CString str{/*_T("编码格式: ")*/};
 	//if (!m_edit_wcs.empty())
 	//{
 	switch (m_code)
@@ -195,11 +195,12 @@ void CSimpleNotePadDlg::ShowStatusBar()
 		case CODE_PAGE_VIET: str += _T("越南文 "); break;
 		default: str += _T("ANSI "); break;
 		}
-		str += _T("代码页: ");
+		str += _T("(");
 		if (m_code_page == 0)
-			str += _T("本地代码页");
+            str += _T("本地代码页");
 		else
 			str += std::to_wstring(m_code_page).c_str();
+        str += _T(")");
 	}
 		break;
 	case CodeType::UTF8: str += _T("UTF8"); break;
@@ -356,7 +357,7 @@ void CSimpleNotePadDlg::GetStatusbarWidth(std::vector<int>& part_widths)
     const int WIDTHS = PARTS - 1;
     std::vector<int> widths;
     widths.resize(WIDTHS);
-    widths[WIDTHS - 1] = DPI(260);
+    widths[WIDTHS - 1] = DPI(174);
     widths[WIDTHS - 2] = DPI(60);
     widths[WIDTHS - 3] = DPI(40);
 
@@ -868,6 +869,7 @@ void CSimpleNotePadDlg::OnFormatFont()
 	LOGFONT lf{ 0 };             //LOGFONT变量
 	//m_font.GetLogFont(&lf);
 	_tcscpy_s(lf.lfFaceName, LF_FACESIZE, m_font_name.GetString());	//将lf中的元素字体名设为“微软雅黑”
+    lf.lfHeight = CCommon::FontSizeToLfHeight(m_font_size);
     CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
 	if (IDOK == fontDlg.DoModal())     // 显示字体对话框
 	{

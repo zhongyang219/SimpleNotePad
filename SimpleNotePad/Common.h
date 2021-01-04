@@ -114,5 +114,9 @@ public:
 	static bool IsDivideChar(wchar_t ch);
 
 	static size_t StringFind(const wstring& str, const wstring& find_str, bool no_case, bool whole_word, bool find_down, size_t offset);
+
+    //将字号转成LOGFONT结构中的lfHeight
+    static int FontSizeToLfHeight(int font_size);
+
 };
 
