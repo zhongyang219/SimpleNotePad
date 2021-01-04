@@ -47,6 +47,8 @@ public:
     bool CanRedo();
     bool CanPaste();
     bool IsSelectionEmpty();
+    bool IsModified();
+    void SetSavePoint();
 
     void SetLineNumberWidth(int width);
     void ShowLineNumber(bool show);

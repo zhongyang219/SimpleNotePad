@@ -73,14 +73,10 @@ int CSimpleNotePadDlg::DPI(int pixel)
 
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 {
-	////打开新文件前询问用户是否保存
-	//if (!SaveInquiry())
-	//	return;
-
 	CWaitCursor wait_cursor;
 
 	m_edit_str.clear();
-	m_modified = false;
+    m_view->SetSavePoint();
 	ifstream file{ file_path, std::ios::binary };
 	if (file.fail())
 	{
@@ -142,7 +138,7 @@ bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_pag
 	if (!file.good())		//如果无法保存文件，则返回false
 		return false;
 	file << m_edit_str;
-	m_modified = false;
+    m_view->SetSavePoint();
 	ShowStatusBar();		//保存后刷新状态栏
     SetTitle();
 	return true;
@@ -306,7 +302,7 @@ void CSimpleNotePadDlg::LoadConfig()
 
 bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 {
-	if (m_modified)
+	if (m_view->IsModified())
 	{
 		CString text;
 		if (info == NULL)
@@ -327,7 +323,7 @@ bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 		case IDYES:
             return _OnFileSave();
 		case IDNO:
-            m_modified = false;
+            m_view->SetSavePoint();
             SetTitle();
             break;
 		default:
@@ -340,7 +336,7 @@ bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 void CSimpleNotePadDlg::SetTitle()
 {
     CString str_title;
-    if (m_modified)
+    if (m_view->IsModified())
         str_title += _T('*');
 	if(!m_file_path.IsEmpty())
         str_title += m_file_path + _T(" - SimpleNotePad");
@@ -377,7 +373,7 @@ void CSimpleNotePadDlg::GetStatusbarWidth(std::vector<int>& part_widths)
 
 bool CSimpleNotePadDlg::_OnFileSave()
 {
-	if (m_modified)		//只有在已更改过之后才保存
+	if (m_view->IsModified())		//只有在已更改过之后才保存
 	{
 		//已经打开过一个文件时就直接保存，还没有打开一个文件就弹出“另存为”对话框
 		if (!m_file_path.IsEmpty())
@@ -470,8 +466,8 @@ void CSimpleNotePadDlg::SaveHex()
 		return;
 	}
 	file << m_edit_str;
-	m_modified = false;
-	SetTitle();
+    m_view->SetSavePoint();
+    SetTitle();
 	MessageBox(_T("十六进制编辑的更改已保存"), NULL, MB_ICONINFORMATION);
 }
 
@@ -998,7 +994,7 @@ void CSimpleNotePadDlg::OnHexView()
 	//if (!m_file_path.IsEmpty() && !hex_view_dlg.m_modified_data.empty())
 	if (!m_file_path.IsEmpty() && hex_view_dlg.IsModified())
 	{
-		if (m_modified)
+		if (m_view->IsModified())
 		{
 			CString info;
 			info.LoadString(IDS_STRING103);
@@ -1061,8 +1057,8 @@ void CSimpleNotePadDlg::OnFileNew()
     m_view->SetText(L"");
     m_view->EmptyUndoBuffer();
     m_code = CodeType::ANSI;
-	m_modified = false;
-	ShowStatusBar();
+    m_view->SetSavePoint();
+    ShowStatusBar();
 	SetWindowText(_T("无标题 - SimpleNotePad"));
 }
 
@@ -1180,7 +1176,7 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 			{
 				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
                 m_view->SetText(m_edit_wcs);
-				m_modified = true;
+				//m_modified = true;
 				SetTitle();
 				OnFindNext();
 				SetSel(m_find_index, m_find_index + m_find_str.size());	//选中替换的字符串
@@ -1203,7 +1199,7 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 				replace_count++;
 			}
             m_view->SetText(m_edit_wcs);
-            m_modified = true;
+            //m_modified = true;
             SetTitle();
             if (replace_count != 0)
 			{
@@ -1523,7 +1519,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
         {
             int n = SendMessage(SCI_GETMODIFY);
             m_view->GetText(m_edit_wcs);
-		    m_modified = true;
+		    //m_modified = true;
 	        ShowStatusBar();
             SetTitle();
         }

@@ -168,6 +168,16 @@ bool CScintillaEditView::IsSelectionEmpty()
     return anchor == current_pos;
 }
 
+bool CScintillaEditView::IsModified()
+{
+    return (SendMessage(SCI_GETMODIFY) != 0);
+}
+
+void CScintillaEditView::SetSavePoint()
+{
+    SendMessage(SCI_SETSAVEPOINT);
+}
+
 void CScintillaEditView::SetLineNumberWidth(int width)
 {
     m_line_number_width = width;
