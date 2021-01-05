@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "Scintilla/SciLexer.h"
-#include "Scintilla/Scintilla.h"
+#include "../scintilla/include/SciLexer.h"
+#include "../scintilla/include/Scintilla.h"
 
 // CScintillaEditView 视图
 
