@@ -70,6 +70,11 @@ public:
 
     void SetViewEol(bool show);
 
+    //语法解析
+    void SetLexer(int lexer);
+    void SetKeywords(int id, const char* keywords);
+    void SetSyntaxColor(int id, COLORREF color);
+
     static eEolMode JudgeEolMode(const wstring& str);
 
 private:

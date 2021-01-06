@@ -118,5 +118,12 @@ public:
     //将字号转成LOGFONT结构中的lfHeight
     static int FontSizeToLfHeight(int font_size);
 
+    //将一个字符串分割成若干个字符串
+    //str: 原始字符串
+    //div_ch: 用于分割的字符
+    //result: 接收分割后的结果
+    static void StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& results, bool skip_empty = true);
+
+
 };
 

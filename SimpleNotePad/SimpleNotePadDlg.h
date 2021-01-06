@@ -9,6 +9,7 @@
 #include "EditEx.h"
 #include "BaseDialog.h"
 #include "ScintillaEditView.h"
+#include "SyntaxHighlight.h"
 
 const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//将FINDMSGSTRING注册为WM_FINDREPLACE消息
 // CSimpleNotePadDlg 对话框
@@ -69,6 +70,8 @@ protected:
 	bool m_find_no_case;			//查找时是否不区分大小写
 	bool m_find_whole_word;			//查找时是否全词匹配
 	bool m_find_flag{ false };
+
+    CSyntaxHighlight m_syntax_highlight;
 	
 	void OpenFile(LPCTSTR file_path);					//打开文件的处理
 	bool SaveFile(LPCTSTR file_path, CodeType code, UINT code_page = CP_ACP);	//保存文件的处理

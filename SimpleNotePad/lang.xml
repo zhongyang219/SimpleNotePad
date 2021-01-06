@@ -1,0 +1,26 @@
+<SimpleNotepad>
+	<Language name="C" ext="c">
+		<Keywords id="0">auto break case char const continue default do double else enum extern float for goto if int long register return short signed sizeof static struct switch typedef union unsigned void volatile while inline restrict _Bool _Complex _Imaginary _Alignas _Alignof _Atomic _Static_assert _Noreturn _Thread_local _Generic</Keywords>
+		<SyntaxList>
+			<Syntax name="注释" id="1" color="0x00008000" />
+			<Syntax name="行注释" id="2" color="0x00008000" />
+			<Syntax name="关键字" id="5" color="0x00FF0000" />
+			<Syntax name="类型" id="16" color="0x00FF0000" />
+			<Syntax name="字符串" id="6" color="0x00FF0000" />
+			<Syntax name="字符" id="7" color="0x001515A3" />
+			<Syntax name="预编译开关" id="9" color="0x00808080" />
+		</SyntaxList>
+	</Language>
+	<Language name="C++" ext="h cpp">
+		<Keywords id="0">asm do if return typedef auto double inline short typeid bool dynamic_cast int signed typename break else long sizeof union case enum mutable static unsigned catch explicit namespace static_cast using char export new struct virtual class extern operator switch void const false private template volatile const_cast float protected this wchar_t continue for public throw while default friend register true delete goto reinterpret_cast try alignas alignof char16_t char32_t constexpr decltype noexcept nullptr static_assert thread_local</Keywords>
+		<SyntaxList>
+			<Syntax name="注释" id="1" color="0x00008000" />
+			<Syntax name="行注释" id="2" color="0x00008000" />
+			<Syntax name="关键字" id="5" color="0x00FF0000" />
+			<Syntax name="类型" id="16" color="0x00FF0000" />
+			<Syntax name="字符串" id="6" color="0x00FF0000" />
+			<Syntax name="字符" id="7" color="0x001515A3" />
+			<Syntax name="预编译开关" id="9" color="0x00808080" />
+		</SyntaxList>
+	</Language>
+</SimpleNotepad>

@@ -66,6 +66,12 @@
     <Filter Include="头文件和源文件\头文件\scintilla">
       <UniqueIdentifier>{5cefd671-5925-40be-a18a-e6e4c1835b36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{95c1a6ad-369c-4aba-983d-99ef2a93d981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SyntaxHighlight">
+      <UniqueIdentifier>{7a7c7c82-94cd-4969-8a99-0dd24f1b417a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -131,6 +137,15 @@
     <ClInclude Include="Scintilla\Scintilla.h">
       <Filter>头文件和源文件\头文件\scintilla</Filter>
     </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="TinyXml2Helper.h">
+      <Filter>头文件和源文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SyntaxHighlight.h">
+      <Filter>SyntaxHighlight</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -177,6 +192,15 @@
     </ClCompile>
     <ClCompile Include="ScintillaEditView.cpp">
       <Filter>头文件和源文件\ScintillaEditView</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXml2Helper.cpp">
+      <Filter>头文件和源文件\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SyntaxHighlight.cpp">
+      <Filter>SyntaxHighlight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

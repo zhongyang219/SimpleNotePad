@@ -266,6 +266,21 @@ void CScintillaEditView::SetViewEol(bool show)
     SendMessage(SCI_SETVIEWEOL, show);
 }
 
+void CScintillaEditView::SetLexer(int lexer)
+{
+    SendMessage(SCI_SETLEXER, lexer);
+}
+
+void CScintillaEditView::SetKeywords(int id, const char* keywords)
+{
+    SendMessage(SCI_SETKEYWORDS, id, (sptr_t)keywords);
+}
+
+void CScintillaEditView::SetSyntaxColor(int id, COLORREF color)
+{
+    SendMessage(SCI_STYLESETFORE, id, color);
+}
+
 CScintillaEditView::eEolMode CScintillaEditView::JudgeEolMode(const wstring& str)
 {
     size_t index = str.find(L"\r\n");

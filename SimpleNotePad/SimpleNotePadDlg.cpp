@@ -11,6 +11,7 @@
 #include "InputDlg.h"
 #include "SettingsDlg.h"
 #include "CodeConvertDlg.h"
+#include "Test.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -120,6 +121,41 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
     CScintillaEditView::eEolMode eol_mode = CScintillaEditView::JudgeEolMode(m_edit_wcs);
     m_view->SetEolMode(eol_mode);
 	ShowStatusBar();										//更新状态栏
+
+    //文件打开后为编辑设置语法高亮
+    wstring wcs_file_path = file_path;
+    size_t index = wcs_file_path.rfind(L'.');
+    if (index < wcs_file_path.size() - 1)
+    {
+        wstring ext = wcs_file_path.substr(index + 1);
+        if (!ext.empty())
+        {
+            CLanguage lan = m_syntax_highlight.FindLanguageByExt(ext.c_str());
+            if (!lan.m_mane.empty())
+            {
+                bool name_valid = false;
+                //设置语法解析器
+                if (lan.m_mane == L"C" || lan.m_mane == L"C++")
+                {
+                    m_view->SetLexer(SCLEX_CPP);
+                    name_valid = true;
+                }
+                if (name_valid)
+                {
+                    //设置关键字
+                    for (const auto& keywords : lan.m_keywords_list)
+                    {
+                        m_view->SetKeywords(keywords.first, keywords.second.c_str());
+                    }
+                    //设置颜色
+                    for (const auto& syntax_color : lan.m_syntax_list)
+                    {
+                        m_view->SetSyntaxColor(syntax_color.id, syntax_color.color);
+                    }
+                }
+            }
+        }
+    }
 }
 
 bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_page)
@@ -622,6 +658,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	////初始化窗口大小
 	//SetWindowPos(nullptr, 0, 0, m_window_width, m_window_hight, SWP_NOZORDER | SWP_NOMOVE);
 
+    //加载语法高亮设置
+    m_syntax_highlight.LoadFromFile(L"./lang.xml");
+
 	//根据当前系统DPI设置设置状态栏大小
 	CWindowDC dc(this);
 	HDC hDC = dc.GetSafeHdc();
@@ -932,11 +971,15 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 			OnReplace();
 			return TRUE;
 		}
-        //else if (pMsg->wParam == 'Q')
-        //{
-        //    SetSel(2, 3);
-        //    return TRUE;
-        //}
+#ifdef DEBUG
+        else if (pMsg->wParam == 'Q')
+        {
+            CTest::Test();
+            return TRUE;
+        }
+
+#endif // DEBUG
+
 	}
 	//设置按F3查找下一个
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_F3)
