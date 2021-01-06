@@ -37,16 +37,19 @@ void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele)
     });
 }
 
-void CSyntaxHighlight::LoadFromFile(const wchar_t* file_path)
+void CSyntaxHighlight::LoadFromFile(const char* file_path)
 {
     tinyxml2::XMLDocument doc;
-    CTinyXml2Helper::LoadXmlFile(doc, file_path);
-    CTinyXml2Helper::IterateChildNode(doc.FirstChildElement(), [this](tinyxml2::XMLElement* child)
+    auto err = doc.LoadFile(file_path);
+    if (!err)
     {
-        CLanguage lan;
-        lan.FromXmlElement(child);
-        m_language_list.push_back(lan);
-    });
+        CTinyXml2Helper::IterateChildNode(doc.FirstChildElement(), [this](tinyxml2::XMLElement* child)
+        {
+            CLanguage lan;
+            lan.FromXmlElement(child);
+            m_language_list.push_back(lan);
+        });
+    }
 }
 
 CLanguage CSyntaxHighlight::FindLanguageByExt(const wchar_t* ext)

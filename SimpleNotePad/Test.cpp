@@ -20,6 +20,6 @@ void CTest::TestXml()
     //});
 
     CSyntaxHighlight syntax;
-    syntax.LoadFromFile(L"./lang.xml");
+    syntax.LoadFromFile("./lang.xml");
     int a = 0;
 }

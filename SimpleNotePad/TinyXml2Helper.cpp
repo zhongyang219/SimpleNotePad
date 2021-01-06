@@ -1,12 +1,15 @@
 ﻿#include "stdafx.h"
 #include "TinyXml2Helper.h"
 
-void CTinyXml2Helper::LoadXmlFile(tinyxml2::XMLDocument& doc, const wchar_t* file_path)
+bool CTinyXml2Helper::LoadXmlFile(tinyxml2::XMLDocument& doc, const wchar_t* file_path)
 {
     FILE* pFile = nullptr;
     const errno_t err = _wfopen_s(&pFile, file_path, L"rb");
+    if (err || pFile == nullptr)
+        return false;
     doc.LoadFile(pFile);
     fclose(pFile);
+    return true;
 }
 
 void CTinyXml2Helper::IterateChildNode(tinyxml2::XMLElement* ele, std::function<void(tinyxml2::XMLElement*)> fun)

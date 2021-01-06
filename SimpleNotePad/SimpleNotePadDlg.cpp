@@ -659,7 +659,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	//SetWindowPos(nullptr, 0, 0, m_window_width, m_window_hight, SWP_NOZORDER | SWP_NOMOVE);
 
     //加载语法高亮设置
-    m_syntax_highlight.LoadFromFile(L"./lang.xml");
+    m_syntax_highlight.LoadFromFile("./lang.xml");
 
 	//根据当前系统DPI设置设置状态栏大小
 	CWindowDC dc(this);

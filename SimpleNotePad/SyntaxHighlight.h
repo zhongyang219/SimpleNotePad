@@ -22,7 +22,7 @@ public:
 class CSyntaxHighlight
 {
 public:
-    void LoadFromFile(const wchar_t* file_path);
+    void LoadFromFile(const char* file_path);
 
     CLanguage FindLanguageByExt(const wchar_t* ext);
 
