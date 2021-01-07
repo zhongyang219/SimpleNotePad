@@ -74,7 +74,8 @@ protected:
     CSyntaxHighlight m_syntax_highlight;
 	
 	void OpenFile(LPCTSTR file_path);					//打开文件的处理
-	bool SaveFile(LPCTSTR file_path, CodeType code, UINT code_page = CP_ACP);	//保存文件的处理
+
+    bool SaveFile(LPCTSTR file_path, CodeType code, UINT code_page = CP_ACP);	//保存文件的处理
 	bool JudgeCode();				//判断编码格式（如果编码格式可以完全确定，则返回true，否则返回false）
 	void ShowStatusBar();			//刷新状态栏
 	void ChangeCode();				//更改编码格式时的处理
@@ -96,6 +97,9 @@ protected:
 	virtual CString GetDialogName() const override;
 
     void SetSel(int start, int end);
+
+    void SetSyntaxHight(const CLanguage& lan);
+    void SetEditorSyntaxHight();
 
 private:
     int CharactorPosToBytePos(int pos);     //将字符的位置转换成字节的位置（使用UTF8编码）
@@ -172,4 +176,5 @@ public:
     afx_msg void OnEolCr();
     afx_msg void OnEolLf();
     afx_msg void OnShowEol();
+    virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
 };

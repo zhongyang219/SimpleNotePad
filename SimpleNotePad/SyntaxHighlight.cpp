@@ -5,8 +5,9 @@
 
 void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele)
 {
-    m_mane = CCommon::StrToUnicode(ele->Attribute("name"), CodeType::UTF8_NO_BOM);
-    wstring ext_list = CCommon::StrToUnicode(ele->Attribute("ext"), CodeType::UTF8_NO_BOM);
+    m_name = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(ele, "name"), CodeType::UTF8_NO_BOM);
+    m_id = atoi(CTinyXml2Helper::ElementAttribute(ele, "lexId"));
+    wstring ext_list = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(ele, "ext"), CodeType::UTF8_NO_BOM);
     std::vector<wstring> ext_vec;
     CCommon::StringSplit(ext_list, L' ', ext_vec);
     for (const auto& ext : ext_vec)
@@ -20,7 +21,7 @@ void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele)
         string node_name = child->Name();
         if (node_name == "Keywords")
         {
-            int keywords_id = atoi(child->Attribute("id"));
+            int keywords_id = atoi(CTinyXml2Helper::ElementAttribute(child, "id"));
             m_keywords_list[keywords_id] = child->GetText();
         }
         else if (node_name == "SyntaxList")
@@ -28,9 +29,9 @@ void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele)
             CTinyXml2Helper::IterateChildNode(child, [&](tinyxml2::XMLElement* syntax_node)
             {
                 SyntaxColor syntax_color;
-                syntax_color.name = CCommon::StrToUnicode(syntax_node->Attribute("name"), CodeType::UTF8_NO_BOM);
-                syntax_color.id = atoi(syntax_node->Attribute("id"));
-                sscanf_s(syntax_node->Attribute("color"), "%x", &syntax_color.color);
+                syntax_color.name = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(syntax_node, "name"), CodeType::UTF8_NO_BOM);
+                syntax_color.id = atoi(CTinyXml2Helper::ElementAttribute(syntax_node, "id"));
+                sscanf_s(CTinyXml2Helper::ElementAttribute(syntax_node, "color"), "%x", &syntax_color.color);
                 m_syntax_list.push_back(syntax_color);
             });
         }
@@ -62,4 +63,21 @@ CLanguage CSyntaxHighlight::FindLanguageByExt(const wchar_t* ext)
         }
     }
     return CLanguage();
+}
+
+CLanguage CSyntaxHighlight::FindLanguageByName(const wchar_t* name)
+{
+    for (const auto& lan : m_language_list)
+    {
+        if (lan.m_name == name)
+        {
+            return lan;
+        }
+    }
+    return CLanguage();
+}
+
+const std::vector<CLanguage>& CSyntaxHighlight::GetLanguageList()
+{
+    return m_language_list;
 }

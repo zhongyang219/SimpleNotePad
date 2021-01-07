@@ -31,3 +31,14 @@ void CTinyXml2Helper::IterateChildNode(tinyxml2::XMLElement* ele, std::function<
     }
 }
 
+const char * CTinyXml2Helper::ElementAttribute(tinyxml2::XMLElement * ele, const char * attr)
+{
+    if (ele != nullptr)
+    {
+        const char* str = ele->Attribute(attr);
+        if (str != nullptr)
+            return str;
+    }
+    return "";
+}
+

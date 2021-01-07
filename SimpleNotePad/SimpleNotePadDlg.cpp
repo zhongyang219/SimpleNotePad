@@ -123,39 +123,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	ShowStatusBar();										//更新状态栏
 
     //文件打开后为编辑设置语法高亮
-    wstring wcs_file_path = file_path;
-    size_t index = wcs_file_path.rfind(L'.');
-    if (index < wcs_file_path.size() - 1)
-    {
-        wstring ext = wcs_file_path.substr(index + 1);
-        if (!ext.empty())
-        {
-            CLanguage lan = m_syntax_highlight.FindLanguageByExt(ext.c_str());
-            if (!lan.m_mane.empty())
-            {
-                bool name_valid = false;
-                //设置语法解析器
-                if (lan.m_mane == L"C" || lan.m_mane == L"C++")
-                {
-                    m_view->SetLexer(SCLEX_CPP);
-                    name_valid = true;
-                }
-                if (name_valid)
-                {
-                    //设置关键字
-                    for (const auto& keywords : lan.m_keywords_list)
-                    {
-                        m_view->SetKeywords(keywords.first, keywords.second.c_str());
-                    }
-                    //设置颜色
-                    for (const auto& syntax_color : lan.m_syntax_list)
-                    {
-                        m_view->SetSyntaxColor(syntax_color.id, syntax_color.color);
-                    }
-                }
-            }
-        }
-    }
+    SetEditorSyntaxHight();
 }
 
 bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_page)
@@ -527,6 +495,40 @@ void CSimpleNotePadDlg::SetSel(int start, int end)
     m_view->SetSel(byte_start, byte_end);
 }
 
+void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
+{
+    if (!lan.m_name.empty())
+    {
+        //设置语法解析器
+        m_view->SetLexer(lan.m_id);
+        //设置关键字
+        for (const auto& keywords : lan.m_keywords_list)
+        {
+            m_view->SetKeywords(keywords.first, keywords.second.c_str());
+        }
+        //设置颜色
+        for (const auto& syntax_color : lan.m_syntax_list)
+        {
+            m_view->SetSyntaxColor(syntax_color.id, syntax_color.color);
+        }
+    }
+}
+
+void CSimpleNotePadDlg::SetEditorSyntaxHight()
+{
+    wstring wcs_file_path = m_file_path.GetString();
+    size_t index = wcs_file_path.rfind(L'.');
+    if (index < wcs_file_path.size() - 1)
+    {
+        wstring ext = wcs_file_path.substr(index + 1);
+        if (!ext.empty())
+        {
+            CLanguage lan = m_syntax_highlight.FindLanguageByExt(ext.c_str());
+            SetSyntaxHight(lan);
+        }
+    }
+}
+
 int CSimpleNotePadDlg::CharactorPosToBytePos(int pos)
 {
     return WideCharToMultiByte(CP_UTF8, 0, m_edit_wcs.c_str(), pos, NULL, 0, NULL, NULL);
@@ -705,6 +707,22 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	//m_edit.SetFont(&m_font);
     m_view->SetFontFace(m_font_name.GetString());
     m_view->SetFontSize(m_font_size);
+
+    //初始化语言菜单
+    CMenu* pMenu = GetMenu();
+    if (pMenu != nullptr)
+    {
+        CMenu* pLanguageMenu = pMenu->GetSubMenu(3)->GetSubMenu(6);
+        if (pLanguageMenu != nullptr)
+        {
+            int index = 0;
+            for (const auto& language_item : m_syntax_highlight.GetLanguageList())
+            {
+                pLanguageMenu->AppendMenuW(MF_STRING | MF_ENABLED, ID_LANGUAGE_NORMAL_TEXT + index + 1, language_item.m_name.c_str());
+                index++;
+            }
+        }
+    }
 
 	//如果m_file_path获得了通过构造函数参数传递的、来自命令行的文件路径，则打开文件
 	if (!m_file_path.IsEmpty())
@@ -1617,4 +1635,30 @@ void CSimpleNotePadDlg::OnShowEol()
     // TODO: 在此添加命令处理程序代码
     m_show_eol = !m_show_eol;
     m_view->SetViewEol(m_show_eol);
+}
+
+
+BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
+{
+    // TODO: 在此添加专用代码和/或调用基类
+    WORD command = LOWORD(wParam);
+    if (command > ID_LANGUAGE_NORMAL_TEXT && command < ID_LANGUAGE_MAX)
+    {
+        CString lan_name;
+        GetMenu()->GetMenuStringW(command, lan_name, 0);
+        if (!lan_name.IsEmpty())
+        {
+            CLanguage lan = m_syntax_highlight.FindLanguageByName(lan_name);
+            if (!lan.m_name.empty())
+            {
+                SetSyntaxHight(lan);
+            }
+        }
+    }
+    if (command == ID_LANGUAGE_NORMAL_TEXT)
+    {
+        m_view->SetLexer(SCLEX_NULL);
+    }
+
+    return CBaseDialog::OnCommand(wParam, lParam);
 }

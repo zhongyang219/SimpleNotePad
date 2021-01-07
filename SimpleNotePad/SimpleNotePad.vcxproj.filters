@@ -128,15 +128,6 @@
     <ClInclude Include="ScintillaEditView.h">
       <Filter>头文件和源文件\ScintillaEditView</Filter>
     </ClInclude>
-    <ClInclude Include="Scintilla\Sci_Position.h">
-      <Filter>头文件和源文件\头文件\scintilla</Filter>
-    </ClInclude>
-    <ClInclude Include="Scintilla\SciLexer.h">
-      <Filter>头文件和源文件\头文件\scintilla</Filter>
-    </ClInclude>
-    <ClInclude Include="Scintilla\Scintilla.h">
-      <Filter>头文件和源文件\头文件\scintilla</Filter>
-    </ClInclude>
     <ClInclude Include="Test.h">
       <Filter>Test</Filter>
     </ClInclude>
@@ -145,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="SyntaxHighlight.h">
       <Filter>SyntaxHighlight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\scintilla\include\SciLexer.h">
+      <Filter>头文件和源文件\头文件\scintilla</Filter>
+    </ClInclude>
+    <ClInclude Include="..\scintilla\include\Scintilla.h">
+      <Filter>头文件和源文件\头文件\scintilla</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
