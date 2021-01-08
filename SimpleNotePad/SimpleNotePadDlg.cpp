@@ -209,7 +209,7 @@ void CSimpleNotePadDlg::ShowStatusBar()
 	}
 	//}
 
-	m_status_bar.SetText(str, 3, 0);
+	m_status_bar.SetText(str, 4, 0);
 
 	//显示字符数
 	//if (m_edit_wcs.empty())
@@ -240,13 +240,17 @@ void CSimpleNotePadDlg::ShowStatusBar()
     default:
         break;
     }
-    m_status_bar.SetText(str_eol, 1, 0);
+    m_status_bar.SetText(str_eol, 2, 0);
 
     //显示缩放比例
     int scale = 100 + m_zoom * 10;
     CString str_zoom;
     str_zoom.Format(_T("%d%%"), scale);
-    m_status_bar.SetText(str_zoom, 2, 0);
+    m_status_bar.SetText(str_zoom, 3, 0);
+
+    //显示语言
+    wstring cur_lan_name = m_syntax_highlight.GetLanguage(m_cur_lan_index).m_name;
+    m_status_bar.SetText(cur_lan_name.empty() ? _T("普通文本") : cur_lan_name.c_str(), 1, 0);
 
 }
 
@@ -351,7 +355,7 @@ void CSimpleNotePadDlg::SetTitle()
 
 void CSimpleNotePadDlg::GetStatusbarWidth(std::vector<int>& part_widths)
 {
-    const int PARTS = 4;
+    const int PARTS = 5;
     part_widths.resize(PARTS);
 
     const int WIDTHS = PARTS - 1;
@@ -360,6 +364,7 @@ void CSimpleNotePadDlg::GetStatusbarWidth(std::vector<int>& part_widths)
     widths[WIDTHS - 1] = DPI(174);
     widths[WIDTHS - 2] = DPI(60);
     widths[WIDTHS - 3] = DPI(40);
+    widths[WIDTHS - 4] = DPI(60);
 
     CRect rect;
     GetClientRect(rect);
@@ -497,6 +502,7 @@ void CSimpleNotePadDlg::SetSel(int start, int end)
 
 void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
 {
+    m_view->SetLexerNormalText();
     if (!lan.m_name.empty())
     {
         //设置语法解析器
@@ -511,7 +517,13 @@ void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
         {
             m_view->SetSyntaxColor(syntax_color.id, syntax_color.color);
         }
+        m_cur_lan_index = m_syntax_highlight.IndexOf(lan.m_name);
     }
+    else
+    {
+        m_cur_lan_index = -1;
+    }
+    ShowStatusBar();
 }
 
 void CSimpleNotePadDlg::SetEditorSyntaxHight()
@@ -1417,6 +1429,13 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
         break;
     }
 
+    //设置语言子菜单下的选中
+    int id;
+    if (m_cur_lan_index < 0)
+        id = 0;
+    else
+        id = m_cur_lan_index + 1;
+    pMenu->CheckMenuRadioItem(ID_LANGUAGE_NORMAL_TEXT, ID_LANGUAGE_NORMAL_TEXT + m_syntax_highlight.GetLanguageList().size(), ID_LANGUAGE_NORMAL_TEXT + id, MF_BYCOMMAND | MF_CHECKED);
 }
 
 
@@ -1657,7 +1676,9 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
     }
     if (command == ID_LANGUAGE_NORMAL_TEXT)
     {
-        m_view->SetLexer(SCLEX_NULL);
+        SetSyntaxHight(CLanguage());
+        m_cur_lan_index = -1;
+        ShowStatusBar();
     }
 
     return CBaseDialog::OnCommand(wParam, lParam);

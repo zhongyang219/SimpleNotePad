@@ -12,15 +12,74 @@
 		</SyntaxList>
 	</Language>
 	<Language name="C++" lexId="3" ext="h cpp">
-		<Keywords id="0">asm do if return typedef auto double inline short typeid bool dynamic_cast int signed typename break else long sizeof union case enum mutable static unsigned catch explicit namespace static_cast using char export new struct virtual class extern operator switch void const false private template volatile const_cast float protected this wchar_t continue for public throw while default friend register true delete goto reinterpret_cast try alignas alignof char16_t char32_t constexpr decltype noexcept nullptr static_assert thread_local</Keywords>
+		<Keywords id="0">asm do if return typedef inline typeid dynamic_cast typename break else long sizeof case mutable static catch explicit namespace static_cast using export new virtual class extern operator switch void const false private template volatile const_cast protected this continue for public throw while default friend register true delete goto reinterpret_cast try alignas alignof constexpr decltype noexcept nullptr static_assert thread_local</Keywords>
+		<Keywords id="1">auto double short bool int signed union enum unsigned char struct float wchar_t char16_t char32_t </Keywords>
 		<SyntaxList>
-			<Syntax name="注释" id="1" color="0x00008000" />
-			<Syntax name="行注释" id="2" color="0x00008000" />
-			<Syntax name="关键字" id="5" color="0x00FF0000" />
-			<Syntax name="类型" id="16" color="0x00FF0000" />
-			<Syntax name="字符串" id="6" color="0x001515A3" />
-			<Syntax name="字符" id="7" color="0x001515A3" />
-			<Syntax name="预编译开关" id="9" color="0x00808080" />
+			<Syntax name= "White space" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0x8000" />
+			<Syntax name= "Line Comment" id="2" color="0x8000" />
+			<Syntax name= "Doc comment" id="3" color="0x8000" />
+			<Syntax name= "Number" id="4" color="0x153886" />
+			<Syntax name= "Keyword" id="5" color="0xff0000" />
+			<Syntax name= "Double quoted string" id="6" color="0x1515a3" />
+			<Syntax name= "Single quoted string" id="7" color="0x80" />
+			<Syntax name= "UUIDs (only in IDL)" id="8" color="0x73684a" />
+			<Syntax name= "Preprocessor" id="9" color="0x8a006f" />
+			<Syntax name= "Operators" id="10" color="0x8d1913" />
+			<Syntax name= "Identifiers" id="11" color="0x000000" />
+			<Syntax name= "End of line where string is not closed" id="12" color="0x2020e2" />
+			<Syntax name= "Verbatim strings for C#" id="13" color="0x96260a" />
+			<Syntax name= "Regular expressions for JavaScript" id="14" color="0xf97720" />
+			<Syntax name= "Doc Comment Line" id="15" color="0x638000" />
+			<Syntax name= "Keywords2" id="16" color="0xa17200" />
+			<Syntax name= "Comment keyword" id="17" color="0x907600" />
+			<Syntax name= "Comment keyword error" id="18" color="0x90" />
+			<Syntax name= "Global class" id="19" color="0x808000" />
+			<Syntax name= "Raw strings for C++0x" id="20" color="0x1515a3" />
+			<Syntax name= "Triple-quoted strings for Vala" id="21" color="0x1515a3" />
+			<Syntax name= "Hash-quoted strings for Pike" id="22" color="0x1515a3" />
+			<Syntax name= "Preprocessor stream comment" id="23" color="0x6a7e01" />
+			<Syntax name= "Preprocessor stream doc comment" id="24" color="0x6a7e01" />
+			<Syntax name= "User defined literals" id="25" color="0x808000" />
+			<Syntax name= "Task Marker" id="26" color="0x000000" />
+			<Syntax name= "Escape sequence" id="27" color="0x000000" />
+					</SyntaxList>
+	</Language>
+	<Language name="XML" lexId="5" ext="xml">
+		<Keywords id="0"></Keywords>
+		<SyntaxList>
+			<Syntax name= "Text" id="0" color="0x2E2E2E" />
+			<Syntax name= "Tags" id="1" color="0xDD5A19" />
+			<Syntax name= "Unknown Tags" id="2" color="0xB58476" />
+			<Syntax name= "Attributes" id="3" color="0x1A1A9E" />
+			<Syntax name= "Unknown Attributes" id="4" color="0x7474A4" />
+			<Syntax name= "Numbers" id="5" color="0x225AD6" />
+			<Syntax name= "Double quoted strings" id="6" color="0xBA265E" />
+			<Syntax name= "Single quoted strings" id="7" color="0xBA265E" />
+			<Syntax name= "Other inside tag,  including space and '='" id="8" color="0x2E2E2E" />
+			<Syntax name= "Comment" id="9" color="0xB840B" />
+			<Syntax name= "Entities" id="10" color="0x2E2E2E" />
+			<Syntax name= "XML style tag ends" id="11" color="0xDD5A19" />
+			<Syntax name= "XML identifier start" id="12" color="0x8132B1" />
+			<Syntax name= "XML identifier end" id="13" color="0x8132B1" />
+			<Syntax name= "Internal state which should never be visible" id="14" color="0x506E6C" />
+			<Syntax name= "ASP" id="15" color="0x2E2E2E" />
+			<Syntax name= "ASP" id="16" color="0x2E2E2E" />
+			<Syntax name= "CDATA" id="17" color="0x2E2E2E" />
+			<Syntax name= "PHP" id="18" color="0x2E2E2E" />
+			<Syntax name= "Unquoted values" id="19" color="0x2E2E2E" />
+			<Syntax name= "JSP Comment" id="20" color="0xB840B" />
+			<Syntax name= "SGML tags" id="21" color="0x2E2E2E" />
+			<Syntax name= "SGML command" id="22" color="0x2E2E2E" />
+			<Syntax name= "SGML 1st param" id="23" color="0x2E2E2E" />
+			<Syntax name= "SGML double string" id="24" color="0x2E2E2E" />
+			<Syntax name= "SGML single string" id="25" color="0x2E2E2E" />
+			<Syntax name= "SGML error" id="26" color="0x2E2E2E" />
+			<Syntax name= "SGML special (#XXXX type)" id="27" color="0x2E2E2E" />
+			<Syntax name= "SGML entity" id="28" color="0x2E2E2E" />
+			<Syntax name= "SGML comment" id="29" color="0x2E2E2E" />
+			<Syntax name= "SGML first parameter - lexer internal. It is an error if any text is in this style." id="30" color="0x2E2E2E" />
+			<Syntax name= "SGML block" id="31" color="0x2E2E2E" />
 		</SyntaxList>
 	</Language>
 </SimpleNotepad>

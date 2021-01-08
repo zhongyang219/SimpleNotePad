@@ -27,6 +27,9 @@ public:
 
     CLanguage FindLanguageByExt(const wchar_t* ext);
     CLanguage FindLanguageByName(const wchar_t* name);
+    CLanguage GetLanguage(int index);
+    int IndexOf(const wstring& name);
+
     const std::vector<CLanguage>& GetLanguageList();
 
 private:

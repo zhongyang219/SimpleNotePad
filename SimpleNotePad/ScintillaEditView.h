@@ -74,6 +74,7 @@ public:
     void SetLexer(int lexer);
     void SetKeywords(int id, const char* keywords);
     void SetSyntaxColor(int id, COLORREF color);
+    void SetLexerNormalText();
 
     static eEolMode JudgeEolMode(const wstring& str);
 

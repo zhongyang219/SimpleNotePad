@@ -18,11 +18,11 @@ void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele)
     //遍历子节点
     CTinyXml2Helper::IterateChildNode(ele, [&](tinyxml2::XMLElement* child)
     {
-        string node_name = child->Name();
+        string node_name = CTinyXml2Helper::ElementName(child);
         if (node_name == "Keywords")
         {
             int keywords_id = atoi(CTinyXml2Helper::ElementAttribute(child, "id"));
-            m_keywords_list[keywords_id] = child->GetText();
+            m_keywords_list[keywords_id] = CTinyXml2Helper::ElementText(child);
         }
         else if (node_name == "SyntaxList")
         {
@@ -75,6 +75,26 @@ CLanguage CSyntaxHighlight::FindLanguageByName(const wchar_t* name)
         }
     }
     return CLanguage();
+}
+
+CLanguage CSyntaxHighlight::GetLanguage(int index)
+{
+    if (index >= 0 && index < static_cast<int>(m_language_list.size()))
+        return m_language_list[index];
+    else
+        return CLanguage();
+}
+
+int CSyntaxHighlight::IndexOf(const wstring& name)
+{
+    int index = 0;
+    for (const auto& lan : m_language_list)
+    {
+        if (lan.m_name == name)
+            return index;
+        index++;
+    }
+    return -1;
 }
 
 const std::vector<CLanguage>& CSyntaxHighlight::GetLanguageList()

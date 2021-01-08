@@ -281,6 +281,13 @@ void CScintillaEditView::SetSyntaxColor(int id, COLORREF color)
     SendMessage(SCI_STYLESETFORE, id, color);
 }
 
+void CScintillaEditView::SetLexerNormalText()
+{
+    SetLexer(SCLEX_NULL);
+    for (int i = 0; i < 128; i++)
+        SetSyntaxColor(i, RGB(0, 0, 0));
+}
+
 CScintillaEditView::eEolMode CScintillaEditView::JudgeEolMode(const wstring& str)
 {
     size_t index = str.find(L"\r\n");

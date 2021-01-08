@@ -57,6 +57,7 @@ protected:
     bool m_always_on_top{ false };
     bool m_show_line_number{ false };
     bool m_show_eol{ false };
+    int m_cur_lan_index{ -1 };      //当前选择的语言索引
 
 	//const CString CONFIG_PATH{ _T("./config.ini") };
 	//wstring m_config_path;		//配置文件所在的路径

@@ -42,3 +42,25 @@ const char * CTinyXml2Helper::ElementAttribute(tinyxml2::XMLElement * ele, const
     return "";
 }
 
+const char* CTinyXml2Helper::ElementName(tinyxml2::XMLElement* ele)
+{
+    if (ele != nullptr)
+    {
+        const char* str = ele->Name();
+        if (str != nullptr)
+            return str;
+    }
+    return "";
+}
+
+const char* CTinyXml2Helper::ElementText(tinyxml2::XMLElement* ele)
+{
+    if (ele != nullptr)
+    {
+        const char* str = ele->GetText();
+        if (str != nullptr)
+            return str;
+    }
+    return "";
+}
+

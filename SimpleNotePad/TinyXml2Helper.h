@@ -12,5 +12,7 @@ public:
     static void IterateChildNode(tinyxml2::XMLElement* ele, std::function<void(tinyxml2::XMLElement*)> fun);
 
     static const char* ElementAttribute(tinyxml2::XMLElement* ele, const char* attr);
+    static const char* ElementName(tinyxml2::XMLElement* ele);
+    static const char* ElementText(tinyxml2::XMLElement* ele);
 };
 
