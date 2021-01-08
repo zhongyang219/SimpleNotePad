@@ -285,7 +285,10 @@ void CScintillaEditView::SetLexerNormalText()
 {
     SetLexer(SCLEX_NULL);
     for (int i = 0; i < 128; i++)
-        SetSyntaxColor(i, RGB(0, 0, 0));
+    {
+        if (i != STYLE_LINENUMBER)
+            SetSyntaxColor(i, RGB(0, 0, 0));
+    }
 }
 
 CScintillaEditView::eEolMode CScintillaEditView::JudgeEolMode(const wstring& str)
