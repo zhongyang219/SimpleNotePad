@@ -88,4 +88,51 @@
 		<Keywords id="0"></Keywords>
 		<SyntaxList copyFrom="XML" />
 	</Language>
+	<Language name="JSON" lexId="120" ext="json">
+		<Keywords id="0">false null true</Keywords>
+		<SyntaxList>
+			<Syntax name="SCE_JSON_DEFAULT" id="0" color="0x000000"/>
+			<Syntax name="SCE_JSON_NUMBER" id="1" color="0xCD4230"/>
+			<Syntax name="SCE_JSON_STRING" id="2" color="0x3434A2"/>
+			<Syntax name="SCE_JSON_STRINGEOL" id="3" color="0x3B6DC7"/>
+			<Syntax name="SCE_JSON_PROPERTYNAME" id="4" color="0x808000" bold="1"/>
+			<Syntax name="SCE_JSON_ESCAPESEQUENCE" id="5" color="0x000000"/>
+			<Syntax name="SCE_JSON_LINECOMMENT" id="6" color="0xB840B"/>
+			<Syntax name="SCE_JSON_BLOCKCOMMENT" id="7" color="0x52820B"/>
+			<Syntax name="SCE_JSON_OPERATOR" id="8" color="0x9A3124"/>
+			<Syntax name="SCE_JSON_URI" id="9" color="0xFA6B0C"/>
+			<Syntax name="SCE_JSON_COMPACTIRI" id="10" color="0x000000"/>
+			<Syntax name="SCE_JSON_KEYWORD" id="11" color="0xff0000" bold="1" />
+			<Syntax name="SCE_JSON_LDKEYWORD" id="12" color="0x000000" bold="1"/>
+			<Syntax name="SCE_JSON_ERROR" id="13" color="0x2020E2"/>
+		</SyntaxList>
+	</Language>
+	<Language name="Config" lexId="17" ext="conf ini">
+		<Keywords id="0"></Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_CONF_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_CONF_COMMENT" id="1" color="0xB840B" />
+			<Syntax name= "SCE_CONF_NUMBER" id="2" color="0x3B6DC7" />
+			<Syntax name= "SCE_CONF_IDENTIFIER" id="3" color="0xCD4230" bold="1" />
+			<Syntax name= "SCE_CONF_EXTENSION" id="4" color="0xC94B83" />
+			<Syntax name= "SCE_CONF_PARAMETER" id="5" color="0x8132B1" />
+			<Syntax name= "SCE_CONF_STRING" id="6" color="0x4141C2" />
+			<Syntax name= "SCE_CONF_OPERATOR" id="7" color="0xCD4230" />
+			<Syntax name= "SCE_CONF_IP" id="8" color="0x3E5553" />
+			<Syntax name= "SCE_CONF_DIRECTIVE" id="9" color="0x5C2F14" />
+		</SyntaxList>
+	</Language>
+	<Language name="Batch" lexId="12" ext="bat cmd nt">
+		<Keywords id="0">assoc aux break call cd chcp chdir choice cls cmdextversion color com com1 com2 com3 com4 con copy country ctty date defined del dir do dpath echo else endlocal erase errorlevel exist exit for ftype goto if in loadfix loadhigh lpt lpt1 lpt2 lpt3 lpt4 md mkdir move not nul path pause popd prn prompt pushd rd rem ren rename rmdir set setlocal shift start time title type ver verify vol</Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_BAT_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_BAT_COMMENT" id="1" color="0xB840B" />
+			<Syntax name= "SCE_BAT_WORD" id="2" color="0xCD4230" bold="1" />
+			<Syntax name= "SCE_BAT_LABEL" id="3" color="0x2020E2" />
+			<Syntax name= "SCE_BAT_HIDE" id="4" color="0xA67B60" />
+			<Syntax name= "SCE_BAT_COMMAND" id="5" color="0x808000" />
+			<Syntax name= "SCE_BAT_IDENTIFIER" id="6" color="0xC94B83" />
+			<Syntax name= "SCE_BAT_OPERATOR" id="7" color="0x8F2E21" />
+		</SyntaxList>
+	</Language>
 </SimpleNotepad>
