@@ -672,6 +672,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	////初始化窗口大小
 	//SetWindowPos(nullptr, 0, 0, m_window_width, m_window_hight, SWP_NOZORDER | SWP_NOMOVE);
 
+    m_hAccel = LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_ACCELERATOR1));
+
     //加载语法高亮设置
     m_syntax_highlight.LoadFromFile("./lang.xml");
 
@@ -688,7 +690,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	CRect rect;
 	GetClientRect(&rect);
 	//rect.bottom = rect.bottom - 22;
-	rect.bottom = rect.bottom - m_edit_bottom_space;
+	rect.bottom = rect.bottom - m_edit_bottom_space - DPI(2);
 	//m_edit.MoveWindow(rect);
 
     m_view = (CScintillaEditView*)RUNTIME_CLASS(CScintillaEditView)->CreateObject();
@@ -833,7 +835,7 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 	if (nType != SIZE_MINIMIZED && m_view->GetSafeHwnd() != NULL)
 	{
         //窗口大小改变时改变编辑框大小
-        m_view->SetWindowPos(nullptr, 0, 0, size.Width(), size.Height(), SWP_NOMOVE | SWP_NOZORDER);
+        m_view->SetWindowPos(nullptr, 0, 0, size.Width(), size.Height() - DPI(2), SWP_NOMOVE | SWP_NOZORDER);
 	}
 
 	CRect status_bar_size;
@@ -960,64 +962,30 @@ void CSimpleNotePadDlg::OnFormatFont()
 BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: 在此添加专用代码和/或调用基类
+
+    if (WM_KEYFIRST <= pMsg->message && pMsg->message <= WM_KEYLAST)
+    {
+        //响应Accelerator中设置的快捷键
+        if (m_hAccel && ::TranslateAccelerator(m_hWnd, m_hAccel, pMsg))
+            return TRUE;
+    }
+
 	//屏蔽ESC键退出
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
 		return TRUE;
 	if (GetKeyState(VK_CONTROL) & 0x80)
 	{
-		//设置Ctr+S保存
-		if (pMsg->wParam == 's' || pMsg->wParam == 'S')
-		{
-			_OnFileSave();
-			return TRUE;
-		}
-		//设置Ctr+O打开
-		else if (pMsg->wParam == 'o' || pMsg->wParam == 'O')
-		{
-			OnFileOpen();
-			return TRUE;
-		}
-		//设置Ctr+N新建
-		else if (pMsg->wParam == 'n' || pMsg->wParam == 'N')
-		{
-			OnFileNew();
-			return TRUE;
-		}
-		//设置Ctr+H打开十六进制查看
-		else if (pMsg->wParam == 'e' || pMsg->wParam == 'E')
-		{
-			OnHexView();
-			return TRUE;
-		}
-		//设置Ctr+F查找
-		else if (pMsg->wParam == 'f' || pMsg->wParam == 'F')
-		{
-			OnFind();
-			return TRUE;
-		}
-		//设置Ctr+H替换
-		else if (pMsg->wParam == 'h' || pMsg->wParam == 'H')
-		{
-			OnReplace();
-			return TRUE;
-		}
 #ifdef DEBUG
-        else if (pMsg->wParam == 'Q')
-        {
-            CTest::Test();
-            return TRUE;
-        }
+        //else if (pMsg->wParam == 'Q')
+        //{
+        //    CTest::Test();
+        //    return TRUE;
+        //}
 
 #endif // DEBUG
+	}
 
-	}
-	//设置按F3查找下一个
-	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_F3)
-	{
-		OnFindNext();
-		return TRUE;
-	}
-	return CBaseDialog::PreTranslateMessage(pMsg);
+    return CBaseDialog::PreTranslateMessage(pMsg);
 }
 
 

@@ -17,7 +17,10 @@ public:
     std::map<int, std::string> m_keywords_list;
     std::vector<SyntaxColor> m_syntax_list;
 
-    void FromXmlElement(tinyxml2::XMLElement* ele);
+    //从配置文件“Language”节点解析语法高亮信息
+    //ele: xml节点
+    //syntax_from: 如果语法高亮颜色设置要从其他语言复制，则将该语言的名称保存在这里
+    void FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from);
 };
 
 class CSyntaxHighlight

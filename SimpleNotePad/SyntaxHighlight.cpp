@@ -3,8 +3,9 @@
 #include "TinyXml2Helper.h"
 #include "Common.h"
 
-void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele)
+void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from)
 {
+    syntax_from.clear();
     m_name = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(ele, "name"), CodeType::UTF8_NO_BOM);
     m_id = atoi(CTinyXml2Helper::ElementAttribute(ele, "lexId"));
     wstring ext_list = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(ele, "ext"), CodeType::UTF8_NO_BOM);
@@ -26,14 +27,22 @@ void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele)
         }
         else if (node_name == "SyntaxList")
         {
-            CTinyXml2Helper::IterateChildNode(child, [&](tinyxml2::XMLElement* syntax_node)
+            string str_syntax_from = CTinyXml2Helper::ElementAttribute(child, "copyFrom");
+            if (!str_syntax_from.empty())
             {
-                SyntaxColor syntax_color;
-                syntax_color.name = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(syntax_node, "name"), CodeType::UTF8_NO_BOM);
-                syntax_color.id = atoi(CTinyXml2Helper::ElementAttribute(syntax_node, "id"));
-                sscanf_s(CTinyXml2Helper::ElementAttribute(syntax_node, "color"), "%x", &syntax_color.color);
-                m_syntax_list.push_back(syntax_color);
-            });
+                syntax_from = CCommon::StrToUnicode(str_syntax_from, CodeType::UTF8_NO_BOM);
+            }
+            else
+            {
+                CTinyXml2Helper::IterateChildNode(child, [&](tinyxml2::XMLElement* syntax_node)
+                {
+                    SyntaxColor syntax_color;
+                    syntax_color.name = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(syntax_node, "name"), CodeType::UTF8_NO_BOM);
+                    syntax_color.id = atoi(CTinyXml2Helper::ElementAttribute(syntax_node, "id"));
+                    sscanf_s(CTinyXml2Helper::ElementAttribute(syntax_node, "color"), "%x", &syntax_color.color);
+                    m_syntax_list.push_back(syntax_color);
+                });
+            }
         }
     });
 }
@@ -47,7 +56,16 @@ void CSyntaxHighlight::LoadFromFile(const char* file_path)
         CTinyXml2Helper::IterateChildNode(doc.FirstChildElement(), [this](tinyxml2::XMLElement* child)
         {
             CLanguage lan;
-            lan.FromXmlElement(child);
+            wstring syntax_from;
+            lan.FromXmlElement(child, syntax_from);
+            if (!syntax_from.empty())       //如果语言的语法高亮颜色设置从其他语言复制，则在已读取列表中找到该语言
+            {
+                CLanguage lan_copy = FindLanguageByName(syntax_from.c_str());
+                if (!lan_copy.m_name.empty())
+                {
+                    lan.m_syntax_list = lan_copy.m_syntax_list;
+                }
+            }
             m_language_list.push_back(lan);
         });
     }

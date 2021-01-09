@@ -33,6 +33,7 @@ public:
 protected:
 	HICON m_hIcon;
 	//CMenu m_menu;	//菜单
+    HACCEL m_hAccel;
     CScintillaEditView* m_view;     //Scintilla编辑控件
 	CStatusBarCtrl m_status_bar;	//状态栏
 	//CFont m_font;			//字体
