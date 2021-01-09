@@ -19,11 +19,11 @@ wstring CCommon::StrToUnicode(const string & str, CodeType code_type, UINT code_
 	int size;
 	if (code_type == CodeType::ANSI)
 	{
-		size = MultiByteToWideChar(code_page, 0, str.c_str(), -1, NULL, 0);
+		size = MultiByteToWideChar(code_page, 0, str.c_str(), str.size(), NULL, 0);
 		if (size <= 0) return wstring();
 		wchar_t* str_unicode = new wchar_t[size + 1];
-		MultiByteToWideChar(code_page, 0, str.c_str(), -1, str_unicode, size);
-		result.assign(str_unicode);
+		MultiByteToWideChar(code_page, 0, str.c_str(), str.size(), str_unicode, size);
+		result.assign(str_unicode, size);
 		delete[] str_unicode;
 	}
 	else if (code_type == CodeType::UTF8 || code_type == CodeType::UTF8_NO_BOM)
@@ -34,11 +34,11 @@ wstring CCommon::StrToUnicode(const string & str, CodeType code_type, UINT code_
 			temp = str.substr(3);
 		else
 			temp = str;
-		size = MultiByteToWideChar(CP_UTF8, 0, temp.c_str(), -1, NULL, 0);
+		size = MultiByteToWideChar(CP_UTF8, 0, temp.c_str(), temp.size(), NULL, 0);
 		if (size <= 0) return wstring();
 		wchar_t* str_unicode = new wchar_t[size + 1];
-		MultiByteToWideChar(CP_UTF8, 0, temp.c_str(), -1, str_unicode, size);
-		result.assign(str_unicode);
+		MultiByteToWideChar(CP_UTF8, 0, temp.c_str(), temp.size(), str_unicode, size);
+		result.assign(str_unicode, size);
 		delete[] str_unicode;
 	}
 	else if (code_type == CodeType::UTF16)
@@ -52,7 +52,7 @@ wstring CCommon::StrToUnicode(const string & str, CodeType code_type, UINT code_
 		if (temp.size() % 2 == 1)
 			temp.pop_back();
 		temp.push_back('\0');
-		result = (const wchar_t*)temp.c_str();
+		result.assign((const wchar_t*)temp.c_str(), temp.size() / sizeof(wchar_t));
 	}
 	return result;
 }
@@ -66,11 +66,11 @@ string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, Co
 	int size{ 0 };
 	if (code_type == CodeType::ANSI)
 	{
-		size = WideCharToMultiByte(code_page, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+		size = WideCharToMultiByte(code_page, 0, wstr.c_str(), wstr.size(), NULL, 0, NULL, NULL);
 		if (size <= 0) return string();
 		char* str = new char[size + 1];
-		WideCharToMultiByte(code_page, 0, wstr.c_str(), -1, str, size, NULL, &UsedDefaultChar);
-		result.assign(str);
+		WideCharToMultiByte(code_page, 0, wstr.c_str(), wstr.size(), str, size, NULL, &UsedDefaultChar);
+		result.assign(str, size);
 		delete[] str;
 	}
 	else if (code_type == CodeType::UTF8 || code_type == CodeType::UTF8_NO_BOM)
@@ -82,11 +82,11 @@ string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, Co
 			result.push_back(-69);
 			result.push_back(-65);
 		}
-		size = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+		size = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), wstr.size(), NULL, 0, NULL, NULL);
 		if (size <= 0) return string();
 		char* str = new char[size + 1];
-		WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, str, size, NULL, NULL);
-		result.append(str);
+		WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), wstr.size(), str, size, NULL, NULL);
+		result.append(str, size);
 		delete[] str;
 	}
 	else if (code_type == CodeType::UTF16)

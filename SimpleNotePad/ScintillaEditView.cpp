@@ -54,11 +54,11 @@ void CScintillaEditView::Dump(CDumpContext& dc) const
 void CScintillaEditView::SetText(const wstring& text)
 {
     m_change_notification_enable = false;       //确保正在执行SetText时不响应文本改变消息
-    int size = WideCharToMultiByte(CP_UTF8, 0, text.c_str(), -1, NULL, 0, NULL, NULL);
+    int size = WideCharToMultiByte(CP_UTF8, 0, text.c_str(), text.size(), NULL, 0, NULL, NULL);
     if (size <= 0) return;
     char* str = new char[size + 1];
-    WideCharToMultiByte(CP_UTF8, 0, text.c_str(), -1, str, size, NULL, NULL);
-    SendMessage(SCI_SETTEXT, 0, (LPARAM)str);
+    WideCharToMultiByte(CP_UTF8, 0, text.c_str(), text.size(), str, size, NULL, NULL);
+    SendMessage(SCI_SETTEXT, size, (LPARAM)str);
     delete[] str;
     m_change_notification_enable = true;
 }
@@ -69,10 +69,10 @@ void CScintillaEditView::GetText(wstring& text)
     char* buf = new char[length + 1];
     SendMessage(SCI_GETTEXT, length + 1, reinterpret_cast<LPARAM>(buf));
 
-    int size = MultiByteToWideChar(CP_UTF8, 0, buf, -1, NULL, 0);
+    int size = MultiByteToWideChar(CP_UTF8, 0, buf, length + 1, NULL, 0);
     if (size <= 0) return;
     wchar_t* str_unicode = new wchar_t[size + 1];
-    MultiByteToWideChar(CP_UTF8, 0, buf, -1, str_unicode, size);
+    MultiByteToWideChar(CP_UTF8, 0, buf, length + 1, str_unicode, size);
     text.assign(str_unicode);
     delete[] str_unicode;
     delete[] buf;

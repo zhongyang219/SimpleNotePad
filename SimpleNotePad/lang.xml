@@ -113,7 +113,7 @@
 			<Syntax name="SCE_JSON_ERROR" id="13" color="0x2020E2"/>
 		</SyntaxList>
 	</Language>
-	<Language name="Config" lexId="17" ext="conf ini">
+	<Language name="Config" lexId="17" ext="conf ini properties">
 		<Keywords id="0"></Keywords>
 		<SyntaxList>
 			<Syntax name= "SCE_CONF_DEFAULT" id="0" color="0x000000" />
@@ -169,6 +169,34 @@
 			<Syntax name= "SCE_CSS_EXTENDED_PSEUDOELEMENT" id="21" color="0x000000" />
 			<Syntax name= "SCE_CSS_MEDIA" id="22" color="0x000000" />
 			<Syntax name= "SCE_CSS_VARIABLE" id="23" color="0x000000" />
+		</SyntaxList>
+	</Language>
+	<Language name="VisualBasic" lexId="8" ext="vb">
+		<Keywords id="0">RESERVED KEYWORDS AddHandler AddressOf Alias And AndAlso As Boolean ByRef Byte ByVal Call Case Catch CBool CByte CChar CDate CDbl CDec Char CInt Class Constraint Statement CLng CObj Const Continue CSByte CShort CSng CStr CType CUInt CULng CUShort Date Decimal Declare Default Delegate Dim DirectCast Do Double Each Else ElseIf End EndIf Enum Erase Error Event Exit False Finally For in For Next Friend Function Get GetType GetXMLNamespace Global GoSub GoTo Handles If Implements Imports In Inherits Integer Interface Is IsNot Let Lib Like Long Loop Me Mod Module MustInherit MustOverride MyBase MyClass NameOf Narrowing New Operator Next Not Nothing NotInheritable NotOverridable Object Of On Option Optional Or OrElse Out Overloads Overridable Overrides ParamArray Partial Private Property Protected Public RaiseEvent ReadOnly ReDim REM RemoveHandler Resume Return SByte Select Set Shadows Shared Short Single Static Step Stop String Structure Sub SyncLock Then Throw To True Try TryCast TypeOf UInteger ULong UShort Using Variant Wend When While Widening With WithEvents WriteOnly Xor Const Else ElseIf End If </Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_B_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_B_COMMENT" id="1" color="0xB840B" />
+			<Syntax name= "SCE_B_NUMBER" id="2" color="0x225AD6" />
+			<Syntax name= "SCE_B_KEYWORD" id="3" color="0xEA2020" bold="1" />
+			<Syntax name= "SCE_B_STRING" id="4" color="0x1515A3" />
+			<Syntax name= "SCE_B_PREPROCESSOR" id="5" color="0x8a006f" />
+			<Syntax name= "SCE_B_OPERATOR" id="6" color="0x5C2F14" />
+			<Syntax name= "SCE_B_IDENTIFIER" id="7" color="0x000000" />
+			<Syntax name= "SCE_B_DATE" id="8" color="0xC94B83" />
+			<Syntax name= "SCE_B_STRINGEOL" id="9" color="0x80" />
+			<Syntax name= "SCE_B_KEYWORD2" id="10" color="0x808000" bold="1" />
+			<Syntax name= "SCE_B_KEYWORD3" id="11" color="0x000000" />
+			<Syntax name= "SCE_B_KEYWORD4" id="12" color="0x000000" />
+			<Syntax name= "SCE_B_CONSTANT" id="13" color="0x906950" />
+			<Syntax name= "SCE_B_ASM" id="14" color="0x506E6C" />
+			<Syntax name= "SCE_B_LABEL" id="15" color="0x4141C2" />
+			<Syntax name= "SCE_B_ERROR" id="16" color="0x2020E2" />
+			<Syntax name= "SCE_B_HEXNUMBER" id="17" color="0x225AD6" />
+			<Syntax name= "SCE_B_BINNUMBER" id="18" color="0x225AD6" />
+			<Syntax name= "SCE_B_COMMENTBLOCK" id="19" color="0x000000" />
+			<Syntax name= "SCE_B_DOCLINE" id="20" color="0x5A7F00" />
+			<Syntax name= "SCE_B_DOCBLOCK" id="21" color="0x5A7F00" />
+			<Syntax name= "SCE_B_DOCKEYWORD" id="22" color="0x5A7F00" bold="1" />
 		</SyntaxList>
 	</Language>
 </SimpleNotepad>

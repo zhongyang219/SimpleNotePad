@@ -5854,7 +5854,10 @@ sptr_t Editor::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {
 			pdoc->DeleteChars(0, pdoc->Length());
 			SetEmptySelection(0);
 			const char *text = CharPtrFromSPtr(lParam);
-			pdoc->InsertString(0, text, strlen(text));
+            size_t length = wParam;
+            if (length <= 0)
+                length = strlen(text);
+			pdoc->InsertString(0, text, length);
 			return 1;
 		}
 
