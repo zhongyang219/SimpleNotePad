@@ -965,6 +965,8 @@ void CSimpleNotePadDlg::OnFormatFont()
 		//设置字体
         m_view->SetFontFace(m_font_name.GetString());
         m_view->SetFontSize(m_font_size);
+        //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
+        SetSyntaxHight(m_syntax_highlight.GetLanguage(m_cur_lan_index));
 		//将字体设置写入到ini文件
 		SaveConfig();
 	}
