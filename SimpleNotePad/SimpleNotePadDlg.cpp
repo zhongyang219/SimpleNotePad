@@ -669,9 +669,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-	//获取配置文件的路径（当前exe文件所在路径\config.ini）
-	//m_config_path = CCommon::GetCurrentPath() + L"config.ini";
-	//载入设置
+
+    //载入设置
 	LoadConfig();
 	////初始化窗口大小
 	//SetWindowPos(nullptr, 0, 0, m_window_width, m_window_hight, SWP_NOZORDER | SWP_NOMOVE);

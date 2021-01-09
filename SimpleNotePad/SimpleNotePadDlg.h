@@ -61,9 +61,6 @@ protected:
     bool m_show_eol{ false };
     int m_cur_lan_index{ -1 };      //当前选择的语言索引
 
-	//const CString CONFIG_PATH{ _T("./config.ini") };
-	//wstring m_config_path;		//配置文件所在的路径
-
 	CFindReplaceDialog* m_pFindDlg{};	//查找对话框
 	CFindReplaceDialog* m_pReplaceDlg{};	//替换对话框
 	wstring m_find_str;		//查找的字符串

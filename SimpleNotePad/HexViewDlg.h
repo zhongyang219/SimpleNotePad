@@ -67,6 +67,7 @@ protected:
 
 	EditUnit m_edit_unit{};
 	SizeUnit m_size_unit{};
+    CString m_edit_font{};
 
 protected:
 	void ShowHexData(bool ini = false);	//在文本编辑框中显示出十六进制数据(在初始化时调用要把参数设为true)

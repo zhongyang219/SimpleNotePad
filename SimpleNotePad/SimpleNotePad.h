@@ -26,8 +26,6 @@ class CSimpleNotePadApp : public CWinApp
 public:
 	CSimpleNotePadApp();
 
-	wstring m_config_path;		//配置文件所在的路径
-
 	bool m_compare_dialog_exit;	//用于指示文件比较对话框是否已退出
     SettingsData m_settings_data;
 

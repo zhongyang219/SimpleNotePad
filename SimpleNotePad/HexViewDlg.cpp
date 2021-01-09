@@ -171,14 +171,16 @@ void CHexViewDlg::ShowSizeInfo()
 
 void CHexViewDlg::SaveConfig() const
 {
-	CCommon::WritePrivateProfileInt(L"config", L"edit_unit", static_cast<int>(m_edit_unit), theApp.m_config_path.c_str());
-	CCommon::WritePrivateProfileInt(L"config", L"size_unit", static_cast<int>(m_size_unit), theApp.m_config_path.c_str());
+    theApp.WriteProfileInt(_T("hex_editor"), _T("edit_unit"), static_cast<int>(m_edit_unit));
+    theApp.WriteProfileInt(_T("hex_editor"), _T("size_unit"), static_cast<int>(m_size_unit));
+    theApp.WriteProfileString(_T("hex_editor"), _T("font_name"), m_edit_font);
 }
 
 void CHexViewDlg::LoadConfig()
 {
-	m_edit_unit = static_cast<EditUnit>(GetPrivateProfileInt(_T("config"), _T("edit_unit"), 0, theApp.m_config_path.c_str()));
-	m_size_unit = static_cast<SizeUnit>(GetPrivateProfileInt(_T("config"), _T("size_unit"), 0, theApp.m_config_path.c_str()));
+	m_edit_unit = static_cast<EditUnit>(theApp.GetProfileInt(_T("hex_editor"), _T("edit_unit"), 0));
+	m_size_unit = static_cast<SizeUnit>(theApp.GetProfileInt(_T("hex_editor"), _T("size_unit"), 0));
+    m_edit_font = theApp.GetProfileString(_T("hex_editor"), _T("font_name"), _T("新宋体"));
 }
 
 CString CHexViewDlg::GetDialogName() const
@@ -208,7 +210,7 @@ BOOL CHexViewDlg::OnInitDialog()
 	m_modified_list.InsertColumn(2, _T("修改后"), LVCFMT_LEFT, width1);		//插入第3列
 
 	//设置字体
-	m_font.CreatePointFont(100, _T("新宋体"));
+	m_font.CreatePointFont(100, m_edit_font);
 	m_edit.SetFont(&m_font);
 	m_static_head.SetFont(&m_font);
 
