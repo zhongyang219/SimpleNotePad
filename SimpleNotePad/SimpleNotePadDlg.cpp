@@ -512,10 +512,11 @@ void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
         {
             m_view->SetKeywords(keywords.first, keywords.second.c_str());
         }
-        //设置颜色
-        for (const auto& syntax_color : lan.m_syntax_list)
+        //设置样式
+        for (const auto& syntax_style : lan.m_syntax_list)
         {
-            m_view->SetSyntaxColor(syntax_color.id, syntax_color.color);
+            m_view->SetSyntaxColor(syntax_style.id, syntax_style.color);
+            m_view->SetSyntaxFontStyle(syntax_style.id, syntax_style.bold, syntax_style.italic);
         }
         m_cur_lan_index = m_syntax_highlight.IndexOf(lan.m_name);
     }

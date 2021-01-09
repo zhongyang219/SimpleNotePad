@@ -74,6 +74,7 @@ public:
     void SetLexer(int lexer);
     void SetKeywords(int id, const char* keywords);
     void SetSyntaxColor(int id, COLORREF color);
+    void SetSyntaxFontStyle(int id, bool bold, bool italic);
     void SetLexerNormalText();
 
     static eEolMode JudgeEolMode(const wstring& str);
@@ -83,6 +84,7 @@ private:
 private:
     bool m_change_notification_enable = true;      //如果为false，则不响应文本改变消息
     int m_line_number_width = 36;
+    COLORREF m_line_number_color{};
 
 protected:
 	DECLARE_MESSAGE_MAP()

@@ -194,6 +194,7 @@ void CScintillaEditView::ShowLineNumber(bool show)
 void CScintillaEditView::SetLineNumberColor(COLORREF color)
 {
     SendMessage(SCI_STYLESETFORE, STYLE_LINENUMBER, color);
+    m_line_number_color = color;
 }
 
 int CScintillaEditView::GetZoom()
@@ -281,14 +282,21 @@ void CScintillaEditView::SetSyntaxColor(int id, COLORREF color)
     SendMessage(SCI_STYLESETFORE, id, color);
 }
 
+void CScintillaEditView::SetSyntaxFontStyle(int id, bool bold, bool italic)
+{
+    SendMessage(SCI_STYLESETBOLD, id, bold);
+    SendMessage(SCI_STYLESETITALIC, id, italic);
+}
+
 void CScintillaEditView::SetLexerNormalText()
 {
     SetLexer(SCLEX_NULL);
-    for (int i = 0; i < 128; i++)
-    {
-        if (i != STYLE_LINENUMBER)
-            SetSyntaxColor(i, RGB(0, 0, 0));
-    }
+    SendMessage(SCI_STYLESETFORE, STYLE_DEFAULT, RGB(0, 0, 0));
+    SendMessage(SCI_STYLESETBOLD, STYLE_DEFAULT, 0);
+    SendMessage(SCI_STYLESETBOLD, STYLE_DEFAULT, 0);
+    SendMessage(SCI_STYLECLEARALL);
+
+    SendMessage(SCI_STYLESETFORE, STYLE_LINENUMBER, m_line_number_color);
 }
 
 CScintillaEditView::eEolMode CScintillaEditView::JudgeEolMode(const wstring& str)

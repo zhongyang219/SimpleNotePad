@@ -36,11 +36,13 @@ void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from)
             {
                 CTinyXml2Helper::IterateChildNode(child, [&](tinyxml2::XMLElement* syntax_node)
                 {
-                    SyntaxColor syntax_color;
-                    syntax_color.name = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(syntax_node, "name"), CodeType::UTF8_NO_BOM);
-                    syntax_color.id = atoi(CTinyXml2Helper::ElementAttribute(syntax_node, "id"));
-                    sscanf_s(CTinyXml2Helper::ElementAttribute(syntax_node, "color"), "%x", &syntax_color.color);
-                    m_syntax_list.push_back(syntax_color);
+                    SyntaxStyle syntax_style;
+                    syntax_style.name = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(syntax_node, "name"), CodeType::UTF8_NO_BOM);
+                    syntax_style.id = atoi(CTinyXml2Helper::ElementAttribute(syntax_node, "id"));
+                    sscanf_s(CTinyXml2Helper::ElementAttribute(syntax_node, "color"), "%x", &syntax_style.color);
+                    syntax_style.bold = (atoi(CTinyXml2Helper::ElementAttribute(syntax_node, "bold")) != 0);
+                    syntax_style.italic = (atoi(CTinyXml2Helper::ElementAttribute(syntax_node, "italic")) != 0);
+                    m_syntax_list.push_back(syntax_style);
                 });
             }
         }

@@ -5,17 +5,19 @@
 class CLanguage
 {
 public:
-    struct SyntaxColor
+    struct SyntaxStyle
     {
         std::wstring name;
-        int id;
+        int id{};
         COLORREF color;
+        bool bold{};
+        bool italic{};
     };
     std::wstring m_name;
     int m_id;
     std::set<wstring> m_ext;
     std::map<int, std::string> m_keywords_list;
-    std::vector<SyntaxColor> m_syntax_list;
+    std::vector<SyntaxStyle> m_syntax_list;
 
     //从配置文件“Language”节点解析语法高亮信息
     //ele: xml节点
