@@ -39,6 +39,7 @@ protected:
 	//CFont m_font;			//字体
 	CString m_font_name;	//字体名称
 	int m_font_size;		//字体大小
+    COLORREF m_background_color{ RGB(255, 255, 255) };  //背景颜色
 
 	CString m_file_path;	//当前打开的文件路径
 	string m_edit_str;		//储存从文件载入的内容

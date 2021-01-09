@@ -273,6 +273,7 @@ void CSimpleNotePadDlg::SaveConfig()
 	//保存字体设置
 	theApp.WriteProfileStringW(_T("config"), _T("font_name"), m_font_name);
     theApp.WriteProfileInt(L"config", L"font_size", m_font_size);
+    theApp.WriteProfileInt(L"config", L"background_color", m_background_color);
 
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
 	theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
@@ -292,6 +293,7 @@ void CSimpleNotePadDlg::LoadConfig()
 	//载入字体设置
 	m_font_name = theApp.GetProfileStringW(_T("config"), _T("font_name"), _T("微软雅黑"));
 	m_font_size = theApp.GetProfileInt(_T("config"), _T("font_size"), 10);
+    m_background_color = theApp.GetProfileInt(_T("config"), _T("background_color"), RGB(255, 255, 255));
 	////载入窗口大小
 	//m_window_width = theApp.GetProfileInt(_T("config"), _T("window_width"), 560);
 	//m_window_hight = theApp.GetProfileInt(_T("config"), _T("window_hight"), 350);
@@ -712,6 +714,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->ShowLineNumber(m_show_line_number);
     m_view->SetLineNumberColor(RGB(75, 145, 175));
     m_view->SetViewEol(m_show_eol);
+    m_view->SetBackgroundColor(m_background_color);
 
 	//初始化状态栏
 	GetClientRect(&rect);
