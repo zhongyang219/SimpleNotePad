@@ -6,6 +6,7 @@
 // CScintillaEditView 视图
 
 #define SCINTILLA_MARGIN_LINENUMBER 0
+#define MARGIN_FOLD_INDEX 1
 
 class CScintillaEditView : public CView
 {
@@ -79,6 +80,7 @@ public:
 
     static eEolMode JudgeEolMode(const wstring& str);
 
+    void SetFold();
 private:
 
 private:

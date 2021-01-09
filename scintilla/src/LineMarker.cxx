@@ -311,7 +311,7 @@ void LineMarker::Draw(Surface *surface, PRectangle &rcWhole, Font &fontForCharac
 
 	case SC_MARK_BOXPLUS: {
 			DrawBox(surface, centreX, centreY, blobSize, fore, colourHead);
-			DrawPlus(surface, centreX, centreY, blobSize, colourTail);
+			DrawPlus(surface, centreX, centreY, blobSize, fore);
 		}
 		break;
 
@@ -328,7 +328,7 @@ void LineMarker::Draw(Surface *surface, PRectangle &rcWhole, Font &fontForCharac
 			surface->LineTo(centreX, centreY - blobSize);
 
 			DrawBox(surface, centreX, centreY, blobSize, fore, colourHead);
-			DrawPlus(surface, centreX, centreY, blobSize, colourTail);
+			DrawPlus(surface, centreX, centreY, blobSize, fore);
 
 			if (part == FoldPart::body) {
 				surface->PenColour(colourTail);
@@ -346,9 +346,9 @@ void LineMarker::Draw(Surface *surface, PRectangle &rcWhole, Font &fontForCharac
 
 	case SC_MARK_BOXMINUS: {
 			DrawBox(surface, centreX, centreY, blobSize, fore, colourHead);
-			DrawMinus(surface, centreX, centreY, blobSize, colourTail);
+			DrawMinus(surface, centreX, centreY, blobSize, fore);
 
-			surface->PenColour(colourHead);
+			surface->PenColour(fore);
 			surface->MoveTo(centreX, centreY + blobSize);
 			surface->LineTo(centreX, ircWhole.bottom);
 		}
@@ -356,9 +356,9 @@ void LineMarker::Draw(Surface *surface, PRectangle &rcWhole, Font &fontForCharac
 
 	case SC_MARK_BOXMINUSCONNECTED: {
 			DrawBox(surface, centreX, centreY, blobSize, fore, colourHead);
-			DrawMinus(surface, centreX, centreY, blobSize, colourTail);
+			DrawMinus(surface, centreX, centreY, blobSize, fore);
 
-			surface->PenColour(colourHead);
+			surface->PenColour(fore);
 			surface->MoveTo(centreX, centreY + blobSize);
 			surface->LineTo(centreX, ircWhole.bottom);
 

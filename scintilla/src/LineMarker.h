@@ -22,8 +22,8 @@ public:
 	enum class FoldPart { undefined, head, body, tail, headWithTail };
 
 	int markType = SC_MARK_CIRCLE;
-	ColourDesired fore = ColourDesired(0, 0, 0);
-	ColourDesired back = ColourDesired(0xff, 0xff, 0xff);
+	ColourDesired fore = ColourDesired(128, 128, 128);
+	ColourDesired back = ColourDesired(243, 243, 243);
 	ColourDesired backSelected = ColourDesired(0xff, 0x00, 0x00);
 	int alpha = SC_ALPHA_NOALPHA;
 	std::unique_ptr<XPM> pxpm;

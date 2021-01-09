@@ -524,6 +524,7 @@ void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
     {
         m_cur_lan_index = -1;
     }
+    m_view->SetFold();
     ShowStatusBar();
 }
 
@@ -1582,6 +1583,11 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
         {
             m_zoom = m_view->GetZoom();
             ShowStatusBar();
+        }
+        else if (notification->nmhdr.code == SCN_MARGINCLICK)
+        {
+            const int line_number = m_view->SendMessage(SCI_LINEFROMPOSITION, notification->position);
+            m_view->SendMessage(SCI_TOGGLEFOLD, line_number);
         }
     }
 
