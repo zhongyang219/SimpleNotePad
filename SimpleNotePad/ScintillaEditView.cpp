@@ -103,7 +103,7 @@ void CScintillaEditView::SetSel(int start, int end)
 void CScintillaEditView::SetBackgroundColor(COLORREF color)
 {
     m_background_color = color;
-    SendMessage(SCI_STYLESETBACK, STYLE_DEFAULT, m_background_color);
+    //SendMessage(SCI_STYLESETBACK, STYLE_DEFAULT, m_background_color);
 }
 
 void CScintillaEditView::Undo()
@@ -199,7 +199,7 @@ void CScintillaEditView::ShowLineNumber(bool show)
 
 void CScintillaEditView::SetLineNumberColor(COLORREF color)
 {
-    SendMessage(SCI_STYLESETFORE, STYLE_LINENUMBER, color);
+    //SendMessage(SCI_STYLESETFORE, STYLE_LINENUMBER, color);
     m_line_number_color = color;
 }
 

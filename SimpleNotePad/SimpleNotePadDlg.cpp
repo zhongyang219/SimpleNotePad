@@ -733,6 +733,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->SetFontFace(m_font_name.GetString());
     m_view->SetFontSize(m_font_size);
 
+    m_view->SetLexerNormalText();
+
     //初始化语言菜单
     CMenu* pMenu = GetMenu();
     if (pMenu != nullptr)
@@ -1576,11 +1578,14 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
         //响应编辑器文本变化
         if (notification->nmhdr.code == SCN_MODIFIED && (notification->modificationType & SC_MOD_BEFOREINSERT) == 0 && m_view->IsEditChangeNotificationEnable())
         {
-            int n = SendMessage(SCI_GETMODIFY);
-            m_view->GetText(m_edit_wcs);
-		    //m_modified = true;
-	        ShowStatusBar();
-            SetTitle();
+            UINT marsk = (SC_PERFORMED_UNDO | SC_MOD_DELETETEXT | SC_MOD_INSERTTEXT | SC_PERFORMED_UNDO | SC_PERFORMED_REDO);
+            if ((notification->modificationType & marsk) != 0)
+            {
+                m_view->GetText(m_edit_wcs);
+                //m_modified = true;
+                ShowStatusBar();
+                SetTitle();
+            }
         }
         else if (notification->nmhdr.code == SCN_ZOOM)
         {
