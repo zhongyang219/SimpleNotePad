@@ -360,3 +360,52 @@ void CCommon::StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& r
         last_split_index = split_index;
     }
 }
+
+bool CCommon::GetFileContent(const wchar_t* file_path, string& contents_buff, bool binary /*= true*/)
+{
+    std::ifstream file{ file_path, (binary ? std::ios::binary : std::ios::in) };
+    if (file.fail())
+        return false;
+    //获取文件长度
+    file.seekg(0, file.end);
+    size_t length = file.tellg();
+    file.seekg(0, file.beg);
+
+    char* buff = new char[length];
+    file.read(buff, length);
+    file.close();
+
+    contents_buff.assign(buff, length);
+    delete[] buff;
+
+    return true;
+}
+
+const char* CCommon::GetFileContent(const wchar_t* file_path, size_t& length, bool binary /*= true*/)
+{
+    std::ifstream file{ file_path, (binary ? std::ios::binary : std::ios::in) };
+    length = 0;
+    if (file.fail())
+        return nullptr;
+    //获取文件长度
+    file.seekg(0, file.end);
+    length = file.tellg();
+    file.seekg(0, file.beg);
+
+    char* buff = new char[length];
+    file.read(buff, length);
+    file.close();
+
+    return buff;
+}
+
+wstring CCommon::GetExePath()
+{
+    wchar_t path[MAX_PATH];
+    GetModuleFileNameW(NULL, path, MAX_PATH);
+    size_t index;
+    wstring current_path{ path };
+    index = current_path.find_last_of(L'\\');
+    current_path = current_path.substr(0, index + 1);
+    return current_path;
+}

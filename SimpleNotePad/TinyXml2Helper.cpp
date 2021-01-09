@@ -1,15 +1,15 @@
 ﻿#include "stdafx.h"
 #include "TinyXml2Helper.h"
+#include "Common.h"
 
 bool CTinyXml2Helper::LoadXmlFile(tinyxml2::XMLDocument& doc, const wchar_t* file_path)
 {
-    FILE* pFile = nullptr;
-    const errno_t err = _wfopen_s(&pFile, file_path, L"rb");
-    if (err || pFile == nullptr)
-        return false;
-    doc.LoadFile(pFile);
-    fclose(pFile);
-    return true;
+    //由于XMLDocument::LoadFile函数不支持Unicode，因此这里自行读取文件内容，并调用XMLDocument::Parse函数解析
+    size_t length;
+    const char* xml_contents = CCommon::GetFileContent(file_path, length);
+    auto err = doc.Parse(xml_contents, length);
+    delete[] xml_contents;
+    return err == tinyxml2::XML_SUCCESS;
 }
 
 void CTinyXml2Helper::IterateChildNode(tinyxml2::XMLElement* ele, std::function<void(tinyxml2::XMLElement*)> fun)

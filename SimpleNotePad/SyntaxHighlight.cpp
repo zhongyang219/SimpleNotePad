@@ -47,11 +47,10 @@ void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from)
     });
 }
 
-void CSyntaxHighlight::LoadFromFile(const char* file_path)
+void CSyntaxHighlight::LoadFromFile(const wchar_t* file_path)
 {
     tinyxml2::XMLDocument doc;
-    auto err = doc.LoadFile(file_path);
-    if (!err)
+    if (CTinyXml2Helper::LoadXmlFile(doc, file_path))
     {
         CTinyXml2Helper::IterateChildNode(doc.FirstChildElement(), [this](tinyxml2::XMLElement* child)
         {

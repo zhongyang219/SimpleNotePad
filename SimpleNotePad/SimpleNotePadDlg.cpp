@@ -675,7 +675,13 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_hAccel = LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_ACCELERATOR1));
 
     //加载语法高亮设置
-    m_syntax_highlight.LoadFromFile("./lang.xml");
+    wstring path;
+#ifdef DEBUG
+    path = L"./lang.xml";
+#else
+    path = CCommon::GetExePath() + L"lang.xml";
+#endif
+    m_syntax_highlight.LoadFromFile(path.c_str());
 
 	//根据当前系统DPI设置设置状态栏大小
 	CWindowDC dc(this);
