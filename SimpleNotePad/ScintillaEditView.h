@@ -32,6 +32,8 @@ public:
     void SetTabSize(int tab_size);
     void SetSel(int start, int end);        //设置选中范围（位置以字节为单位而非字符为单位）
     void SetBackgroundColor(COLORREF color);
+    void SetReadOnly(bool read_only);
+    bool IsReadOnly();
 
     void Undo();
     void Redo();

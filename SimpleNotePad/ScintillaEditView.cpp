@@ -54,6 +54,10 @@ void CScintillaEditView::Dump(CDumpContext& dc) const
 void CScintillaEditView::SetText(const wstring& text)
 {
     m_change_notification_enable = false;       //确保正在执行SetText时不响应文本改变消息
+    bool is_read_onle = IsReadOnly();
+    //执行设置文件前，如果编辑器的只读的，则取消只读
+    if (is_read_onle)
+        SetReadOnly(false);
     int size = WideCharToMultiByte(CP_UTF8, 0, text.c_str(), text.size(), NULL, 0, NULL, NULL);
     if (size > 0)
     {
@@ -66,6 +70,9 @@ void CScintillaEditView::SetText(const wstring& text)
     {
         SendMessage(SCI_SETTEXT, 0, (LPARAM)"");
     }
+    //恢复只读状态
+    if (is_read_onle)
+        SetReadOnly(true);
     m_change_notification_enable = true;
 }
 
@@ -110,6 +117,16 @@ void CScintillaEditView::SetBackgroundColor(COLORREF color)
 {
     m_background_color = color;
     //SendMessage(SCI_STYLESETBACK, STYLE_DEFAULT, m_background_color);
+}
+
+void CScintillaEditView::SetReadOnly(bool read_only)
+{
+    SendMessage(SCI_SETREADONLY, read_only);
+}
+
+bool CScintillaEditView::IsReadOnly()
+{
+    return (SendMessage(SCI_GETREADONLY) != 0);
 }
 
 void CScintillaEditView::Undo()

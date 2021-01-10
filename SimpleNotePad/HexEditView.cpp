@@ -11,6 +11,7 @@ CHexEditView::CHexEditView()
 void CHexEditView::InitHexView()
 {
     SendMessage(SCI_SETHSCROLLBAR, 0);
+    SetReadOnly(true);
 
     SendMessage(SCI_STYLECLEARALL); //如果没有这句，设置字体的粗体、任何等样式无效
     
