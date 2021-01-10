@@ -82,11 +82,11 @@ void CScintillaEditView::GetText(wstring& text)
     char* buf = new char[length + 1];
     SendMessage(SCI_GETTEXT, length + 1, reinterpret_cast<LPARAM>(buf));
 
-    int size = MultiByteToWideChar(CP_UTF8, 0, buf, length + 1, NULL, 0);
+    int size = MultiByteToWideChar(CP_UTF8, 0, buf, length, NULL, 0);
     if (size <= 0) return;
     wchar_t* str_unicode = new wchar_t[size + 1];
-    MultiByteToWideChar(CP_UTF8, 0, buf, length + 1, str_unicode, size);
-    text.assign(str_unicode);
+    MultiByteToWideChar(CP_UTF8, 0, buf, length, str_unicode, size);
+    text.assign(str_unicode, size);
     delete[] str_unicode;
     delete[] buf;
 }

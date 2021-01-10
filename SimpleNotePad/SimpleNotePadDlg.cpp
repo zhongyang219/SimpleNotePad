@@ -1571,13 +1571,12 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
     if (notification->nmhdr.hwndFrom == m_view->GetSafeHwnd())
     {
         //响应编辑器文本变化
-        if (notification->nmhdr.code == SCN_MODIFIED && (notification->modificationType & SC_MOD_BEFOREINSERT) == 0 && m_view->IsEditChangeNotificationEnable())
+        if (notification->nmhdr.code == SCN_MODIFIED && m_view->IsEditChangeNotificationEnable())
         {
-            UINT marsk = (SC_PERFORMED_UNDO | SC_MOD_DELETETEXT | SC_MOD_INSERTTEXT | SC_PERFORMED_UNDO | SC_PERFORMED_REDO);
+            UINT marsk = (SC_MOD_DELETETEXT | SC_MOD_INSERTTEXT | SC_PERFORMED_UNDO | SC_PERFORMED_REDO);
             if ((notification->modificationType & marsk) != 0)
             {
                 m_view->GetText(m_edit_wcs);
-                //m_modified = true;
                 ShowStatusBar();
                 SetTitle();
             }
