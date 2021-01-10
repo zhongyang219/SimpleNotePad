@@ -52,11 +52,10 @@ BEGIN_MESSAGE_MAP(CHexViewDlg, CBaseDialog)
     ON_WM_SIZE()
 END_MESSAGE_MAP()
 
-
 // CHexViewDlg 消息处理程序
 
 
-void CHexViewDlg::ShowHexData(bool ini)
+void CHexViewDlg::ShowHexData()
 {
 	CWaitCursor wait_cursor;
 	string a_line_str;
@@ -78,20 +77,18 @@ void CHexViewDlg::ShowHexData(bool ini)
 					{
 						if (i % 2 == 0 && a_line_str[i + 1] == 0)	//第奇数个字节是0，即这是一个ASCII字符
 						{
-							if (a_line_str[i] >= 0 && a_line_str[i]<=32)	//如果该字符是控制字符或0，则转换成空格
-							//a_line_str[i + 1] = 32;
-							a_line_str[i] = 32;
+                            ConvertDumpChar(a_line_str[i]);
 						}
 					}
 				}
 				else
 				{
-					for (auto& ch : a_line_str)		//将控制字符全部转换为空格
-						if (ch >= 0 && ch < 32) ch = 32;
+					for (auto& ch : a_line_str)	
+                        ConvertDumpChar(ch);
 				}
 				a_line = CCommon::StrToUnicode(a_line_str, m_code);
 				m_str += _T("   ");
-				m_str += a_line.c_str();
+				m_str += a_line;
 				m_str += _T("\r\n");
 			}
 			//显示地址
@@ -117,7 +114,7 @@ void CHexViewDlg::ShowHexData(bool ini)
 			m_str += temp;
 		}
 	}
-    m_view->SetText(m_str.GetString());
+    m_view->SetText(m_str);
 
 }
 
@@ -171,6 +168,7 @@ void CHexViewDlg::SaveConfig() const
     theApp.WriteProfileInt(_T("hex_editor"), _T("edit_unit"), static_cast<int>(m_edit_unit));
     theApp.WriteProfileInt(_T("hex_editor"), _T("size_unit"), static_cast<int>(m_size_unit));
     theApp.WriteProfileString(_T("hex_editor"), _T("font_name"), m_edit_font);
+    theApp.WriteProfileInt(_T("hex_editor"), _T("show_invisible_characters"), m_show_invisible_characters);
 }
 
 void CHexViewDlg::LoadConfig()
@@ -178,6 +176,7 @@ void CHexViewDlg::LoadConfig()
 	m_edit_unit = static_cast<EditUnit>(theApp.GetProfileInt(_T("hex_editor"), _T("edit_unit"), 0));
 	m_size_unit = static_cast<SizeUnit>(theApp.GetProfileInt(_T("hex_editor"), _T("size_unit"), 0));
     m_edit_font = theApp.GetProfileString(_T("hex_editor"), _T("font_name"), _T("新宋体"));
+    m_show_invisible_characters = theApp.GetProfileIntW(_T("hex_editor"), _T("show_invisible_characters"), 0);
 }
 
 CString CHexViewDlg::GetDialogName() const
@@ -200,6 +199,20 @@ void CHexViewDlg::SetHexViewPos()
 
     m_view->SetWindowPos(nullptr, rc_top.left - theApp.DPI(2), rc_top.bottom + theApp.DPI(4), width, height, SWP_NOZORDER);
 
+}
+
+void CHexViewDlg::ConvertDumpChar(char & ch)
+{
+    if (m_show_invisible_characters)
+    {
+        if (ch == '\r' || ch == '\n')
+            ch = ' ';
+    }
+    else
+    {
+        if (ch >= 0 && ch < ' ')
+            ch = ' ';
+    }
 }
 
 BOOL CHexViewDlg::OnInitDialog()
@@ -235,7 +248,7 @@ BOOL CHexViewDlg::OnInitDialog()
 
     m_view->InitHexView();
 
-    ShowHexData(true);
+    ShowHexData();
 
 	//设置单选控件的初始状态
 	switch (m_code)
@@ -276,12 +289,6 @@ BOOL CHexViewDlg::OnInitDialog()
 void CHexViewDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	//if (nIDEvent == 1235)
-	//{
-	//	KillTimer(1235);		//定时器响应一次后就将其销毁
-	//	m_edit.SetWindowText(m_str);	//延迟一定时间显示
-	//}
-
 	CBaseDialog::OnTimer(nIDEvent);
 }
 
@@ -444,7 +451,7 @@ void CHexViewDlg::OnBnClickedRefreshButton()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	int first_line = m_view->GetFirstVisibleLine();	//刷新前获取最上方可见行的行号
-	m_str.Empty();
+	m_str.clear();
 	ShowHexData();
     m_view->SetFirstVisibleLine(first_line);		//刷新后滚动到刷新前的位置
 }

@@ -57,7 +57,7 @@ protected:
 	CodeType m_code;
 	CFont m_font;
 
-	CString m_str;		//文本编辑框中显示的字符串
+	wstring m_str;		//文本编辑框中显示的字符串
 	//CEdit m_edit;
     CHexEditView* m_view;
 
@@ -70,9 +70,10 @@ protected:
 	EditUnit m_edit_unit{};
 	SizeUnit m_size_unit{};
     CString m_edit_font{};
+    bool m_show_invisible_characters{};     //是否显示不可见的字符
 
 protected:
-	void ShowHexData(bool ini = false);	//在文本编辑框中显示出十六进制数据(在初始化时调用要把参数设为true)
+	void ShowHexData();	//在文本编辑框中显示出十六进制数据
 	unsigned int GetValueAndStr(unsigned int address, EditUnit edit_unit, CString& value_str);		//根据地址和编辑单位返回值，并转换成字符串保存到value_str中
 	void ShowSizeInfo();		//在“修改文件大小”处的Static控件上显示文件大小
 
@@ -82,6 +83,7 @@ protected:
 	virtual CString GetDialogName() const override;
 
     void SetHexViewPos();
+    void ConvertDumpChar(char& ch);
 
 public:
 	bool IsModified() { return m_modified; }

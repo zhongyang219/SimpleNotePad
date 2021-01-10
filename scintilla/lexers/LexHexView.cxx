@@ -36,9 +36,12 @@ static void ColouriseMakeLine(char *lineBuffer, Sci_PositionU lengthLine, Sci_Po
 {
     const int addr_length = 9;
     const int bytes_length = 49;
-    styler.ColourTo(startLine + addr_length, SCE_HEXVIEW_ADDR);
-    styler.ColourTo(startLine + addr_length + bytes_length, SCE_HEXVIEW_BYTES);
-    styler.ColourTo(endPos, SCE_HEXVIEW_DUMP);
+    if (lengthLine >= addr_length)
+        styler.ColourTo(startLine + addr_length, SCE_HEXVIEW_ADDR);
+    if (lengthLine >= addr_length + bytes_length)
+        styler.ColourTo(startLine + addr_length + bytes_length, SCE_HEXVIEW_BYTES);
+    if (lengthLine > addr_length + bytes_length)
+        styler.ColourTo(endPos, SCE_HEXVIEW_DUMP);
 }
 
 static void ColouriseHexViewDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[],
