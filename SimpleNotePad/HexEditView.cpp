@@ -1,6 +1,13 @@
 ﻿#include "stdafx.h"
 #include "HexEditView.h"
 
+IMPLEMENT_DYNCREATE(CHexEditView, CView)
+
+CHexEditView::CHexEditView()
+{
+
+}
+
 void CHexEditView::InitHexView()
 {
     SendMessage(SCI_SETHSCROLLBAR, 0);
