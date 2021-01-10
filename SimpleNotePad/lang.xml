@@ -1,4 +1,4 @@
-<SimpleNotepad>
+﻿<SimpleNotepad>
 	<Language name="C" lexId="3" ext="c">
 		<Keywords id="0">auto break case char const continue default do double else enum extern float for goto if int long register return short signed sizeof static struct switch typedef union unsigned void volatile while inline restrict _Bool _Complex _Imaginary _Alignas _Alignof _Atomic _Static_assert _Noreturn _Thread_local _Generic</Keywords>
 		<SyntaxList>
@@ -49,7 +49,7 @@
 		<Keywords id="1">void char short int long double float const static byte boolean enum</Keywords>
 		<SyntaxList copyFrom="C" />
 	</Language>
-	<Language name="JavaScript" lexId="3" ext="js">
+	<Language name="JavaScript" lexId="3" ext="js jse jsm">
 		<Keywords id="0">abstract arguments boolean break byte case catch char class const continue debugger default delete do double else enum eval export extends false final finally float for function goto if implements import in instanceof int interface let long native new null package private protected public return short static super switch synchronized this throw throws transient true try typeof var void volatile while with yield</Keywords>
 		<Keywords id="1">Array Date eval function hasOwnProperty Infinity isFinite isNaN isPrototypeOf length Math NaN name Number Object prototype String toString undefined valueOf alert all anchor anchors area assign blur button checkbox clearInterval clearTimeout clientInformation close closed confirm constructor crypto decodeURI decodeURIComponent defaultStatus document element elements embed embeds encodeURI encodeURIComponent escape event fileUpload focus form forms frame innerHeight innerWidth layer layers link location mimeTypes navigate navigator frames frameRate hidden history image images offscreenBuffering open opener option outerHeight outerWidth packages pageXOffset pageYOffset parent parseFloat parseInt password pkcs11 plugin prompt propertyIsEnum radio reset screenX screenY scroll secure select self setInterval setTimeout status submit taint text textarea top unescape untaint window</Keywords>
 		<SyntaxList copyFrom="C" />
@@ -114,7 +114,7 @@
 			<Syntax name="SCE_JSON_ERROR" id="13" color="0x2020E2"/>
 		</SyntaxList>
 	</Language>
-	<Language name="Config" lexId="17" ext="conf ini properties">
+	<Language name="Config" lexId="17" ext="conf">
 		<Keywords id="0"></Keywords>
 		<SyntaxList>
 			<Syntax name= "SCE_CONF_DEFAULT" id="0" color="0x000000" />
@@ -200,8 +200,7 @@
 			<Syntax name= "SCE_B_DOCKEYWORD" id="22" color="0x5A7F00" bold="1" />
 		</SyntaxList>
 	</Language>
-	<Language name="Makefile" lexId="11" ext="mak">
-		<Keywords id="0"></Keywords>
+	<Language name="Makefile" lexId="11" ext="mak make mk dsp">
 		<SyntaxList>
 			<Syntax name= "SCE_MAKE_DEFAULT" id="0" color="0x000000" />
 			<Syntax name= "SCE_MAKE_COMMENT" id="1" color="0xB840B" />
@@ -221,4 +220,113 @@
 			<Syntax name= "Dump" id="3" color="0x737300" />
 		</SyntaxList>
 	</Language>
- --></SimpleNotepad>
+ -->
+	<Language name="Property files" lexId="9" ext="ini properties">
+		<SyntaxList>
+			<Syntax name= "SCE_PROPS_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_PROPS_COMMENT" id="1" color="0xB840B" />
+			<Syntax name= "SCE_PROPS_SECTION" id="2" color="0x808000" bold="1" />
+			<Syntax name= "SCE_PROPS_ASSIGNMENT" id="3" color="0x1515A3" />
+			<Syntax name= "SCE_PROPS_DEFVAL" id="4" color="0x5C2F14" />
+			<Syntax name= "SCE_PROPS_KEY" id="5" color="0xAD4E41"/>
+		</SyntaxList>
+	</Language>
+	<Language name="Markdown" lexId="98" ext="md">
+		<SyntaxList>
+			<Syntax name= "SCE_MARKDOWN_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_MARKDOWN_LINE_BEGIN" id="1" color="0x5C2F14" />
+			<Syntax name= "SCE_MARKDOWN_STRONG1" id="2" color="0x5C2F14" bold="1" />
+			<Syntax name= "SCE_MARKDOWN_STRONG2" id="3" color="0x942C5A" bold="1" />
+			<Syntax name= "SCE_MARKDOWN_EM1" id="4" color="0xB58476" />
+			<Syntax name= "SCE_MARKDOWN_EM2" id="5" color="0xDD834D" />
+			<Syntax name= "SCE_MARKDOWN_HEADER1" id="6" color="0x808000" bold="1" />
+			<Syntax name= "SCE_MARKDOWN_HEADER2" id="7" color="0x808000" bold="1" />
+			<Syntax name= "SCE_MARKDOWN_HEADER3" id="8" color="0x808000" bold="1" />
+			<Syntax name= "SCE_MARKDOWN_HEADER4" id="9" color="0x808000" bold="1" />
+			<Syntax name= "SCE_MARKDOWN_HEADER5" id="10" color="0x808000" bold="1" />
+			<Syntax name= "SCE_MARKDOWN_HEADER6" id="11" color="0x808000" bold="1" />
+			<Syntax name= "SCE_MARKDOWN_PRECHAR" id="12" color="0x506E6C" />
+			<Syntax name= "SCE_MARKDOWN_ULIST_ITEM" id="13" color="0x84431C" italic="1" />
+			<Syntax name= "SCE_MARKDOWN_OLIST_ITEM" id="14" color="0x84431C" italic="1" />
+			<Syntax name= "SCE_MARKDOWN_BLOCKQUOTE" id="15" color="0x80" />
+			<Syntax name= "SCE_MARKDOWN_STRIKEOUT" id="16" color="0x1515A3" />
+			<Syntax name= "SCE_MARKDOWN_HRULE" id="17" color="0x8132B1" />
+			<Syntax name= "SCE_MARKDOWN_LINK" id="18" color="0xEE8400" />
+			<Syntax name= "SCE_MARKDOWN_CODE" id="19" color="0x506E6C" />
+			<Syntax name= "SCE_MARKDOWN_CODE2" id="20" color="0xA67B60" />
+			<Syntax name= "SCE_MARKDOWN_CODEBK" id="21" color="0x3B6DC7" />
+		</SyntaxList>
+	</Language>
+	<Language name="SQL Query" lexId="7" ext="sql">
+		<Keywords id="0">abs absolute access acos add add_months adddate admin after aggregate all allocate alter and any app_name are array as asc ascii asin assertion at atan atn2 audit authid authorization autonomous_transaction avg before begin benchmark between bfilename bigint bin binary binary_checksum binary_integer bit bit_count bit_and bit_or blob body boolean both breadth bulk by call cascade cascaded case cast catalog ceil ceiling char char_base character charindex chartorowid check checksum checksum_agg chr class clob close cluster coalesce col_length col_name collate collation collect column comment commit completion compress concat concat_ws connect connection constant constraint constraints constructorcreate contains containsable continue conv convert corr corresponding cos cot count count_big covar_pop covar_samp create cross cube cume_dist current current_date current_path current_role current_time current_timestamp current_user currval cursor cycle data datalength databasepropertyex date date_add date_format date_sub dateadd datediff datename datepart datetime day db_id db_name deallocate dec declare decimal decode default deferrable deferred degrees delete dense_rank depth deref desc describe descriptor destroy destructor deterministic diagnostics dictionary disconnect difference distinct do domain double drop dump dynamic each else elsif empth encode encrypt end end-exec equals escape every except exception exclusive exec execute exists exit exp export_set extends external extract false fetch first first_value file float floor file_id file_name filegroup_id filegroup_name filegroupproperty fileproperty for forall foreign format formatmessage found freetexttable from from_days fulltextcatalog fulltextservice function general get get_lock getdate getansinull getutcdate global go goto grant greatest group grouping having heap hex hextoraw host host_id host_name hour ident_incr ident_seed ident_current identified identity if ifnull ignore immediate in increment index index_col indexproperty indicator initcap initial initialize initially inner inout input insert instr instrb int integer interface intersect interval into is is_member is_srvrolemember is_null is_numeric isdate isnull isolation iterate java join key lag language large last last_day last_value lateral lcase lead leading least left len length lengthb less level like limit limited ln lpad local localtime localtimestamp locator lock log log10 long loop lower ltrim make_ref map match max maxextents mid min minus minute mlslabel mod mode modifies modify module month months_between names national natural naturaln nchar nclob new new_time newid next next_day nextval no noaudit nocompress nocopy none not nowait null nullif number number_base numeric nvl nvl2 object object_id object_name object_property ocirowid oct of off offline old on online only opaque open operator operation option or ord order ordinalityorganization others out outer output package pad parameter parameters partial partition path pctfree percent_rank pi pls_integer positive positiven postfix pow power pragma precision prefix preorder prepare preserve primary prior private privileges procedure public radians raise rand range rank ratio_to_export raw rawtohex read reads real record recursive ref references referencing reftohex relative release release_lock rename repeat replace resource restrict result return returns reverse revoke right rollback rollup round routine row row_number rowid rowidtochar rowlabel rownum rows rowtype rpad rtrim savepoint schema scroll scope search second section seddev_samp select separate sequence session session_user set sets share sign sin sinh size smallint some soundex space specific specifictype sql sqlcode sqlerrm sqlexception sqlstate sqlwarning sqrt start state statement static std stddev stdev_pop strcmp structure subdate substr substrb substring substring_index subtype successful sum synonym sys_context sys_guid sysdate system_user table tan tanh temporary terminate than then time timestamp timezone_abbr timezone_minute timezone_hour timezone_region tinyint to to_char to_date to_days to_number to_single_byte trailing transaction translate translation treat trigger trim true trunc truncate type ucase uid under union unique unknown unnest update upper usage use user userenv using validate value values var_pop var_samp varbinary varchar varchar2 variable variance varying view vsize when whenever where with without while with work write year zone</Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_SQL_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_SQL_COMMENT" id="1" color="0xB840B" />
+			<Syntax name= "SCE_SQL_COMMENTLINE" id="2" color="0xB840B" />
+			<Syntax name= "SCE_SQL_COMMENTDOC" id="3" color="0x5A7F00" />
+			<Syntax name= "SCE_SQL_NUMBER" id="4" color="0x3B6DC7" />
+			<Syntax name= "SCE_SQL_WORD" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "SCE_SQL_STRING" id="6" color="0x1515A3" />
+			<Syntax name= "SCE_SQL_CHARACTER" id="7" color="0x80" />
+			<Syntax name= "SCE_SQL_SQLPLUS" id="8" color="0x5C2F14" />
+			<Syntax name= "SCE_SQL_SQLPLUS_PROMPT" id="9" color="0x5C2F14" />
+			<Syntax name= "SCE_SQL_OPERATOR" id="10" color="0x5C2F14" />
+			<Syntax name= "SCE_SQL_IDENTIFIER" id="11" color="0x808000" bold="1" />
+			<Syntax name= "SCE_SQL_SQLPLUS_COMMENT" id="13" color="0xB840B" />
+			<Syntax name= "SCE_SQL_COMMENTLINEDOC" id="15" color="0x5A7F00" />
+			<Syntax name= "SCE_SQL_WORD2" id="16" color="0xC94B83" />
+			<Syntax name= "SCE_SQL_COMMENTDOCKEYWORD" id="17" color="0x5A7F00" bold="1" />
+			<Syntax name= "SCE_SQL_COMMENTDOCKEYWORDERROR" id="18" color="0x1515A3" bold="1" />
+			<Syntax name= "SCE_SQL_USER1" id="19" color="0x8A006F" />
+			<Syntax name= "SCE_SQL_USER2" id="20" color="0x8A006F" />
+			<Syntax name= "SCE_SQL_USER3" id="21" color="0x8A006F" />
+			<Syntax name= "SCE_SQL_USER4" id="22" color="0x8A006F" />
+			<Syntax name= "SCE_SQL_QUOTEDIDENTIFIER" id="23" color="0x942C5A" />
+			<Syntax name= "SCE_SQL_QOPERATOR" id="24" color="0x5C2F14" />
+		</SyntaxList>
+	</Language>
+	<Language name="Bash" lexId="62" ext="sh bash">
+		<Keywords id="0">alias ar asa awk banner basename bash bc bdiff break bunzip2 bzip2 cal calendar case cat cc cd chmod cksum clear cmp col comm compress continue cp cpio crypt csplit ctags cut date dc dd declare deroff dev df diff diff3 dircmp dirname do done du echo ed egrep elif else env esac eval ex exec exit expand export expr false fc fgrep fi file find fmt fold for function functions getconf getopt getopts grep gres hash head help history iconv id if in integer jobs join kill local lc let line ln logname look ls m4 mail mailx make man mkdir more mt mv newgrp nl nm nohup ntps od pack paste patch pathchk pax pcat perl pg pr print printf ps pwd read readonly red return rev rm rmdir sed select set sh shift size sleep sort spell split start stop strings strip stty sum suspend sync tail tar tee test then time times touch tr trap true tsort tty type typeset ulimit umask unalias uname uncompress unexpand uniq unpack unset until uudecode uuencode vi vim vpax wait wc whence which while who wpaste wstart xargs zcat</Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_SH_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_SH_ERROR" id="1" color="0x2020E2" />
+			<Syntax name= "SCE_SH_COMMENTLINE" id="2" color="0xB840B" />
+			<Syntax name= "SCE_SH_NUMBER" id="3" color="0x3B6DC7" />
+			<Syntax name= "SCE_SH_WORD" id="4" color="0xEA2020" bold="1" />
+			<Syntax name= "SCE_SH_STRING" id="5" color="0x1515A3" />
+			<Syntax name= "SCE_SH_CHARACTER" id="6" color="0x80" />
+			<Syntax name= "SCE_SH_OPERATOR" id="7" color="0x5C2F14" />
+			<Syntax name= "SCE_SH_IDENTIFIER" id="8" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "SCE_SH_SCALAR" id="9" color="0x942C5A" />
+			<Syntax name= "SCE_SH_PARAM" id="10" color="0xA67B60" />
+			<Syntax name= "SCE_SH_BACKTICKS" id="11" color="0x506E6C" />
+			<Syntax name= "SCE_SH_HERE_DELIM" id="12" color="0xEE8400" />
+			<Syntax name= "SCE_SH_HERE_Q" id="13" color="0xA35A00" />
+		</SyntaxList>
+	</Language>
+	<Language name="Python" lexId="2" ext="py pyw">
+		<Keywords id="0">and as assert break class continue def del elif else except exec False finally for from global if import in is lambda None not or pass print raise return triple True try while with yield</Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_P_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_P_COMMENTLINE" id="1" color="0xB840B" />
+			<Syntax name= "SCE_P_NUMBER" id="2" color="0x3B6DC7" />
+			<Syntax name= "SCE_P_STRING" id="3" color="0x1515A3" />
+			<Syntax name= "SCE_P_CHARACTER" id="4" color="0x80" />
+			<Syntax name= "SCE_P_WORD" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "SCE_P_TRIPLE" id="6" color="0xA67B60" />
+			<Syntax name= "SCE_P_TRIPLEDOUBLE" id="7" color="0xA67B60" />
+			<Syntax name= "SCE_P_CLASSNAME" id="8" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "SCE_P_DEFNAME" id="9" color="0x8A006F" />
+			<Syntax name= "SCE_P_OPERATOR" id="10" color="0x5C2F14" />
+			<Syntax name= "SCE_P_IDENTIFIER" id="11" color="0x808000"/>
+			<Syntax name= "SCE_P_COMMENTBLOCK" id="12" color="0x5A7F00" />
+			<Syntax name= "SCE_P_STRINGEOL" id="13" color="0x000000" />
+			<Syntax name= "SCE_P_WORD2" id="14" color="0x000000" />
+			<Syntax name= "SCE_P_DECORATOR" id="15" color="0x6C7D95" />
+			<Syntax name= "SCE_P_FSTRING" id="16" color="0x576579" />
+			<Syntax name= "SCE_P_FCHARACTER" id="17" color="0x6C7D95" />
+			<Syntax name= "SCE_P_FTRIPLE" id="18" color="0xA67B60" />
+			<Syntax name= "SCE_P_FTRIPLEDOUBLE" id="19" color="0xB47251" />
+		</SyntaxList>
+	</Language>
+</SimpleNotepad>
