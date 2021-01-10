@@ -3,6 +3,7 @@
 #include "afxwin.h"
 #include "afxcmn.h"
 #include "BaseDialog.h"
+#include "HexEditView.h"
 
 using std::string;
 
@@ -57,7 +58,8 @@ protected:
 	CFont m_font;
 
 	CString m_str;		//文本编辑框中显示的字符串
-	CEdit m_edit;
+	//CEdit m_edit;
+    CHexEditView* m_view;
 
 	unsigned int m_address;
 	unsigned int m_value;
@@ -78,6 +80,8 @@ protected:
 	void LoadConfig();
 
 	virtual CString GetDialogName() const override;
+
+    void SetHexViewPos();
 
 public:
 	bool IsModified() { return m_modified; }
@@ -105,4 +109,5 @@ public:
 	afx_msg void OnDestroy();
 	afx_msg void OnBnClickedInsertDataButton();
 	afx_msg void OnBnClickedDeleteDataButton();
+    afx_msg void OnSize(UINT nType, int cx, int cy);
 };

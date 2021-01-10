@@ -210,6 +210,7 @@
     <ClInclude Include="EditEx.h" />
     <ClInclude Include="FileCompareDlg.h" />
     <ClInclude Include="FormatConvertDlg.h" />
+    <ClInclude Include="HexEditView.h" />
     <ClInclude Include="HexViewDlg.h" />
     <ClInclude Include="InputDlg.h" />
     <ClInclude Include="InsertDataDlg.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="EditEx.cpp" />
     <ClCompile Include="FileCompareDlg.cpp" />
     <ClCompile Include="FormatConvertDlg.cpp" />
+    <ClCompile Include="HexEditView.cpp" />
     <ClCompile Include="HexViewDlg.cpp" />
     <ClCompile Include="InputDlg.cpp" />
     <ClCompile Include="InsertDataDlg.cpp" />

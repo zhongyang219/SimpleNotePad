@@ -143,6 +143,9 @@
     <ClInclude Include="..\scintilla\include\Scintilla.h">
       <Filter>头文件和源文件\头文件\scintilla</Filter>
     </ClInclude>
+    <ClInclude Include="HexEditView.h">
+      <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -198,6 +201,9 @@
     </ClCompile>
     <ClCompile Include="SyntaxHighlight.cpp">
       <Filter>SyntaxHighlight</Filter>
+    </ClCompile>
+    <ClCompile Include="HexEditView.cpp">
+      <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

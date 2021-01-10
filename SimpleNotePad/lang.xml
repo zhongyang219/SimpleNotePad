@@ -200,4 +200,24 @@
 			<Syntax name= "SCE_B_DOCKEYWORD" id="22" color="0x5A7F00" bold="1" />
 		</SyntaxList>
 	</Language>
-</SimpleNotepad>
+	<Language name="Makefile" lexId="11" ext="mak">
+		<Keywords id="0"></Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_MAKE_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_MAKE_COMMENT" id="1" color="0xB840B" />
+			<Syntax name= "SCE_MAKE_PREPROCESSOR" id="2" color="0xC94B83" />
+			<Syntax name= "SCE_MAKE_IDENTIFIER" id="3" color="0xEA2020" bold="1" />
+			<Syntax name= "SCE_MAKE_OPERATOR" id="4" color="0x5C2F14" />
+			<Syntax name= "SCE_MAKE_TARGET" id="5" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "SCE_MAKE_IDEOL" id="6" color="0x80" />
+		</SyntaxList>
+	</Language>
+<!-- 	<Language name="HexView" lexId="200" ext="">
+		<Keywords id="0"></Keywords>
+		<SyntaxList>
+			<Syntax name= "Address" id="0" color="0xCD4230" bold="1" />
+			<Syntax name= "Bytes" id="1" color="0x794E41" />
+			<Syntax name= "Dump" id="2" color="0x737300" />
+		</SyntaxList>
+	</Language>
+ --></SimpleNotepad>

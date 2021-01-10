@@ -29,8 +29,13 @@ public:
 	bool m_compare_dialog_exit;	//用于指示文件比较对话框是否已退出
     SettingsData m_settings_data;
 
+    void DPIFromWindow(CWnd* pWnd);
+
+    int DPI(int pixel);
+
 private:
     HMODULE m_hScintillaModule;
+    int m_dpi;		//当前显示器的DPI设置100%时为96
 
 // 重写
 public:

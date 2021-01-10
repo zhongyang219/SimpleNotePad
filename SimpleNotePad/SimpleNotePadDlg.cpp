@@ -67,11 +67,6 @@ void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 	//DDX_Control(pDX, IDC_EDIT1, m_edit);
 }
 
-int CSimpleNotePadDlg::DPI(int pixel)
-{
-    return pixel * m_dpi / 96;
-}
-
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 {
 	CWaitCursor wait_cursor;
@@ -363,10 +358,10 @@ void CSimpleNotePadDlg::GetStatusbarWidth(std::vector<int>& part_widths)
     const int WIDTHS = PARTS - 1;
     std::vector<int> widths;
     widths.resize(WIDTHS);
-    widths[WIDTHS - 1] = DPI(174);
-    widths[WIDTHS - 2] = DPI(60);
-    widths[WIDTHS - 3] = DPI(40);
-    widths[WIDTHS - 4] = DPI(60);
+    widths[WIDTHS - 1] = theApp.DPI(174);
+    widths[WIDTHS - 2] = theApp.DPI(60);
+    widths[WIDTHS - 3] = theApp.DPI(40);
+    widths[WIDTHS - 4] = theApp.DPI(60);
 
     CRect rect;
     GetClientRect(rect);
@@ -687,19 +682,18 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_syntax_highlight.LoadFromFile(path.c_str());
 
 	//根据当前系统DPI设置设置状态栏大小
-	CWindowDC dc(this);
-	HDC hDC = dc.GetSafeHdc();
-	m_dpi = GetDeviceCaps(hDC, LOGPIXELSY);
-	m_status_bar_hight = m_dpi * 20 / 96;
-	m_edit_bottom_space = m_dpi * 22 / 96;
+    theApp.DPIFromWindow(this);
 
-	SetMinSize(200 * m_dpi / 96, 150 * m_dpi / 96);
+	m_status_bar_hight = theApp.DPI(20);
+	m_edit_bottom_space = theApp.DPI(22);
+
+	SetMinSize(theApp.DPI(200), theApp.DPI(150));
 
 	//初始化编辑框大小
 	CRect rect;
 	GetClientRect(&rect);
 	//rect.bottom = rect.bottom - 22;
-	rect.bottom = rect.bottom - m_edit_bottom_space - DPI(2);
+	rect.bottom = rect.bottom - m_edit_bottom_space - theApp.DPI(2);
 	//m_edit.MoveWindow(rect);
 
     m_view = (CScintillaEditView*)RUNTIME_CLASS(CScintillaEditView)->CreateObject();
@@ -709,7 +703,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
     m_view->SetWordWrap(m_word_wrap);
 
-    m_view->SetLineNumberWidth(DPI(36));
+    m_view->SetLineNumberWidth(theApp.DPI(36));
     m_view->ShowLineNumber(m_show_line_number);
     m_view->SetLineNumberColor(RGB(75, 145, 175));
     m_view->SetViewEol(m_show_eol);
@@ -847,7 +841,7 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 	if (nType != SIZE_MINIMIZED && m_view->GetSafeHwnd() != NULL)
 	{
         //窗口大小改变时改变编辑框大小
-        m_view->SetWindowPos(nullptr, 0, 0, size.Width(), size.Height() - DPI(2), SWP_NOMOVE | SWP_NOZORDER);
+        m_view->SetWindowPos(nullptr, 0, 0, size.Width(), size.Height() - theApp.DPI(2), SWP_NOMOVE | SWP_NOZORDER);
 	}
 
 	CRect status_bar_size;

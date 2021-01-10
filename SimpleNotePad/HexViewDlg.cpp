@@ -24,7 +24,6 @@ CHexViewDlg::~CHexViewDlg()
 void CHexViewDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CBaseDialog::DoDataExchange(pDX);
-	DDX_Control(pDX, IDC_HEX_EDIT, m_edit);
 	DDX_Control(pDX, IDC_MODIFIED_LIST, m_modified_list);
 	DDX_Control(pDX, IDC_STATIC_HEAD, m_static_head);
 }
@@ -50,6 +49,7 @@ BEGIN_MESSAGE_MAP(CHexViewDlg, CBaseDialog)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_INSERT_DATA_BUTTON, &CHexViewDlg::OnBnClickedInsertDataButton)
 	ON_BN_CLICKED(IDC_DELETE_DATA_BUTTON, &CHexViewDlg::OnBnClickedDeleteDataButton)
+    ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -117,11 +117,8 @@ void CHexViewDlg::ShowHexData(bool ini)
 			m_str += temp;
 		}
 	}
-	//m_edit.SetWindowText(m_str);
-	if (ini)
-		SetTimer(1235, 50, NULL);		//在初始化时调用此函数，需要延迟50毫秒再显示内容
-	else
-		m_edit.SetWindowText(m_str);
+    m_view->SetText(m_str.GetString());
+
 }
 
 unsigned int CHexViewDlg::GetValueAndStr(unsigned int address, EditUnit edit_unit, CString& value_str)
@@ -188,6 +185,23 @@ CString CHexViewDlg::GetDialogName() const
 	return _T("HexViewDlg");
 }
 
+void CHexViewDlg::SetHexViewPos()
+{
+    CRect rc_top;
+    ::GetWindowRect(GetDlgItem(IDC_STATIC_HEAD)->GetSafeHwnd(), rc_top);
+    ScreenToClient(rc_top);
+
+    CRect rc_group;
+    ::GetWindowRect(GetDlgItem(IDC_HEX_GROUP_STATIC)->GetSafeHwnd(), rc_group);
+    ScreenToClient(rc_group);
+    int width = rc_group.Width() - theApp.DPI(24);
+
+    int height = rc_group.bottom - rc_top.bottom - theApp.DPI(12);
+
+    m_view->SetWindowPos(nullptr, rc_top.left - theApp.DPI(2), rc_top.bottom + theApp.DPI(4), width, height, SWP_NOZORDER);
+
+}
+
 BOOL CHexViewDlg::OnInitDialog()
 {
 	CBaseDialog::OnInitDialog();
@@ -198,8 +212,6 @@ BOOL CHexViewDlg::OnInitDialog()
 	if(!m_file_path.IsEmpty())
 		SetWindowText(m_file_path + _T(" - 十六进制查看"));
 
-	ShowHexData(true);
-
 	m_modified_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
     CRect rect;
 	m_modified_list.GetClientRect(rect);
@@ -209,10 +221,21 @@ BOOL CHexViewDlg::OnInitDialog()
 	m_modified_list.InsertColumn(1, _T("修改前"), LVCFMT_LEFT, width1);		//插入第2列
 	m_modified_list.InsertColumn(2, _T("修改后"), LVCFMT_LEFT, width1);		//插入第3列
 
+    //初始化编辑器
+    m_view = (CHexEditView*)RUNTIME_CLASS(CHexEditView)->CreateObject();
+    m_view->Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL, rect, this, 3001);
+    m_view->OnInitialUpdate();
+    m_view->ShowWindow(SW_SHOW);
+
 	//设置字体
-	m_font.CreatePointFont(100, m_edit_font);
-	m_edit.SetFont(&m_font);
-	m_static_head.SetFont(&m_font);
+    m_view->SetFontFace(m_edit_font.GetString());
+    m_view->SetFontSize(10);
+    m_font.CreatePointFont(100, m_edit_font);
+    m_static_head.SetFont(&m_font);
+
+    m_view->InitHexView();
+
+    ShowHexData(true);
 
 	//设置单选控件的初始状态
 	switch (m_code)
@@ -241,6 +264,8 @@ BOOL CHexViewDlg::OnInitDialog()
 	//设置该对话框在任务栏显示
 	ModifyStyleEx(0, WS_EX_APPWINDOW);
 
+    SetHexViewPos();
+
 	m_modified = false;
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -251,11 +276,11 @@ BOOL CHexViewDlg::OnInitDialog()
 void CHexViewDlg::OnTimer(UINT_PTR nIDEvent)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-	if (nIDEvent == 1235)
-	{
-		KillTimer(1235);		//定时器响应一次后就将其销毁
-		m_edit.SetWindowText(m_str);	//延迟一定时间显示
-	}
+	//if (nIDEvent == 1235)
+	//{
+	//	KillTimer(1235);		//定时器响应一次后就将其销毁
+	//	m_edit.SetWindowText(m_str);	//延迟一定时间显示
+	//}
 
 	CBaseDialog::OnTimer(nIDEvent);
 }
@@ -302,9 +327,10 @@ void CHexViewDlg::OnBnClickedSearch()
 		value_str.MakeUpper();
 
 		//查找后滚动到所在行
-		int first_line = m_edit.GetFirstVisibleLine();	//获取编辑框中最上面可见行的行号
-		int scroll_line = m_address / 16 - first_line;	//计算要向后滚动的行数
-		m_edit.LineScroll(scroll_line);
+		//int first_line = m_edit.GetFirstVisibleLine();	//获取编辑框中最上面可见行的行号
+		//int scroll_line = m_address / 16 - first_line;	//计算要向后滚动的行数
+		//m_edit.LineScroll(scroll_line);
+        m_view->SetFirstVisibleLine(m_address / 16);
 	}
 	else
 	{
@@ -417,10 +443,10 @@ void CHexViewDlg::OnBnClickedModify()
 void CHexViewDlg::OnBnClickedRefreshButton()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	int first_line = m_edit.GetFirstVisibleLine();	//刷新前获取最上方可见行的行号
+	int first_line = m_view->GetFirstVisibleLine();	//刷新前获取最上方可见行的行号
 	m_str.Empty();
 	ShowHexData();
-	m_edit.LineScroll(first_line);		//刷新后滚动到刷新前的位置
+    m_view->SetFirstVisibleLine(first_line);		//刷新后滚动到刷新前的位置
 }
 
 
@@ -694,4 +720,16 @@ void CHexViewDlg::OnBnClickedDeleteDataButton()
 			m_modified = true;
 		}
 	}
+}
+
+
+void CHexViewDlg::OnSize(UINT nType, int cx, int cy)
+{
+    CBaseDialog::OnSize(nType, cx, cy);
+
+    // TODO: 在此处添加消息处理程序代码
+    if (nType != SIZE_MINIMIZED && m_view->GetSafeHwnd() != NULL)
+    {
+        SetHexViewPos();
+    }
 }

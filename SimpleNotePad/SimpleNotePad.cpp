@@ -29,6 +29,18 @@ CSimpleNotePadApp::CSimpleNotePadApp()
 	// 将所有重要的初始化放置在 InitInstance 中
 }
 
+void CSimpleNotePadApp::DPIFromWindow(CWnd* pWnd)
+{
+    CWindowDC dc(pWnd);
+    HDC hDC = dc.GetSafeHdc();
+    m_dpi = GetDeviceCaps(hDC, LOGPIXELSY);
+}
+
+int CSimpleNotePadApp::DPI(int pixel)
+{
+    return pixel * m_dpi / 96;
+}
+
 
 // 唯一的一个 CSimpleNotePadApp 对象
 

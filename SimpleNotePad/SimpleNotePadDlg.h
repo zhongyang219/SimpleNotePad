@@ -27,8 +27,6 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
 
-    int DPI(int pixel);
-
 // 实现
 protected:
 	HICON m_hIcon;
@@ -49,7 +47,6 @@ protected:
 	UINT m_code_page{ CP_ACP };				//当编码格式指定为ANSI时的代码页
 	CodeType m_save_code{ CodeType::ANSI };	//另存为时的编码格式
 	//bool m_flag{ false };			//一个flag，当调用m_edit.SetWindowText()函数将文本显示在文本框内时，将它置为true
-	int m_dpi;		//当前显示器的DPI设置100%时为96
     int m_zoom{};
 
 	int m_status_bar_hight;		//状态栏高度
