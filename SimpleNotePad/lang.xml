@@ -3,9 +3,9 @@
 		<Keywords id="0">auto break case char const continue default do double else enum extern float for goto if int long register return short signed sizeof static struct switch typedef union unsigned void volatile while inline restrict _Bool _Complex _Imaginary _Alignas _Alignof _Atomic _Static_assert _Noreturn _Thread_local _Generic</Keywords>
 		<SyntaxList>
 			<Syntax name= "White space" id="0" color="0x000000" />
-			<Syntax name= "Comment" id="1" color="0x8000" />
-			<Syntax name= "Line Comment" id="2" color="0x8000" />
-			<Syntax name= "Doc comment" id="3" color="0x8000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Line Comment" id="2" color="0xB840B" />
+			<Syntax name= "Doc comment" id="3" color="0x5A7F00" />
 			<Syntax name= "Number" id="4" color="0x153886" />
 			<Syntax name= "Keyword" id="5" color="0xEA2020" bold="1"/>
 			<Syntax name= "Double quoted string" id="6" color="0x1515a3" />
@@ -328,5 +328,9 @@
 			<Syntax name= "SCE_P_FTRIPLE" id="18" color="0xA67B60" />
 			<Syntax name= "SCE_P_FTRIPLEDOUBLE" id="19" color="0xB47251" />
 		</SyntaxList>
+	</Language>
+	<Language name="RC" lexId="3" ext="rc">
+		<Keywords id="0">ACCELERATORS ALT AUTO3STATE AUTOCHECKBOX AUTORADIOBUTTON BEGIN BITMAP BLOCK BUTTON CAPTION CHARACTERISTICS CHECKBOX CLASS COMBOBOX CONTROL CTEXT CURSOR DEFPUSHBUTTON DIALOG DIALOGEX DISCARDABLE EDITTEXT END EXSTYLE FONT GROUPBOX ICON LANGUAGE LISTBOX LTEXT MENU MENUEX MENUITEM MESSAGETABLE POPUP PUSHBUTTON RADIOBUTTON RCDATA RTEXT SCROLLBAR SEPARATOR SHIFT STATE3 STRINGTABLE STYLE TEXTINCLUDE VALUE VERSION VERSIONINFO VIRTKEY</Keywords>
+		<SyntaxList copyFrom="C" />
 	</Language>
 </SimpleNotepad>
