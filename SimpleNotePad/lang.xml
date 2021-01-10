@@ -215,9 +215,10 @@
 <!-- 	<Language name="HexView" lexId="200" ext="">
 		<Keywords id="0"></Keywords>
 		<SyntaxList>
-			<Syntax name= "Address" id="0" color="0xCD4230" bold="1" />
-			<Syntax name= "Bytes" id="1" color="0x794E41" />
-			<Syntax name= "Dump" id="2" color="0x737300" />
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Address" id="1" color="0xCD4230" bold="1" />
+			<Syntax name= "Bytes" id="2" color="0x794E41" />
+			<Syntax name= "Dump" id="3" color="0x737300" />
 		</SyntaxList>
 	</Language>
  --></SimpleNotepad>
