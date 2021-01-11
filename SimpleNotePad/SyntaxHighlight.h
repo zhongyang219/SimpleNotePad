@@ -30,7 +30,7 @@ class CSyntaxHighlight
 public:
     void LoadFromFile(const wchar_t* file_path);
 
-    CLanguage FindLanguageByExt(const wchar_t* ext);
+    CLanguage FindLanguageByFileName(const wstring& file_name);
     CLanguage FindLanguageByName(const wchar_t* name);
     CLanguage GetLanguage(int index);
     int IndexOf(const wstring& name);

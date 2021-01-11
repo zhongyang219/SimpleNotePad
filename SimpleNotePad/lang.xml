@@ -33,9 +33,9 @@
 		</SyntaxList>
 	</Language>
 	<Language name="C++" lexId="3" ext="h cpp cxx cc hxx inl">
-		<Keywords id="0">asm do if return typedef inline typeid dynamic_cast typename break else sizeof case mutable static catch explicit namespace static_cast using export new virtual class extern operator switch const false private template volatile const_cast protected this continue for public throw while default friend register true delete goto reinterpret_cast try alignas alignof constexpr decltype noexcept nullptr static_assert thread_local</Keywords>
-		<Keywords id="1">auto double short long bool int signed union enum unsigned char struct float wchar_t char16_t char32_t void </Keywords>
-		<Keywords id="2">c code example exception include list para param paramref permission summary returns see seealso value file</Keywords>
+		<Keywords id="0">asm do if return typedef inline typeid dynamic_cast typename break else sizeof case mutable static catch explicit namespace static_cast using export new virtual class extern operator struct switch const false private template volatile const_cast protected this continue for public throw while default friend register true delete goto reinterpret_cast try alignas alignof constexpr decltype noexcept nullptr static_assert thread_local</Keywords>
+		<Keywords id="1">auto double short long bool int signed union enum unsigned char float wchar_t char16_t char32_t void </Keywords>
+		<Keywords id="2">author brief date copyright file note para param return ref see version</Keywords>
 		<SyntaxList copyFrom="C" />
 	</Language>
 	<Language name="C#" lexId="3" ext="cs">
@@ -332,5 +332,96 @@
 	<Language name="RC" lexId="3" ext="rc">
 		<Keywords id="0">ACCELERATORS ALT AUTO3STATE AUTOCHECKBOX AUTORADIOBUTTON BEGIN BITMAP BLOCK BUTTON CAPTION CHARACTERISTICS CHECKBOX CLASS COMBOBOX CONTROL CTEXT CURSOR DEFPUSHBUTTON DIALOG DIALOGEX DISCARDABLE EDITTEXT END EXSTYLE FONT GROUPBOX ICON LANGUAGE LISTBOX LTEXT MENU MENUEX MENUITEM MESSAGETABLE POPUP PUSHBUTTON RADIOBUTTON RCDATA RTEXT SCROLLBAR SEPARATOR SHIFT STATE3 STRINGTABLE STYLE TEXTINCLUDE VALUE VERSION VERSIONINFO VIRTKEY</Keywords>
 		<SyntaxList copyFrom="C" />
+	</Language>
+	<Language name="Ruby" lexId="22" ext="rb rbw">
+		<Keywords id="0">ARGF ARGV BEGIN END ENV FALSE DATA NIL RUBY_PATCHLEVEL RUBY_PLATFORM RUBY_RELEASE_DATE RUBY_VERSION PLATFORM RELEASE_DATE STDERR STDIN STDOUT TOPLEVEL_BINDING TRUE __ENCODING__ __END__ __FILE__ __LINE__ alias and begin break case class def defined? do else elsif end ensure false for if in module next nil not or redo rescue retry return self super then true undef unless until when while yield</Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_RB_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_RB_ERROR" id="1" color="0x1448DD" />
+			<Syntax name= "SCE_RB_COMMENTLINE" id="2" color="0xB840B" />
+			<Syntax name= "SCE_RB_POD" id="3" color="0x43804" />
+			<Syntax name= "SCE_RB_NUMBER" id="4" color="0x3B6DC7" />
+			<Syntax name= "SCE_RB_WORD" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "SCE_RB_STRING" id="6" color="0x1515A3" />
+			<Syntax name= "SCE_RB_CHARACTER" id="7" color="0x80" />
+			<Syntax name= "SCE_RB_CLASSNAME" id="8" color="0xCD4230" />
+			<Syntax name= "SCE_RB_DEFNAME" id="9" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "SCE_RB_OPERATOR" id="10" color="0x5C2F14" />
+			<Syntax name= "SCE_RB_IDENTIFIER" id="11" color="0x000000" />
+			<Syntax name= "SCE_RB_REGEX" id="12" color="0xEE8400" />
+			<Syntax name= "SCE_RB_GLOBAL" id="13" color="0x5C2F14" />
+			<Syntax name= "SCE_RB_SYMBOL" id="14" color="0x942C5A" />
+			<Syntax name= "SCE_RB_MODULE_NAME" id="15" color="0x4080" />
+			<Syntax name= "SCE_RB_INSTANCE_VAR" id="16" color="0x84431C" />
+			<Syntax name= "SCE_RB_CLASS_VAR" id="17" color="0xA67B60" />
+			<Syntax name= "SCE_RB_BACKTICKS" id="18" color="0x506E6C" />
+			<Syntax name= "SCE_RB_DATASECTION" id="19" color="0x6C7D95" />
+			<Syntax name= "SCE_RB_HERE_DELIM" id="20" color="0x8A006F" />
+			<Syntax name= "SCE_RB_HERE_Q" id="21" color="0x000000" />
+			<Syntax name= "SCE_RB_HERE_QQ" id="22" color="0x000000" />
+			<Syntax name= "SCE_RB_HERE_QX" id="23" color="0x000000" />
+			<Syntax name= "SCE_RB_STRING_Q" id="24" color="0x000000" />
+			<Syntax name= "SCE_RB_STRING_QQ" id="25" color="0x000000" />
+			<Syntax name= "SCE_RB_STRING_QX" id="26" color="0x000000" />
+			<Syntax name= "SCE_RB_STRING_QR" id="27" color="0x000000" />
+			<Syntax name= "SCE_RB_STRING_QW" id="28" color="0x000000" />
+			<Syntax name= "SCE_RB_WORD_DEMOTED" id="29" color="0x000000" />
+			<Syntax name= "SCE_RB_STDIN" id="30" color="0x000000" />
+			<Syntax name= "SCE_RB_STDOUT" id="31" color="0x000000" />
+			<Syntax name= "SCE_RB_STDERR" id="40" color="0x000000" />
+			<Syntax name= "SCE_RB_UPPER_BOUND" id="41" color="0x000000" />
+		</SyntaxList>
+	</Language>
+	<Language name="Rust" lexId="111" ext="rs">
+		<Keywords id="0">alignof as be box break const continue crate do else enum extern false fn for if impl in let loop match mod mut offsetof once priv proc pub pure ref return self sizeof static struct super trait true type typeof unsafe unsized use virtual while yield</Keywords>
+		<Keywords id="1">bool char f32 f64 i16 i32 i64 i8 int str u16 u32 u64 u8 uint</Keywords>
+		<Keywords id="2">Self</Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_RUST_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_RUST_COMMENTBLOCK" id="1" color="0x5A7F00" />
+			<Syntax name= "SCE_RUST_COMMENTLINE" id="2" color="0xB840B" />
+			<Syntax name= "SCE_RUST_COMMENTBLOCKDOC" id="3" color="0x5A7F00" />
+			<Syntax name= "SCE_RUST_COMMENTLINEDOC" id="4" color="0xB840B" />
+			<Syntax name= "SCE_RUST_NUMBER" id="5" color="0x3B6DC7" />
+			<Syntax name= "SCE_RUST_WORD" id="6" color="0xEA2020" bold="1" />
+			<Syntax name= "SCE_RUST_WORD2" id="7" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "SCE_RUST_WORD3" id="8" color="0x808000" bold="1" />
+			<Syntax name= "SCE_RUST_WORD4" id="9" color="0x000000" />
+			<Syntax name= "SCE_RUST_WORD5" id="10" color="0x000000" />
+			<Syntax name= "SCE_RUST_WORD6" id="11" color="0x000000" />
+			<Syntax name= "SCE_RUST_WORD7" id="12" color="0x000000" />
+			<Syntax name= "SCE_RUST_STRING" id="13" color="0x1515A3" />
+			<Syntax name= "SCE_RUST_STRINGR" id="14" color="0x6B3685" />
+			<Syntax name= "SCE_RUST_CHARACTER" id="15" color="0x80" />
+			<Syntax name= "SCE_RUST_OPERATOR" id="16" color="0x5C2F14" />
+			<Syntax name= "SCE_RUST_IDENTIFIER" id="17" color="0x000000" />
+			<Syntax name= "SCE_RUST_LIFETIME" id="18" color="1C4384" />
+			<Syntax name= "SCE_RUST_MACRO" id="19" color="0x8A006F" />
+			<Syntax name= "SCE_RUST_LEXERROR" id="20" color="0x2020E2" />
+			<Syntax name= "SCE_RUST_BYTESTRING" id="21" color="0x1515A3" />
+			<Syntax name= "SCE_RUST_BYTESTRINGR" id="22" color="0x6B3685" />
+			<Syntax name= "SCE_RUST_BYTECHARACTER" id="23" color="0x80" />
+		</SyntaxList>
+	</Language>
+	<Language name="CMake" lexId="80" ext="$CMakeLists.txt $CMakeCache.txt">
+		<Keywords id="0">add_custom_command add_custom_target add_definitions add_dependencies add_executable add_library add_subdirectory add_test aux_source_directory build_command build_name cmake_minimum_required configure_file create_test_sourcelist else elseif enable_language enable_testing endforeach endif endmacro endwhile exec_program execute_process export_library_dependencies file find_file find_library find_package find_path find_program fltk_wrap_ui foreach get_cmake_property get_directory_property get_filename_component get_source_file_property get_target_property get_test_property if include include_directories include_external_msproject include_regular_expression install install_files install_programs install_targets link_directories link_libraries list load_cache load_command macro make_directory mark_as_advanced math message option output_required_files project qt_wrap_cpp qt_wrap_ui remove remove_definitions separate_arguments set set_directory_properties set_source_files_properties set_target_properties set_tests_properties site_name source_group string subdir_depends subdirs target_link_libraries try_compile try_run use_mangled_mesa utility_source variable_requires vtk_make_instantiator vtk_wrap_java vtk_wrap_python vtk_wrap_tcl while write_file</Keywords>
+		<Keywords id="1">ABSOLUTE ABSTRACT ADDITIONAL_MAKE_CLEAN_FILES ALL AND APPEND ARGS ASCII BEFORE CACHE CACHE_VARIABLES CLEAR COMMAND COMMANDS COMMAND_NAME COMMENT COMPARE COMPILE_FLAGS COPYONLY DEFINED DEFINE_SYMBOL DEPENDS DOC EQUAL ESCAPE_QUOTES EXCLUDE EXCLUDE_FROM_ALL EXISTS EXPORT_MACRO EXT EXTRA_INCLUDE FATAL_ERROR FILE FILES FORCE FUNCTION GENERATED GLOB GLOB_RECURSE GREATER GROUP_SIZE HEADER_FILE_ONLY HEADER_LOCATION IMMEDIATE INCLUDES INCLUDE_DIRECTORIES INCLUDE_INTERNALS INCLUDE_REGULAR_EXPRESSION LESS LINK_DIRECTORIES LINK_FLAGS LOCATION MACOSX_BUNDLE MACROS MAIN_DEPENDENCY MAKE_DIRECTORY MATCH MATCHALL MATCHES MODULE NAME NAME_WE NOT NOTEQUAL NO_SYSTEM_PATH OBJECT_DEPENDS OPTIONAL OR OUTPUT OUTPUT_VARIABLE PATH PATHS POST_BUILD POST_INSTALL_SCRIPT PREFIX PREORDER PRE_BUILD PRE_INSTALL_SCRIPT PRE_LINK PROGRAM PROGRAM_ARGS PROPERTIES QUIET RANGE READ REGEX REGULAR_EXPRESSION REPLACE REQUIRED RETURN_VALUE RUNTIME_DIRECTORY SEND_ERROR SHARED SOURCES STATIC STATUS STREQUAL STRGREATER STRLESS SUFFIX TARGET TOLOWER TOUPPER VAR VARIABLES VERSION WIN32 WRAP_EXCLUDE WRITE APPLE MINGW MSYS CYGWIN BORLAND WATCOM MSVC MSVC_IDE MSVC60 MSVC70 MSVC71 MSVC80 CMAKE_COMPILER_2005 OFF ON</Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_CMAKE_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_CMAKE_COMMENT" id="1" color="0xB840B" />
+			<Syntax name= "SCE_CMAKE_STRINGDQ" id="2" color="0x1515A3" />
+			<Syntax name= "SCE_CMAKE_STRINGLQ" id="3" color="0x80" />
+			<Syntax name= "SCE_CMAKE_STRINGRQ" id="4" color="0x6B3685" />
+			<Syntax name= "SCE_CMAKE_COMMANDS" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "SCE_CMAKE_PARAMETERS" id="6" color="0x808000" bold="1" />
+			<Syntax name= "SCE_CMAKE_VARIABLE" id="7" color="0x8A006F" />
+			<Syntax name= "SCE_CMAKE_USERDEFINED" id="8" color="0x808000" />
+			<Syntax name= "SCE_CMAKE_WHILEDEF" id="9" color="0xEE8400" bold="1" />
+			<Syntax name= "SCE_CMAKE_FOREACHDEF" id="10" color="0xB36300" bold="1" />
+			<Syntax name= "SCE_CMAKE_IFDEFINEDEF" id="11" color="0x942C5A" bold="1" />
+			<Syntax name= "SCE_CMAKE_MACRODEF" id="12" color="0x8A006F" bold="1" />
+			<Syntax name= "SCE_CMAKE_STRINGVAR" id="13" color="0x1515A3" bold="1" />
+			<Syntax name= "SCE_CMAKE_NUMBER" id="14" color="0x3B6DC7" />
+		</SyntaxList>
 	</Language>
 </SimpleNotepad>

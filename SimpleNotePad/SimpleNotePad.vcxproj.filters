@@ -146,6 +146,9 @@
     <ClInclude Include="HexEditView.h">
       <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
     </ClInclude>
+    <ClInclude Include="FilePathHelper.h">
+      <Filter>头文件和源文件\Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -204,6 +207,9 @@
     </ClCompile>
     <ClCompile Include="HexEditView.cpp">
       <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="FilePathHelper.cpp">
+      <Filter>头文件和源文件\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

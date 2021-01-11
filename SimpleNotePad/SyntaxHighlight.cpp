@@ -2,6 +2,8 @@
 #include "SyntaxHighlight.h"
 #include "TinyXml2Helper.h"
 #include "Common.h"
+#include <algorithm>
+#include "FilePathHelper.h"
 
 void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from)
 {
@@ -70,13 +72,25 @@ void CSyntaxHighlight::LoadFromFile(const wchar_t* file_path)
             m_language_list.push_back(lan);
         });
     }
+    //将列表按名称排序
+    std::sort(m_language_list.begin(), m_language_list.end(), [](const CLanguage& a, const CLanguage& b)
+    {
+        return a.m_name < b.m_name;
+    });
 }
 
-CLanguage CSyntaxHighlight::FindLanguageByExt(const wchar_t* ext)
+CLanguage CSyntaxHighlight::FindLanguageByFileName(const wstring& file_name)
 {
+    CFilePathHelper helper(file_name);
+    wstring ext = helper.GetFileExtension();
     for (const auto& lan : m_language_list)
     {
-        if (lan.m_ext.find(wstring(ext)) != lan.m_ext.end())
+        if (lan.m_ext.find(L'$' + file_name) != lan.m_ext.end())
+        {
+            return lan;
+        }
+
+        if (lan.m_ext.find(ext) != lan.m_ext.end())
         {
             return lan;
         }

@@ -12,6 +12,7 @@
 #include "SettingsDlg.h"
 #include "CodeConvertDlg.h"
 #include "Test.h"
+#include "FilePathHelper.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -528,16 +529,9 @@ void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
 void CSimpleNotePadDlg::SetEditorSyntaxHight()
 {
     wstring wcs_file_path = m_file_path.GetString();
-    size_t index = wcs_file_path.rfind(L'.');
-    if (index < wcs_file_path.size() - 1)
-    {
-        wstring ext = wcs_file_path.substr(index + 1);
-        if (!ext.empty())
-        {
-            CLanguage lan = m_syntax_highlight.FindLanguageByExt(ext.c_str());
-            SetSyntaxHight(lan);
-        }
-    }
+    CFilePathHelper helper(wcs_file_path);
+    CLanguage lan = m_syntax_highlight.FindLanguageByFileName(helper.GetFileName());
+    SetSyntaxHight(lan);
 }
 
 int CSimpleNotePadDlg::CharactorPosToBytePos(int pos)

@@ -209,6 +209,7 @@
     <ClInclude Include="DeleteDataDlg.h" />
     <ClInclude Include="EditEx.h" />
     <ClInclude Include="FileCompareDlg.h" />
+    <ClInclude Include="FilePathHelper.h" />
     <ClInclude Include="FormatConvertDlg.h" />
     <ClInclude Include="HexEditView.h" />
     <ClInclude Include="HexViewDlg.h" />
@@ -232,6 +233,7 @@
     <ClCompile Include="DeleteDataDlg.cpp" />
     <ClCompile Include="EditEx.cpp" />
     <ClCompile Include="FileCompareDlg.cpp" />
+    <ClCompile Include="FilePathHelper.cpp" />
     <ClCompile Include="FormatConvertDlg.cpp" />
     <ClCompile Include="HexEditView.cpp" />
     <ClCompile Include="HexViewDlg.cpp" />
