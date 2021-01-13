@@ -82,6 +82,12 @@ public:
 	//判断字符串是否UTF8编码
 	static bool IsUTF8Bytes(const char* data);
 
+    //字符大小写转换
+    static void ConvertCharCase(wchar_t& ch, bool upper);
+
+    //判断字符是否是一个字母
+    static bool IsLetter(wchar_t ch);
+
 	static void WritePrivateProfileInt(const wchar_t* AppName, const wchar_t* KeyName, int value, const wchar_t* Path);
 
 	//static bool FileExist(const wchar_t* file);

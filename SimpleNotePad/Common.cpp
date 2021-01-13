@@ -141,6 +141,25 @@ bool CCommon::IsUTF8Bytes(const char * data)
 	else return true;
 }
 
+void CCommon::ConvertCharCase(wchar_t& ch, bool upper)
+{
+    if (upper)      //转换成大写
+    {
+        if (ch >= L'a' && ch <= L'z')
+            ch -= 32;
+    }
+    else            //转换成小写
+    {
+        if (ch >= L'A' && ch <= L'Z')
+            ch += 32;
+    }
+}
+
+bool CCommon::IsLetter(wchar_t ch)
+{
+    return (ch >= L'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
+}
+
 void CCommon::WritePrivateProfileInt(const wchar_t * AppName, const wchar_t * KeyName, int value, const wchar_t * Path)
 {
 	wchar_t buff[16];

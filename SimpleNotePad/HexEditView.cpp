@@ -24,13 +24,3 @@ void CHexEditView::InitHexView()
     //去掉左侧的空白
     SendMessage(SCI_SETMARGINWIDTHN, 1, 0);
 }
-
-int CHexEditView::GetFirstVisibleLine()
-{
-    return SendMessage(SCI_GETFIRSTVISIBLELINE);
-}
-
-void CHexEditView::SetFirstVisibleLine(int line)
-{
-    SendMessage(SCI_SETFIRSTVISIBLELINE, line);
-}

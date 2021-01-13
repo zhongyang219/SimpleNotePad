@@ -10,7 +10,5 @@ protected:
 public:
     void InitHexView();
 
-    int GetFirstVisibleLine();
-    void SetFirstVisibleLine(int line);
 };
 

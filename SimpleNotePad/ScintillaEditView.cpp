@@ -21,6 +21,7 @@ CScintillaEditView::~CScintillaEditView()
 
 BEGIN_MESSAGE_MAP(CScintillaEditView, CView)
     ON_WM_PAINT()
+    ON_WM_RBUTTONUP()
 END_MESSAGE_MAP()
 
 
@@ -78,17 +79,37 @@ void CScintillaEditView::SetText(const wstring& text)
 
 void CScintillaEditView::GetText(wstring& text)
 {
+    text.clear();
+    int size{};
+    const wchar_t* str_unicode = GetText(size);
+    if (size == 0)
+        return;
+    text.assign(str_unicode, size);
+    delete[] str_unicode;
+}
+
+const wchar_t* CScintillaEditView::GetText(int& size)
+{
     auto length = SendMessage(SCI_GETLENGTH);
     char* buf = new char[length + 1];
     SendMessage(SCI_GETTEXT, length + 1, reinterpret_cast<LPARAM>(buf));
 
-    int size = MultiByteToWideChar(CP_UTF8, 0, buf, length, NULL, 0);
-    if (size <= 0) return;
+    size = MultiByteToWideChar(CP_UTF8, 0, buf, length, NULL, 0);
+    if (size <= 0) return nullptr;
     wchar_t* str_unicode = new wchar_t[size + 1];
     MultiByteToWideChar(CP_UTF8, 0, buf, length, str_unicode, size);
-    text.assign(str_unicode, size);
-    delete[] str_unicode;
+    //text.assign(str_unicode, size);
+    //delete[] str_unicode;
     delete[] buf;
+    return str_unicode;
+}
+
+const char * CScintillaEditView::GetTextUtf8(int & size)
+{
+    size = SendMessage(SCI_GETLENGTH);
+    char* buf = new char[size + 1];
+    SendMessage(SCI_GETTEXT, size + 1, reinterpret_cast<LPARAM>(buf));
+    return buf;
 }
 
 void CScintillaEditView::SetFontFace(const wchar_t* font_face)
@@ -108,9 +129,22 @@ void CScintillaEditView::SetTabSize(int tab_size)
     SendMessage(SCI_SETTABWIDTH, tab_size);
 }
 
-void CScintillaEditView::SetSel(int start, int end)
+void CScintillaEditView::SetSel(int start, int end, const wstring& edit_str)
 {
-    SendMessage(SCI_SETSEL, start, end);
+    int byte_start = CharactorPosToBytePos(start, edit_str.c_str(), edit_str.size());
+    int byte_end = CharactorPosToBytePos(end, edit_str.c_str(), edit_str.size());
+    SendMessage(SCI_SETSEL, byte_start, byte_end);
+}
+
+void CScintillaEditView::GetSel(int & start, int & end)
+{
+    int byte_start = SendMessage(SCI_GETANCHOR);
+    int byte_end = SendMessage(SCI_GETCURRENTPOS);
+    int size{};
+    const char* str = GetTextUtf8(size);
+    start = BytePosToCharactorPos(byte_start, str, size);
+    end = BytePosToCharactorPos(byte_end, str, size);
+    delete[] str;
 }
 
 void CScintillaEditView::SetBackgroundColor(COLORREF color)
@@ -296,6 +330,16 @@ void CScintillaEditView::SetViewEol(bool show)
     SendMessage(SCI_SETVIEWEOL, show);
 }
 
+int CScintillaEditView::GetFirstVisibleLine()
+{
+    return SendMessage(SCI_GETFIRSTVISIBLELINE);
+}
+
+void CScintillaEditView::SetFirstVisibleLine(int line)
+{
+    SendMessage(SCI_SETFIRSTVISIBLELINE, line);
+}
+
 void CScintillaEditView::SetLexer(int lexer)
 {
     SendMessage(SCI_SETLEXER, lexer);
@@ -347,6 +391,22 @@ CScintillaEditView::eEolMode CScintillaEditView::JudgeEolMode(const wstring& str
 
 }
 
+int CScintillaEditView::CharactorPosToBytePos(int pos, const wchar_t * str, size_t size)
+{
+    if (pos >= size)
+        return size;
+    else
+        return WideCharToMultiByte(CP_UTF8, 0, str, pos, NULL, 0, NULL, NULL);
+}
+
+int CScintillaEditView::BytePosToCharactorPos(int pos, const char * str, size_t size)
+{
+    if (pos >= size)
+        return size;
+    else
+        return MultiByteToWideChar(CP_UTF8, 0, str, pos, NULL, 0);
+}
+
 void CScintillaEditView::SetFold()
 {
     SendMessage(SCI_SETPROPERTY, (sptr_t)"fold", (sptr_t)"1");
@@ -370,6 +430,17 @@ void CScintillaEditView::SetFold()
     SendMessage(SCI_MARKERSETBACK, SC_MARKNUM_FOLDERTAIL, 0xa0a0a0);
 
     SendMessage(SCI_SETFOLDFLAGS, SC_FOLDFLAG_LINEAFTER_CONTRACTED, 0); //如果折叠就在折叠行的下面画一条横线 
+}
+
+void CScintillaEditView::SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner)
+{
+    if (pMenu != nullptr)
+    {
+        m_pMenu = pMenu;
+        m_pContextMenuOwner = pMenuOwner;
+        SendMessage(SCI_USEPOPUP, SC_POPUP_NEVER);
+    }
+
 }
 
 // CScintillaEditView 消息处理程序
@@ -409,5 +480,20 @@ void CScintillaEditView::OnInitialUpdate()
     // TODO: 在此添加专用代码和/或调用基类
     SendMessage(SCI_SETCODEPAGE, SC_CP_UTF8);       //总是使用Unicode
     SendMessage(SCI_SETMARGINTYPEN, SCINTILLA_MARGIN_LINENUMBER, SC_MARGIN_NUMBER);
+}
 
+
+void CScintillaEditView::OnRButtonUp(UINT nFlags, CPoint point)
+{
+    // TODO: 在此添加消息处理程序代码和/或调用默认值
+
+    if (m_pMenu != nullptr)
+    {
+        CPoint point1;
+        GetCursorPos(&point1);
+        m_pMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point1.x, point1.y, m_pContextMenuOwner);
+    }
+
+
+    CView::OnRButtonUp(nFlags, point);
 }

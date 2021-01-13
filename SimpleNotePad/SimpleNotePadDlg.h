@@ -38,6 +38,7 @@ protected:
 	CString m_font_name;	//字体名称
 	int m_font_size;		//字体大小
     COLORREF m_background_color{ RGB(255, 255, 255) };  //背景颜色
+    CMenu m_context_menu;
 
 	CString m_file_path;	//当前打开的文件路径
 	string m_edit_str;		//储存从文件载入的内容
@@ -93,13 +94,10 @@ protected:
     void SetAlwaysOnTop();
 	virtual CString GetDialogName() const override;
 
-    void SetSel(int start, int end);
-
     void SetSyntaxHight(const CLanguage& lan);
     void SetEditorSyntaxHight();
 
 private:
-    int CharactorPosToBytePos(int pos);     //将字符的位置转换成字节的位置（使用UTF8编码）
 
 protected:
 	// 生成的消息映射函数
@@ -174,4 +172,7 @@ public:
     afx_msg void OnEolLf();
     afx_msg void OnShowEol();
     virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+    afx_msg void OnConvertToCapital();
+    afx_msg void OnConvertToLowerCase();
+    afx_msg void OnConvertToTitleCase();
 };

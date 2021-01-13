@@ -491,13 +491,6 @@ CString CSimpleNotePadDlg::GetDialogName() const
 	return _T("MainWindow");
 }
 
-void CSimpleNotePadDlg::SetSel(int start, int end)
-{
-    int byte_start = CharactorPosToBytePos(start);
-    int byte_end = CharactorPosToBytePos(end);
-    m_view->SetSel(byte_start, byte_end);
-}
-
 void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
 {
     m_view->SetLexerNormalText();
@@ -532,11 +525,6 @@ void CSimpleNotePadDlg::SetEditorSyntaxHight()
     CFilePathHelper helper(wcs_file_path);
     CLanguage lan = m_syntax_highlight.FindLanguageByFileName(helper.GetFileName());
     SetSyntaxHight(lan);
-}
-
-int CSimpleNotePadDlg::CharactorPosToBytePos(int pos)
-{
-    return WideCharToMultiByte(CP_UTF8, 0, m_edit_wcs.c_str(), pos, NULL, 0, NULL, NULL);
 }
 
 //void CSimpleNotePadDlg::SaveAsHex()
@@ -624,6 +612,9 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_EOL_CR, &CSimpleNotePadDlg::OnEolCr)
     ON_COMMAND(ID_EOL_LF, &CSimpleNotePadDlg::OnEolLf)
     ON_COMMAND(ID_SHOW_EOL, &CSimpleNotePadDlg::OnShowEol)
+    ON_COMMAND(ID_CONVERT_TO_CAPITAL, &CSimpleNotePadDlg::OnConvertToCapital)
+    ON_COMMAND(ID_CONVERT_TO_LOWER_CASE, &CSimpleNotePadDlg::OnConvertToLowerCase)
+    ON_COMMAND(ID_CONVERT_TO_TITLE_CASE, &CSimpleNotePadDlg::OnConvertToTitleCase)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -665,6 +656,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	//SetWindowPos(nullptr, 0, 0, m_window_width, m_window_hight, SWP_NOZORDER | SWP_NOMOVE);
 
     m_hAccel = LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_ACCELERATOR1));
+    m_context_menu.LoadMenu(IDR_POPUP_MENU);
 
     //加载语法高亮设置
     wstring path;
@@ -702,6 +694,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->SetLineNumberColor(RGB(75, 145, 175));
     m_view->SetViewEol(m_show_eol);
     m_view->SetBackgroundColor(m_background_color);
+    m_view->SetContextMenu(m_context_menu.GetSubMenu(0), this);
 
 	//初始化状态栏
 	GetClientRect(&rect);
@@ -1222,7 +1215,7 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
 				//m_modified = true;
 				SetTitle();
 				OnFindNext();
-				SetSel(m_find_index, m_find_index + m_find_str.size());	//选中替换的字符串
+				m_view->SetSel(m_find_index, m_find_index + m_find_str.size(), m_edit_wcs);	//选中替换的字符串
 				SetActiveWindow();		//将编辑器窗口设置活动窗口
 			}
 			else
@@ -1273,7 +1266,7 @@ void CSimpleNotePadDlg::OnFindNext()
 	}
 	else
 	{
-		SetSel(m_find_index, m_find_index + m_find_str.size());		//选中找到的字符串
+        m_view->SetSel(m_find_index, m_find_index + m_find_str.size(), m_edit_wcs);		//选中找到的字符串
 		SetActiveWindow();		//将编辑器窗口设为活动窗口
 		m_find_flag = true;
 	}
@@ -1659,4 +1652,61 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
     }
 
     return CBaseDialog::OnCommand(wParam, lParam);
+}
+
+
+void CSimpleNotePadDlg::OnConvertToCapital()
+{
+    // TODO: 在此添加命令处理程序代码
+    if (!m_view->IsSelectionEmpty())
+    {
+        CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+        int start{}, end{};
+        m_view->GetSel(start, end);
+        for (int i = start; i < end; i++)
+        {
+            if (i < static_cast<int>(m_edit_wcs.size()))
+                CCommon::ConvertCharCase(m_edit_wcs[i], true);
+        }
+        m_view->SetText(m_edit_wcs);
+        SetTitle();
+    }
+}
+
+
+void CSimpleNotePadDlg::OnConvertToLowerCase()
+{
+    // TODO: 在此添加命令处理程序代码
+    if (!m_view->IsSelectionEmpty())
+    {
+        CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+        int start{}, end{};
+        m_view->GetSel(start, end);
+        for (int i = start; i < end; i++)
+        {
+            if (i < static_cast<int>(m_edit_wcs.size()))
+                CCommon::ConvertCharCase(m_edit_wcs[i], false);
+        }
+        m_view->SetText(m_edit_wcs);
+        SetTitle();
+    }
+}
+
+
+void CSimpleNotePadDlg::OnConvertToTitleCase()
+{
+    // TODO: 在此添加命令处理程序代码
+    if (!m_view->IsSelectionEmpty())
+    {
+        CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+        int start{}, end{};
+        m_view->GetSel(start, end);
+        for (int i = start; i < end; i++)
+        {
+            if (i < static_cast<int>(m_edit_wcs.size()) && i > 0 && CCommon::IsLetter(m_edit_wcs[i]) && !CCommon::IsLetter(m_edit_wcs[i-1]))
+                CCommon::ConvertCharCase(m_edit_wcs[i], true);
+        }
+        m_view->SetText(m_edit_wcs);
+        SetTitle();
+    }
 }
