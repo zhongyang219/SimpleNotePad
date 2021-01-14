@@ -140,6 +140,8 @@ void CScintillaEditView::GetSel(int & start, int & end)
 {
     int byte_start = SendMessage(SCI_GETANCHOR);
     int byte_end = SendMessage(SCI_GETCURRENTPOS);
+    if (byte_end < byte_start)
+        std::swap(byte_start, byte_end);
     int size{};
     const char* str = GetTextUtf8(size);
     start = BytePosToCharactorPos(byte_start, str, size);

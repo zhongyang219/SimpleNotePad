@@ -1375,6 +1375,9 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
     pMenu->EnableMenuItem(ID_EDIT_UNDO, m_view->CanUndo() ? MF_ENABLED : MF_GRAYED);
     pMenu->EnableMenuItem(ID_EDIT_REDO, m_view->CanRedo() ? MF_ENABLED : MF_GRAYED);
     pMenu->EnableMenuItem(ID_EDIT_PASTE, m_view->CanPaste() ? MF_ENABLED : MF_GRAYED);
+    pMenu->EnableMenuItem(ID_CONVERT_TO_CAPITAL, is_selection_empty ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_CONVERT_TO_LOWER_CASE, is_selection_empty ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_CONVERT_TO_TITLE_CASE, is_selection_empty ? MF_GRAYED : MF_ENABLED);
 
     //pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
 
@@ -1669,6 +1672,7 @@ void CSimpleNotePadDlg::OnConvertToCapital()
                 CCommon::ConvertCharCase(m_edit_wcs[i], true);
         }
         m_view->SetText(m_edit_wcs);
+        m_view->SetSel(start, end, m_edit_wcs);
         SetTitle();
     }
 }
@@ -1688,6 +1692,7 @@ void CSimpleNotePadDlg::OnConvertToLowerCase()
                 CCommon::ConvertCharCase(m_edit_wcs[i], false);
         }
         m_view->SetText(m_edit_wcs);
+        m_view->SetSel(start, end, m_edit_wcs);
         SetTitle();
     }
 }
@@ -1703,10 +1708,19 @@ void CSimpleNotePadDlg::OnConvertToTitleCase()
         m_view->GetSel(start, end);
         for (int i = start; i < end; i++)
         {
-            if (i < static_cast<int>(m_edit_wcs.size()) && i > 0 && CCommon::IsLetter(m_edit_wcs[i]) && !CCommon::IsLetter(m_edit_wcs[i-1]))
-                CCommon::ConvertCharCase(m_edit_wcs[i], true);
+            //如果当前字符是字母
+            if (i < static_cast<int>(m_edit_wcs.size()) && i >= 0 && CCommon::IsLetter(m_edit_wcs[i]))
+            {
+                //如果当前是第0个字符或前一个字符不是字母，则当前字符转换成大写
+                if (i == 0 || !CCommon::IsLetter(m_edit_wcs[i - 1]))
+                    CCommon::ConvertCharCase(m_edit_wcs[i], true);
+                //其他的字符转换成小写
+                else
+                    CCommon::ConvertCharCase(m_edit_wcs[i], false);
+            }
         }
         m_view->SetText(m_edit_wcs);
+        m_view->SetSel(start, end, m_edit_wcs);
         SetTitle();
     }
 }
