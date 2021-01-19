@@ -62,6 +62,10 @@ CSimpleNotePadDlg::CSimpleNotePadDlg(CString file_path, CWnd* pParent /*=NULL*/)
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+CSimpleNotePadDlg::~CSimpleNotePadDlg()
+{
+}
+
 void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CBaseDialog::DoDataExchange(pDX);
@@ -527,6 +531,37 @@ void CSimpleNotePadDlg::SetEditorSyntaxHight()
     SetSyntaxHight(lan);
 }
 
+void CSimpleNotePadDlg::CreateFontObject()
+{
+    //如果m_font已经关联了一个字体资源对象，则释放它
+    if (m_font.m_hObject)
+    {
+    	m_font.DeleteObject();
+    }
+    m_font.CreatePointFont(m_font_size * 10, m_font_name);
+    m_pDC->SelectObject(&m_font);
+}
+
+void CSimpleNotePadDlg::UpdateLineNumberWidth(bool update)
+{
+    int current_line = m_view->GetFirstVisibleLine();
+    int leng_height = m_view->GetLineHeight();
+    int line_per_page = m_window_size.cy / leng_height;
+    int line_number = current_line + line_per_page;
+    int digits = static_cast<int>(std::log10(line_number)) + 1;
+    if (digits < 2)
+        digits = 2;
+    static int last_digits{ -1 };
+    if (update || last_digits != digits)
+    {
+        CString str_line_number = std::to_wstring(line_number).c_str();
+        int width = m_pDC->GetTextExtent(str_line_number).cx + theApp.DPI(8);
+        m_view->SetLineNumberWidth(width);
+        m_view->ShowLineNumber(m_show_line_number);
+    }
+    last_digits = digits;
+}
+
 //void CSimpleNotePadDlg::SaveAsHex()
 //{
 //	//设置过滤器
@@ -615,6 +650,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_CONVERT_TO_CAPITAL, &CSimpleNotePadDlg::OnConvertToCapital)
     ON_COMMAND(ID_CONVERT_TO_LOWER_CASE, &CSimpleNotePadDlg::OnConvertToLowerCase)
     ON_COMMAND(ID_CONVERT_TO_TITLE_CASE, &CSimpleNotePadDlg::OnConvertToTitleCase)
+    ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -649,6 +685,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+    m_pDC = GetDC();
 
     //载入设置
 	LoadConfig();
@@ -689,7 +726,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
     m_view->SetWordWrap(m_word_wrap);
 
-    m_view->SetLineNumberWidth(theApp.DPI(36));
+    CreateFontObject();
+    UpdateLineNumberWidth();
     m_view->ShowLineNumber(m_show_line_number);
     m_view->SetLineNumberColor(RGB(75, 145, 175));
     m_view->SetViewEol(m_show_eol);
@@ -946,6 +984,8 @@ void CSimpleNotePadDlg::OnFormatFont()
 		//设置字体
         m_view->SetFontFace(m_font_name.GetString());
         m_view->SetFontSize(m_font_size);
+        CreateFontObject();
+        UpdateLineNumberWidth(true);
         //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
         SetSyntaxHight(m_syntax_highlight.GetLanguage(m_cur_lan_index));
 		//将字体设置写入到ini文件
@@ -1581,6 +1621,14 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             const int line_number = m_view->SendMessage(SCI_LINEFROMPOSITION, notification->position);
             m_view->SendMessage(SCI_TOGGLEFOLD, line_number);
         }
+        else if (notification->nmhdr.code == SCN_UPDATEUI)
+        {
+            //垂直滚动条位置变化
+            if ((notification->updated & SC_UPDATE_V_SCROLL) != 0)
+            {
+                UpdateLineNumberWidth();
+            }
+        }
     }
 
     return CBaseDialog::OnNotify(wParam, lParam, pResult);
@@ -1723,4 +1771,13 @@ void CSimpleNotePadDlg::OnConvertToTitleCase()
         m_view->SetSel(start, end, m_edit_wcs);
         SetTitle();
     }
+}
+
+
+void CSimpleNotePadDlg::OnDestroy()
+{
+    CBaseDialog::OnDestroy();
+
+    // TODO: 在此处添加消息处理程序代码
+    ReleaseDC(m_pDC);
 }

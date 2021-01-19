@@ -7,7 +7,7 @@
 			<Syntax name= "Line Comment" id="2" color="0xB840B" />
 			<Syntax name= "Doc comment" id="3" color="0x5A7F00" />
 			<Syntax name= "Number" id="4" color="0x153886" />
-			<Syntax name= "Keyword" id="5" color="0xEA2020" bold="1"/>
+			<Syntax name= "Keyword" id="5" color="0xEA2020" bold="1" />
 			<Syntax name= "Double quoted string" id="6" color="0x1515a3" />
 			<Syntax name= "Single quoted string" id="7" color="0x80" />
 			<Syntax name= "UUIDs (only in IDL)" id="8" color="0x73684a" />
@@ -20,7 +20,7 @@
 			<Syntax name= "Doc Comment Line" id="15" color="0x638000" />
 			<Syntax name= "Keywords2" id="16" color="0xa17200" bold="1" italic="1" />
 			<Syntax name= "Comment keyword" id="17" color="0x907600" bold="1" />
-			<Syntax name= "Comment keyword error" id="18" color="0x90" bold="1" />
+			<Syntax name= "Comment keyword error" id="18" color="0x655A2B" bold="1" />
 			<Syntax name= "Global class" id="19" color="0x808000" />
 			<Syntax name= "Raw strings for C++0x" id="20" color="0x1515a3" />
 			<Syntax name= "Triple-quoted strings for Vala" id="21" color="0x1515a3" />
@@ -57,13 +57,13 @@
 	<Language name="XML" lexId="5" ext="xml">
 		<Keywords id="0"></Keywords>
 		<SyntaxList>
-			<Syntax name= "Text" id="0" color="0x2E2E2E" />
+			<Syntax name= "Text" id="0" color="0x2E2E2E" bold="1" />
 			<Syntax name= "Tags" id="1" color="0xDD5A19" />
 			<Syntax name= "Unknown Tags" id="2" color="0xB58476" />
 			<Syntax name= "Attributes" id="3" color="0x1A1A9E" />
 			<Syntax name= "Unknown Attributes" id="4" color="0x7474A4" />
 			<Syntax name= "Numbers" id="5" color="0x225AD6" />
-			<Syntax name= "Double quoted strings" id="6" color="0xBA265E" />
+			<Syntax name= "Double quoted strings" id="6" color="0xBA265E" bold="1" />
 			<Syntax name= "Single quoted strings" id="7" color="0xBA265E" />
 			<Syntax name= "Other inside tag,  including space and '='" id="8" color="0x2E2E2E" />
 			<Syntax name= "Comment" id="9" color="0xB840B" />
@@ -78,7 +78,7 @@
 			<Syntax name= "PHP" id="18" color="0x2E2E2E" />
 			<Syntax name= "Unquoted values" id="19" color="0x2E2E2E" />
 			<Syntax name= "JSP Comment" id="20" color="0xB840B" />
-			<Syntax name= "SGML tags" id="21" color="0x2E2E2E" />
+			<Syntax name= "SGML tags" id="21" color="0x808000" />
 			<Syntax name= "SGML command" id="22" color="0x2E2E2E" />
 			<Syntax name= "SGML 1st param" id="23" color="0x2E2E2E" />
 			<Syntax name= "SGML double string" id="24" color="0x2E2E2E" />

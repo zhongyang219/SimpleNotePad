@@ -342,6 +342,11 @@ void CScintillaEditView::SetFirstVisibleLine(int line)
     SendMessage(SCI_SETFIRSTVISIBLELINE, line);
 }
 
+int CScintillaEditView::GetLineHeight()
+{
+    return SendMessage(SCI_TEXTHEIGHT, 0);
+}
+
 void CScintillaEditView::SetLexer(int lexer)
 {
     SendMessage(SCI_SETLEXER, lexer);
@@ -482,6 +487,9 @@ void CScintillaEditView::OnInitialUpdate()
     // TODO: 在此添加专用代码和/或调用基类
     SendMessage(SCI_SETCODEPAGE, SC_CP_UTF8);       //总是使用Unicode
     SendMessage(SCI_SETMARGINTYPEN, SCINTILLA_MARGIN_LINENUMBER, SC_MARGIN_NUMBER);
+
+    SendMessage(SCI_SETSCROLLWIDTH, 100);
+    SendMessage(SCI_SETSCROLLWIDTHTRACKING, TRUE);
 }
 
 

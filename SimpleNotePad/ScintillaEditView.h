@@ -98,6 +98,8 @@ public:
     int GetFirstVisibleLine();
     void SetFirstVisibleLine(int line);
 
+    int GetLineHeight();
+
     //语法解析
     void SetLexer(int lexer);
     void SetKeywords(int id, const char* keywords);

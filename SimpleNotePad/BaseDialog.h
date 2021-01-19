@@ -24,7 +24,7 @@ private:
 	void LoadConfig();
 	void SaveConfig() const;
 
-private:
+protected:
 	CSize m_min_size{};
 	CSize m_window_size{ -1, -1 };
 

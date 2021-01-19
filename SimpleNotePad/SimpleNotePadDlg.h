@@ -18,6 +18,7 @@ class CSimpleNotePadDlg : public CBaseDialog
 // 构造
 public:
 	CSimpleNotePadDlg(CString file_path = _T(""), CWnd* pParent = NULL);	// 标准构造函数
+    ~CSimpleNotePadDlg();
 
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
@@ -34,9 +35,10 @@ protected:
     HACCEL m_hAccel;
     CScintillaEditView* m_view;     //Scintilla编辑控件
 	CStatusBarCtrl m_status_bar;	//状态栏
-	//CFont m_font;			//字体
+	CFont m_font;			//字体
 	CString m_font_name;	//字体名称
 	int m_font_size;		//字体大小
+    CDC* m_pDC{};
     COLORREF m_background_color{ RGB(255, 255, 255) };  //背景颜色
     CMenu m_context_menu;
 
@@ -96,6 +98,11 @@ protected:
 
     void SetSyntaxHight(const CLanguage& lan);
     void SetEditorSyntaxHight();
+
+    void CreateFontObject();
+
+    //数据当前行号的位数自动设置行号的宽度
+    void UpdateLineNumberWidth(bool update = false);
 
 private:
 
@@ -175,4 +182,5 @@ public:
     afx_msg void OnConvertToCapital();
     afx_msg void OnConvertToLowerCase();
     afx_msg void OnConvertToTitleCase();
+    afx_msg void OnDestroy();
 };
