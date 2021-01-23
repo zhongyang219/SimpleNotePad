@@ -69,7 +69,7 @@
     <Filter Include="Test">
       <UniqueIdentifier>{95c1a6ad-369c-4aba-983d-99ef2a93d981}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SyntaxHighlight">
+    <Filter Include="头文件和源文件\SyntaxHighlight">
       <UniqueIdentifier>{7a7c7c82-94cd-4969-8a99-0dd24f1b417a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -135,7 +135,7 @@
       <Filter>头文件和源文件\Common</Filter>
     </ClInclude>
     <ClInclude Include="SyntaxHighlight.h">
-      <Filter>SyntaxHighlight</Filter>
+      <Filter>头文件和源文件\SyntaxHighlight</Filter>
     </ClInclude>
     <ClInclude Include="..\scintilla\include\SciLexer.h">
       <Filter>头文件和源文件\头文件\scintilla</Filter>
@@ -203,7 +203,7 @@
       <Filter>头文件和源文件\Common</Filter>
     </ClCompile>
     <ClCompile Include="SyntaxHighlight.cpp">
-      <Filter>SyntaxHighlight</Filter>
+      <Filter>头文件和源文件\SyntaxHighlight</Filter>
     </ClCompile>
     <ClCompile Include="HexEditView.cpp">
       <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>

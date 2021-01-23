@@ -56,6 +56,7 @@ protected:
 	int m_edit_bottom_space;	//编辑窗口底部距窗口底部的距离
 
 	bool m_word_wrap;		//是否自动换行
+    CScintillaEditView::eWordWrapMode m_word_wrap_mode{ CScintillaEditView::WW_WORD };  //自动换行模式
     bool m_always_on_top{ false };
     bool m_show_line_number{ false };
     bool m_show_eol{ false };
@@ -183,4 +184,8 @@ public:
     afx_msg void OnConvertToLowerCase();
     afx_msg void OnConvertToTitleCase();
     afx_msg void OnDestroy();
+    afx_msg void OnFileOpenLocation();
+    afx_msg void OnWordWrapWord();
+    afx_msg void OnWordCharacter();
+    afx_msg void OnWordWrapWhitespace();
 };

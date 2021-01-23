@@ -64,7 +64,13 @@ public:
     void SelectAll();
     void EmptyUndoBuffer();     //清空撤销缓存
 
-    void SetWordWrap(bool word_wrap);
+    enum eWordWrapMode
+    {
+        WW_WORD,
+        WW_CHARACTER,
+        WW_WHITESPACE
+    };
+    void SetWordWrap(bool word_wrap, eWordWrapMode mode = WW_WORD);
 
     bool IsEditChangeNotificationEnable();
 

@@ -200,11 +200,30 @@ void CScintillaEditView::EmptyUndoBuffer()
     SendMessage(SCI_EMPTYUNDOBUFFER);
 }
 
-void CScintillaEditView::SetWordWrap(bool word_wrap)
+void CScintillaEditView::SetWordWrap(bool word_wrap, eWordWrapMode mode)
 {
-    SendMessage(SCI_SETWRAPMODE, word_wrap ? SC_WRAP_WORD : SC_WRAP_NONE);
+    if (!word_wrap)
+    {
+        SendMessage(SCI_SETWRAPMODE, SC_WRAP_NONE);
+    }
+    else
+    {
+        switch (mode)
+        {
+        case CScintillaEditView::WW_WORD:
+            SendMessage(SCI_SETWRAPMODE, SC_WRAP_WORD);
+            break;
+        case CScintillaEditView::WW_CHARACTER:
+            SendMessage(SCI_SETWRAPMODE, SC_WRAP_CHAR); 
+            break;
+        case CScintillaEditView::WW_WHITESPACE:
+            SendMessage(SCI_SETWRAPMODE, SC_WRAP_WHITESPACE);
+            break;
+        default:
+            break;
+        }
+    }
 }
-
 
 bool CScintillaEditView::IsEditChangeNotificationEnable()
 {

@@ -276,6 +276,7 @@ void CSimpleNotePadDlg::SaveConfig()
     theApp.WriteProfileInt(L"config", L"background_color", m_background_color);
 
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
+    theApp.WriteProfileInt(_T("config"), _T("word_wrap_mode"), m_word_wrap_mode);
 	theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
 	theApp.WriteProfileInt(L"config", L"show_line_number", m_show_line_number);
     theApp.WriteProfileInt(L"config", L"show_eol", m_show_eol);
@@ -298,6 +299,7 @@ void CSimpleNotePadDlg::LoadConfig()
 	//m_window_width = theApp.GetProfileInt(_T("config"), _T("window_width"), 560);
 	//m_window_hight = theApp.GetProfileInt(_T("config"), _T("window_hight"), 350);
 	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
+    m_word_wrap_mode = static_cast<CScintillaEditView::eWordWrapMode>(theApp.GetProfileInt(_T("config"), _T("word_wrap_mode"), CScintillaEditView::WW_WORD));
 	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
     m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 0) != 0);
     m_show_eol = (theApp.GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
@@ -651,6 +653,10 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_CONVERT_TO_LOWER_CASE, &CSimpleNotePadDlg::OnConvertToLowerCase)
     ON_COMMAND(ID_CONVERT_TO_TITLE_CASE, &CSimpleNotePadDlg::OnConvertToTitleCase)
     ON_WM_DESTROY()
+    ON_COMMAND(ID_FILE_OPEN_LOCATION, &CSimpleNotePadDlg::OnFileOpenLocation)
+    ON_COMMAND(ID_WORD_WRAP_WORD, &CSimpleNotePadDlg::OnWordWrapWord)
+    ON_COMMAND(ID_WORD_CHARACTER, &CSimpleNotePadDlg::OnWordCharacter)
+    ON_COMMAND(ID_WORD_WRAP_WHITESPACE, &CSimpleNotePadDlg::OnWordWrapWhitespace)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -724,7 +730,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->OnInitialUpdate();
     m_view->ShowWindow(SW_SHOW);
 
-    m_view->SetWordWrap(m_word_wrap);
+    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
 
     CreateFontObject();
     UpdateLineNumberWidth();
@@ -757,7 +763,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     CMenu* pMenu = GetMenu();
     if (pMenu != nullptr)
     {
-        CMenu* pLanguageMenu = pMenu->GetSubMenu(3)->GetSubMenu(6);
+        CMenu* pLanguageMenu = pMenu->GetSubMenu(3)->GetSubMenu(7);
+        ASSERT(pLanguageMenu != nullptr);
         if (pLanguageMenu != nullptr)
         {
             int index = 0;
@@ -1166,7 +1173,7 @@ void CSimpleNotePadDlg::OnWordWrap()
 {
 	// TODO: 在此添加命令处理程序代码
     m_word_wrap = !m_word_wrap;
-    m_view->SetWordWrap(m_word_wrap);
+    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
 }
 
 
@@ -1362,6 +1369,8 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 	CBaseDialog::OnInitMenu(pMenu);
 
 	// TODO: 在此处添加消息处理程序代码
+    pMenu->EnableMenuItem(ID_FILE_OPEN_LOCATION, m_file_path.IsEmpty() ? MF_GRAYED : MF_ENABLED);
+
     if (m_code == CodeType::ANSI && m_code_page != CP_ACP)
     {
         pMenu->CheckMenuItem(ID_CODE_ANSI, MF_UNCHECKED);
@@ -1432,6 +1441,21 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
         break;
     case CScintillaEditView::EOL_LF:
         pMenu->CheckMenuRadioItem(ID_EOL_CRLF, ID_EOL_LF, ID_EOL_LF, MF_BYCOMMAND | MF_CHECKED);
+        break;
+    }
+
+    switch (m_word_wrap_mode)
+    {
+    case CScintillaEditView::WW_WORD:
+        pMenu->CheckMenuRadioItem(ID_WORD_WRAP_WORD, ID_WORD_WRAP_WHITESPACE, ID_WORD_WRAP_WORD, MF_BYCOMMAND | MF_CHECKED);
+        break;
+    case CScintillaEditView::WW_CHARACTER:
+        pMenu->CheckMenuRadioItem(ID_WORD_WRAP_WORD, ID_WORD_WRAP_WHITESPACE, ID_WORD_CHARACTER, MF_BYCOMMAND | MF_CHECKED);
+        break;
+    case CScintillaEditView::WW_WHITESPACE:
+         pMenu->CheckMenuRadioItem(ID_WORD_WRAP_WORD, ID_WORD_WRAP_WHITESPACE, ID_WORD_WRAP_WHITESPACE, MF_BYCOMMAND | MF_CHECKED);
+       break;
+    default:
         break;
     }
 
@@ -1780,4 +1804,37 @@ void CSimpleNotePadDlg::OnDestroy()
 
     // TODO: 在此处添加消息处理程序代码
     ReleaseDC(m_pDC);
+}
+
+
+void CSimpleNotePadDlg::OnFileOpenLocation()
+{
+    // TODO: 在此添加命令处理程序代码
+    CString str;
+    str.Format(_T("/select,\"%s\""), m_file_path.GetString());
+    ShellExecute(NULL, _T("open"), _T("explorer"), str, NULL, SW_SHOWNORMAL);
+}
+
+
+void CSimpleNotePadDlg::OnWordWrapWord()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_word_wrap_mode = CScintillaEditView::WW_WORD;
+    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
+}
+
+
+void CSimpleNotePadDlg::OnWordCharacter()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_word_wrap_mode = CScintillaEditView::WW_CHARACTER;
+    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
+}
+
+
+void CSimpleNotePadDlg::OnWordWrapWhitespace()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_word_wrap_mode = CScintillaEditView::WW_WHITESPACE;
+    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
 }
