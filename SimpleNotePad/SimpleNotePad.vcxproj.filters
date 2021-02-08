@@ -72,6 +72,9 @@
     <Filter Include="头文件和源文件\SyntaxHighlight">
       <UniqueIdentifier>{7a7c7c82-94cd-4969-8a99-0dd24f1b417a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\派生的控件类\TabCtrlEx">
+      <UniqueIdentifier>{6b9e88ce-4d62-43d4-ab16-1570f3d872e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -116,9 +119,6 @@
     <ClInclude Include="InputDlg.h">
       <Filter>头文件和源文件\对话框类\InputDlg</Filter>
     </ClInclude>
-    <ClInclude Include="SettingsDlg.h">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
-    </ClInclude>
     <ClInclude Include="BaseDialog.h">
       <Filter>头文件和源文件\对话框类\BaseDialog</Filter>
     </ClInclude>
@@ -148,6 +148,21 @@
     </ClInclude>
     <ClInclude Include="FilePathHelper.h">
       <Filter>头文件和源文件\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CommonData.h">
+      <Filter>头文件和源文件\头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneralSettingsDlg.h">
+      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="TabDlg.h">
+      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsDlg.h">
+      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="TabCtrlEx.h">
+      <Filter>头文件和源文件\派生的控件类\TabCtrlEx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -184,9 +199,6 @@
     <ClCompile Include="InputDlg.cpp">
       <Filter>头文件和源文件\对话框类\InputDlg</Filter>
     </ClCompile>
-    <ClCompile Include="SettingsDlg.cpp">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
-    </ClCompile>
     <ClCompile Include="BaseDialog.cpp">
       <Filter>头文件和源文件\对话框类\BaseDialog</Filter>
     </ClCompile>
@@ -210,6 +222,18 @@
     </ClCompile>
     <ClCompile Include="FilePathHelper.cpp">
       <Filter>头文件和源文件\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneralSettingsDlg.cpp">
+      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="TabDlg.cpp">
+      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsDlg.cpp">
+      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="TabCtrlEx.cpp">
+      <Filter>头文件和源文件\派生的控件类\TabCtrlEx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

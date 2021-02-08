@@ -10,12 +10,7 @@
 
 #include "resource.h"		// 主符号
 
-struct SettingsData
-{
-    int default_code_page_selected{};
-    UINT default_code_page{};
-};
-
+#include "CommonData.h"
 
 // CSimpleNotePadApp: 
 // 有关此类的实现，请参阅 SimpleNotePad.cpp
@@ -27,15 +22,29 @@ public:
 	CSimpleNotePadApp();
 
 	bool m_compare_dialog_exit;	//用于指示文件比较对话框是否已退出
-    SettingsData m_settings_data;
 
     void DPIFromWindow(CWnd* pWnd);
 
     int DPI(int pixel);
 
+    SettingsData GetGeneralSettings() const;
+    void SetGeneralSettings(const SettingsData& data);
+
+    EditSettingData GetEditSettings() const;
+    void SetEditSettings(const EditSettingData& data);
+
+private:
+    void LoadConfig();
+    void SaveConfig();
+
 private:
     HMODULE m_hScintillaModule;
     int m_dpi;		//当前显示器的DPI设置100%时为96
+
+    //选项设置数据
+    SettingsData m_settings_data;   //常规设置
+    EditSettingData m_edit_settings_data;   //编辑器设置
+
 
 // 重写
 public:

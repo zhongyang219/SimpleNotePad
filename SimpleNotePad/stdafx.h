@@ -49,6 +49,7 @@ using std::ofstream;
 using std::vector;
 #include <map>
 #include <set>
+#include <afxwin.h>
 
 
 

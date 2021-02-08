@@ -41,6 +41,40 @@ int CSimpleNotePadApp::DPI(int pixel)
     return pixel * m_dpi / 96;
 }
 
+SettingsData CSimpleNotePadApp::GetGeneralSettings() const
+{
+    return m_settings_data;
+}
+
+void CSimpleNotePadApp::SetGeneralSettings(const SettingsData & data)
+{
+    m_settings_data = data;
+}
+
+EditSettingData CSimpleNotePadApp::GetEditSettings() const
+{
+    return m_edit_settings_data;
+}
+
+void CSimpleNotePadApp::SetEditSettings(const EditSettingData & data)
+{
+    m_edit_settings_data = data;
+}
+
+void CSimpleNotePadApp::LoadConfig()
+{
+    //载入选项设置
+    theApp.m_settings_data.default_code_page_selected = theApp.GetProfileInt(L"config", L"default_code_page_selected", 0);
+    theApp.m_settings_data.default_code_page = theApp.GetProfileInt(L"config", L"default_code_page", 0);
+}
+
+void CSimpleNotePadApp::SaveConfig()
+{
+    //保存选项设置
+    theApp.WriteProfileInt(L"config", L"default_code_page_selected", theApp.m_settings_data.default_code_page_selected);
+    theApp.WriteProfileInt(L"config", L"default_code_page", theApp.m_settings_data.default_code_page);
+}
+
 
 // 唯一的一个 CSimpleNotePadApp 对象
 

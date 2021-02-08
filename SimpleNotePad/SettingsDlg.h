@@ -1,10 +1,11 @@
 ﻿#pragma once
-#include "Common.h"
+#include "BaseDialog.h"
+#include "TabCtrlEx.h"
+#include "GeneralSettingsDlg.h"
 
+// CSettingsDlg1 对话框
 
-// CSettingsDlg 对话框
-
-class CSettingsDlg : public CDialog
+class CSettingsDlg : public CBaseDialog
 {
 	DECLARE_DYNAMIC(CSettingsDlg)
 
@@ -17,17 +18,26 @@ public:
 	enum { IDD = IDD_SETTINGS_DIALOG };
 #endif
 
-public:
-    SettingsData m_data;
+    //从外部获取选项设置数据
+    void LoadSettings();
+
+    //将对话框中的数据传送给外部
+    void SaveSettings();
+
+
 
 private:
-    CComboBox m_default_page_code_combo;
+    CTabCtrlEx m_tab_ctrl;
+    CGeneralSettingsDlg m_general_settings_dlg;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+
+    virtual CString GetDialogName() const override;
+
 public:
     virtual BOOL OnInitDialog();
-    afx_msg void OnCbnSelchangeDefaultCodePageCombo();
+    virtual void OnOK();
 };

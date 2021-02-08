@@ -9,10 +9,10 @@
 #include "HexViewDlg.h"
 #include "FormatConvertDlg.h"
 #include "InputDlg.h"
-#include "SettingsDlg.h"
 #include "CodeConvertDlg.h"
 #include "Test.h"
 #include "FilePathHelper.h"
+#include "SettingsDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -130,7 +130,7 @@ bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_pag
 {
 	bool char_connot_convert;
     if (code_page == CODE_PAGE_DEFAULT)
-        code_page = theApp.m_settings_data.default_code_page;
+        code_page = theApp.GetGeneralSettings().default_code_page;
     m_edit_str = CCommon::UnicodeToStr(m_edit_wcs, char_connot_convert, code, code_page);
 	if (char_connot_convert)	//当文件中包含Unicode字符时，询问用户是否要选择一个Unicode编码格式再保存
 	{
@@ -169,7 +169,7 @@ bool CSimpleNotePadDlg::JudgeCode()
 	else
 	{
 		m_code = CodeType::ANSI;
-        m_code_page = theApp.m_settings_data.default_code_page;
+        m_code_page = theApp.GetGeneralSettings().default_code_page;
 	}
 	return rtn;
 }
@@ -284,9 +284,6 @@ void CSimpleNotePadDlg::SaveConfig()
 	theApp.WriteProfileInt(L"config", L"find_no_case", m_find_no_case);
 	theApp.WriteProfileInt(L"config", L"find_whole_word", m_find_whole_word);
 
-    //保存选项设置
-    theApp.WriteProfileInt(L"config", L"default_code_page_selected", theApp.m_settings_data.default_code_page_selected);
-    theApp.WriteProfileInt(L"config", L"default_code_page", theApp.m_settings_data.default_code_page);
 }
 
 void CSimpleNotePadDlg::LoadConfig()
@@ -307,9 +304,6 @@ void CSimpleNotePadDlg::LoadConfig()
 	m_find_no_case = (theApp.GetProfileInt(_T("config"), _T("find_no_case"), 0) != 0);
 	m_find_whole_word = (theApp.GetProfileInt(_T("config"), _T("find_whole_word"), 0) != 0);
 
-    //载入选项设置
-    theApp.m_settings_data.default_code_page_selected = theApp.GetProfileInt(L"config", L"default_code_page_selected", 0);
-    theApp.m_settings_data.default_code_page = theApp.GetProfileInt(L"config", L"default_code_page", 0);
 }
 
 bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
@@ -455,7 +449,7 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 		    m_save_code = CONST_VAL::code_list[selected_item].code_type;
 		    UINT save_code_page = CONST_VAL::code_list[selected_item].code_page;
             if (save_code_page == CODE_PAGE_DEFAULT)
-                save_code_page = theApp.m_settings_data.default_code_page;
+                save_code_page = theApp.GetGeneralSettings().default_code_page;
 		    if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code, save_code_page))
 		    {
 			    m_file_path = fileDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
@@ -1600,10 +1594,10 @@ void CSimpleNotePadDlg::OnToolOptions()
 {
     // TODO: 在此添加命令处理程序代码
     CSettingsDlg dlg;
-    dlg.m_data = theApp.m_settings_data;
+    dlg.LoadSettings();
     if (dlg.DoModal() == IDOK)
     {
-        theApp.m_settings_data = dlg.m_data;
+        dlg.SaveSettings();
     }
 }
 

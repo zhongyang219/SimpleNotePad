@@ -206,6 +206,7 @@
     <ClInclude Include="BaseDialog.h" />
     <ClInclude Include="CodeConvertDlg.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="CommonData.h" />
     <ClInclude Include="DeleteDataDlg.h" />
     <ClInclude Include="EditEx.h" />
     <ClInclude Include="FileCompareDlg.h" />
@@ -217,11 +218,14 @@
     <ClInclude Include="InsertDataDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScintillaEditView.h" />
+    <ClInclude Include="GeneralSettingsDlg.h" />
     <ClInclude Include="SettingsDlg.h" />
     <ClInclude Include="SimpleNotePad.h" />
     <ClInclude Include="SimpleNotePadDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyntaxHighlight.h" />
+    <ClInclude Include="TabCtrlEx.h" />
+    <ClInclude Include="TabDlg.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TinyXml2Helper.h" />
@@ -240,6 +244,7 @@
     <ClCompile Include="InputDlg.cpp" />
     <ClCompile Include="InsertDataDlg.cpp" />
     <ClCompile Include="ScintillaEditView.cpp" />
+    <ClCompile Include="GeneralSettingsDlg.cpp" />
     <ClCompile Include="SettingsDlg.cpp" />
     <ClCompile Include="SimpleNotePad.cpp" />
     <ClCompile Include="SimpleNotePadDlg.cpp" />
@@ -250,6 +255,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SyntaxHighlight.cpp" />
+    <ClCompile Include="TabCtrlEx.cpp" />
+    <ClCompile Include="TabDlg.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TinyXml2Helper.cpp" />
   </ItemGroup>

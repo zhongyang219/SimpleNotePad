@@ -83,7 +83,7 @@ void CCodeConvertDlg::OnBnClickedButton1()
     CodeType code_type_input{ CONST_VAL::code_list[index].code_type };
     UINT code_page_input{ CONST_VAL::code_list[index].code_page };
     if (code_page_input == CODE_PAGE_DEFAULT)
-        code_page_input = theApp.m_settings_data.default_code_page;
+        code_page_input = theApp.GetGeneralSettings().default_code_page;
 
     index = m_output_combo.GetCurSel();
     if (index < 0 || index >= static_cast<int>(CONST_VAL::code_list.size()))
@@ -91,7 +91,7 @@ void CCodeConvertDlg::OnBnClickedButton1()
     CodeType code_type_output{ CONST_VAL::code_list[index].code_type };
     UINT code_page_output{ CONST_VAL::code_list[index].code_page };
     if (code_page_output == CODE_PAGE_DEFAULT)
-        code_page_output = theApp.m_settings_data.default_code_page;
+        code_page_output = theApp.GetGeneralSettings().default_code_page;
 
     CString str_input;
     GetDlgItemText(IDC_INPUT_EDIT, str_input);
