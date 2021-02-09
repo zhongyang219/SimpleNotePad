@@ -6,7 +6,6 @@
 #include "SettingsDlg.h"
 #include "afxdialogex.h"
 
-
 // CSettingsDlg 对话框
 
 IMPLEMENT_DYNAMIC(CSettingsDlg, CBaseDialog)
@@ -58,6 +57,8 @@ BOOL CSettingsDlg::OnInitDialog()
     CBaseDialog::OnInitDialog();
 
     // TODO:  在此添加额外的初始化
+
+    SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), FALSE);		// 设置小图标
 
     //创建子对话框
     m_general_settings_dlg.Create(IDD_GENERAL_SETTINGS_DIALOG);

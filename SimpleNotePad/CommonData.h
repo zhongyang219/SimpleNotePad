@@ -15,13 +15,13 @@ struct EditSettingData
 
 };
 
-////自定义消息
-//inline int GetUserDefinedMessgeId()
-//{
-//    static int current_msg_id = WM_USER + 100;
-//    current_msg_id++;
-//    return current_msg_id;
-//}
-//
-//const int WM_COLOR_SELECTED = GetUserDefinedMessgeId();     //响应颜色选择控件选择了颜色
-#define WM_COLOR_SELECTED (WM_USER + 100)     //响应颜色选择控件选择了颜色
+//自定义消息
+static inline int GetUserDefinedMessgeId()
+{
+    static int current_msg_id = WM_USER + 100;
+    current_msg_id++;
+    return current_msg_id;
+}
+
+const int WM_COLOR_SELECTED = GetUserDefinedMessgeId();     //响应颜色选择控件选择了颜色
+//#define WM_COLOR_SELECTED (WM_USER + 100)     //响应颜色选择控件选择了颜色

@@ -1074,9 +1074,7 @@ void CSimpleNotePadDlg::OnHexView()
 	// TODO: 在此添加命令处理程序代码
 	string edit_str{ m_edit_str };		//进行十六进制编辑前先保存编辑前的数据
 	CHexViewDlg hex_view_dlg(m_edit_str, m_code, m_file_path);
-	ShowWindow(SW_HIDE);
 	hex_view_dlg.DoModal();
-	ShowWindow(SW_SHOW);
 	//if (!m_file_path.IsEmpty() && !hex_view_dlg.m_modified_data.empty())
 	if (!m_file_path.IsEmpty() && hex_view_dlg.IsModified())
 	{
