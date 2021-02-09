@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-// CSettingsDlg1 对话框
+// CSettingsDlg 对话框
 
 IMPLEMENT_DYNAMIC(CSettingsDlg, CBaseDialog)
 
@@ -24,11 +24,13 @@ CSettingsDlg::~CSettingsDlg()
 void CSettingsDlg::LoadSettings()
 {
     m_general_settings_dlg.m_data = theApp.GetGeneralSettings();
+    m_edit_settings_dlg.m_data = theApp.GetEditSettings();
 }
 
 void CSettingsDlg::SaveSettings()
 {
     theApp.SetGeneralSettings(m_general_settings_dlg.m_data);
+    theApp.SetEditSettings(m_edit_settings_dlg.m_data);
 }
 
 
@@ -59,9 +61,11 @@ BOOL CSettingsDlg::OnInitDialog()
 
     //创建子对话框
     m_general_settings_dlg.Create(IDD_GENERAL_SETTINGS_DIALOG);
+    m_edit_settings_dlg.Create(IDD_EDIT_SETTINGS_DIALOG);
 
     //添加子对话框
     m_tab_ctrl.AddWindow(&m_general_settings_dlg, _T("常规设置"));
+    m_tab_ctrl.AddWindow(&m_edit_settings_dlg, _T("编辑器设置"));
 
     m_tab_ctrl.SetCurTab(0);
 
@@ -75,6 +79,7 @@ void CSettingsDlg::OnOK()
 {
     // TODO: 在此添加专用代码和/或调用基类
     m_general_settings_dlg.OnOK();
+    m_edit_settings_dlg.OnOK();
 
     CBaseDialog::OnOK();
 }

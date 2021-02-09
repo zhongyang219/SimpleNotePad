@@ -50,6 +50,7 @@ using std::vector;
 #include <map>
 #include <set>
 #include <afxwin.h>
+#include <afxwin.h>
 
 
 

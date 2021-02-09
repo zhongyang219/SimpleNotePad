@@ -2,6 +2,7 @@
 #include "BaseDialog.h"
 #include "TabCtrlEx.h"
 #include "GeneralSettingsDlg.h"
+#include "EditSettingsDlg.h"
 
 // CSettingsDlg1 对话框
 
@@ -24,11 +25,10 @@ public:
     //将对话框中的数据传送给外部
     void SaveSettings();
 
-
-
 private:
     CTabCtrlEx m_tab_ctrl;
     CGeneralSettingsDlg m_general_settings_dlg;
+    CEditSettingsDlg m_edit_settings_dlg;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持

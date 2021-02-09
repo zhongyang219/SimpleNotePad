@@ -72,6 +72,14 @@ void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 	//DDX_Control(pDX, IDC_EDIT1, m_edit);
 }
 
+void CSimpleNotePadDlg::ApplySettings()
+{
+    m_view->SetCurrentLineHighlight(theApp.GetEditSettings().current_line_highlight);
+    m_view->SetBackgroundColor(theApp.GetEditSettings().background_color);
+
+    SetEditorSyntaxHight();
+}
+
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 {
 	CWaitCursor wait_cursor;
@@ -273,7 +281,6 @@ void CSimpleNotePadDlg::SaveConfig()
 	//保存字体设置
 	theApp.WriteProfileStringW(_T("config"), _T("font_name"), m_font_name);
     theApp.WriteProfileInt(L"config", L"font_size", m_font_size);
-    theApp.WriteProfileInt(L"config", L"background_color", m_background_color);
 
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
     theApp.WriteProfileInt(_T("config"), _T("word_wrap_mode"), m_word_wrap_mode);
@@ -291,7 +298,6 @@ void CSimpleNotePadDlg::LoadConfig()
 	//载入字体设置
 	m_font_name = theApp.GetProfileStringW(_T("config"), _T("font_name"), _T("微软雅黑"));
 	m_font_size = theApp.GetProfileInt(_T("config"), _T("font_size"), 10);
-    m_background_color = theApp.GetProfileInt(_T("config"), _T("background_color"), RGB(255, 255, 255));
 	////载入窗口大小
 	//m_window_width = theApp.GetProfileInt(_T("config"), _T("window_width"), 560);
 	//m_window_hight = theApp.GetProfileInt(_T("config"), _T("window_hight"), 350);
@@ -731,7 +737,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->ShowLineNumber(m_show_line_number);
     m_view->SetLineNumberColor(RGB(75, 145, 175));
     m_view->SetViewEol(m_show_eol);
-    m_view->SetBackgroundColor(m_background_color);
+    m_view->SetBackgroundColor(theApp.GetEditSettings().background_color);
     m_view->SetContextMenu(m_context_menu.GetSubMenu(0), this);
 
 	//初始化状态栏
@@ -790,6 +796,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
 	//设置制表符宽度
     m_view->SetTabSize(4);
+
+    //设置当前行高亮
+    m_view->SetCurrentLineHighlight(theApp.GetEditSettings().current_line_highlight);
 
     SetAlwaysOnTop();
 
@@ -1598,6 +1607,7 @@ void CSimpleNotePadDlg::OnToolOptions()
     if (dlg.DoModal() == IDOK)
     {
         dlg.SaveSettings();
+        ApplySettings();
     }
 }
 

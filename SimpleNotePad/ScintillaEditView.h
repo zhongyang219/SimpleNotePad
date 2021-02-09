@@ -106,6 +106,8 @@ public:
 
     int GetLineHeight();
 
+    void SetCurrentLineHighlight(bool highlight);   //设置当前行高亮
+
     //语法解析
     void SetLexer(int lexer);
     void SetKeywords(int id, const char* keywords);

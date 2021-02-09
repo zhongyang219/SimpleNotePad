@@ -64,15 +64,23 @@ void CSimpleNotePadApp::SetEditSettings(const EditSettingData & data)
 void CSimpleNotePadApp::LoadConfig()
 {
     //载入选项设置
-    theApp.m_settings_data.default_code_page_selected = theApp.GetProfileInt(L"config", L"default_code_page_selected", 0);
-    theApp.m_settings_data.default_code_page = theApp.GetProfileInt(L"config", L"default_code_page", 0);
+    m_settings_data.default_code_page_selected = GetProfileInt(L"config", L"default_code_page_selected", 0);
+    m_settings_data.default_code_page = GetProfileInt(L"config", L"default_code_page", 0);
+
+    //载入编辑器设置
+    m_edit_settings_data.current_line_highlight = (GetProfileInt(L"config", L"current_line_highlight", 0) != 0);
+    m_edit_settings_data.background_color = theApp.GetProfileInt(_T("config"), _T("background_color"), RGB(255, 255, 255));
 }
 
 void CSimpleNotePadApp::SaveConfig()
 {
     //保存选项设置
-    theApp.WriteProfileInt(L"config", L"default_code_page_selected", theApp.m_settings_data.default_code_page_selected);
-    theApp.WriteProfileInt(L"config", L"default_code_page", theApp.m_settings_data.default_code_page);
+    WriteProfileInt(L"config", L"default_code_page_selected", m_settings_data.default_code_page_selected);
+    WriteProfileInt(L"config", L"default_code_page", m_settings_data.default_code_page);
+
+    //保存编辑器设置
+    WriteProfileInt(L"config", L"current_line_highlight", m_edit_settings_data.current_line_highlight);
+    theApp.WriteProfileInt(L"config", L"background_color", m_edit_settings_data.background_color);
 }
 
 
@@ -128,6 +136,8 @@ BOOL CSimpleNotePadApp::InitInstance()
         return FALSE;
     }
     
+    LoadConfig();
+
     CSimpleNotePadDlg dlg(m_lpCmdLine);
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
@@ -152,6 +162,8 @@ BOOL CSimpleNotePadApp::InitInstance()
 	{
 		delete pShellManager;
 	}
+
+    SaveConfig();
 
 #ifndef _AFXDLL
 	ControlBarCleanUp();

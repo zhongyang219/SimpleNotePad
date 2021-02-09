@@ -39,7 +39,6 @@ protected:
 	CString m_font_name;	//字体名称
 	int m_font_size;		//字体大小
     CDC* m_pDC{};
-    COLORREF m_background_color{ RGB(255, 255, 255) };  //背景颜色
     CMenu m_context_menu;
 
 	CString m_file_path;	//当前打开的文件路径
@@ -74,6 +73,8 @@ protected:
 
     CSyntaxHighlight m_syntax_highlight;
 	
+    void ApplySettings();
+
 	void OpenFile(LPCTSTR file_path);					//打开文件的处理
 
     bool SaveFile(LPCTSTR file_path, CodeType code, UINT code_page = CP_ACP);	//保存文件的处理

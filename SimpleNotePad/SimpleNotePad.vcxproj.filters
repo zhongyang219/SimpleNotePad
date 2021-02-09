@@ -75,6 +75,9 @@
     <Filter Include="头文件和源文件\派生的控件类\TabCtrlEx">
       <UniqueIdentifier>{6b9e88ce-4d62-43d4-ab16-1570f3d872e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\派生的控件类\ColorStatic">
+      <UniqueIdentifier>{a698f1d2-24f8-4151-b88c-8bde5dbdde1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -164,6 +167,15 @@
     <ClInclude Include="TabCtrlEx.h">
       <Filter>头文件和源文件\派生的控件类\TabCtrlEx</Filter>
     </ClInclude>
+    <ClInclude Include="EditSettingsDlg.h">
+      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorStatic.h">
+      <Filter>头文件和源文件\派生的控件类\ColorStatic</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorStaticEx.h">
+      <Filter>头文件和源文件\派生的控件类\ColorStatic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -234,6 +246,15 @@
     </ClCompile>
     <ClCompile Include="TabCtrlEx.cpp">
       <Filter>头文件和源文件\派生的控件类\TabCtrlEx</Filter>
+    </ClCompile>
+    <ClCompile Include="EditSettingsDlg.cpp">
+      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorStatic.cpp">
+      <Filter>头文件和源文件\派生的控件类\ColorStatic</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorStaticEx.cpp">
+      <Filter>头文件和源文件\派生的控件类\ColorStatic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

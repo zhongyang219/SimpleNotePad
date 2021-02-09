@@ -366,6 +366,20 @@ int CScintillaEditView::GetLineHeight()
     return SendMessage(SCI_TEXTHEIGHT, 0);
 }
 
+void CScintillaEditView::SetCurrentLineHighlight(bool highlight)
+{
+    if (highlight)
+    {
+        //设置当前行背景色
+        SendMessage(SCI_SETCARETLINEVISIBLE, TRUE);
+        SendMessage(SCI_SETCARETLINEBACK, RGB(234, 243, 253));
+    }
+    else
+    {
+        SendMessage(SCI_SETCARETLINEVISIBLE, FALSE);
+    }
+}
+
 void CScintillaEditView::SetLexer(int lexer)
 {
     SendMessage(SCI_SETLEXER, lexer);

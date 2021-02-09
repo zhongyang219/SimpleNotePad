@@ -205,10 +205,13 @@
     <ClInclude Include="..\scintilla\include\Scintilla.h" />
     <ClInclude Include="BaseDialog.h" />
     <ClInclude Include="CodeConvertDlg.h" />
+    <ClInclude Include="ColorStatic.h" />
+    <ClInclude Include="ColorStaticEx.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CommonData.h" />
     <ClInclude Include="DeleteDataDlg.h" />
     <ClInclude Include="EditEx.h" />
+    <ClInclude Include="EditSettingsDlg.h" />
     <ClInclude Include="FileCompareDlg.h" />
     <ClInclude Include="FilePathHelper.h" />
     <ClInclude Include="FormatConvertDlg.h" />
@@ -233,9 +236,12 @@
   <ItemGroup>
     <ClCompile Include="BaseDialog.cpp" />
     <ClCompile Include="CodeConvertDlg.cpp" />
+    <ClCompile Include="ColorStatic.cpp" />
+    <ClCompile Include="ColorStaticEx.cpp" />
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="DeleteDataDlg.cpp" />
     <ClCompile Include="EditEx.cpp" />
+    <ClCompile Include="EditSettingsDlg.cpp" />
     <ClCompile Include="FileCompareDlg.cpp" />
     <ClCompile Include="FilePathHelper.cpp" />
     <ClCompile Include="FormatConvertDlg.cpp" />
