@@ -72,12 +72,33 @@ void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 	//DDX_Control(pDX, IDC_EDIT1, m_edit);
 }
 
-void CSimpleNotePadDlg::ApplySettings()
+void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before)
 {
-    m_view->SetCurrentLineHighlight(theApp.GetEditSettings().current_line_highlight);
-    m_view->SetBackgroundColor(theApp.GetEditSettings().background_color);
+    //如果当前行高亮设置发生了变化
+    if (theApp.GetEditSettings().current_line_highlight != edit_settings_before.current_line_highlight || theApp.GetEditSettings().current_line_highlight_color != edit_settings_before.current_line_highlight_color)
+    {
+        m_view->SetCurrentLineHighlightColor(theApp.GetEditSettings().current_line_highlight_color);
+        m_view->SetCurrentLineHighlight(theApp.GetEditSettings().current_line_highlight);
+    }
 
-    SetEditorSyntaxHight();
+    //如果背景颜色设置发生了变化
+    if (theApp.GetEditSettings().background_color != edit_settings_before.background_color)
+    {
+        m_view->SetBackgroundColor(theApp.GetEditSettings().background_color);
+        SetEditorSyntaxHight();
+    }
+
+    //如果字体设置发生发变化
+    if (theApp.GetEditSettings().font_name != edit_settings_before.font_name || theApp.GetEditSettings().font_size != edit_settings_before.font_size)
+    {
+        //设置字体
+        m_view->SetFontFace(theApp.GetEditSettings().font_name.GetString());
+        m_view->SetFontSize(theApp.GetEditSettings().font_size);
+        CreateFontObject();
+        UpdateLineNumberWidth(true);
+        //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
+        SetSyntaxHight(m_syntax_highlight.GetLanguage(m_cur_lan_index));
+    }
 }
 
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
@@ -278,9 +299,6 @@ bool CSimpleNotePadDlg::BeforeChangeCode()
 
 void CSimpleNotePadDlg::SaveConfig()
 {
-	//保存字体设置
-	theApp.WriteProfileStringW(_T("config"), _T("font_name"), m_font_name);
-    theApp.WriteProfileInt(L"config", L"font_size", m_font_size);
 
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
     theApp.WriteProfileInt(_T("config"), _T("word_wrap_mode"), m_word_wrap_mode);
@@ -295,12 +313,6 @@ void CSimpleNotePadDlg::SaveConfig()
 
 void CSimpleNotePadDlg::LoadConfig()
 {
-	//载入字体设置
-	m_font_name = theApp.GetProfileStringW(_T("config"), _T("font_name"), _T("微软雅黑"));
-	m_font_size = theApp.GetProfileInt(_T("config"), _T("font_size"), 10);
-	////载入窗口大小
-	//m_window_width = theApp.GetProfileInt(_T("config"), _T("window_width"), 560);
-	//m_window_hight = theApp.GetProfileInt(_T("config"), _T("window_hight"), 350);
 	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
     m_word_wrap_mode = static_cast<CScintillaEditView::eWordWrapMode>(theApp.GetProfileInt(_T("config"), _T("word_wrap_mode"), CScintillaEditView::WW_WORD));
 	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
@@ -540,7 +552,7 @@ void CSimpleNotePadDlg::CreateFontObject()
     {
     	m_font.DeleteObject();
     }
-    m_font.CreatePointFont(m_font_size * 10, m_font_name);
+    m_font.CreatePointFont(theApp.GetEditSettings().font_size * 10, theApp.GetEditSettings().font_name);
     m_pDC->SelectObject(&m_font);
 }
 
@@ -754,8 +766,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	//初始化字体
 	//m_font.CreatePointFont(m_font_size * 10, m_font_name);
 	//m_edit.SetFont(&m_font);
-    m_view->SetFontFace(m_font_name.GetString());
-    m_view->SetFontSize(m_font_size);
+    m_view->SetFontFace(theApp.GetEditSettings().font_name.GetString());
+    m_view->SetFontSize(theApp.GetEditSettings().font_size);
 
     m_view->SetLexerNormalText();
 
@@ -798,6 +810,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->SetTabSize(4);
 
     //设置当前行高亮
+    m_view->SetCurrentLineHighlightColor(theApp.GetEditSettings().current_line_highlight_color);
     m_view->SetCurrentLineHighlight(theApp.GetEditSettings().current_line_highlight);
 
     SetAlwaysOnTop();
@@ -976,8 +989,8 @@ void CSimpleNotePadDlg::OnFormatFont()
 	// TODO: 在此添加命令处理程序代码
 	LOGFONT lf{ 0 };             //LOGFONT变量
 	//m_font.GetLogFont(&lf);
-	_tcscpy_s(lf.lfFaceName, LF_FACESIZE, m_font_name.GetString());	//将lf中的元素字体名设为“微软雅黑”
-    lf.lfHeight = CCommon::FontSizeToLfHeight(m_font_size);
+	_tcscpy_s(lf.lfFaceName, LF_FACESIZE, theApp.GetEditSettings().font_name.GetString());	//将lf中的元素字体名设为“微软雅黑”
+    lf.lfHeight = CCommon::FontSizeToLfHeight(theApp.GetEditSettings().font_size);
     CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
 	if (IDOK == fontDlg.DoModal())     // 显示字体对话框
 	{
@@ -989,11 +1002,13 @@ void CSimpleNotePadDlg::OnFormatFont()
 		//使用选定字体的LOGFONT创建新的字体
 		//m_font.CreateFontIndirect(fontDlg.m_cf.lpLogFont);
 		//获取字体信息
-		m_font_name = fontDlg.m_cf.lpLogFont->lfFaceName;
-		m_font_size = fontDlg.m_cf.iPointSize / 10;
+        auto edit_settings = theApp.GetEditSettings();
+        edit_settings.font_name = fontDlg.m_cf.lpLogFont->lfFaceName;
+        edit_settings.font_size = fontDlg.m_cf.iPointSize / 10;
+        theApp.SetEditSettings(edit_settings);
 		//设置字体
-        m_view->SetFontFace(m_font_name.GetString());
-        m_view->SetFontSize(m_font_size);
+        m_view->SetFontFace(theApp.GetEditSettings().font_name.GetString());
+        m_view->SetFontSize(theApp.GetEditSettings().font_size);
         CreateFontObject();
         UpdateLineNumberWidth(true);
         //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
@@ -1600,12 +1615,15 @@ void CSimpleNotePadDlg::OnSepcifyCodePage()
 void CSimpleNotePadDlg::OnToolOptions()
 {
     // TODO: 在此添加命令处理程序代码
+    SettingsData general_settings_before = theApp.GetGeneralSettings();
+    EditSettingData edit_settings_before = theApp.GetEditSettings();
+
     CSettingsDlg dlg;
     dlg.LoadSettings();
     if (dlg.DoModal() == IDOK)
     {
         dlg.SaveSettings();
-        ApplySettings();
+        ApplySettings(general_settings_before, edit_settings_before);
     }
 }
 

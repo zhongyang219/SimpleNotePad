@@ -225,6 +225,7 @@
     <ClInclude Include="SettingsDlg.h" />
     <ClInclude Include="SimpleNotePad.h" />
     <ClInclude Include="SimpleNotePadDlg.h" />
+    <ClInclude Include="SpinEdit.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyntaxHighlight.h" />
     <ClInclude Include="TabCtrlEx.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="SettingsDlg.cpp" />
     <ClCompile Include="SimpleNotePad.cpp" />
     <ClCompile Include="SimpleNotePadDlg.cpp" />
+    <ClCompile Include="SpinEdit.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

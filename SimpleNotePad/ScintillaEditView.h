@@ -107,6 +107,7 @@ public:
     int GetLineHeight();
 
     void SetCurrentLineHighlight(bool highlight);   //设置当前行高亮
+    void SetCurrentLineHighlightColor(COLORREF color);  //设置当前行高亮颜色
 
     //语法解析
     void SetLexer(int lexer);
@@ -130,6 +131,7 @@ private:
     int m_line_number_width = 36;
     COLORREF m_line_number_color{};
     COLORREF m_background_color{ RGB(255,255,255) };
+    COLORREF m_current_line_highlight_color{ RGB(234, 243, 253) };
 
     CMenu* m_pMenu{};
     CWnd* m_pContextMenuOwner{};

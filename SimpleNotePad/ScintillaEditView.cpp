@@ -372,12 +372,17 @@ void CScintillaEditView::SetCurrentLineHighlight(bool highlight)
     {
         //设置当前行背景色
         SendMessage(SCI_SETCARETLINEVISIBLE, TRUE);
-        SendMessage(SCI_SETCARETLINEBACK, RGB(234, 243, 253));
+        SendMessage(SCI_SETCARETLINEBACK, m_current_line_highlight_color);
     }
     else
     {
         SendMessage(SCI_SETCARETLINEVISIBLE, FALSE);
     }
+}
+
+void CScintillaEditView::SetCurrentLineHighlightColor(COLORREF color)
+{
+    m_current_line_highlight_color = color;
 }
 
 void CScintillaEditView::SetLexer(int lexer)

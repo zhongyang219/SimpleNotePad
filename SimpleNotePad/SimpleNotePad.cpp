@@ -69,7 +69,10 @@ void CSimpleNotePadApp::LoadConfig()
 
     //载入编辑器设置
     m_edit_settings_data.current_line_highlight = (GetProfileInt(L"config", L"current_line_highlight", 0) != 0);
-    m_edit_settings_data.background_color = theApp.GetProfileInt(_T("config"), _T("background_color"), RGB(255, 255, 255));
+    m_edit_settings_data.current_line_highlight_color = GetProfileInt(L"config", L"current_line_highlight_color", RGB(234, 243, 253));
+    m_edit_settings_data.background_color = GetProfileInt(_T("config"), _T("background_color"), RGB(255, 255, 255));
+    m_edit_settings_data.font_name = GetProfileString(_T("config"), _T("font_name"), _T("微软雅黑"));
+    m_edit_settings_data.font_size = GetProfileInt(_T("config"), _T("font_size"), 10);
 }
 
 void CSimpleNotePadApp::SaveConfig()
@@ -80,7 +83,10 @@ void CSimpleNotePadApp::SaveConfig()
 
     //保存编辑器设置
     WriteProfileInt(L"config", L"current_line_highlight", m_edit_settings_data.current_line_highlight);
+    WriteProfileInt(L"config", L"current_line_highlight_color", m_edit_settings_data.current_line_highlight_color);
     theApp.WriteProfileInt(L"config", L"background_color", m_edit_settings_data.background_color);
+    WriteProfileString(_T("config"), _T("font_name"), m_edit_settings_data.font_name);
+    WriteProfileInt(L"config", L"font_size", m_edit_settings_data.font_size);
 }
 
 

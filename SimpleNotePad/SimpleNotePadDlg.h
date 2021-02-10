@@ -36,8 +36,6 @@ protected:
     CScintillaEditView* m_view;     //Scintilla编辑控件
 	CStatusBarCtrl m_status_bar;	//状态栏
 	CFont m_font;			//字体
-	CString m_font_name;	//字体名称
-	int m_font_size;		//字体大小
     CDC* m_pDC{};
     CMenu m_context_menu;
 
@@ -73,7 +71,7 @@ protected:
 
     CSyntaxHighlight m_syntax_highlight;
 	
-    void ApplySettings();
+    void ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before);
 
 	void OpenFile(LPCTSTR file_path);					//打开文件的处理
 

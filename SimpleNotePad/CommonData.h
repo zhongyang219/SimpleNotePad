@@ -1,4 +1,7 @@
 #pragma once
+#ifndef COMMON_DATA_H
+#define COMMON_DATA_H
+
 
 //常规设置
 struct SettingsData
@@ -11,17 +14,26 @@ struct SettingsData
 struct EditSettingData
 {
     bool current_line_highlight{};      //当前行高亮显示
+    COLORREF current_line_highlight_color{ RGB(234, 243, 253) };    //当前行高亮颜色
     COLORREF background_color{ RGB(255, 255, 255) };  //背景颜色
-
+    CString font_name;	//字体名称
+    int font_size{ 9 };		//字体大小
 };
 
 //自定义消息
-static inline int GetUserDefinedMessgeId()
+inline int GetUserDefinedMessgeId()
 {
     static int current_msg_id = WM_USER + 100;
     current_msg_id++;
     return current_msg_id;
 }
 
-const int WM_COLOR_SELECTED = GetUserDefinedMessgeId();     //响应颜色选择控件选择了颜色
-//#define WM_COLOR_SELECTED (WM_USER + 100)     //响应颜色选择控件选择了颜色
+namespace MessageId
+{
+    const int a = GetUserDefinedMessgeId();
+};
+
+//static const int WM_COLOR_SELECTED = GetUserDefinedMessgeId();     //响应颜色选择控件选择了颜色
+#define WM_COLOR_SELECTED (WM_USER + 100)     //响应颜色选择控件选择了颜色
+
+#endif // !COMMON_DATA_H

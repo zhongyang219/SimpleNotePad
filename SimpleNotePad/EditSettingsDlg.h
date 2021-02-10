@@ -2,6 +2,7 @@
 #include "TabDlg.h"
 #include "CommonData.h"
 #include "ColorStaticEx.h"
+#include "SpinEdit.h"
 
 // CEditSettingsDlg 对话框
 
@@ -23,6 +24,8 @@ public:
 
 private:
     CColorStaticEx m_background_color_static;
+    CSpinEdit m_font_size_edit;
+    CColorStaticEx m_highlight_color_static;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -33,4 +36,6 @@ public:
     virtual void OnOK();
 protected:
     afx_msg LRESULT OnColorSelected(WPARAM wParam, LPARAM lParam);
+public:
+    afx_msg void OnBnClickedChooseFontButton();
 };
