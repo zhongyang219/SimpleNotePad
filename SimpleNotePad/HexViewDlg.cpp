@@ -168,16 +168,12 @@ void CHexViewDlg::SaveConfig() const
 {
     theApp.WriteProfileInt(_T("hex_editor"), _T("edit_unit"), static_cast<int>(m_edit_unit));
     theApp.WriteProfileInt(_T("hex_editor"), _T("size_unit"), static_cast<int>(m_size_unit));
-    theApp.WriteProfileString(_T("hex_editor"), _T("font_name"), m_edit_font);
-    theApp.WriteProfileInt(_T("hex_editor"), _T("show_invisible_characters"), m_show_invisible_characters);
 }
 
 void CHexViewDlg::LoadConfig()
 {
 	m_edit_unit = static_cast<EditUnit>(theApp.GetProfileInt(_T("hex_editor"), _T("edit_unit"), 0));
 	m_size_unit = static_cast<SizeUnit>(theApp.GetProfileInt(_T("hex_editor"), _T("size_unit"), 0));
-    m_edit_font = theApp.GetProfileString(_T("hex_editor"), _T("font_name"), _T("新宋体"));
-    m_show_invisible_characters = theApp.GetProfileIntW(_T("hex_editor"), _T("show_invisible_characters"), 0);
 }
 
 CString CHexViewDlg::GetDialogName() const
@@ -204,7 +200,7 @@ void CHexViewDlg::SetHexViewPos()
 
 void CHexViewDlg::ConvertDumpChar(char & ch)
 {
-    if (m_show_invisible_characters)
+    if (theApp.GetEditSettings().show_invisible_characters_hex)
     {
         if (ch == '\r' || ch == '\n')
             ch = ' ';
@@ -242,9 +238,9 @@ BOOL CHexViewDlg::OnInitDialog()
     m_view->ShowWindow(SW_SHOW);
 
 	//设置字体
-    m_view->SetFontFace(m_edit_font.GetString());
-    m_view->SetFontSize(10);
-    m_font.CreatePointFont(100, m_edit_font);
+    m_view->SetFontFace(theApp.GetEditSettings().font_name_hex.GetString());
+    m_view->SetFontSize(theApp.GetEditSettings().font_size_hex);
+    m_font.CreatePointFont(theApp.GetEditSettings().font_size_hex * 10, theApp.GetEditSettings().font_name_hex);
     m_static_head.SetFont(&m_font);
 
     m_view->InitHexView();

@@ -38,4 +38,5 @@ protected:
     afx_msg LRESULT OnColorSelected(WPARAM wParam, LPARAM lParam);
 public:
     afx_msg void OnBnClickedChooseFontButton();
+    afx_msg void OnBnClickedHexSetFontButton();
 };

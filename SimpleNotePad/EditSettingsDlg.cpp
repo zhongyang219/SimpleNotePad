@@ -34,6 +34,7 @@ void CEditSettingsDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CEditSettingsDlg, CTabDlg)
     ON_MESSAGE(WM_COLOR_SELECTED, &CEditSettingsDlg::OnColorSelected)
     ON_BN_CLICKED(IDC_CHOOSE_FONT_BUTTON, &CEditSettingsDlg::OnBnClickedChooseFontButton)
+    ON_BN_CLICKED(IDC_HEX_SET_FONT_BUTTON, &CEditSettingsDlg::OnBnClickedHexSetFontButton)
 END_MESSAGE_MAP()
 
 
@@ -52,6 +53,8 @@ BOOL CEditSettingsDlg::OnInitDialog()
     SetDlgItemText(IDC_FONE_NAME_EDIT, m_data.font_name);
     m_font_size_edit.SetValue(m_data.font_size);
 
+    CheckDlgButton(IDC_SHOW_INVISIBLE_CHARACTOR_CHECK, m_data.show_invisible_characters_hex);
+
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 异常: OCX 属性页应返回 FALSE
 }
@@ -63,6 +66,8 @@ void CEditSettingsDlg::OnOK()
     m_data.current_line_highlight = (IsDlgButtonChecked(IDC_CURRENT_LINE_HIGHLIGHT_CHECK) != 0);
     GetDlgItemText(IDC_FONE_NAME_EDIT, m_data.font_name);
     m_data.font_size = m_font_size_edit.GetValue();
+
+    m_data.show_invisible_characters_hex = (IsDlgButtonChecked(IDC_SHOW_INVISIBLE_CHARACTOR_CHECK) != 0);
 
     CTabDlg::OnOK();
 }
@@ -87,7 +92,7 @@ afx_msg LRESULT CEditSettingsDlg::OnColorSelected(WPARAM wParam, LPARAM lParam)
 void CEditSettingsDlg::OnBnClickedChooseFontButton()
 {
     // TODO: 在此添加控件通知处理程序代码
-    LOGFONT lf{ 0 };             //LOGFONT变量
+    LOGFONT lf{ 0 };
     CString font_name;
     int font_size;
     GetDlgItemText(IDC_FONE_NAME_EDIT, font_name);
@@ -103,5 +108,21 @@ void CEditSettingsDlg::OnBnClickedChooseFontButton()
         //设置字体
         SetDlgItemText(IDC_FONE_NAME_EDIT, font_name);
         m_font_size_edit.SetValue(font_size);
+    }
+}
+
+
+void CEditSettingsDlg::OnBnClickedHexSetFontButton()
+{
+    // TODO: 在此添加控件通知处理程序代码
+    LOGFONT lf{ 0 };
+    _tcscpy_s(lf.lfFaceName, LF_FACESIZE, m_data.font_name_hex.GetString());
+    lf.lfHeight = CCommon::FontSizeToLfHeight(m_data.font_size_hex);
+    CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
+    if (IDOK == fontDlg.DoModal())     // 显示字体对话框
+    {
+        //获取字体信息
+        m_data.font_name_hex = fontDlg.m_cf.lpLogFont->lfFaceName;
+        m_data.font_size_hex = fontDlg.m_cf.iPointSize / 10;
     }
 }

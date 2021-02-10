@@ -73,6 +73,12 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.background_color = GetProfileInt(_T("config"), _T("background_color"), RGB(255, 255, 255));
     m_edit_settings_data.font_name = GetProfileString(_T("config"), _T("font_name"), _T("微软雅黑"));
     m_edit_settings_data.font_size = GetProfileInt(_T("config"), _T("font_size"), 10);
+
+    //十六进制查看器
+    m_edit_settings_data.font_name_hex = GetProfileString(_T("hex_editor"), _T("font_name"), _T("新宋体"));
+    m_edit_settings_data.font_size = GetProfileInt(_T("hex_editor"), _T("font_size"), 10);
+    m_edit_settings_data.show_invisible_characters_hex = GetProfileInt(_T("hex_editor"), _T("show_invisible_characters"), 0);
+
 }
 
 void CSimpleNotePadApp::SaveConfig()
@@ -87,6 +93,11 @@ void CSimpleNotePadApp::SaveConfig()
     theApp.WriteProfileInt(L"config", L"background_color", m_edit_settings_data.background_color);
     WriteProfileString(_T("config"), _T("font_name"), m_edit_settings_data.font_name);
     WriteProfileInt(L"config", L"font_size", m_edit_settings_data.font_size);
+
+    //十六进制查看器
+    WriteProfileString(_T("hex_editor"), _T("font_name"), m_edit_settings_data.font_name_hex);
+    WriteProfileInt(L"hex_editor", L"font_size", m_edit_settings_data.font_size_hex);
+    WriteProfileInt(_T("hex_editor"), _T("show_invisible_characters"), m_edit_settings_data.show_invisible_characters_hex);
 }
 
 

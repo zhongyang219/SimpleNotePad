@@ -69,8 +69,6 @@ protected:
 
 	EditUnit m_edit_unit{};
 	SizeUnit m_size_unit{};
-    CString m_edit_font{};
-    bool m_show_invisible_characters{};     //是否显示不可见的字符
 
 protected:
 	void ShowHexData();	//在文本编辑框中显示出十六进制数据
