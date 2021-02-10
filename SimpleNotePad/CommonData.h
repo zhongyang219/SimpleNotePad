@@ -18,6 +18,7 @@ struct EditSettingData
     COLORREF background_color{ RGB(255, 255, 255) };  //背景颜色
     CString font_name;	//字体名称
     int font_size{ 9 };		//字体大小
+    int tab_width{ 4 };     //制表符宽度
 
     //十六进制查看器
     CString font_name_hex;	//十六进制查看器的字体名称

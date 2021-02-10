@@ -28,6 +28,7 @@ void CEditSettingsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_BACKGROUND_COLOR_STATIC, m_background_color_static);
     DDX_Control(pDX, IDC_FONE_SIZE_EDIT, m_font_size_edit);
     DDX_Control(pDX, IDC_HIGHLIGHT_COLOR_STATIC, m_highlight_color_static);
+    DDX_Control(pDX, IDC_TAB_WIDTH_EDIT, m_tab_width_edit);
 }
 
 
@@ -51,7 +52,11 @@ BOOL CEditSettingsDlg::OnInitDialog()
     m_highlight_color_static.SetFillColor(m_data.current_line_highlight_color);
 
     SetDlgItemText(IDC_FONE_NAME_EDIT, m_data.font_name);
+    m_font_size_edit.SetRange(4, 72);
     m_font_size_edit.SetValue(m_data.font_size);
+
+    m_tab_width_edit.SetRange(1, 16);
+    m_tab_width_edit.SetValue(m_data.tab_width);
 
     CheckDlgButton(IDC_SHOW_INVISIBLE_CHARACTOR_CHECK, m_data.show_invisible_characters_hex);
 
@@ -66,6 +71,7 @@ void CEditSettingsDlg::OnOK()
     m_data.current_line_highlight = (IsDlgButtonChecked(IDC_CURRENT_LINE_HIGHLIGHT_CHECK) != 0);
     GetDlgItemText(IDC_FONE_NAME_EDIT, m_data.font_name);
     m_data.font_size = m_font_size_edit.GetValue();
+    m_data.tab_width = m_tab_width_edit.GetValue();
 
     m_data.show_invisible_characters_hex = (IsDlgButtonChecked(IDC_SHOW_INVISIBLE_CHARACTOR_CHECK) != 0);
 

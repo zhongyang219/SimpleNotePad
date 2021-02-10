@@ -68,7 +68,7 @@ BOOL CSettingsDlg::OnInitDialog()
     m_tab_ctrl.AddWindow(&m_general_settings_dlg, _T("常规设置"));
     m_tab_ctrl.AddWindow(&m_edit_settings_dlg, _T("编辑器设置"));
 
-    m_tab_ctrl.SetCurTab(0);
+    m_tab_ctrl.SetCurTab(1);
 
 
     return TRUE;  // return TRUE unless you set the focus to a control

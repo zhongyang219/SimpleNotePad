@@ -99,6 +99,11 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
         //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
         SetSyntaxHight(m_syntax_highlight.GetLanguage(m_cur_lan_index));
     }
+
+    if (theApp.GetEditSettings().tab_width != edit_settings_before.tab_width)
+    {
+        m_view->SetTabSize(theApp.GetEditSettings().tab_width);
+    }
 }
 
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
@@ -807,7 +812,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	//m_edit.SetLimitText(static_cast<UINT>(-1));
 
 	//设置制表符宽度
-    m_view->SetTabSize(4);
+    m_view->SetTabSize(theApp.GetEditSettings().tab_width);
 
     //设置当前行高亮
     m_view->SetCurrentLineHighlightColor(theApp.GetEditSettings().current_line_highlight_color);

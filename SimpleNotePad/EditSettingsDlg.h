@@ -26,6 +26,7 @@ private:
     CColorStaticEx m_background_color_static;
     CSpinEdit m_font_size_edit;
     CColorStaticEx m_highlight_color_static;
+    CSpinEdit m_tab_width_edit;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
