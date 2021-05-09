@@ -77,7 +77,7 @@ void CSimpleNotePadApp::LoadConfig()
 
     //十六进制查看器
     m_edit_settings_data.font_name_hex = GetProfileString(_T("hex_editor"), _T("font_name"), _T("新宋体"));
-    m_edit_settings_data.font_size = GetProfileInt(_T("hex_editor"), _T("font_size"), 10);
+    m_edit_settings_data.font_size_hex = GetProfileInt(_T("hex_editor"), _T("font_size"), 10);
     m_edit_settings_data.show_invisible_characters_hex = GetProfileInt(_T("hex_editor"), _T("show_invisible_characters"), 0);
 
 }
@@ -154,7 +154,7 @@ BOOL CSimpleNotePadApp::InitInstance()
         AfxMessageBox(_T("加载 SciLexer.dll 失败，程序即将退出！"), MB_ICONERROR | MB_OK);
         return FALSE;
     }
-    
+
     LoadConfig();
 
     CSimpleNotePadDlg dlg(m_lpCmdLine);
@@ -192,4 +192,3 @@ BOOL CSimpleNotePadApp::InitInstance()
 	//  而不是启动应用程序的消息泵。
 	return FALSE;
 }
-
