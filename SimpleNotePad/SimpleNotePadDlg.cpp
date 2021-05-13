@@ -88,6 +88,11 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
         SetEditorSyntaxHight();
     }
 
+	if (theApp.GetEditSettings().selection_back_color != edit_settings_before.selection_back_color)
+	{
+		m_view->SetSelectionBackColor(theApp.GetEditSettings().selection_back_color);
+	}
+
     //如果字体设置发生发变化
     if (theApp.GetEditSettings().font_name != edit_settings_before.font_name || theApp.GetEditSettings().font_size != edit_settings_before.font_size)
     {
@@ -321,7 +326,7 @@ void CSimpleNotePadDlg::LoadConfig()
 	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
     m_word_wrap_mode = static_cast<CScintillaEditView::eWordWrapMode>(theApp.GetProfileInt(_T("config"), _T("word_wrap_mode"), CScintillaEditView::WW_WORD));
 	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
-    m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 0) != 0);
+    m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 1) != 0);
     m_show_eol = (theApp.GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
 
 	m_find_no_case = (theApp.GetProfileInt(_T("config"), _T("find_no_case"), 0) != 0);
@@ -755,6 +760,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->SetLineNumberColor(RGB(75, 145, 175));
     m_view->SetViewEol(m_show_eol);
     m_view->SetBackgroundColor(theApp.GetEditSettings().background_color);
+    m_view->SetSelectionBackColor(theApp.GetEditSettings().selection_back_color);
     m_view->SetContextMenu(m_context_menu.GetSubMenu(0), this);
 
 	//初始化状态栏

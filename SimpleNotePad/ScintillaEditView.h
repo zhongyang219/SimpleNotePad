@@ -109,6 +109,8 @@ public:
     void SetCurrentLineHighlight(bool highlight);   //设置当前行高亮
     void SetCurrentLineHighlightColor(COLORREF color);  //设置当前行高亮颜色
 
+    void SetSelectionBackColor(COLORREF color);     //设置选中部分的背景色
+
     //语法解析
     void SetLexer(int lexer);
     void SetKeywords(int id, const char* keywords);
@@ -145,5 +147,3 @@ public:
     virtual void OnInitialUpdate();
     afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 };
-
-

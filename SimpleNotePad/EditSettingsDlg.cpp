@@ -29,6 +29,7 @@ void CEditSettingsDlg::DoDataExchange(CDataExchange* pDX)
     DDX_Control(pDX, IDC_FONE_SIZE_EDIT, m_font_size_edit);
     DDX_Control(pDX, IDC_HIGHLIGHT_COLOR_STATIC, m_highlight_color_static);
     DDX_Control(pDX, IDC_TAB_WIDTH_EDIT, m_tab_width_edit);
+    DDX_Control(pDX, IDC_SELECTION_BACKGROUND_COLOR_STATIC, m_selection_back_color_static);
 }
 
 
@@ -50,6 +51,7 @@ BOOL CEditSettingsDlg::OnInitDialog()
     CheckDlgButton(IDC_CURRENT_LINE_HIGHLIGHT_CHECK, m_data.current_line_highlight);
     m_background_color_static.SetFillColor(m_data.background_color);
     m_highlight_color_static.SetFillColor(m_data.current_line_highlight_color);
+    m_selection_back_color_static.SetFillColor(m_data.selection_back_color);
 
     SetDlgItemText(IDC_FONE_NAME_EDIT, m_data.font_name);
     m_font_size_edit.SetRange(4, 72);
@@ -90,6 +92,10 @@ afx_msg LRESULT CEditSettingsDlg::OnColorSelected(WPARAM wParam, LPARAM lParam)
     else if (pWnd == &m_highlight_color_static)
     {
         m_data.current_line_highlight_color = color_selected;
+    }
+    else if (pWnd == &m_selection_back_color_static)
+    {
+        m_data.selection_back_color = color_selected;
     }
     return 0;
 }

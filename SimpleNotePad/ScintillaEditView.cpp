@@ -214,7 +214,7 @@ void CScintillaEditView::SetWordWrap(bool word_wrap, eWordWrapMode mode)
             SendMessage(SCI_SETWRAPMODE, SC_WRAP_WORD);
             break;
         case CScintillaEditView::WW_CHARACTER:
-            SendMessage(SCI_SETWRAPMODE, SC_WRAP_CHAR); 
+            SendMessage(SCI_SETWRAPMODE, SC_WRAP_CHAR);
             break;
         case CScintillaEditView::WW_WHITESPACE:
             SendMessage(SCI_SETWRAPMODE, SC_WRAP_WHITESPACE);
@@ -385,6 +385,11 @@ void CScintillaEditView::SetCurrentLineHighlightColor(COLORREF color)
     m_current_line_highlight_color = color;
 }
 
+void CScintillaEditView::SetSelectionBackColor(COLORREF color)
+{
+    SendMessage(SCI_SETSELBACK, 1, color);
+}
+
 void CScintillaEditView::SetLexer(int lexer)
 {
     SendMessage(SCI_SETLEXER, lexer);
@@ -427,7 +432,7 @@ CScintillaEditView::eEolMode CScintillaEditView::JudgeEolMode(const wstring& str
     index = str.find(L'\n');
     if (index != wstring::npos)
         return EOL_LF;
-    
+
     index = str.find(L'\r');
     if (index != wstring::npos)
         return EOL_CR;
@@ -456,9 +461,9 @@ void CScintillaEditView::SetFold()
 {
     SendMessage(SCI_SETPROPERTY, (sptr_t)"fold", (sptr_t)"1");
 
-    SendMessage(SCI_SETMARGINTYPEN, MARGIN_FOLD_INDEX, SC_MARGIN_SYMBOL);//页边类型 
-    SendMessage(SCI_SETMARGINMASKN, MARGIN_FOLD_INDEX, SC_MASK_FOLDERS); //页边掩码 
-    SendMessage(SCI_SETMARGINSENSITIVEN, MARGIN_FOLD_INDEX, TRUE); //响应鼠标消息 
+    SendMessage(SCI_SETMARGINTYPEN, MARGIN_FOLD_INDEX, SC_MARGIN_SYMBOL);//页边类型
+    SendMessage(SCI_SETMARGINMASKN, MARGIN_FOLD_INDEX, SC_MASK_FOLDERS); //页边掩码
+    SendMessage(SCI_SETMARGINSENSITIVEN, MARGIN_FOLD_INDEX, TRUE); //响应鼠标消息
 
     // 折叠标签样式
     SendMessage(SCI_MARKERDEFINE, SC_MARKNUM_FOLDER, SC_MARK_BOXPLUS);
@@ -469,12 +474,12 @@ void CScintillaEditView::SetFold()
     SendMessage(SCI_MARKERDEFINE, SC_MARKNUM_FOLDERSUB, SC_MARK_VLINE);
     SendMessage(SCI_MARKERDEFINE, SC_MARKNUM_FOLDERTAIL, SC_MARK_LCORNER);
 
-    // 折叠标签颜色 
+    // 折叠标签颜色
     SendMessage(SCI_MARKERSETBACK, SC_MARKNUM_FOLDERSUB, 0xa0a0a0);
     SendMessage(SCI_MARKERSETBACK, SC_MARKNUM_FOLDERMIDTAIL, 0xa0a0a0);
     SendMessage(SCI_MARKERSETBACK, SC_MARKNUM_FOLDERTAIL, 0xa0a0a0);
 
-    SendMessage(SCI_SETFOLDFLAGS, SC_FOLDFLAG_LINEAFTER_CONTRACTED, 0); //如果折叠就在折叠行的下面画一条横线 
+    SendMessage(SCI_SETFOLDFLAGS, SC_FOLDFLAG_LINEAFTER_CONTRACTED, 0); //如果折叠就在折叠行的下面画一条横线
 }
 
 void CScintillaEditView::SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner)

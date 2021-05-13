@@ -1,32 +1,33 @@
-#pragma once
+ï»¿#pragma once
 #ifndef COMMON_DATA_H
 #define COMMON_DATA_H
 
 
-//³£¹æÉèÖÃ
+//å¸¸è§„è®¾ç½®
 struct SettingsData
 {
     int default_code_page_selected{};
     UINT default_code_page{};
 };
 
-//±à¼­Æ÷ÉèÖÃ
+//ç¼–è¾‘å™¨è®¾ç½®
 struct EditSettingData
 {
-    bool current_line_highlight{};      //µ±Ç°ĞĞ¸ßÁÁÏÔÊ¾
-    COLORREF current_line_highlight_color{ RGB(234, 243, 253) };    //µ±Ç°ĞĞ¸ßÁÁÑÕÉ«
-    COLORREF background_color{ RGB(255, 255, 255) };  //±³¾°ÑÕÉ«
-    CString font_name;	//×ÖÌåÃû³Æ
-    int font_size{ 9 };		//×ÖÌå´óĞ¡
-    int tab_width{ 4 };     //ÖÆ±í·û¿í¶È
+    bool current_line_highlight{};      //å½“å‰è¡Œé«˜äº®æ˜¾ç¤º
+    COLORREF current_line_highlight_color{ RGB(234, 243, 253) };    //å½“å‰è¡Œé«˜äº®é¢œè‰²
+    COLORREF background_color{ RGB(255, 255, 255) };  //èƒŒæ™¯é¢œè‰²
+    COLORREF selection_back_color{};        //é€‰ä¸­çš„èƒŒæ™¯é¢œè‰²
+    CString font_name;	//å­—ä½“åç§°
+    int font_size{ 9 };		//å­—ä½“å¤§å°
+    int tab_width{ 4 };     //åˆ¶è¡¨ç¬¦å®½åº¦
 
-    //Ê®Áù½øÖÆ²é¿´Æ÷
-    CString font_name_hex;	//Ê®Áù½øÖÆ²é¿´Æ÷µÄ×ÖÌåÃû³Æ
-    int font_size_hex{ 9 };		//Ê®Áù½øÖÆ²é¿´Æ÷µÄ×ÖÌå´óĞ¡
-    bool show_invisible_characters_hex{ false };    //ÊÇ·ñÏÔÊ¾²»¿É¼û×Ö·û
+    //åå…­è¿›åˆ¶æŸ¥çœ‹å™¨
+    CString font_name_hex;	//åå…­è¿›åˆ¶æŸ¥çœ‹å™¨çš„å­—ä½“åç§°
+    int font_size_hex{ 9 };		//åå…­è¿›åˆ¶æŸ¥çœ‹å™¨çš„å­—ä½“å¤§å°
+    bool show_invisible_characters_hex{ false };    //æ˜¯å¦æ˜¾ç¤ºä¸å¯è§å­—ç¬¦
 };
 
-//×Ô¶¨ÒåÏûÏ¢
+//è‡ªå®šä¹‰æ¶ˆæ¯
 inline int GetUserDefinedMessgeId()
 {
     static int current_msg_id = WM_USER + 100;
@@ -39,7 +40,7 @@ namespace MessageId
     const int a = GetUserDefinedMessgeId();
 };
 
-//static const int WM_COLOR_SELECTED = GetUserDefinedMessgeId();     //ÏìÓ¦ÑÕÉ«Ñ¡Ôñ¿Ø¼şÑ¡ÔñÁËÑÕÉ«
-#define WM_COLOR_SELECTED (WM_USER + 100)     //ÏìÓ¦ÑÕÉ«Ñ¡Ôñ¿Ø¼şÑ¡ÔñÁËÑÕÉ«
+//static const int WM_COLOR_SELECTED = GetUserDefinedMessgeId();     //å“åº”é¢œè‰²é€‰æ‹©æ§ä»¶é€‰æ‹©äº†é¢œè‰²
+#define WM_COLOR_SELECTED (WM_USER + 100)     //å“åº”é¢œè‰²é€‰æ‹©æ§ä»¶é€‰æ‹©äº†é¢œè‰²
 
 #endif // !COMMON_DATA_H

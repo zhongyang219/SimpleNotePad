@@ -71,6 +71,7 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.current_line_highlight = (GetProfileInt(L"config", L"current_line_highlight", 0) != 0);
     m_edit_settings_data.current_line_highlight_color = GetProfileInt(L"config", L"current_line_highlight_color", RGB(234, 243, 253));
     m_edit_settings_data.background_color = GetProfileInt(_T("config"), _T("background_color"), RGB(255, 255, 255));
+	m_edit_settings_data.selection_back_color = GetProfileInt(_T("config"), _T("selection_back_color"), RGB(192, 192, 192));
     m_edit_settings_data.font_name = GetProfileString(_T("config"), _T("font_name"), _T("微软雅黑"));
     m_edit_settings_data.font_size = GetProfileInt(_T("config"), _T("font_size"), 10);
     m_edit_settings_data.tab_width = GetProfileInt(_T("config"), _T("tab_width"), 4);
@@ -91,7 +92,8 @@ void CSimpleNotePadApp::SaveConfig()
     //保存编辑器设置
     WriteProfileInt(L"config", L"current_line_highlight", m_edit_settings_data.current_line_highlight);
     WriteProfileInt(L"config", L"current_line_highlight_color", m_edit_settings_data.current_line_highlight_color);
-    theApp.WriteProfileInt(L"config", L"background_color", m_edit_settings_data.background_color);
+    WriteProfileInt(L"config", L"background_color", m_edit_settings_data.background_color);
+    WriteProfileInt(L"config", L"selection_back_color", m_edit_settings_data.selection_back_color);
     WriteProfileString(_T("config"), _T("font_name"), m_edit_settings_data.font_name);
     WriteProfileInt(L"config", L"font_size", m_edit_settings_data.font_size);
     WriteProfileInt(_T("config"), _T("tab_width"), m_edit_settings_data.tab_width);
@@ -146,7 +148,11 @@ BOOL CSimpleNotePadApp::InitInstance()
 	// 更改用于存储设置的注册表项
 	// TODO: 应适当修改该字符串，
 	// 例如修改为公司或组织名
-	SetRegistryKey(_T("Apps By ZhongYang"));
+	CString reg_key = _T("Apps By ZhongYang");
+#ifdef _DEBUG
+	reg_key += _T(" (Debug)");
+#endif
+	SetRegistryKey(reg_key);
 
     m_hScintillaModule = LoadLibrary(_T("SciLexer.dll"));
     if (m_hScintillaModule == NULL)
