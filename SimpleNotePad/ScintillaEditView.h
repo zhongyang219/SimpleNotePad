@@ -64,6 +64,8 @@ public:
     void SelectAll();
     void EmptyUndoBuffer();     //清空撤销缓存
 
+    void ReplaceSelected(const wstring& replace_str);   //替换选中的字符串
+
     enum eWordWrapMode
     {
         WW_WORD,

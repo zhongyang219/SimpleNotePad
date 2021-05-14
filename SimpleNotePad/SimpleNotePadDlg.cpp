@@ -1766,17 +1766,23 @@ void CSimpleNotePadDlg::OnConvertToCapital()
     // TODO: 在此添加命令处理程序代码
     if (!m_view->IsSelectionEmpty())
     {
-        CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+        //CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
         int start{}, end{};
         m_view->GetSel(start, end);
-        for (int i = start; i < end; i++)
+        if (end > start)
         {
-            if (i < static_cast<int>(m_edit_wcs.size()))
-                CCommon::ConvertCharCase(m_edit_wcs[i], true);
+            //获取选中部分的文本
+            wstring str_selected = m_edit_wcs.substr(start, end - start);
+            //大小写转换
+            for (auto& ch : str_selected)
+            {
+                CCommon::ConvertCharCase(ch, true);
+            }
+            //替换成转换后的文本
+            m_view->ReplaceSelected(str_selected);
+            m_view->SetSel(start, end + 1, m_edit_wcs);
+            SetTitle();
         }
-        m_view->SetText(m_edit_wcs);
-        m_view->SetSel(start, end, m_edit_wcs);
-        SetTitle();
     }
 }
 
@@ -1786,17 +1792,23 @@ void CSimpleNotePadDlg::OnConvertToLowerCase()
     // TODO: 在此添加命令处理程序代码
     if (!m_view->IsSelectionEmpty())
     {
-        CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+        //CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
         int start{}, end{};
         m_view->GetSel(start, end);
-        for (int i = start; i < end; i++)
+		if (end > start)
         {
-            if (i < static_cast<int>(m_edit_wcs.size()))
-                CCommon::ConvertCharCase(m_edit_wcs[i], false);
+			//获取选中部分的文本
+            wstring str_selected = m_edit_wcs.substr(start, end - start);
+			//大小写转换
+			for (auto& ch : str_selected)
+			{
+                CCommon::ConvertCharCase(ch, false);
+			}
+			//替换成转换后的文本
+			m_view->ReplaceSelected(str_selected);
+            m_view->SetSel(start, end + 1, m_edit_wcs);
+            SetTitle();
         }
-        m_view->SetText(m_edit_wcs);
-        m_view->SetSel(start, end, m_edit_wcs);
-        SetTitle();
     }
 }
 
@@ -1806,25 +1818,31 @@ void CSimpleNotePadDlg::OnConvertToTitleCase()
     // TODO: 在此添加命令处理程序代码
     if (!m_view->IsSelectionEmpty())
     {
-        CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+        //CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
         int start{}, end{};
         m_view->GetSel(start, end);
-        for (int i = start; i < end; i++)
+        if (end > start)
         {
-            //如果当前字符是字母
-            if (i < static_cast<int>(m_edit_wcs.size()) && i >= 0 && CCommon::IsLetter(m_edit_wcs[i]))
+            //获取选中部分的文本
+            wstring str_selected = m_edit_wcs.substr(start, end - start);
+            for (int i = 0; i < static_cast<int>(str_selected.size()); i++)
             {
-                //如果当前是第0个字符或前一个字符不是字母，则当前字符转换成大写
-                if (i == 0 || !CCommon::IsLetter(m_edit_wcs[i - 1]))
-                    CCommon::ConvertCharCase(m_edit_wcs[i], true);
-                //其他的字符转换成小写
-                else
-                    CCommon::ConvertCharCase(m_edit_wcs[i], false);
+                //如果当前字符是字母
+                if (CCommon::IsLetter(str_selected[i]))
+                {
+                    //如果当前是第0个字符或前一个字符不是字母，则当前字符转换成大写
+                    if (i == 0 || !CCommon::IsLetter(str_selected[i - 1]))
+                        CCommon::ConvertCharCase(str_selected[i], true);
+                    //其他的字符转换成小写
+                    else
+                        CCommon::ConvertCharCase(str_selected[i], false);
+                }
             }
+            //替换成转换后的文本
+            m_view->ReplaceSelected(str_selected);
+            m_view->SetSel(start, end + 1, m_edit_wcs);
+            SetTitle();
         }
-        m_view->SetText(m_edit_wcs);
-        m_view->SetSel(start, end, m_edit_wcs);
-        SetTitle();
     }
 }
 

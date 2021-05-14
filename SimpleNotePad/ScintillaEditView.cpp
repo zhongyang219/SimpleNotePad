@@ -200,6 +200,13 @@ void CScintillaEditView::EmptyUndoBuffer()
     SendMessage(SCI_EMPTYUNDOBUFFER);
 }
 
+void CScintillaEditView::ReplaceSelected(const wstring& replace_str)
+{
+    bool noused;
+    string replaced_str = CCommon::UnicodeToStr(replace_str, noused, CodeType::UTF8);
+    SendMessage(SCI_REPLACESEL, 0, (sptr_t)replaced_str.c_str());
+}
+
 void CScintillaEditView::SetWordWrap(bool word_wrap, eWordWrapMode mode)
 {
     if (!word_wrap)
