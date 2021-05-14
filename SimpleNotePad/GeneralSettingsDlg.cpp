@@ -44,6 +44,8 @@ BOOL CGeneralSettingsDlg::OnInitDialog()
 
     // TODO:  在此添加额外的初始化
 
+    CheckDlgButton(IDC_CHECK_UPDATE_CHECK, m_data.check_update_when_start);
+
     //初始化下拉列表
     for (size_t i{}; i < CONST_VAL::code_page_list.size(); i++)
     {
@@ -78,4 +80,12 @@ void CGeneralSettingsDlg::OnCbnSelchangeDefaultCodePageCombo()
     }
 
     SetDlgItemText(IDC_CODE_PAGE_STATIC, std::to_wstring(m_data.default_code_page).c_str());
+}
+
+
+void CGeneralSettingsDlg::OnOK()
+{
+    // TODO: 在此添加专用代码和/或调用基类
+    m_data.check_update_when_start = (IsDlgButtonChecked(IDC_CHECK_UPDATE_CHECK) != 0);
+    CTabDlg::OnOK();
 }

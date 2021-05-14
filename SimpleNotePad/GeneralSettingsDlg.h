@@ -30,4 +30,5 @@ protected:
 public:
     virtual BOOL OnInitDialog();
     afx_msg void OnCbnSelchangeDefaultCodePageCombo();
+	virtual void OnOK();
 };

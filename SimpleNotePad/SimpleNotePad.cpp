@@ -145,6 +145,7 @@ void CSimpleNotePadApp::LoadConfig()
     //载入选项设置
     m_settings_data.default_code_page_selected = GetProfileInt(L"config", L"default_code_page_selected", 0);
     m_settings_data.default_code_page = GetProfileInt(L"config", L"default_code_page", 0);
+    m_settings_data.check_update_when_start = (GetProfileInt(L"config", L"check_update_when_start", 1) != 0);
     m_settings_data.update_source = GetProfileInt(L"config", L"update_source", 0);
 
     //载入编辑器设置
@@ -242,6 +243,15 @@ BOOL CSimpleNotePadApp::InitInstance()
     }
 
     LoadConfig();
+
+    //启动时检查更新
+#ifndef _DEBUG		//DEBUG下不在启动时检查更新
+    if (m_settings_data.check_update_when_start)
+    {
+        AfxBeginThread(CheckUpdateThreadFunc, NULL);
+    }
+#endif // !_DEBUG
+
 
     CSimpleNotePadDlg dlg(m_lpCmdLine);
 	m_pMainWnd = &dlg;

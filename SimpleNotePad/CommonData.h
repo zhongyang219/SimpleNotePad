@@ -8,6 +8,7 @@ struct SettingsData
 {
     int default_code_page_selected{};
     UINT default_code_page{};
+    bool check_update_when_start{};
     int update_source{};
 };
 
