@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Common.h"
+#include <afxinet.h>    //用于支持使用网络相关的类
 
 
 CCommon::CCommon()
@@ -120,7 +121,7 @@ bool CCommon::IsUTF8Bytes(const char * data)
 				{
 					charByteCounter++;
 				}
-				//标记位首位若为非0 则至少以2个1开始 如:110XXXXX...........1111110X 
+				//标记位首位若为非0 则至少以2个1开始 如:110XXXXX...........1111110X
 				if (charByteCounter == 1 || charByteCounter > 6)
 				{
 					return false;
@@ -427,4 +428,50 @@ wstring CCommon::GetExePath()
     index = current_path.find_last_of(L'\\');
     current_path = current_path.substr(0, index + 1);
     return current_path;
+}
+
+bool CCommon::GetURL(const wstring& url, wstring& result, bool utf8, const wstring& user_agent)
+{
+    bool succeed{ false };
+    CInternetSession* pSession{};
+    CHttpFile* pfile{};
+    try
+    {
+        pSession = new CInternetSession(user_agent.c_str());
+        pfile = (CHttpFile*)pSession->OpenURL(url.c_str());
+        DWORD dwStatusCode;
+        pfile->QueryInfoStatusCode(dwStatusCode);
+        if (dwStatusCode == HTTP_STATUS_OK)
+        {
+            CString content;
+            CString data;
+            while (pfile->ReadString(data))
+            {
+                content += data;
+            }
+            result = StrToUnicode((const char*)content.GetString(), utf8 ? CodeType::UTF8 : CodeType::ANSI);
+            succeed = true;
+        }
+        pfile->Close();
+        delete pfile;
+        pSession->Close();
+    }
+    catch (CInternetException* e)
+    {
+        //写入错误日志
+        //CString info = CCommon::LoadTextFormat(IDS_GET_URL_ERROR_LOG_INFO, { url, static_cast<size_t>(e->m_dwError) });
+        //CCommon::WriteLog(info, theApp.m_log_path.c_str());
+        if (pfile != nullptr)
+        {
+            pfile->Close();
+            delete pfile;
+        }
+        if (pSession != nullptr)
+            pSession->Close();
+        succeed = false;
+        e->Delete();        //没有这句会造成内存泄露
+        SAFE_DELETE(pSession);
+    }
+    SAFE_DELETE(pSession);
+    return succeed;
 }

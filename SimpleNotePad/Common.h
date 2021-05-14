@@ -143,5 +143,7 @@ public:
     //获取当前进程exe文件所在目录
     static wstring GetExePath();
 
-};
+    //获取URL的内容
+    static bool GetURL(const wstring& url, wstring& result, bool utf8 = false, const wstring& user_agent = wstring());
 
+};

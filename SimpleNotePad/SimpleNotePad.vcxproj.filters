@@ -24,9 +24,6 @@
     <Filter Include="头文件和源文件\SimpleNotePadDlg">
       <UniqueIdentifier>{ba9f5bda-7ce7-414e-9abe-38e56f58fd5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件和源文件\Common">
-      <UniqueIdentifier>{c8968ed5-ca41-4124-97b8-e894da7a05ca}</UniqueIdentifier>
-    </Filter>
     <Filter Include="头文件和源文件\stdafx">
       <UniqueIdentifier>{ba8ba2c7-1eb7-4cce-83c2-9c2e1e52dc02}</UniqueIdentifier>
     </Filter>
@@ -81,6 +78,18 @@
     <Filter Include="头文件和源文件\派生的控件类\SpinEdit">
       <UniqueIdentifier>{bdcc0a9b-0da3-4abe-be62-7e781b4f8021}</UniqueIdentifier>
     </Filter>
+    <Filter Include="公共的类">
+      <UniqueIdentifier>{91a5671c-8993-46a5-b8db-0ddd5eb90dde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="公共的类\Common">
+      <UniqueIdentifier>{c8968ed5-ca41-4124-97b8-e894da7a05ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="公共的类\UpdateHelper">
+      <UniqueIdentifier>{38f506cb-e91d-4689-b398-f664cda9f85f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="公共的类\SimpleXML">
+      <UniqueIdentifier>{c693d1d8-ea9a-4033-88b3-aa304829ae71}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -99,7 +108,7 @@
       <Filter>头文件和源文件\SimpleNotePadDlg</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
-      <Filter>头文件和源文件\Common</Filter>
+      <Filter>公共的类\Common</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件和源文件\stdafx</Filter>
@@ -138,7 +147,7 @@
       <Filter>Test</Filter>
     </ClInclude>
     <ClInclude Include="TinyXml2Helper.h">
-      <Filter>头文件和源文件\Common</Filter>
+      <Filter>公共的类\Common</Filter>
     </ClInclude>
     <ClInclude Include="SyntaxHighlight.h">
       <Filter>头文件和源文件\SyntaxHighlight</Filter>
@@ -153,7 +162,7 @@
       <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
     </ClInclude>
     <ClInclude Include="FilePathHelper.h">
-      <Filter>头文件和源文件\Common</Filter>
+      <Filter>公共的类\Common</Filter>
     </ClInclude>
     <ClInclude Include="CommonData.h">
       <Filter>头文件和源文件\头文件</Filter>
@@ -182,6 +191,12 @@
     <ClInclude Include="SpinEdit.h">
       <Filter>头文件和源文件\派生的控件类\SpinEdit</Filter>
     </ClInclude>
+    <ClInclude Include="UpdateHelper.h">
+      <Filter>公共的类\UpdateHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleXML.h">
+      <Filter>公共的类\SimpleXML</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -191,7 +206,7 @@
       <Filter>头文件和源文件\SimpleNotePadDlg</Filter>
     </ClCompile>
     <ClCompile Include="Common.cpp">
-      <Filter>头文件和源文件\Common</Filter>
+      <Filter>公共的类\Common</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>头文件和源文件\stdafx</Filter>
@@ -230,7 +245,7 @@
       <Filter>Test</Filter>
     </ClCompile>
     <ClCompile Include="TinyXml2Helper.cpp">
-      <Filter>头文件和源文件\Common</Filter>
+      <Filter>公共的类\Common</Filter>
     </ClCompile>
     <ClCompile Include="SyntaxHighlight.cpp">
       <Filter>头文件和源文件\SyntaxHighlight</Filter>
@@ -239,7 +254,7 @@
       <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
     </ClCompile>
     <ClCompile Include="FilePathHelper.cpp">
-      <Filter>头文件和源文件\Common</Filter>
+      <Filter>公共的类\Common</Filter>
     </ClCompile>
     <ClCompile Include="GeneralSettingsDlg.cpp">
       <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
@@ -264,6 +279,12 @@
     </ClCompile>
     <ClCompile Include="SpinEdit.cpp">
       <Filter>头文件和源文件\派生的控件类\SpinEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateHelper.cpp">
+      <Filter>公共的类\UpdateHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleXML.cpp">
+      <Filter>公共的类\SimpleXML</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

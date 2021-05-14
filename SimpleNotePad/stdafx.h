@@ -81,3 +81,12 @@ typedef char _tchar;
 
 #define MAX_FILE_SIZE 10485760		//定义可以打开的最大文件大小
 #define MAX_COMPARE_SIZE 4194304		//定义文件二进制比较时的最大文件大小
+
+#define SAFE_DELETE(p) do \
+{\
+    if(p != nullptr) \
+    { \
+        delete p; \
+        p = nullptr; \
+    } \
+} while (false)

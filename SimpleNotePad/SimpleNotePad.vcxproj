@@ -225,6 +225,7 @@
     <ClInclude Include="SettingsDlg.h" />
     <ClInclude Include="SimpleNotePad.h" />
     <ClInclude Include="SimpleNotePadDlg.h" />
+    <ClInclude Include="SimpleXML.h" />
     <ClInclude Include="SpinEdit.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SyntaxHighlight.h" />
@@ -233,6 +234,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TinyXml2Helper.h" />
+    <ClInclude Include="UpdateHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseDialog.cpp" />
@@ -255,6 +257,7 @@
     <ClCompile Include="SettingsDlg.cpp" />
     <ClCompile Include="SimpleNotePad.cpp" />
     <ClCompile Include="SimpleNotePadDlg.cpp" />
+    <ClCompile Include="SimpleXML.cpp" />
     <ClCompile Include="SpinEdit.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -267,6 +270,7 @@
     <ClCompile Include="TabDlg.cpp" />
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TinyXml2Helper.cpp" />
+    <ClCompile Include="UpdateHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SimpleNotePad.rc" />
