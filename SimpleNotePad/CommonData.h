@@ -8,6 +8,7 @@ struct SettingsData
 {
     int default_code_page_selected{};
     UINT default_code_page{};
+    int update_source{};
 };
 
 //编辑器设置
@@ -42,5 +43,24 @@ namespace MessageId
 
 //static const int WM_COLOR_SELECTED = GetUserDefinedMessgeId();     //响应颜色选择控件选择了颜色
 #define WM_COLOR_SELECTED (WM_USER + 100)     //响应颜色选择控件选择了颜色
+
+//通过构造函数传递一个bool变量的引用，在构造时将其置为true，析构时置为false
+class CFlagLocker
+{
+public:
+    CFlagLocker(bool& flag)
+        : m_flag(flag)
+    {
+        m_flag = true;
+    }
+
+    ~CFlagLocker()
+    {
+        m_flag = false;
+    }
+
+private:
+    bool& m_flag;
+};
 
 #endif // !COMMON_DATA_H

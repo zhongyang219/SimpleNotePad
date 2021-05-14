@@ -146,4 +146,8 @@ public:
     //获取URL的内容
     static bool GetURL(const wstring& url, wstring& result, bool utf8 = false, const wstring& user_agent = wstring());
 
+    //从资源文件载入字符串。其中，front_str、back_str为载入字符串时需要在前面或后面添加的字符串
+    static CString LoadText(UINT id, LPCTSTR back_str = nullptr);
+    static CString LoadText(LPCTSTR front_str, UINT id, LPCTSTR back_str = nullptr);
+
 };

@@ -75,6 +75,8 @@ typedef std::string _tstring;
 typedef char _tchar;
 #endif // !UNICODE
 
+#define VERSION L"1.40"
+
 #define HEX_LOG_PATH _T(".\\hex_edit.log")
 
 #define IDC_SAVE_COMBO_BOX 1990		//定义添加到“另存为”对话框中的组合框的ID

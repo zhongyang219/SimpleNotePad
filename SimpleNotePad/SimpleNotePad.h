@@ -12,7 +12,7 @@
 
 #include "CommonData.h"
 
-// CSimpleNotePadApp: 
+// CSimpleNotePadApp:
 // 有关此类的实现，请参阅 SimpleNotePad.cpp
 //
 
@@ -33,6 +33,12 @@ public:
     EditSettingData GetEditSettings() const;
     void SetEditSettings(const EditSettingData& data);
 
+    void CheckUpdate(bool message);     //检查更新，如果message为true，则在检查时弹出提示信息
+    void CheckUpdateInThread(bool message); //在后台线程中检查更新
+    //启动时检查更新线程函数
+    static UINT CheckUpdateThreadFunc(LPVOID lpParam);
+    bool IsCheckingForUpdate() const { return m_checking_update; }      //是否正在检查更新
+
 private:
     void LoadConfig();
     void SaveConfig();
@@ -44,6 +50,8 @@ private:
     //选项设置数据
     SettingsData m_settings_data;   //常规设置
     EditSettingData m_edit_settings_data;   //编辑器设置
+
+    bool m_checking_update{ false };        //是否正在检查更新
 
 
 // 重写

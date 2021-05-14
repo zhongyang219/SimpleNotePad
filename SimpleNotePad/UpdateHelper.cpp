@@ -58,13 +58,10 @@ void CUpdateHelper::ParseUpdateInfo(wstring version_info)
     m_link = version_xml.GetNode(str_link_tag.c_str(), str_source_tag.c_str());
     CString contents_zh_cn = version_xml.GetNode(L"contents_zh_cn", L"update_contents").c_str();
     //CString contents_en = version_xml.GetNode(L"contents_en", L"update_contents").c_str();
-    //CString contents_zh_tw = version_xml.GetNode(L"contents_zh_tw", L"update_contents").c_str();
     contents_zh_cn.Replace(L"\\n", L"\r\n");
     //contents_en.Replace(L"\\n", L"\r\n");
-    //contents_zh_tw.Replace(L"\\n", L"\r\n");
     m_contents_zh_cn = contents_zh_cn;
     //m_contents_en = contents_en;
-    //m_contents_zh_tw = contents_zh_tw;
 }
 
 const std::wstring& CUpdateHelper::GetVersion() const
@@ -91,13 +88,3 @@ const std::wstring& CUpdateHelper::GetContentsZhCn() const
 {
     return m_contents_zh_cn;
 }
-
-//const std::wstring& CUpdateHelper::GetContentsZhTw() const
-//{
-//    return m_contents_zh_tw;
-//}
-//
-//bool CUpdateHelper::IsRowData()
-//{
-//    return m_row_data;
-//}

@@ -475,3 +475,23 @@ bool CCommon::GetURL(const wstring& url, wstring& result, bool utf8, const wstri
     SAFE_DELETE(pSession);
     return succeed;
 }
+
+CString CCommon::LoadText(UINT id, LPCTSTR back_str /*= nullptr*/)
+{
+    CString str;
+    str.LoadString(id);
+    if (back_str != nullptr)
+        str += back_str;
+    return str;
+}
+
+CString CCommon::LoadText(LPCTSTR front_str, UINT id, LPCTSTR back_str /*= nullptr*/)
+{
+    CString str;
+    str.LoadString(id);
+    if (back_str != nullptr)
+        str += back_str;
+    if (front_str != nullptr)
+        str = front_str + str;
+    return str;
+}

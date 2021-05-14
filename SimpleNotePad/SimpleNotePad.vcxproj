@@ -203,6 +203,7 @@
   <ItemGroup>
     <ClInclude Include="..\scintilla\include\SciLexer.h" />
     <ClInclude Include="..\scintilla\include\Scintilla.h" />
+    <ClInclude Include="AboutDlg.h" />
     <ClInclude Include="BaseDialog.h" />
     <ClInclude Include="CodeConvertDlg.h" />
     <ClInclude Include="ColorStatic.h" />
@@ -237,6 +238,7 @@
     <ClInclude Include="UpdateHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutDlg.cpp" />
     <ClCompile Include="BaseDialog.cpp" />
     <ClCompile Include="CodeConvertDlg.cpp" />
     <ClCompile Include="ColorStatic.cpp" />

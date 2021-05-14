@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "SimpleNotePad.h"
 #include "SimpleNotePadDlg.h"
+#include "UpdateHelper.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -61,11 +62,90 @@ void CSimpleNotePadApp::SetEditSettings(const EditSettingData & data)
     m_edit_settings_data = data;
 }
 
+void CSimpleNotePadApp::CheckUpdate(bool message)
+{
+    if (m_checking_update)      //如果还在检查更新，则直接返回
+        return;
+    CFlagLocker update_locker(m_checking_update);
+    CWaitCursor wait_cursor;
+
+    wstring version;        //程序版本
+    wstring link;           //下载链接
+    wstring contents_zh_cn; //更新内容（简体中文）
+    //wstring contents_en;    //更新内容（English）
+    CUpdateHelper update_helper;
+    update_helper.SetUpdateSource(static_cast<CUpdateHelper::UpdateSource>(m_settings_data.update_source));
+    if (!update_helper.CheckForUpdate())
+    {
+        if (message)
+            AfxMessageBox(CCommon::LoadText(IDS_CHECK_UPDATE_FAILD), MB_OK | MB_ICONWARNING);
+        return;
+    }
+    version = update_helper.GetVersion();
+#ifdef _M_X64
+    link = update_helper.GetLink64();
+#else
+    link = update_helper.GetLink();
+#endif
+    contents_zh_cn = update_helper.GetContentsZhCn();
+    //contents_en = update_helper.GetContentsEn();
+    if (version.empty() || link.empty())
+    {
+        if (message)
+        {
+            CString info = CCommon::LoadText(IDS_CHECK_UPDATE_ERROR);
+            AfxMessageBox(info, MB_OK | MB_ICONWARNING);
+        }
+        return;
+    }
+    if (version > VERSION)      //如果服务器上的版本大于本地版本
+    {
+        CString info;
+        //根据语言设置选择对应语言版本的更新内容
+        //int language_code = _ttoi(CCommon::LoadText(IDS_LANGUAGE_CODE));
+        wstring contents_lan;
+        //switch (language_code)
+        //{
+        //case 2: contents_lan = contents_zh_cn; break;
+        //default: contents_lan = contents_en; break;
+        //}
+        contents_lan = contents_zh_cn;
+
+        if (contents_lan.empty())
+            info.Format(CCommon::LoadText(IDS_UPDATE_AVLIABLE), version.c_str());
+        else
+            info.Format(CCommon::LoadText(IDS_UPDATE_AVLIABLE2), version.c_str(), contents_lan.c_str());
+
+        if (AfxMessageBox(info, MB_YESNO | MB_ICONQUESTION) == IDYES)
+        {
+            ShellExecute(NULL, _T("open"), link.c_str(), NULL, NULL, SW_SHOW);      //转到下载链接
+        }
+    }
+    else
+    {
+        if (message)
+            AfxMessageBox(CCommon::LoadText(IDS_ALREADY_UPDATED), MB_OK | MB_ICONINFORMATION);
+    }
+}
+
+void CSimpleNotePadApp::CheckUpdateInThread(bool message)
+{
+    AfxBeginThread(CheckUpdateThreadFunc, (LPVOID)message);
+}
+
+UINT CSimpleNotePadApp::CheckUpdateThreadFunc(LPVOID lpParam)
+{
+    //CCommon::SetThreadLanguage(theApp.m_general_data.language);     //设置线程语言
+    theApp.CheckUpdate(lpParam);        //检查更新
+    return 0;
+}
+
 void CSimpleNotePadApp::LoadConfig()
 {
     //载入选项设置
     m_settings_data.default_code_page_selected = GetProfileInt(L"config", L"default_code_page_selected", 0);
     m_settings_data.default_code_page = GetProfileInt(L"config", L"default_code_page", 0);
+    m_settings_data.update_source = GetProfileInt(L"config", L"update_source", 0);
 
     //载入编辑器设置
     m_edit_settings_data.current_line_highlight = (GetProfileInt(L"config", L"current_line_highlight", 0) != 0);
