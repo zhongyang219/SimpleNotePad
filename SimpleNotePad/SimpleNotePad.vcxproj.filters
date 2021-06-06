@@ -93,6 +93,9 @@
     <Filter Include="头文件和源文件\对话框类\AboutDlg">
       <UniqueIdentifier>{7879f34c-aeaf-49ca-a7e3-109d70b68552}</UniqueIdentifier>
     </Filter>
+    <Filter Include="公共的类\CVariant">
+      <UniqueIdentifier>{59ba128c-7c64-4c59-81ea-8e062d0bc982}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -203,6 +206,9 @@
     <ClInclude Include="AboutDlg.h">
       <Filter>头文件和源文件\对话框类\AboutDlg</Filter>
     </ClInclude>
+    <ClInclude Include="CVariant.h">
+      <Filter>公共的类\CVariant</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -294,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="AboutDlg.cpp">
       <Filter>头文件和源文件\对话框类\AboutDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="CVariant.cpp">
+      <Filter>公共的类\CVariant</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

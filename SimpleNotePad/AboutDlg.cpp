@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "SimpleNotePad.h"
 #include "AboutDlg.h"
+#include "Common.h"
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	ON_NOTIFY(NM_CLICK, IDC_STATIC_MAIL, &CAboutDlg::OnNMClickStaticMail)
@@ -50,4 +51,29 @@ void CAboutDlg::OnNMClickStaticGitee(NMHDR* pNMHDR, LRESULT* pResult)
 	// TODO: 在此添加控件通知处理程序代码
     ShellExecute(NULL, _T("open"), _T("https://gitee.com/zhongyang219/SimpleNotePad/"), NULL, NULL, SW_SHOW);	//打开超链接
     *pResult = 0;
+}
+
+
+BOOL CAboutDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	// TODO:  在此添加额外的初始化
+    CString version_info;
+    GetDlgItemText(IDC_STATIC_VERSION, version_info);
+    version_info = CCommon::StringFormat(version_info, { VERSION });
+
+#ifdef _M_X64
+    version_info += _T(" (x64)");
+#endif
+
+#ifdef _DEBUG
+    version_info += _T(" (Debug)");
+#endif
+
+    SetDlgItemText(IDC_STATIC_VERSION, version_info);
+
+
+	return TRUE;  // return TRUE unless you set the focus to a control
+				  // 异常: OCX 属性页应返回 FALSE
 }

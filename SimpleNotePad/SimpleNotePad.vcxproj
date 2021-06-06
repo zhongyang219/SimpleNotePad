@@ -210,6 +210,7 @@
     <ClInclude Include="ColorStaticEx.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CommonData.h" />
+    <ClInclude Include="CVariant.h" />
     <ClInclude Include="DeleteDataDlg.h" />
     <ClInclude Include="EditEx.h" />
     <ClInclude Include="EditSettingsDlg.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="ColorStaticEx.cpp" />
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="CVariant.cpp" />
     <ClCompile Include="DeleteDataDlg.cpp" />
     <ClCompile Include="EditEx.cpp" />
     <ClCompile Include="EditSettingsDlg.cpp" />
