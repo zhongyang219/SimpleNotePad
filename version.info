@@ -4,8 +4,8 @@
 	<link_x64>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.41/SimpleNotePad_V1.41_x64.zip</link_x64>
 </GitHub>
 <Gitee>
-	<link>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/724353/download/SimpleNotePad_V1.41_x86.zip</link>
-	<link_x64>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/724355/download/SimpleNotePad_V1.41_x64.zip</link_x64>
+	<link>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/724356/download/SimpleNotePad_V1.41_x86.zip</link>
+	<link_x64>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/724357/download/SimpleNotePad_V1.41_x64.zip</link_x64>
 </Gitee>
 <update_contents>
 	<contents_zh_cn>选项设置中增加编辑器设置\n选项设置中增加十六进制编辑器设置\n右键菜单中增加大小写转换的功能\n新增检查更新的功能</contents_zh_cn>
