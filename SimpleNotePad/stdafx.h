@@ -75,7 +75,7 @@ typedef std::string _tstring;
 typedef char _tchar;
 #endif // !UNICODE
 
-#define VERSION L"1.40"
+#define VERSION L"1.41"
 
 #define HEX_LOG_PATH _T(".\\hex_edit.log")
 
