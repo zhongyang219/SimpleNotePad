@@ -1,6 +1,12 @@
 ﻿<version>1.40</version>
-<link>https://github.com/zhongyang219/MusicPlayer2/releases/download/V2.72/MusicPlayer2_V2.72_x86.7z</link>
-<link_x64>https://github.com/zhongyang219/MusicPlayer2/releases/download/V2.72/MusicPlayer2_V2.72_x64.7z</link_x64>
+<GitHub>
+	<link>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.40/SimpleNotePad_V1.40_x86.zip</link>
+	<link_x64>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.40/SimpleNotePad_V1.40_x64.zip</link_x64>
+</GitHub>
+<Gitee>
+	<link>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/724338/download/SimpleNotePad_V1.40_x86.zip</link>
+	<link_x64>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/724337/download/SimpleNotePad_V1.40_x64.zip</link_x64>
+</Gitee>
 <update_contents>
 	<contents_zh_cn></contents_zh_cn>
 </update_contents>
