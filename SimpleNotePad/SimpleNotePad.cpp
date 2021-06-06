@@ -169,6 +169,8 @@ void CSimpleNotePadApp::SaveConfig()
     //保存选项设置
     WriteProfileInt(L"config", L"default_code_page_selected", m_settings_data.default_code_page_selected);
     WriteProfileInt(L"config", L"default_code_page", m_settings_data.default_code_page);
+    WriteProfileInt(L"config", L"check_update_when_start", m_settings_data.check_update_when_start);
+    WriteProfileInt(L"config", L"update_source", m_settings_data.update_source);
 
     //保存编辑器设置
     WriteProfileInt(L"config", L"current_line_highlight", m_edit_settings_data.current_line_highlight);

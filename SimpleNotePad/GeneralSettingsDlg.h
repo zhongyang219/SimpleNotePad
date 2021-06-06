@@ -31,4 +31,6 @@ public:
     virtual BOOL OnInitDialog();
     afx_msg void OnCbnSelchangeDefaultCodePageCombo();
 	virtual void OnOK();
+	afx_msg void OnBnClickedGithubRadio();
+	afx_msg void OnBnClickedGiteeRadio();
 };

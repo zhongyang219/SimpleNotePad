@@ -32,6 +32,8 @@ void CGeneralSettingsDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CGeneralSettingsDlg, CTabDlg)
     ON_CBN_SELCHANGE(IDC_DEFAULT_CODE_PAGE_COMBO, &CGeneralSettingsDlg::OnCbnSelchangeDefaultCodePageCombo)
+    ON_BN_CLICKED(IDC_GITHUB_RADIO, &CGeneralSettingsDlg::OnBnClickedGithubRadio)
+    ON_BN_CLICKED(IDC_GITEE_RADIO, &CGeneralSettingsDlg::OnBnClickedGiteeRadio)
 END_MESSAGE_MAP()
 
 
@@ -45,6 +47,10 @@ BOOL CGeneralSettingsDlg::OnInitDialog()
     // TODO:  在此添加额外的初始化
 
     CheckDlgButton(IDC_CHECK_UPDATE_CHECK, m_data.check_update_when_start);
+    if (m_data.update_source == 0)
+        CheckDlgButton(IDC_GITHUB_RADIO, TRUE);
+    else
+        CheckDlgButton(IDC_GITEE_RADIO, TRUE);
 
     //初始化下拉列表
     for (size_t i{}; i < CONST_VAL::code_page_list.size(); i++)
@@ -88,4 +94,18 @@ void CGeneralSettingsDlg::OnOK()
     // TODO: 在此添加专用代码和/或调用基类
     m_data.check_update_when_start = (IsDlgButtonChecked(IDC_CHECK_UPDATE_CHECK) != 0);
     CTabDlg::OnOK();
+}
+
+
+void CGeneralSettingsDlg::OnBnClickedGithubRadio()
+{
+    // TODO: 在此添加控件通知处理程序代码
+    m_data.update_source = 0;
+}
+
+
+void CGeneralSettingsDlg::OnBnClickedGiteeRadio()
+{
+    // TODO: 在此添加控件通知处理程序代码
+    m_data.update_source = 1;
 }
