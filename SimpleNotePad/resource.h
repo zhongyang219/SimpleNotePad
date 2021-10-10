@@ -38,6 +38,12 @@
 #define IDI_SAVE                        174
 #define IDI_REDO                        175
 #define IDI_UNDO                        176
+#define IDI_LOWER_CASE                  177
+#define IDI_CAPITAL                     178
+#define IDI_FONT                        179
+#define IDI_PIN                         180
+#define IDI_ICON5                       181
+#define IDI_SAVE_AS                     181
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -226,7 +232,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        177
+#define _APS_NEXT_RESOURCE_VALUE        182
 #define _APS_NEXT_COMMAND_VALUE         32985
 #define _APS_NEXT_CONTROL_VALUE         1069
 #define _APS_NEXT_SYMED_VALUE           105

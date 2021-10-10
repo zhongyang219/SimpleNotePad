@@ -358,5 +358,20 @@
     <Image Include="res\undo.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\lower_case.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\capital.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\font.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\pin.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\save_as.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -557,14 +557,20 @@ void CSimpleNotePadDlg::InitMenuIcon()
 {
     HMENU menu{ GetMenu()->GetSafeHmenu() };
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_OPEN, FALSE, theApp.GetMenuIcon(IDI_OPEN));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_NEW, FALSE, theApp.GetMenuIcon(IDI_NEW));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE, FALSE, theApp.GetMenuIcon(IDI_SAVE));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE_AS, FALSE, theApp.GetMenuIcon(IDI_SAVE_AS));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_UNDO, FALSE, theApp.GetMenuIcon(IDI_UNDO));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_REDO, FALSE, theApp.GetMenuIcon(IDI_REDO));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_COPY, FALSE, theApp.GetMenuIcon(IDI_COPY));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_CUT, FALSE, theApp.GetMenuIcon(IDI_CUT));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_PASTE, FALSE, theApp.GetMenuIcon(IDI_PASTE));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_SELECT_ALL, FALSE, theApp.GetMenuIcon(IDI_SELECT_ALL));
-    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_NEW, FALSE, theApp.GetMenuIcon(IDI_NEW));
-    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE, FALSE, theApp.GetMenuIcon(IDI_SAVE));
+    CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_CAPITAL, FALSE, theApp.GetMenuIcon(IDI_FONT));
+    CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_LOWER_CASE, FALSE, theApp.GetMenuIcon(IDI_LOWER_CASE));
+    CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_TITLE_CASE, FALSE, theApp.GetMenuIcon(IDI_CAPITAL));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FORMAT_FONT, FALSE, theApp.GetMenuIcon(IDI_FONT));
+    CMenuIcon::AddIconToMenuItem(menu, ID_ALWAYS_ON_TOP, FALSE, theApp.GetMenuIcon(IDI_PIN));
     CMenuIcon::AddIconToMenuItem(menu, ID_TOOL_OPTIONS, FALSE, theApp.GetMenuIcon(IDI_SETTINGS));
     CMenuIcon::AddIconToMenuItem(menu, ID_APP_ABOUT, FALSE, theApp.GetMenuIcon(IDR_MAINFRAME));
 

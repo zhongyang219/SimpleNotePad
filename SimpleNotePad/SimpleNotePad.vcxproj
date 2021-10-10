@@ -285,13 +285,18 @@
     <None Include="res\SimpleNotePad.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\capital.ico" />
     <Image Include="res\copy.ico" />
     <Image Include="res\cut.ico" />
+    <Image Include="res\font.ico" />
+    <Image Include="res\lower_case.ico" />
     <Image Include="res\new.ico" />
     <Image Include="res\open.ico" />
     <Image Include="res\paste.ico" />
+    <Image Include="res\pin.ico" />
     <Image Include="res\redo.ico" />
     <Image Include="res\save.ico" />
+    <Image Include="res\save_as.ico" />
     <Image Include="res\select_all.ico" />
     <Image Include="res\settings.ico" />
     <Image Include="res\SimpleNotePad.ico" />
