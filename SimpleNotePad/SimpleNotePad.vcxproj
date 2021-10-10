@@ -288,9 +288,14 @@
     <Image Include="res\copy.ico" />
     <Image Include="res\cut.ico" />
     <Image Include="res\new.ico" />
+    <Image Include="res\open.ico" />
     <Image Include="res\paste.ico" />
+    <Image Include="res\redo.ico" />
+    <Image Include="res\save.ico" />
+    <Image Include="res\select_all.ico" />
     <Image Include="res\settings.ico" />
     <Image Include="res\SimpleNotePad.ico" />
+    <Image Include="res\undo.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

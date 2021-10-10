@@ -343,5 +343,20 @@
     <Image Include="res\settings.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\open.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\select_all.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\save.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\redo.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\undo.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
