@@ -134,6 +134,7 @@ BOOL CFormatConvertDlg::OnInitDialog()
 	CBaseDialog::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
+    SetIcon(theApp.GetMenuIcon(IDI_CODE_BATCH), FALSE);
 
 	//设置该对话框在任务栏显示
 	ModifyStyleEx(0, WS_EX_APPWINDOW);

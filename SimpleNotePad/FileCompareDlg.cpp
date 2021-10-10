@@ -150,7 +150,8 @@ BOOL CFileCompareDlg::OnInitDialog()
 	CBaseDialog::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
-	m_result_info.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
+    SetIcon(theApp.GetMenuIcon(IDI_COMPARE), FALSE);
+    m_result_info.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
 	CRect rect;
 	m_result_info.GetClientRect(rect);
 	size_t width1 = rect.Width() * 3 / 5;		//第1列的宽度：列表宽度的3/5

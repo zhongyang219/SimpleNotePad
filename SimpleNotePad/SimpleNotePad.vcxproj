@@ -286,9 +286,14 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\capital.ico" />
+    <Image Include="res\code.ico" />
+    <Image Include="res\code_batch.ico" />
+    <Image Include="res\compare.ico" />
     <Image Include="res\copy.ico" />
     <Image Include="res\cut.ico" />
+    <Image Include="res\find.ico" />
     <Image Include="res\font.ico" />
+    <Image Include="res\hex_view.ico" />
     <Image Include="res\lower_case.ico" />
     <Image Include="res\new.ico" />
     <Image Include="res\open.ico" />

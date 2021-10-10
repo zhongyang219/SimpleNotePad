@@ -373,5 +373,20 @@
     <Image Include="res\save_as.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\find.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\code_batch.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\code.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\hex_view.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\compare.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

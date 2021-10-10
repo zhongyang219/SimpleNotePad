@@ -59,7 +59,7 @@ BOOL CCodeConvertDlg::OnInitDialog()
     CBaseDialog::OnInitDialog();
 
     // TODO:  在此添加额外的初始化
-    SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), FALSE);
+    SetIcon(theApp.GetMenuIcon(IDI_CODE), FALSE);
 
     //初始化下拉列表
     InitComboBox(m_input_combo);

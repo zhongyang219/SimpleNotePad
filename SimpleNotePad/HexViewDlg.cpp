@@ -217,6 +217,7 @@ BOOL CHexViewDlg::OnInitDialog()
 	CBaseDialog::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
+    SetIcon(theApp.GetMenuIcon(IDI_HEX_VIEW), FALSE);
 
 	LoadConfig();
 	if(!m_file_path.IsEmpty())

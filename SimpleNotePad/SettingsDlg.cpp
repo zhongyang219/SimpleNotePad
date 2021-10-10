@@ -58,7 +58,7 @@ BOOL CSettingsDlg::OnInitDialog()
 
     // TODO:  在此添加额外的初始化
 
-    SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), FALSE);		// 设置小图标
+    SetIcon(theApp.GetMenuIcon(IDI_SETTINGS), FALSE);		// 设置小图标
 
     //创建子对话框
     m_general_settings_dlg.Create(IDD_GENERAL_SETTINGS_DIALOG);
