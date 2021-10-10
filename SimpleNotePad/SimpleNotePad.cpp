@@ -140,6 +140,21 @@ UINT CSimpleNotePadApp::CheckUpdateThreadFunc(LPVOID lpParam)
     return 0;
 }
 
+HICON CSimpleNotePadApp::GetMenuIcon(UINT id)
+{
+    auto iter = m_menu_icons.find(id);
+    if (iter != m_menu_icons.end())
+    {
+        return iter->second;
+    }
+    else
+    {
+        HICON hIcon = (HICON)LoadImage(AfxGetInstanceHandle(), MAKEINTRESOURCE(id), IMAGE_ICON, DPI(16), DPI(16), 0);
+        m_menu_icons[id] = hIcon;
+        return hIcon;
+    }
+}
+
 void CSimpleNotePadApp::LoadConfig()
 {
     //载入选项设置

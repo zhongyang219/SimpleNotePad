@@ -39,6 +39,10 @@ public:
     static UINT CheckUpdateThreadFunc(LPVOID lpParam);
     bool IsCheckingForUpdate() const { return m_checking_update; }      //是否正在检查更新
 
+    //获取一个图标资源，如果资源还未加载，会自动加载。
+    //由于本函数中使用了DPI函数，因此本函数必须确保在DPIFromWindow之后调用
+    HICON GetMenuIcon(UINT id);
+
 private:
     void LoadConfig();
     void SaveConfig();
@@ -52,7 +56,7 @@ private:
     EditSettingData m_edit_settings_data;   //编辑器设置
 
     bool m_checking_update{ false };        //是否正在检查更新
-
+    std::map<UINT, HICON> m_menu_icons;      //菜单图标资源。key是图标资源的ID，vlaue是图标的句柄
 
 // 重写
 public:

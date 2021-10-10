@@ -104,6 +104,8 @@ protected:
     //数据当前行号的位数自动设置行号的宽度
     void UpdateLineNumberWidth(bool update = false);
 
+    void InitMenuIcon();
+
 private:
 
 protected:

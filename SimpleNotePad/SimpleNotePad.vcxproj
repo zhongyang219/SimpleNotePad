@@ -237,6 +237,7 @@
     <ClInclude Include="Test.h" />
     <ClInclude Include="TinyXml2Helper.h" />
     <ClInclude Include="UpdateHelper.h" />
+    <ClInclude Include="WIC.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutDlg.cpp" />
@@ -275,6 +276,7 @@
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TinyXml2Helper.cpp" />
     <ClCompile Include="UpdateHelper.cpp" />
+    <ClCompile Include="WIC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SimpleNotePad.rc" />
@@ -283,6 +285,11 @@
     <None Include="res\SimpleNotePad.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\copy.ico" />
+    <Image Include="res\cut.ico" />
+    <Image Include="res\new.ico" />
+    <Image Include="res\paste.ico" />
+    <Image Include="res\settings.ico" />
     <Image Include="res\SimpleNotePad.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

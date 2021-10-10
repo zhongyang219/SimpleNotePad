@@ -96,6 +96,9 @@
     <Filter Include="公共的类\CVariant">
       <UniqueIdentifier>{59ba128c-7c64-4c59-81ea-8e062d0bc982}</UniqueIdentifier>
     </Filter>
+    <Filter Include="公共的类\WIC">
+      <UniqueIdentifier>{650626b4-fcf2-4630-b474-21cdc7896d6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -209,6 +212,9 @@
     <ClInclude Include="CVariant.h">
       <Filter>公共的类\CVariant</Filter>
     </ClInclude>
+    <ClInclude Include="WIC.h">
+      <Filter>公共的类\WIC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -304,6 +310,9 @@
     <ClCompile Include="CVariant.cpp">
       <Filter>公共的类\CVariant</Filter>
     </ClCompile>
+    <ClCompile Include="WIC.cpp">
+      <Filter>公共的类\WIC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SimpleNotePad.rc">
@@ -317,6 +326,21 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\SimpleNotePad.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\copy.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\cut.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\new.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\paste.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\settings.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

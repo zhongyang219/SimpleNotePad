@@ -14,6 +14,7 @@
 #include "FilePathHelper.h"
 #include "SettingsDlg.h"
 #include "AboutDlg.h"
+#include "WIC.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -552,6 +553,21 @@ void CSimpleNotePadDlg::UpdateLineNumberWidth(bool update)
     last_digits = digits;
 }
 
+void CSimpleNotePadDlg::InitMenuIcon()
+{
+    HMENU menu{ GetMenu()->GetSafeHmenu() };
+    CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_COPY, FALSE, theApp.GetMenuIcon(IDI_COPY));
+    CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_CUT, FALSE, theApp.GetMenuIcon(IDI_CUT));
+    CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_PASTE, FALSE, theApp.GetMenuIcon(IDI_PASTE));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_NEW, FALSE, theApp.GetMenuIcon(IDI_NEW));
+    CMenuIcon::AddIconToMenuItem(menu, ID_TOOL_OPTIONS, FALSE, theApp.GetMenuIcon(IDI_SETTINGS));
+    CMenuIcon::AddIconToMenuItem(menu, ID_APP_ABOUT, FALSE, theApp.GetMenuIcon(IDR_MAINFRAME));
+
+    CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_COPY, FALSE, theApp.GetMenuIcon(IDI_COPY));
+    CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_CUT, FALSE, theApp.GetMenuIcon(IDI_CUT));
+    CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_PASTE, FALSE, theApp.GetMenuIcon(IDI_PASTE));
+}
+
 //void CSimpleNotePadDlg::SaveAsHex()
 //{
 //	//设置过滤器
@@ -791,6 +807,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->SetCurrentLineHighlight(theApp.GetEditSettings().current_line_highlight);
 
     SetAlwaysOnTop();
+
+    InitMenuIcon();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
