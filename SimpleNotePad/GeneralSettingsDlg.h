@@ -22,6 +22,7 @@ public:
 
 private:
     CComboBox m_default_page_code_combo;
+    CComboBox m_language_combo;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -33,4 +34,5 @@ public:
 	virtual void OnOK();
 	afx_msg void OnBnClickedGithubRadio();
 	afx_msg void OnBnClickedGiteeRadio();
+    afx_msg void OnCbnSelchangeLanguageCombo();
 };

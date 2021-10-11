@@ -27,6 +27,7 @@ void CGeneralSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
     CTabDlg::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_DEFAULT_CODE_PAGE_COMBO, m_default_page_code_combo);
+    DDX_Control(pDX, IDC_LANGUAGE_COMBO, m_language_combo);
 }
 
 
@@ -34,6 +35,7 @@ BEGIN_MESSAGE_MAP(CGeneralSettingsDlg, CTabDlg)
     ON_CBN_SELCHANGE(IDC_DEFAULT_CODE_PAGE_COMBO, &CGeneralSettingsDlg::OnCbnSelchangeDefaultCodePageCombo)
     ON_BN_CLICKED(IDC_GITHUB_RADIO, &CGeneralSettingsDlg::OnBnClickedGithubRadio)
     ON_BN_CLICKED(IDC_GITEE_RADIO, &CGeneralSettingsDlg::OnBnClickedGiteeRadio)
+    ON_CBN_SELCHANGE(IDC_LANGUAGE_COMBO, &CGeneralSettingsDlg::OnCbnSelchangeLanguageCombo)
 END_MESSAGE_MAP()
 
 
@@ -60,6 +62,11 @@ BOOL CGeneralSettingsDlg::OnInitDialog()
     m_default_page_code_combo.SetCurSel(m_data.default_code_page_selected);
 
     SetDlgItemText(IDC_CODE_PAGE_STATIC, std::to_wstring(m_data.default_code_page).c_str());
+
+    m_language_combo.AddString(CCommon::LoadText(IDS_FOLLOWING_SYSTEM));
+    m_language_combo.AddString(_T("English"));
+    m_language_combo.AddString(_T("简体中文"));
+    m_language_combo.SetCurSel(static_cast<int>(m_data.language));
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 异常: OCX 属性页应返回 FALSE
@@ -93,6 +100,13 @@ void CGeneralSettingsDlg::OnOK()
 {
     // TODO: 在此添加专用代码和/或调用基类
     m_data.check_update_when_start = (IsDlgButtonChecked(IDC_CHECK_UPDATE_CHECK) != 0);
+    //获取语言的设置
+    m_data.language = static_cast<Language>(m_language_combo.GetCurSel());
+    if (m_data.language != theApp.GetGeneralSettings().language)
+    {
+        MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE_INFO), NULL, MB_ICONINFORMATION | MB_OK);
+    }
+
     CTabDlg::OnOK();
 }
 
@@ -108,4 +122,10 @@ void CGeneralSettingsDlg::OnBnClickedGiteeRadio()
 {
     // TODO: 在此添加控件通知处理程序代码
     m_data.update_source = 1;
+}
+
+
+void CGeneralSettingsDlg::OnCbnSelchangeLanguageCombo()
+{
+    // TODO: 在此添加控件通知处理程序代码
 }

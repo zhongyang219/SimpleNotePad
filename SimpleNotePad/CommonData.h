@@ -2,6 +2,13 @@
 #ifndef COMMON_DATA_H
 #define COMMON_DATA_H
 
+//语言
+enum class Language
+{
+    FOLLOWING_SYSTEM,       //跟随系统
+    ENGLISH,                //英语
+    SIMPLIFIED_CHINESE,     //简体中文
+};
 
 //常规设置
 struct SettingsData
@@ -10,6 +17,8 @@ struct SettingsData
     UINT default_code_page{};
     bool check_update_when_start{};
     int update_source{};
+    //语言
+    Language language;
 };
 
 //编辑器设置

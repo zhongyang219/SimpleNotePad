@@ -14,6 +14,8 @@
 #define IDS_UPDATE_AVLIABLE             106
 #define IDS_UPDATE_AVLIABLE2            107
 #define IDS_ALREADY_UPDATED             108
+#define IDS_FOLLOWING_SYSTEM            109
+#define IDS_LANGUAGE_CHANGE_INFO        110
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       130
 #define IDD_HEX_VIEW_DIALOG             131
@@ -128,6 +130,7 @@
 #define IDC_STATIC_CHECK_FOR_UPDATE     1067
 #define IDC_GITEE_RADIO                 1067
 #define IDC_STATIC_VERSION              1068
+#define IDC_LANGUAGE_COMBO              1069
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -239,7 +242,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        187
 #define _APS_NEXT_COMMAND_VALUE         32985
-#define _APS_NEXT_CONTROL_VALUE         1069
+#define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

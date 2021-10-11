@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "CVariant.h"
+#include "CommonData.h"
 //#define MAX_STR_SIZE 1024;
 using std::wstring;
 using std::string;
@@ -156,5 +157,8 @@ public:
 
     //从资源文件中载入字符串，并将资源字符串中形如<%序号%>的字符串替换成可变参数列表中的参数
     static CString LoadTextFormat(UINT id, const std::initializer_list<CVariant>& paras);
+
+    //设置线程语言
+    static void SetThreadLanguage(Language language);
 
 };

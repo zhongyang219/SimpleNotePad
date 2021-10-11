@@ -518,3 +518,13 @@ CString CCommon::LoadTextFormat(UINT id, const std::initializer_list<CVariant>& 
     str.LoadString(id);
     return StringFormat(str.GetString(), paras);
 }
+
+void CCommon::SetThreadLanguage(Language language)
+{
+    switch (language)
+    {
+    case Language::ENGLISH: SetThreadUILanguage(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US)); break;
+    case Language::SIMPLIFIED_CHINESE: SetThreadUILanguage(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED)); break;
+    default: break;
+    }
+}

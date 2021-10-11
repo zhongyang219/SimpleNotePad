@@ -162,6 +162,7 @@ void CSimpleNotePadApp::LoadConfig()
     m_settings_data.default_code_page = GetProfileInt(L"config", L"default_code_page", 0);
     m_settings_data.check_update_when_start = (GetProfileInt(L"config", L"check_update_when_start", 1) != 0);
     m_settings_data.update_source = GetProfileInt(L"config", L"update_source", 0);
+    m_settings_data.language = static_cast<Language>(GetProfileInt(_T("config"), L"language", 0));
 
     //载入编辑器设置
     m_edit_settings_data.current_line_highlight = (GetProfileInt(L"config", L"current_line_highlight", 0) != 0);
@@ -186,6 +187,7 @@ void CSimpleNotePadApp::SaveConfig()
     WriteProfileInt(L"config", L"default_code_page", m_settings_data.default_code_page);
     WriteProfileInt(L"config", L"check_update_when_start", m_settings_data.check_update_when_start);
     WriteProfileInt(L"config", L"update_source", m_settings_data.update_source);
+    WriteProfileInt(L"config", L"language", static_cast<int>(m_settings_data.language));
 
     //保存编辑器设置
     WriteProfileInt(L"config", L"current_line_highlight", m_edit_settings_data.current_line_highlight);
@@ -260,6 +262,9 @@ BOOL CSimpleNotePadApp::InitInstance()
     }
 
     LoadConfig();
+
+    //初始化界面语言
+    CCommon::SetThreadLanguage(m_settings_data.language);
 
     //启动时检查更新
 #ifndef _DEBUG		//DEBUG下不在启动时检查更新
