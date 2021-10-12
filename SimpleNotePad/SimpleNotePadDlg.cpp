@@ -87,9 +87,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	ifstream file{ file_path, std::ios::binary };
 	if (file.fail())
 	{
-		CString info;
-		info.Format(_T("无法打开文件“%s”！"), file_path);
-		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
+		MessageBox(CCommon::LoadTextFormat(IDS_CANNOT_OPEN_FILE_WARNING, { file_path }), NULL, MB_OK | MB_ICONSTOP);
 		m_file_path.Empty();
 		return;
 	}
@@ -98,8 +96,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 		m_edit_str.push_back(file.get());
 		if (m_edit_str.size() > MAX_FILE_SIZE)	//当文件大小超过MAX_FILE_SIZE时禁止打开
 		{
-			CString info;
-			info.Format(_T("“%s”文件太大，将只加载文件前面%dMB的内容，要继续吗？"), file_path, MAX_FILE_SIZE / 1024 / 1024);
+			CString info = CCommon::LoadTextFormat(IDS_FILE_TOO_LARGE_WARNING, { file_path, MAX_FILE_SIZE / 1024 / 1024 });
 			if (MessageBox(info, NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
 			{
 				break;
@@ -192,25 +189,25 @@ void CSimpleNotePadDlg::ShowStatusBar()
 	{
 		switch (m_code_page)
 		{
-		case CODE_PAGE_CHS: str += _T("简体中文(GB2312) "); break;
-		case CODE_PAGE_CHT: str += _T("繁体中文(Big5) "); break;
-		case CODE_PAGE_JP: str += _T("日文(Shift-JIS) "); break;
-		case CODE_PAGE_EN: str += _T("西欧语言 (Windows) "); break;
-		case CODE_PAGE_KOR: str += _T("韩文 "); break;
-		case CODE_PAGE_THAI: str += _T("泰文 "); break;
-		case CODE_PAGE_VIET: str += _T("越南文 "); break;
-		default: str += _T("ANSI "); break;
+		case CODE_PAGE_CHS: str += CCommon::LoadText(IDS_CODE_PAGE_SIMPLIFIED_CHINESE); break;
+		case CODE_PAGE_CHT: str += CCommon::LoadText(IDS_CODE_PAGE_TRADITIONAL_CHINESE); break;
+		case CODE_PAGE_JP: str += CCommon::LoadText(IDS_CODE_PAGE_JAPANESE); break;
+		case CODE_PAGE_EN: str += CCommon::LoadText(IDS_CODE_PAGE_WESTERN_EUROPE_LANGUAGE); break;
+		case CODE_PAGE_KOR: str += CCommon::LoadText(IDS_CODE_PAGE_KOREAN); break;
+		case CODE_PAGE_THAI: str += CCommon::LoadText(IDS_CODE_PAGE_THAI); break;
+		case CODE_PAGE_VIET: str += CCommon::LoadText(IDS_CODE_PAGE_VIETNAMESE); break;
+		default: str += _T("ANSI"); break;
 		}
-		str += _T("(");
+		str += _T(" (");
 		if (m_code_page == 0)
-            str += _T("本地代码页");
+            str += CCommon::LoadText(IDS_LOCAL_CODE_PAGE);
 		else
 			str += std::to_wstring(m_code_page).c_str();
         str += _T(")");
 	}
 		break;
-	case CodeType::UTF8: str += _T("UTF8"); break;
-	case CodeType::UTF8_NO_BOM: str += _T("UTF8无BOM"); break;
+	case CodeType::UTF8: str += CCommon::LoadText(IDS_UTF8_BOM); break;
+	case CodeType::UTF8_NO_BOM: str += CCommon::LoadText(IDS_UTF8_NO_BOM); break;
 	case CodeType::UTF16: str += _T("UTF16"); break;
 	}
 	//}
@@ -221,9 +218,9 @@ void CSimpleNotePadDlg::ShowStatusBar()
 	//if (m_edit_wcs.empty())
 	//	str.Empty();
 	if (m_edit_str.size() < 1024)
-		str.Format(_T("共%d个字节，%d个字符"), m_edit_str.size(), m_edit_wcs.size());
+		str = CCommon::LoadTextFormat(IDS_FILE_CHARACTOR_NUM_INFO, { m_edit_str.size(), m_edit_wcs.size() });
 	else
-		str.Format(_T("共%d个字节(%dKB)，%d个字符"), m_edit_str.size(), m_edit_str.size() / 1024, m_edit_wcs.size());
+		str = CCommon::LoadTextFormat(IDS_FILE_CHARACTOR_NUM_INFO2, { m_edit_str.size(), m_edit_str.size() / 1024, m_edit_wcs.size() });
 	m_status_bar.SetText(str, 0, 0);
 
 	////显示是否修改
@@ -256,7 +253,7 @@ void CSimpleNotePadDlg::ShowStatusBar()
 
     //显示语言
     wstring cur_lan_name = m_syntax_highlight.GetLanguage(m_cur_lan_index).m_name;
-    m_status_bar.SetText(cur_lan_name.empty() ? _T("普通文本") : cur_lan_name.c_str(), 1, 0);
+    m_status_bar.SetText(cur_lan_name.empty() ? CCommon::LoadText(IDS_NORMAL_TEXT) : cur_lan_name.c_str(), 1, 0);
 
 }
 
@@ -271,7 +268,7 @@ void CSimpleNotePadDlg::ChangeCode()
 
 bool CSimpleNotePadDlg::BeforeChangeCode()
 {
-	return SaveInquiry(_T("注意，如果更改编码格式，未保存的所有更改都将丢失！是否要保存？"));
+	return SaveInquiry(CCommon::LoadText(IDS_ENCODE_CHANGE_WARNING));
 }
 
 void CSimpleNotePadDlg::SaveConfig()
@@ -309,9 +306,9 @@ bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 		if (info == NULL)
 		{
 			if (m_file_path.IsEmpty())
-				text = _T("无标题 中的内容已更改，是否保存？");
+				text = CCommon::LoadText(IDS_SAVE_INQUERY_INFO);
 			else
-				text.Format(_T("“%s”文件中的内容已更改，是否保存？"), m_file_path);
+				text = CCommon::LoadTextFormat(IDS_SAVE_INQUERY_INFO2, { m_file_path });
 		}
 		else
 		{
@@ -339,10 +336,11 @@ void CSimpleNotePadDlg::SetTitle()
     CString str_title;
     if (m_view->IsModified())
         str_title += _T('*');
-	if(!m_file_path.IsEmpty())
-        str_title += m_file_path + _T(" - SimpleNotePad");
+	if (!m_file_path.IsEmpty())
+		str_title += m_file_path;
 	else
-        str_title += _T("无标题 - SimpleNotePad");
+		str_title += CCommon::LoadText(IDS_NO_TITLE);
+	str_title += _T(" - SimpleNotePad");
     SetWindowText(str_title);
 }
 
@@ -396,7 +394,7 @@ bool CSimpleNotePadDlg::_OnFileSave()
 bool CSimpleNotePadDlg::_OnFileSaveAs()
 {
 	//设置过滤器
-	const wchar_t* szFilter = _T("文本文件(*.txt)|*.txt|所有文件(*.*)|*.*||");
+	CString szFilter = CCommon::LoadText(IDS_FILE_OPEN_FILTER);
 	//设置另存为时的默认文件名
 	wstring file_name;
 	if (!m_file_path.IsEmpty())
@@ -407,7 +405,7 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	}
 	else
 	{
-		file_name = L"无标题";
+		file_name = CCommon::LoadText(IDS_NO_TITLE);
 	}
 	//构造保存文件对话框
 	CFileDialog fileDlg(FALSE, _T("txt"), file_name.c_str(), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, szFilter, this);
@@ -415,9 +413,9 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	fileDlg.AddComboBox(IDC_SAVE_COMBO_BOX);
 	//为组合选择框添加项目
 
-    for (size_t i{}; i < CONST_VAL::code_list.size(); i++)
+    for (size_t i{}; i < CONST_VAL->code_list.size(); i++)
     {
-        fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, i, CONST_VAL::code_list[i].name);
+        fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, i, CONST_VAL->code_list[i].name);
     }
 
 	//fileDlg.SetControlLabel(IDC_SAVE_COMBO_BOX, _T("编码类型："));
@@ -439,10 +437,10 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	{
 		DWORD selected_item;
 		fileDlg.GetSelectedControlItem(IDC_SAVE_COMBO_BOX, selected_item);	//获取“编码格式”中选中的项目
-        if (selected_item >= 0 && selected_item < static_cast<DWORD>(CONST_VAL::code_list.size()))
+        if (selected_item >= 0 && selected_item < static_cast<DWORD>(CONST_VAL->code_list.size()))
         {
-		    m_save_code = CONST_VAL::code_list[selected_item].code_type;
-		    UINT save_code_page = CONST_VAL::code_list[selected_item].code_page;
+		    m_save_code = CONST_VAL->code_list[selected_item].code_type;
+		    UINT save_code_page = CONST_VAL->code_list[selected_item].code_page;
             if (save_code_page == CODE_PAGE_DEFAULT)
                 save_code_page = theApp.GetGeneralSettings().default_code_page;
 		    if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code, save_code_page))
@@ -464,13 +462,13 @@ void CSimpleNotePadDlg::SaveHex()
 	ofstream file{ m_file_path, std::ios::binary };
 	if (file.fail())
 	{
-		MessageBox(_T("保存失败！"), NULL, MB_ICONWARNING);
+		MessageBox(CCommon::LoadText(IDS_SAVE_FAILED_INFO), NULL, MB_ICONWARNING);
 		return;
 	}
 	file << m_edit_str;
     m_view->SetSavePoint();
     SetTitle();
-	MessageBox(_T("十六进制编辑的更改已保存"), NULL, MB_ICONINFORMATION);
+	MessageBox(CCommon::LoadText(IDS_HEX_SAVED_INFO), NULL, MB_ICONINFORMATION);
 }
 
 void CSimpleNotePadDlg::SetAlwaysOnTop()
@@ -942,7 +940,7 @@ void CSimpleNotePadDlg::OnFileOpen()
 	if (!SaveInquiry())
 		return;
 	//设置过滤器
-	LPCTSTR szFilter = _T("文本文件(*.txt)|*.txt|所有文件(*.*)|*.*||");
+	CString szFilter = CCommon::LoadText(IDS_FILE_OPEN_FILTER);
 	//构造打开文件对话框
 	CFileDialog fileDlg(TRUE, _T("txt"), NULL, 0, szFilter, this);
 	//显示打开文件对话框
@@ -1119,7 +1117,7 @@ void CSimpleNotePadDlg::OnHexView()
 				return;
 			}
 		}
-		if (MessageBox(_T("是否要保存十六进制编辑的更改？"), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
+		if (MessageBox(CCommon::LoadText(IDS_HEX_SAVE_INQUIRY), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
 		{
 			m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);
             m_view->SetText(m_edit_wcs);
@@ -1175,7 +1173,7 @@ void CSimpleNotePadDlg::OnFileNew()
     m_code = CodeType::ANSI;
     m_view->SetSavePoint();
     ShowStatusBar();
-	SetWindowText(_T("无标题 - SimpleNotePad"));
+	SetWindowText(CCommon::LoadText(IDS_NO_TITLE, _T(" - SimpleNotePad")));
 }
 
 
@@ -1320,7 +1318,7 @@ afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
             if (replace_count != 0)
 			{
 				CString info;
-				info.Format(_T("替换完成，共替换%d个字符串。"),replace_count);
+				info.Format(CCommon::LoadText(IDS_REPLACED_INFO),replace_count);
 				MessageBox(info, NULL, MB_ICONINFORMATION);
 			}
 		}
@@ -1340,7 +1338,7 @@ void CSimpleNotePadDlg::OnFindNext()
 	if (m_find_index == string::npos)
 	{
 		CString info;
-		info.Format(_T("找不到“%s”"), m_find_str.c_str());
+		info.Format(CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_str }));
 		MessageBox(info, NULL, MB_OK | MB_ICONINFORMATION);
 		m_find_flag = false;
 	}
@@ -1606,8 +1604,8 @@ void CSimpleNotePadDlg::OnSepcifyCodePage()
 {
 	// TODO: 在此添加命令处理程序代码
 	CInputDlg inputDlg;
-	inputDlg.SetTitle(_T("输入代码页"));
-	inputDlg.SetInfoText(_T("请输入代码页："));
+	inputDlg.SetTitle(CCommon::LoadText(IDS_INPUT_CODE_PAGE));
+	inputDlg.SetInfoText(CCommon::LoadText(IDS_PLEASE_INPUT_CODE_PAGE));
 	if (inputDlg.DoModal() == IDOK)
 	{
 		if (!BeforeChangeCode()) return;

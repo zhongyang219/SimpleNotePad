@@ -25,11 +25,11 @@ CCodeConvertDlg::~CCodeConvertDlg()
 void CCodeConvertDlg::InitComboBox(CComboBox& combo_box)
 {
     combo_box.ResetContent();
-    for (const auto& item : CONST_VAL::code_list)
+    for (const auto& item : CONST_VAL->code_list)
     {
         combo_box.AddString(item.name);
     }
-    if (!CONST_VAL::code_list.empty())
+    if (!CONST_VAL->code_list.empty())
         combo_box.SetCurSel(0);
 }
 
@@ -78,18 +78,18 @@ void CCodeConvertDlg::OnBnClickedButton1()
     // TODO: 在此添加控件通知处理程序代码
 
     int index = m_input_combo.GetCurSel();
-    if (index < 0 || index >= static_cast<int>(CONST_VAL::code_list.size()))
+    if (index < 0 || index >= static_cast<int>(CONST_VAL->code_list.size()))
         return;
-    CodeType code_type_input{ CONST_VAL::code_list[index].code_type };
-    UINT code_page_input{ CONST_VAL::code_list[index].code_page };
+    CodeType code_type_input{ CONST_VAL->code_list[index].code_type };
+    UINT code_page_input{ CONST_VAL->code_list[index].code_page };
     if (code_page_input == CODE_PAGE_DEFAULT)
         code_page_input = theApp.GetGeneralSettings().default_code_page;
 
     index = m_output_combo.GetCurSel();
-    if (index < 0 || index >= static_cast<int>(CONST_VAL::code_list.size()))
+    if (index < 0 || index >= static_cast<int>(CONST_VAL->code_list.size()))
         return;
-    CodeType code_type_output{ CONST_VAL::code_list[index].code_type };
-    UINT code_page_output{ CONST_VAL::code_list[index].code_page };
+    CodeType code_type_output{ CONST_VAL->code_list[index].code_type };
+    UINT code_page_output{ CONST_VAL->code_list[index].code_page };
     if (code_page_output == CODE_PAGE_DEFAULT)
         code_page_output = theApp.GetGeneralSettings().default_code_page;
 

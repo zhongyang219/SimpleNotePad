@@ -169,12 +169,12 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.current_line_highlight_color = GetProfileInt(L"config", L"current_line_highlight_color", RGB(234, 243, 253));
     m_edit_settings_data.background_color = GetProfileInt(_T("config"), _T("background_color"), RGB(255, 255, 255));
 	m_edit_settings_data.selection_back_color = GetProfileInt(_T("config"), _T("selection_back_color"), RGB(192, 192, 192));
-    m_edit_settings_data.font_name = GetProfileString(_T("config"), _T("font_name"), _T("微软雅黑"));
+    m_edit_settings_data.font_name = GetProfileString(_T("config"), _T("font_name"), _T("Consolas"));
     m_edit_settings_data.font_size = GetProfileInt(_T("config"), _T("font_size"), 10);
     m_edit_settings_data.tab_width = GetProfileInt(_T("config"), _T("tab_width"), 4);
 
     //十六进制查看器
-    m_edit_settings_data.font_name_hex = GetProfileString(_T("hex_editor"), _T("font_name"), _T("新宋体"));
+    m_edit_settings_data.font_name_hex = GetProfileString(_T("hex_editor"), _T("font_name"), _T("Consolas"));
     m_edit_settings_data.font_size_hex = GetProfileInt(_T("hex_editor"), _T("font_size"), 10);
     m_edit_settings_data.show_invisible_characters_hex = GetProfileInt(_T("hex_editor"), _T("show_invisible_characters"), 0);
 
@@ -257,7 +257,7 @@ BOOL CSimpleNotePadApp::InitInstance()
     m_hScintillaModule = LoadLibrary(_T("SciLexer.dll"));
     if (m_hScintillaModule == NULL)
     {
-        AfxMessageBox(_T("加载 SciLexer.dll 失败，程序即将退出！"), MB_ICONERROR | MB_OK);
+        AfxMessageBox(CCommon::LoadText(IDS_DLL_LOAD_FAILD_ERROR), MB_ICONERROR | MB_OK);
         return FALSE;
     }
 

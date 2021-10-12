@@ -49,8 +49,7 @@ bool CFormatConvertDlg::OpenFile(LPCTSTR file_path)
 	ifstream file{ file_path, std::ios::binary };
 	if (file.fail())
 	{
-		CString info;
-		info.Format(_T("无法打开文件“%s”！"), file_path);
+		CString info = CCommon::LoadTextFormat(IDS_CANNOT_OPEN_FILE_WARNING, { file_path });
 		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
 		return false;
 	}
@@ -84,14 +83,14 @@ bool CFormatConvertDlg::SaveFile(LPCTSTR file_path)
 	if (char_connot_convert)	//当文件中包含Unicode字符时，提示有些字符可能无法转换
 	{
 		CString info;
-		info.Format(_T("警告：%s文件中存在无法转换的字符，这些字符已丢失。要保留这些字符，应该选择转换成一种Unicode格式的编码。"), file_path);
+		info.Format(CCommon::LoadText(IDS_FORMAT_UNICODE_CHARACTER_WARNING), file_path);
 		MessageBox(info, NULL, MB_ICONWARNING);
 	}
 	ofstream file{ file_path, std::ios::binary };
 	if (file.fail())
 	{
 		CString info;
-		info.Format(_T("“%s文件无法保存，请检查输出路径是否正确”！"), file_path);
+		info.Format(CCommon::LoadText(IDS_FILE_CONNOT_SAVE_PATH_WARNING), file_path);
 		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
 		return false;
 	}
@@ -139,7 +138,7 @@ BOOL CFormatConvertDlg::OnInitDialog()
 	//设置该对话框在任务栏显示
 	ModifyStyleEx(0, WS_EX_APPWINDOW);
 
-	m_input_box.AddString(_T("自动识别"));
+	m_input_box.AddString(CCommon::LoadText(IDS_AUTO_DETECT));
 	m_input_box.AddString(_T("ANSI"));
 	m_input_box.AddString(_T("UTF8"));
 	m_input_box.AddString(_T("UTF16"));
@@ -150,11 +149,11 @@ BOOL CFormatConvertDlg::OnInitDialog()
 	m_output_box.AddString(_T("UTF16"));
 	m_output_box.SetCurSel(1);
 
-    for (size_t i{}; i < CONST_VAL::code_page_list.size() - 1; i++)
+    for (size_t i{}; i < CONST_VAL->code_page_list.size() - 1; i++)
     {
-        m_input_codepage_box.AddString(CONST_VAL::code_page_list[i].name);
+        m_input_codepage_box.AddString(CONST_VAL->code_page_list[i].name);
     }
-    if (!CONST_VAL::code_page_list.empty())
+    if (!CONST_VAL->code_page_list.empty())
         m_input_codepage_box.SetCurSel(0);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -166,7 +165,7 @@ void CFormatConvertDlg::OnBnClickedAddButton()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	//设置过滤器
-	LPCTSTR szFilter = _T("文本文件(*.txt)|*.txt|所有文件(*.*)|*.*||");
+	CString szFilter = CCommon::LoadText(IDS_FILE_OPEN_FILTER);
 	//构造打开文件对话框
 	CFileDialog fileDlg(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT, szFilter, this);
 	//显示打开文件对话框
@@ -220,12 +219,12 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 	// TODO: 在此添加控件通知处理程序代码
 	if (m_file_list.empty())
 	{
-		MessageBox(_T("请添加要转换的文件！"), NULL, MB_ICONWARNING);
+		MessageBox(CCommon::LoadText(IDS_ADD_CONVERT_FILE_WARNING), NULL, MB_ICONWARNING);
 		return;
 	}
 	if (m_output_path.empty())
 	{
-		MessageBox(_T("请选择输出文件夹！"), NULL, MB_ICONWARNING);
+		MessageBox(CCommon::LoadText(IDS_SELECT_OUTPUT_FOLDER_WARNING), NULL, MB_ICONWARNING);
 		return;
 	}
 
@@ -251,8 +250,8 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 
     m_code_page = 0;
     int index = m_input_codepage_box.GetCurSel();
-    if (index >= 0 && index < static_cast<int>(CONST_VAL::code_page_list.size()))
-        m_code_page = CONST_VAL::code_page_list[index].code_page;
+    if (index >= 0 && index < static_cast<int>(CONST_VAL->code_page_list.size()))
+        m_code_page = CONST_VAL->code_page_list[index].code_page;
 
 	int convert_cnt{};
 	for (const auto& item : m_file_list)
@@ -268,8 +267,7 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 		convert_cnt++;
 	}
 
-	CString info;
-	info.Format(_T("转换完成，共转换%d个文件。"), convert_cnt);
+	CString info = CCommon::LoadTextFormat(IDS_CONVERT_FINISH_INFO, { convert_cnt });
 	MessageBox(info, NULL, MB_ICONINFORMATION);
 }
 

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "CVariant.h"
 #include "CommonData.h"
+#include "resource.h"
 //#define MAX_STR_SIZE 1024;
 using std::wstring;
 using std::string;
@@ -36,37 +37,6 @@ struct CodePageItem
     CString name;
     UINT code_page{};
 };
-
-
-namespace CONST_VAL
-{
-    const vector<CodeTypeItem> code_list{ {_T("ANSI (本地代码页)"), CodeType::ANSI, CP_ACP},
-        {_T("UTF-8"), CodeType::UTF8, CP_ACP},
-        {_T("UTF-8无BOM"), CodeType::UTF8_NO_BOM, CP_ACP},
-        {_T("UTF-16"), CodeType::UTF16, CP_ACP},
-        {_T("简体中文 (GB2312)"), CodeType::ANSI, CODE_PAGE_CHS},
-        {_T("繁体中文 (Big5)"), CodeType::ANSI, CODE_PAGE_CHT},
-        {_T("日文 (Shift-JIS)"), CodeType::ANSI, CODE_PAGE_JP},
-        {_T("西欧语言 (Windows)"), CodeType::ANSI, CODE_PAGE_EN},
-        {_T("韩文"), CodeType::ANSI, CODE_PAGE_KOR},
-        {_T("泰文"), CodeType::ANSI, CODE_PAGE_THAI},
-        {_T("越南文"), CodeType::ANSI, CODE_PAGE_VIET},
-        {_T("设置中指定的非Unicode默认代码页"), CodeType::ANSI, CODE_PAGE_DEFAULT},
-    };
-
-    const vector<CodePageItem> code_page_list{
-        {_T("本地代码页"), CP_ACP},
-        {_T("简体中文 (GB2312)"), CODE_PAGE_CHS},
-        {_T("繁体中文 (Big5)"), CODE_PAGE_CHT},
-        {_T("日文 (Shift-JIS)"), CODE_PAGE_JP},
-        {_T("西欧语言 (Windows)"), CODE_PAGE_EN},
-        {_T("韩文"), CODE_PAGE_KOR},
-        {_T("泰文"), CODE_PAGE_THAI},
-        {_T("越南文"), CODE_PAGE_VIET},
-        {_T("手动指定代码页"), 0}
-    };
-
-}
 
 
 class CCommon
@@ -162,3 +132,38 @@ public:
     static void SetThreadLanguage(Language language);
 
 };
+
+
+
+struct ConstVal
+{
+    const vector<CodeTypeItem> code_list{ {CCommon::LoadText(_T("ANSI ("), IDS_LOCAL_CODE_PAGE, _T(")")), CodeType::ANSI, CP_ACP},
+        {CCommon::LoadText(IDS_UTF8_BOM), CodeType::UTF8, CP_ACP},
+        {CCommon::LoadText(IDS_UTF8_NO_BOM), CodeType::UTF8_NO_BOM, CP_ACP},
+        {_T("UTF-16"), CodeType::UTF16, CP_ACP},
+        {CCommon::LoadText(IDS_CODE_PAGE_SIMPLIFIED_CHINESE), CodeType::ANSI, CODE_PAGE_CHS},
+        {CCommon::LoadText(IDS_CODE_PAGE_TRADITIONAL_CHINESE), CodeType::ANSI, CODE_PAGE_CHT},
+        {CCommon::LoadText(IDS_CODE_PAGE_JAPANESE), CodeType::ANSI, CODE_PAGE_JP},
+        {CCommon::LoadText(IDS_CODE_PAGE_WESTERN_EUROPE_LANGUAGE), CodeType::ANSI, CODE_PAGE_EN},
+        {CCommon::LoadText(IDS_CODE_PAGE_KOREAN), CodeType::ANSI, CODE_PAGE_KOR},
+        {CCommon::LoadText(IDS_CODE_PAGE_THAI), CodeType::ANSI, CODE_PAGE_THAI},
+        {CCommon::LoadText(IDS_CODE_PAGE_VIETNAMESE), CodeType::ANSI, CODE_PAGE_VIET},
+        {CCommon::LoadText(IDS_DEFAULT_CODE_PAGE_FOR_NONE_UNICODE_IN_SETTINGS), CodeType::ANSI, CODE_PAGE_DEFAULT},
+    };
+
+	const vector<CodePageItem> code_page_list{
+        {CCommon::LoadText(IDS_LOCAL_CODE_PAGE), CP_ACP},
+        {CCommon::LoadText(IDS_CODE_PAGE_SIMPLIFIED_CHINESE), CODE_PAGE_CHS},
+        {CCommon::LoadText(IDS_CODE_PAGE_TRADITIONAL_CHINESE), CODE_PAGE_CHT},
+        {CCommon::LoadText(IDS_CODE_PAGE_JAPANESE), CODE_PAGE_JP},
+        {CCommon::LoadText(IDS_CODE_PAGE_WESTERN_EUROPE_LANGUAGE), CODE_PAGE_EN},
+        {CCommon::LoadText(IDS_CODE_PAGE_KOREAN), CODE_PAGE_KOR},
+        {CCommon::LoadText(IDS_CODE_PAGE_THAI), CODE_PAGE_THAI},
+        {CCommon::LoadText(IDS_CODE_PAGE_VIETNAMESE), CODE_PAGE_VIET},
+        {CCommon::LoadText(IDS_SPECIFY_CODE_PAGE_MANUALLY), 0}
+    };
+
+    static ConstVal* Instance();
+};
+
+#define CONST_VAL ConstVal::Instance()

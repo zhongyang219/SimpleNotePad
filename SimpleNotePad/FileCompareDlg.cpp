@@ -43,12 +43,12 @@ UINT CFileCompareDlg::FileCompareThreadFun(LPVOID lpParam)
 		}
 		else if (i >= pInfo->file1->size())
 		{
-			temp.Format(_T("%.8x \t无数据\t%.2x\r\n"), i, static_cast<unsigned char>(pInfo->file2->at(i)));
+			temp.Format(_T("%.8x \t%s\t%.2x\r\n"), i, CCommon::LoadText(IDS_NO_DATA).GetString(), static_cast<unsigned char>(pInfo->file2->at(i)));
 			pInfo->result_count++;
 		}
 		else
 		{
-			temp.Format(_T("%.8x \t%.2x\t无数据\r\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)));
+			temp.Format(_T("%.8x \t%.2x\t%s\r\n"), i, static_cast<unsigned char>(pInfo->file1->at(i)), CCommon::LoadText(IDS_NO_DATA));
 			pInfo->result_count++;
 		}
 		temp.MakeUpper();
@@ -67,7 +67,7 @@ UINT CFileCompareDlg::FileCompareThreadFun(LPVOID lpParam)
 			last_progress = progress;
 		}
 	}
-	if (pInfo->out_info.IsEmpty()) pInfo->out_info = _T("两个文件完全相同！");
+	if (pInfo->out_info.IsEmpty()) pInfo->out_info = CCommon::LoadText(IDS_FILE_EXACTLY_THE_SAME_INFO);
 	::PostMessage(pInfo->hwnd, WM_COMPARE_COMPLATE, 0, 0);		//文件比较完成后发送一个比较完成消息
 	return 0;
 }
@@ -78,8 +78,7 @@ void CFileCompareDlg::OpenFile(LPCTSTR file_path, string & file)
 	ifstream open_file{ file_path, std::ios::binary };
 	if (open_file.fail())
 	{
-		CString info;
-		info.Format(_T("无法打开文件“%s”！"), file_path);
+		CString info = CCommon::LoadTextFormat(IDS_CANNOT_OPEN_FILE_WARNING, { file_path });
 		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
 		return;
 	}
@@ -89,8 +88,7 @@ void CFileCompareDlg::OpenFile(LPCTSTR file_path, string & file)
 		file.push_back(open_file.get());
 		if (file.size() > MAX_COMPARE_SIZE)
 		{
-			CString info;
-			info.Format(_T("“%s”文件太大，只读取了前面 %d 个字节！"), file_path, MAX_COMPARE_SIZE);
+			CString info = CCommon::LoadTextFormat(IDS_FILE_TOO_LARGE_WARNING2, { file_path, MAX_COMPARE_SIZE });
 			MessageBox(info, NULL, MB_OK | MB_ICONWARNING);
 			//file.clear();
 
@@ -156,15 +154,15 @@ BOOL CFileCompareDlg::OnInitDialog()
 	m_result_info.GetClientRect(rect);
 	size_t width1 = rect.Width() * 3 / 5;		//第1列的宽度：列表宽度的3/5
 	size_t width2 = rect.Width() - width1 - (rect.Width() * 20 / 408);	//第2列的宽度：列表宽度-第1列的宽度-垂直滚动条的宽度
-	m_result_info.InsertColumn(0, _T("项目"), LVCFMT_LEFT, width1);		//插入第1列
-	m_result_info.InsertColumn(1, _T("值"), LVCFMT_LEFT, width2);		//插入第2列
-	m_result_info.InsertItem(0, _T("文件1字节数"));
-	m_result_info.InsertItem(1, _T("文件2字节数"));
-	m_result_info.InsertItem(2, _T("两个文件大小相差字节数"));
-	m_result_info.InsertItem(3, _T("相同的字节数"));
-	m_result_info.InsertItem(4, _T("不同的字节数"));
-	m_result_info.InsertItem(5, _T("相同的字节数占百分比"));
-	m_result_info.InsertItem(6, _T("不同的字节数占百分比"));
+	m_result_info.InsertColumn(0, CCommon::LoadText(IDS_ITEM), LVCFMT_LEFT, width1);		//插入第1列
+	m_result_info.InsertColumn(1, CCommon::LoadText(IDS_VALUE), LVCFMT_LEFT, width2);		//插入第2列
+	m_result_info.InsertItem(0, CCommon::LoadText(IDS_FILE1_BYTES));
+	m_result_info.InsertItem(1, CCommon::LoadText(IDS_FILE2_BYTES));
+	m_result_info.InsertItem(2, CCommon::LoadText(IDS_TOW_FILE_BYTES_DIFF));
+	m_result_info.InsertItem(3, CCommon::LoadText(IDS_SAME_BYTES));
+	m_result_info.InsertItem(4, CCommon::LoadText(IDS_DIFF_BYTES));
+	m_result_info.InsertItem(5, CCommon::LoadText(IDS_SAME_BYTES_PERCENTAGE));
+	m_result_info.InsertItem(6, CCommon::LoadText(IDS_DIFF_BYTES_PERCENTAGE));
 
 	m_progress_ctrl.SetRange(0, 1000);
 
@@ -184,7 +182,7 @@ void CFileCompareDlg::OnBnClickedOpenButton1()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	//设置过滤器
-	LPCTSTR szFilter = _T("所有文件(*.*)|*.*||");
+	CString szFilter = CCommon::LoadText(IDS_BINARY_COMPARE_FILTER);
 	//构造打开文件对话框
 	CFileDialog fileDlg(TRUE, NULL, NULL, 0, szFilter, this);
 	//显示打开文件对话框
@@ -202,7 +200,7 @@ void CFileCompareDlg::OnBnClickedOpenButton2()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	//设置过滤器
-	LPCTSTR szFilter = _T("所有文件(*.*)|*.*||");
+	CString szFilter = CCommon::LoadText(IDS_BINARY_COMPARE_FILTER);
 	//构造打开文件对话框
 	CFileDialog fileDlg(TRUE, NULL, NULL, 0, szFilter, this);
 	//显示打开文件对话框
@@ -222,17 +220,17 @@ void CFileCompareDlg::OnBnClickedCompareButton()
 	//m_compare_result.clear();
 	if (m_file_path1.empty())
 	{
-		MessageBox(_T("请打开文件1！"), NULL, MB_ICONWARNING);
+		MessageBox(CCommon::LoadText(IDS_OPEN_FILE1_WARNING), NULL, MB_ICONWARNING);
 		return;
 	}
 	if (m_file_path2.empty())
 	{
-		MessageBox(_T("请打开文件2！"), NULL, MB_ICONWARNING);
+		MessageBox(CCommon::LoadText(IDS_OPEN_FILE2_WARNING), NULL, MB_ICONWARNING);
 		return;
 	}
 	if (m_file_path1 == m_file_path2)
 	{
-		MessageBox(_T("比较的是同一个文件！"), NULL, MB_ICONWARNING);
+		MessageBox(CCommon::LoadText(IDS_SAME_FILE_COMPARE_WARNING), NULL, MB_ICONWARNING);
 		return;
 	}
 
@@ -289,12 +287,12 @@ void CFileCompareDlg::OnDropFiles(HDROP hDropInfo)
 afx_msg LRESULT CFileCompareDlg::OnCompareComplate(WPARAM wParam, LPARAM lParam)
 {
 	CWaitCursor wait_cursor;
-	SetDlgItemText(IDC_PROGRESS_STATIC, _T("比较完成，正在输出结果，请稍候……"));
+	SetDlgItemText(IDC_PROGRESS_STATIC, CCommon::LoadText(IDS_COMPARING_INFO));
 	const int MAX_LENGTH{ 50000000 };
 	if (m_thread_info.out_info.GetLength() > MAX_LENGTH)
 	{
 		m_thread_info.out_info = m_thread_info.out_info.Left(MAX_LENGTH);
-		m_thread_info.out_info += _T("\r\n输出结果太长，可能无法完全显示。");
+		m_thread_info.out_info += CCommon::LoadText(_T("\r\n"), IDS_COMPARE_RESULT_TOO_LONG_INFO);
 	}
 
 	SetDlgItemText(IDC_EDIT_RESULT, m_thread_info.out_info);
@@ -326,7 +324,7 @@ afx_msg LRESULT CFileCompareDlg::OnCompareComplate(WPARAM wParam, LPARAM lParam)
 	//添加第6项数据"不同的字节数占百分比"
 	str.Format(_T("%.2f%%"), (m_thread_info.result_count - size_difference) * 100 / static_cast<float>(min_size));
 	m_result_info.SetItemText(6, 1, str);
-	SetDlgItemText(IDC_PROGRESS_STATIC, _T("比较完成。"));
+	SetDlgItemText(IDC_PROGRESS_STATIC, CCommon::LoadText(IDS_COMPARE_FINISH_INFO));
 	EnableButtons(true);
 	return 0;
 }
@@ -337,7 +335,7 @@ afx_msg LRESULT CFileCompareDlg::OnCompareProgress(WPARAM wParam, LPARAM lParam)
 	int progress = wParam;
 	m_progress_ctrl.SetPos(progress);
 	CString info;
-	info.Format(_T("正在比较，请稍候…已完成%.1f%%"), static_cast<float>(progress) / 10.0);
+	info.Format(CCommon::LoadText(IDS_COMPARING_PROGRESS_INFO).GetString(), static_cast<float>(progress) / 10.0);
 	SetDlgItemText(IDC_PROGRESS_STATIC, info);
 	return 0;
 }

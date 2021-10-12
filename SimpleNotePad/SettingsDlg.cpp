@@ -65,8 +65,8 @@ BOOL CSettingsDlg::OnInitDialog()
     m_edit_settings_dlg.Create(IDD_EDIT_SETTINGS_DIALOG);
 
     //添加子对话框
-    m_tab_ctrl.AddWindow(&m_general_settings_dlg, _T("常规设置"));
-    m_tab_ctrl.AddWindow(&m_edit_settings_dlg, _T("编辑器设置"));
+    m_tab_ctrl.AddWindow(&m_general_settings_dlg, CCommon::LoadText(IDS_GENERAL_SETTINGS));
+    m_tab_ctrl.AddWindow(&m_edit_settings_dlg, CCommon::LoadText(IDS_EDITOR_SETTINGS));
 
     m_tab_ctrl.SetCurTab(1);
 

@@ -152,16 +152,16 @@ void CHexViewDlg::ShowSizeInfo()
 	switch (m_size_unit)
 	{
 	case SizeUnit::B:
-		tmp.Format(_T("修改文件大小：（当前：%d B）"), m_data.size());
+		tmp.Format(_T("%d B"), m_data.size());
 		break;
 	case SizeUnit::KB:
-		tmp.Format(_T("修改文件大小：（当前：%.2f KB）"), static_cast<double>(m_data.size()) / 1024.0);
+		tmp.Format(_T("%.2f KB"), static_cast<double>(m_data.size()) / 1024.0);
 		break;
 	case SizeUnit::MB:
-		tmp.Format(_T("修改文件大小：（当前：%.2f MB）"), static_cast<double>(m_data.size()) / 1024.0 / 1024.0);
+		tmp.Format(_T("%.2f MB"), static_cast<double>(m_data.size()) / 1024.0 / 1024.0);
 		break;
 	}
-	SetDlgItemText(IDC_STATIC_FILESIZE, tmp);
+	SetDlgItemText(IDC_STATIC_FILESIZE, CCommon::LoadTextFormat(IDS_FILE_SIZE_MODIFY_INFO, { tmp }));
 }
 
 void CHexViewDlg::SaveConfig() const
@@ -221,16 +221,16 @@ BOOL CHexViewDlg::OnInitDialog()
 
 	LoadConfig();
 	if(!m_file_path.IsEmpty())
-		SetWindowText(m_file_path + _T(" - 十六进制查看"));
+		SetWindowText(m_file_path + CCommon::LoadText(_T(" - "), IDS_HEX_VIEW));
 
 	m_modified_list.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);
     CRect rect;
 	m_modified_list.GetClientRect(rect);
 	size_t width1 = rect.Width() * 3 / 10;		//列的宽度：列表宽度的3/10
 	//size_t width2 = rect.Width() / 4;		//第2列的宽度：列表宽度的1/4
-	m_modified_list.InsertColumn(0, _T("地址"), LVCFMT_LEFT, width1);		//插入第1列
-	m_modified_list.InsertColumn(1, _T("修改前"), LVCFMT_LEFT, width1);		//插入第2列
-	m_modified_list.InsertColumn(2, _T("修改后"), LVCFMT_LEFT, width1);		//插入第3列
+	m_modified_list.InsertColumn(0, CCommon::LoadText(IDS_ADDRESS), LVCFMT_LEFT, width1);		//插入第1列
+	m_modified_list.InsertColumn(1, CCommon::LoadText(IDS_BEFORE_MODIFIED), LVCFMT_LEFT, width1);		//插入第2列
+	m_modified_list.InsertColumn(2, CCommon::LoadText(IDS_AFTER_MODIFIED), LVCFMT_LEFT, width1);		//插入第3列
 
     //初始化编辑器
     m_view = (CHexEditView*)RUNTIME_CLASS(CHexEditView)->CreateObject();
@@ -341,7 +341,7 @@ void CHexViewDlg::OnBnClickedSearch()
 	}
 	else
 	{
-		value_str = _T("无数据");
+		value_str = CCommon::LoadText(IDS_NO_DATA);
 	}
 	SetDlgItemText(IDC_EDIT_VALUE, value_str);
 }
@@ -441,7 +441,7 @@ void CHexViewDlg::OnBnClickedModify()
 	}
 	else
 	{
-		out_info = _T("地址超出范围");
+		out_info = CCommon::LoadText(IDS_ADDRESS_OUT_OF_RANGE);
 	}
 	SetDlgItemText(IDC_STATIC_OUT, out_info);
 }
@@ -615,28 +615,28 @@ void CHexViewDlg::OnBnClickedModifySize()
 
 	if (file_size_byte < 0)
 	{
-		MessageBox(_T("请输入正确的文件大小！"), NULL, MB_OK | MB_ICONWARNING);
+		MessageBox(CCommon::LoadText(IDS_INPUT_CORRECT_FILE_SIZE_WARNING), NULL, MB_OK | MB_ICONWARNING);
 		return;
 	}
 	else if (file_size_byte > MAX_FILE_SIZE)
 	{
-		MessageBox(_T("大小不能超过50MB！"), NULL, MB_OK | MB_ICONWARNING);
+		MessageBox(CCommon::LoadText(IDS_FILE_SIZE_CANNOT_EXCEED_WARNING), NULL, MB_OK | MB_ICONWARNING);
 		return;
 	}
 
 	CString info;
 	if (file_size_byte < m_data.size())
 	{
-		info.Format(_T("你要更改的大小小于原来的大小，多余的部分将被舍弃，你确定要将文件的大小从%u字节更改为%u字节吗？"), m_data.size(), file_size_byte);
+		info = CCommon::LoadTextFormat(IDS_FILE_SIZE_MODIFIED_LESS_INQUERY, { m_data.size(), file_size_byte });
 	}
 	else
 	{
-		info.Format(_T("你确定要将文件的大小从%u字节更改为%u字节吗？"), m_data.size(), file_size_byte);
+		info = CCommon::LoadTextFormat(IDS_FILE_SIZE_MODIFY_INQUERY, { m_data.size(), file_size_byte });
 	}
 	if (MessageBox(info, NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
 	{
 		//更新提示框的信息
-		info.Format(_T("文件大小: %u Byte -> %u Byte"), m_data.size(), file_size_byte);
+		info = CCommon::LoadTextFormat(IDS_FILE_SIZE_MODIFIED_INFO, { m_data.size(), file_size_byte });
 		SetDlgItemText(IDC_STATIC_OUT, info);
 		//更改大小
 		m_data.resize(file_size_byte);

@@ -528,3 +528,11 @@ void CCommon::SetThreadLanguage(Language language)
     default: break;
     }
 }
+
+ConstVal* ConstVal::Instance()
+{
+    static std::shared_ptr<ConstVal> instance;
+    if (instance == nullptr)
+        instance = std::make_shared<ConstVal>();
+    return instance.get();
+}

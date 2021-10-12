@@ -55,9 +55,9 @@ BOOL CGeneralSettingsDlg::OnInitDialog()
         CheckDlgButton(IDC_GITEE_RADIO, TRUE);
 
     //初始化下拉列表
-    for (size_t i{}; i < CONST_VAL::code_page_list.size(); i++)
+    for (size_t i{}; i < CONST_VAL->code_page_list.size(); i++)
     {
-        m_default_page_code_combo.AddString(CONST_VAL::code_page_list[i].name);
+        m_default_page_code_combo.AddString(CONST_VAL->code_page_list[i].name);
     }
     m_default_page_code_combo.SetCurSel(m_data.default_code_page_selected);
 
@@ -78,14 +78,14 @@ void CGeneralSettingsDlg::OnCbnSelchangeDefaultCodePageCombo()
     // TODO: 在此添加控件通知处理程序代码
     int index = m_default_page_code_combo.GetCurSel();
     m_data.default_code_page_selected = index;
-    if (index >= 0 && index < CONST_VAL::code_page_list.size())
-        m_data.default_code_page = CONST_VAL::code_page_list[index].code_page;
+    if (index >= 0 && index < CONST_VAL->code_page_list.size())
+        m_data.default_code_page = CONST_VAL->code_page_list[index].code_page;
 
-    if (index == CONST_VAL::code_page_list.size() - 1)
+    if (index == CONST_VAL->code_page_list.size() - 1)
     {
         CInputDlg inputDlg;
-        inputDlg.SetTitle(_T("输入代码页"));
-        inputDlg.SetInfoText(_T("请输入代码页："));
+        inputDlg.SetTitle(CCommon::LoadText(IDS_INPUT_CODE_PAGE));
+        inputDlg.SetInfoText(CCommon::LoadText(IDS_PLEASE_INPUT_CODE_PAGE));
         if (inputDlg.DoModal() == IDOK)
         {
             m_data.default_code_page = _ttoi(inputDlg.GetEditText().GetString());
