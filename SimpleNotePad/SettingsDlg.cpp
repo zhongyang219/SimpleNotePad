@@ -8,6 +8,8 @@
 
 // CSettingsDlg 对话框
 
+int CSettingsDlg::m_tab_selected = 0;
+
 IMPLEMENT_DYNAMIC(CSettingsDlg, CBaseDialog)
 
 CSettingsDlg::CSettingsDlg(CWnd* pParent /*=nullptr*/)
@@ -46,6 +48,7 @@ CString CSettingsDlg::GetDialogName() const
 }
 
 BEGIN_MESSAGE_MAP(CSettingsDlg, CBaseDialog)
+    ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -68,7 +71,9 @@ BOOL CSettingsDlg::OnInitDialog()
     m_tab_ctrl.AddWindow(&m_general_settings_dlg, CCommon::LoadText(IDS_GENERAL_SETTINGS));
     m_tab_ctrl.AddWindow(&m_edit_settings_dlg, CCommon::LoadText(IDS_EDITOR_SETTINGS));
 
-    m_tab_ctrl.SetCurTab(1);
+    if (m_tab_selected < 0 || m_tab_selected >= m_tab_ctrl.GetItemCount())
+        m_tab_selected = 0;
+    m_tab_ctrl.SetCurTab(m_tab_selected);
 
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -83,4 +88,13 @@ void CSettingsDlg::OnOK()
     m_edit_settings_dlg.OnOK();
 
     CBaseDialog::OnOK();
+}
+
+
+void CSettingsDlg::OnDestroy()
+{
+    CBaseDialog::OnDestroy();
+
+    // TODO: 在此处添加消息处理程序代码
+    m_tab_selected = m_tab_ctrl.GetCurSel();
 }

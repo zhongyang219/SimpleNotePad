@@ -29,6 +29,7 @@ private:
     CTabCtrlEx m_tab_ctrl;
     CGeneralSettingsDlg m_general_settings_dlg;
     CEditSettingsDlg m_edit_settings_dlg;
+    static int m_tab_selected;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -40,4 +41,5 @@ protected:
 public:
     virtual BOOL OnInitDialog();
     virtual void OnOK();
+    afx_msg void OnDestroy();
 };
