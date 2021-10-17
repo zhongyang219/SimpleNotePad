@@ -306,13 +306,14 @@
 #define ID_WORD_WRAP_WORD               32980
 #define ID_WORD_CHARACTER               32981
 #define ID_WORD_WRAP_WHITESPACE         32982
+#define ID_32985                        32985
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        187
-#define _APS_NEXT_COMMAND_VALUE         32985
+#define _APS_NEXT_COMMAND_VALUE         32986
 #define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

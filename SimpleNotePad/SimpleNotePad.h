@@ -12,6 +12,8 @@
 
 #include "CommonData.h"
 
+#define RECENT_FILE_LIST_MAX_SIZE 6
+
 // CSimpleNotePadApp:
 // 有关此类的实现，请参阅 SimpleNotePad.cpp
 //
@@ -43,6 +45,9 @@ public:
     //由于本函数中使用了DPI函数，因此本函数必须确保在DPIFromWindow之后调用
     HICON GetMenuIcon(UINT id);
 
+    //获取最近打开文件列表
+    const std::vector<CString>& GetRecentFileList();
+
 private:
     void LoadConfig();
     void SaveConfig();
@@ -57,6 +62,7 @@ private:
 
     bool m_checking_update{ false };        //是否正在检查更新
     std::map<UINT, HICON> m_menu_icons;      //菜单图标资源。key是图标资源的ID，vlaue是图标的句柄
+    std::vector<CString> m_recent_file_list;     //最近打开文件列表
 
 // 重写
 public:

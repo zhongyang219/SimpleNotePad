@@ -155,6 +155,11 @@ HICON CSimpleNotePadApp::GetMenuIcon(UINT id)
     }
 }
 
+const std::vector<CString>& CSimpleNotePadApp::GetRecentFileList()
+{
+    return m_recent_file_list;
+}
+
 void CSimpleNotePadApp::LoadConfig()
 {
     //载入选项设置
@@ -253,6 +258,15 @@ BOOL CSimpleNotePadApp::InitInstance()
 	reg_key += _T(" (Debug)");
 #endif
 	SetRegistryKey(reg_key);
+
+    //加载最近打开文件列表
+    LoadStdProfileSettings(RECENT_FILE_LIST_MAX_SIZE);
+    for (int i = 0; i < m_pRecentFileList->GetSize(); i++)
+    {
+        CString str = (*m_pRecentFileList)[i];
+        if (!str.IsEmpty())
+            m_recent_file_list.push_back(str);
+    }
 
     m_hScintillaModule = LoadLibrary(_T("SciLexer.dll"));
     if (m_hScintillaModule == NULL)

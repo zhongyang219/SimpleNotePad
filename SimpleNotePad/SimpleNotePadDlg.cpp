@@ -125,6 +125,9 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
     m_view->SetEolMode(eol_mode);
 	ShowStatusBar();										//更新状态栏
 
+    if (PathFileExists(m_file_path))
+        theApp.AddToRecentFileList(m_file_path);
+
     //文件打开后为编辑设置语法高亮
     SetEditorSyntaxHight();
 }
@@ -784,10 +787,11 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
     m_view->SetLexerNormalText();
 
-    //初始化语言菜单
+    //初始化菜单
     CMenu* pMenu = GetMenu();
     if (pMenu != nullptr)
     {
+        //初始化语言菜单
         CMenu* pLanguageMenu = pMenu->GetSubMenu(3)->GetSubMenu(7);
         ASSERT(pLanguageMenu != nullptr);
         if (pLanguageMenu != nullptr)
@@ -796,6 +800,28 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
             for (const auto& language_item : m_syntax_highlight.GetLanguageList())
             {
                 pLanguageMenu->AppendMenuW(MF_STRING | MF_ENABLED, ID_LANGUAGE_NORMAL_TEXT + index + 1, language_item.m_name.c_str());
+                index++;
+            }
+        }
+
+        //初始化最近打开文件列表
+        CMenu* pRecentFileMenu = pMenu->GetSubMenu(0)->GetSubMenu(5);
+        ASSERT(pRecentFileMenu != nullptr);
+        if (pRecentFileMenu != nullptr)
+        {
+            //清空子目录
+            if (!theApp.GetRecentFileList().empty())
+            {
+                while (pRecentFileMenu->GetMenuItemCount() > 0)
+                {
+                    pRecentFileMenu->DeleteMenu(0, MF_BYPOSITION);
+                }
+            }
+            //添加最近打开文件
+            int index = 0;
+            for (const auto& file_path : theApp.GetRecentFileList())
+            {
+                pRecentFileMenu->AppendMenu(MF_STRING | MF_ENABLED, ID_FILE_MRU_FILE1 + index, file_path);
                 index++;
             }
         }
@@ -1760,7 +1786,19 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
         m_cur_lan_index = -1;
         ShowStatusBar();
     }
-
+    //响应最近打开文件
+    if (command >= ID_FILE_MRU_FILE1 && command < ID_FILE_MRU_FILE1 + RECENT_FILE_LIST_MAX_SIZE)
+    {
+        int recent_file_index = command - ID_FILE_MRU_FILE1;
+        if (recent_file_index >= 0 && recent_file_index < static_cast<int>(theApp.GetRecentFileList().size()))
+        {
+            CString file_path = theApp.GetRecentFileList()[recent_file_index];
+            m_file_path = file_path;	//获取打开的文件路径
+            OpenFile(m_file_path);					//打开文件
+            SetTitle();								//设置窗口标题
+        }
+        return TRUE;
+    }
     return CBaseDialog::OnCommand(wParam, lParam);
 }
 
