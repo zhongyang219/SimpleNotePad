@@ -203,7 +203,7 @@ void CScintillaEditView::EmptyUndoBuffer()
 void CScintillaEditView::ReplaceSelected(const wstring& replace_str)
 {
     bool noused;
-    string replaced_str = CCommon::UnicodeToStr(replace_str, noused, CodeType::UTF8);
+    string replaced_str = CCommon::UnicodeToStr(replace_str, noused, CodeType::UTF8_NO_BOM);
     SendMessage(SCI_REPLACESEL, 0, (sptr_t)replaced_str.c_str());
 }
 
