@@ -190,6 +190,15 @@ void CScintillaEditView::Paste()
     SendMessage(SCI_PASTE);
 }
 
+void CScintillaEditView::Paste(const wstring& text)
+{
+    bool b;
+    std::string str_paste = CCommon::UnicodeToStr(text, b, CodeType::UTF8_NO_BOM);
+    //插入要粘贴的文本
+    SendMessage(SCI_INSERTTEXT, -1, (sptr_t)str_paste.c_str());
+
+}
+
 void CScintillaEditView::SelectAll()
 {
     SendMessage(SCI_SELECTALL);

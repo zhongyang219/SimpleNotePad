@@ -2423,6 +2423,12 @@ void ScintillaWin::Copy() {
 		SelectionText selectedText;
 		CopySelectionRange(&selectedText);
 		CopyToClipboard(selectedText);
+
+        //发送SCN_COPY通知
+        SCNotification scn = {};
+        scn.nmhdr.code = SCN_COPY;
+        scn.text = selectedText.Data();
+        NotifyParent(scn);
 	}
 }
 

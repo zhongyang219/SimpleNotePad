@@ -1,4 +1,4 @@
-/* Scintilla source code edit control */
+﻿/* Scintilla source code edit control */
 /** @file Scintilla.h
  ** Interface to the edit control.
  **/
@@ -1154,6 +1154,7 @@ typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, 
 #define SCN_AUTOCCOMPLETED 2030
 #define SCN_MARGINRIGHTCLICK 2031
 #define SCN_AUTOCSELECTIONCHANGE 2032
+#define SCN_COPY 2033
 #ifndef SCI_DISABLE_PROVISIONAL
 #define SC_BIDIRECTIONAL_DISABLED 0
 #define SC_BIDIRECTIONAL_L2R 1

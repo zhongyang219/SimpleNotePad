@@ -10,8 +10,11 @@
 #include "BaseDialog.h"
 #include "ScintillaEditView.h"
 #include "SyntaxHighlight.h"
+#include <deque>
 
 const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//将FINDMSGSTRING注册为WM_FINDREPLACE消息
+const int CLIPBOARD_ITEM_MAX = 8;
+
 // CSimpleNotePadDlg 对话框
 class CSimpleNotePadDlg : public CBaseDialog
 {
@@ -70,7 +73,9 @@ protected:
 	bool m_find_flag{ false };
 
     CSyntaxHighlight m_syntax_highlight;
+    std::deque<std::wstring> m_clipboard_items;
 	
+protected:
     void ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before);
 
 	void OpenFile(LPCTSTR file_path);					//打开文件的处理
@@ -105,6 +110,9 @@ protected:
     void UpdateLineNumberWidth(bool update = false);
 
     void InitMenuIcon();
+    void AddItemToClipboardHistory(const std::wstring& str);
+    void InitClipboardHistoryMenu();
+    CMenu* GetClipboardHistoryMenu();
 
 private:
 

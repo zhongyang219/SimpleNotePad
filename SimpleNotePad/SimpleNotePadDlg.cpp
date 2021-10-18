@@ -591,6 +591,77 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_CONVERT_TO_TITLE_CASE, FALSE, theApp.GetMenuIcon(IDI_CAPITAL));
 }
 
+void CSimpleNotePadDlg::AddItemToClipboardHistory(const std::wstring& str)
+{
+    //判断要添加的文本是否在剪贴板历史记录中存在
+    auto iter = std::find(m_clipboard_items.begin(), m_clipboard_items.end(), str);
+    if (iter == m_clipboard_items.end())
+    {
+        m_clipboard_items.push_front(str);
+        if (m_clipboard_items.size() > CLIPBOARD_ITEM_MAX)
+            m_clipboard_items.pop_back();
+        InitClipboardHistoryMenu();
+    }
+}
+
+void CSimpleNotePadDlg::InitClipboardHistoryMenu()
+{
+    auto initClipboardHistoryMenu = [&](CMenu* pMenu)
+    {
+        ASSERT(pMenu != nullptr);
+        if (pMenu != nullptr)
+        {
+            //清空子目录
+            if (!m_clipboard_items.empty())
+            {
+                while (pMenu->GetMenuItemCount() > 0)
+                {
+                    pMenu->DeleteMenu(0, MF_BYPOSITION);
+                }
+            }
+            //添加剪贴板项目
+            int index = 0;
+            for (const auto& item_name : m_clipboard_items)
+            {
+                if (index >= ID_CLIPBOARD_ITEM_MAX - ID_CLIPBOARD_ITEM_START)
+                    break;
+                //生成要在剪贴板历史记录菜单中显示的文本
+                CString menu_item = item_name.c_str();
+                //去掉换行符
+                menu_item.Remove(_T('\r'));
+                menu_item.Remove(_T('\n'));
+                menu_item.Replace(_T('\t'), _T(' '));
+                //截取前面指定长度的字符，并添加省略号
+                if (menu_item.GetLength() > 32)
+                {
+                    menu_item = menu_item.Left(32);
+                    menu_item += _T("...");
+                }
+                //添加序号
+                menu_item.Format(_T("&%d. %s"), index + 1, menu_item.GetString());
+                pMenu->AppendMenu(MF_STRING | MF_ENABLED, ID_CLIPBOARD_ITEM_START + index, menu_item);
+                index++;
+            }
+        }
+    };
+
+    CMenu* pMenu = GetMenu();
+    if (pMenu != nullptr)
+    {
+        //初始化最近打开文件列表
+        CMenu* pClipboardMenu = GetClipboardHistoryMenu();
+        initClipboardHistoryMenu(pClipboardMenu);
+    }
+
+}
+
+CMenu* CSimpleNotePadDlg::GetClipboardHistoryMenu()
+{
+    CMenu* pMenu = m_context_menu.GetSubMenu(0)->GetSubMenu(6);
+    ASSERT(pMenu != nullptr);
+    return pMenu;
+}
+
 //void CSimpleNotePadDlg::SaveAsHex()
 //{
 //	//设置过滤器
@@ -1074,6 +1145,7 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
 	//屏蔽ESC键退出
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
 		return TRUE;
+    //按下Ctrl键时
 	if (GetKeyState(VK_CONTROL) & 0x80)
 	{
 #ifdef DEBUG
@@ -1084,6 +1156,19 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
         //}
 
 #endif // DEBUG
+        //按下Shift键时
+        if (GetKeyState(VK_SHIFT) & 0x8000)
+        {
+            if (pMsg->wParam == 'V')
+            {
+                //按下Ctrl+Shift+V打开剪贴板历史记录
+                CMenu* pClipboardHistory = GetClipboardHistoryMenu();
+                CPoint point;
+                ClientToScreen(&point);
+                pClipboardHistory->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this); //在指定位置显示弹出菜单
+                return TRUE;
+            }
+        }
 	}
 
     return CBaseDialog::PreTranslateMessage(pMsg);
@@ -1701,6 +1786,11 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             m_zoom = m_view->GetZoom();
             ShowStatusBar();
         }
+        else if (notification->nmhdr.code == SCN_COPY)
+        {
+            std::wstring str = CCommon::StrToUnicode(notification->text, CodeType::UTF8_NO_BOM);
+            AddItemToClipboardHistory(str);
+        }
         else if (notification->nmhdr.code == SCN_MARGINCLICK)
         {
             const int line_number = m_view->SendMessage(SCI_LINEFROMPOSITION, notification->position);
@@ -1799,6 +1889,29 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
         }
         return TRUE;
     }
+    //响应剪贴板历史记录
+    if (command >= ID_CLIPBOARD_ITEM_START && command < ID_CLIPBOARD_ITEM_MAX)
+    {
+        CMenu* pMenu = GetClipboardHistoryMenu();
+        if (pMenu != nullptr)
+        {
+            int index = command - ID_CLIPBOARD_ITEM_START;
+            if (index >= 0 && index < m_clipboard_items.size())
+            {
+                std::wstring str = m_clipboard_items.at(index);
+                if (!str.empty())
+                {
+                    //粘贴选中的文本
+                    m_view->Paste(str);
+                    //将选中的文本移动到列表的顶端
+                    m_clipboard_items.erase(m_clipboard_items.begin() + index);
+                    m_clipboard_items.push_front(str);
+                    InitClipboardHistoryMenu();
+                }
+            }
+        }
+    }
+
     return CBaseDialog::OnCommand(wParam, lParam);
 }
 
