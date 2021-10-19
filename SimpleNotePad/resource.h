@@ -122,6 +122,7 @@
 #define IDI_HEX_VIEW                    185
 #define IDI_ICON5                       186
 #define IDI_COMPARE                     186
+#define IDD_GTO_DIALOG                  187
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -313,13 +314,14 @@
 #define ID_CLIPBOARD_ITEM_MAX           33005
 #define ID_33006                        33006
 #define ID_SHOW_STATUSBAR               33007
+#define ID_GOTO_LINE                    33008
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        187
-#define _APS_NEXT_COMMAND_VALUE         33008
+#define _APS_NEXT_RESOURCE_VALUE        189
+#define _APS_NEXT_COMMAND_VALUE         33011
 #define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

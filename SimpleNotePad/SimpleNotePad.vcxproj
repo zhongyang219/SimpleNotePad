@@ -217,6 +217,7 @@
     <ClInclude Include="FileCompareDlg.h" />
     <ClInclude Include="FilePathHelper.h" />
     <ClInclude Include="FormatConvertDlg.h" />
+    <ClInclude Include="GoToLineDlg.h" />
     <ClInclude Include="HexEditView.h" />
     <ClInclude Include="HexViewDlg.h" />
     <ClInclude Include="InputDlg.h" />
@@ -253,6 +254,7 @@
     <ClCompile Include="FileCompareDlg.cpp" />
     <ClCompile Include="FilePathHelper.cpp" />
     <ClCompile Include="FormatConvertDlg.cpp" />
+    <ClCompile Include="GoToLineDlg.cpp" />
     <ClCompile Include="HexEditView.cpp" />
     <ClCompile Include="HexViewDlg.cpp" />
     <ClCompile Include="InputDlg.cpp" />

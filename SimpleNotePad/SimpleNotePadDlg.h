@@ -199,4 +199,5 @@ public:
     afx_msg void OnWordCharacter();
     afx_msg void OnWordWrapWhitespace();
     afx_msg void OnShowStatusbar();
+    afx_msg void OnGotoLine();
 };

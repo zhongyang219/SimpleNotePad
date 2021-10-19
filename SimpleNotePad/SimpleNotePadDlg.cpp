@@ -15,6 +15,7 @@
 #include "SettingsDlg.h"
 #include "AboutDlg.h"
 #include "WIC.h"
+#include "GoToLineDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -779,6 +780,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_WORD_CHARACTER, &CSimpleNotePadDlg::OnWordCharacter)
     ON_COMMAND(ID_WORD_WRAP_WHITESPACE, &CSimpleNotePadDlg::OnWordWrapWhitespace)
     ON_COMMAND(ID_SHOW_STATUSBAR, &CSimpleNotePadDlg::OnShowStatusbar)
+    ON_COMMAND(ID_GOTO_LINE, &CSimpleNotePadDlg::OnGotoLine)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -2076,4 +2078,16 @@ void CSimpleNotePadDlg::OnShowStatusbar()
     // TODO: 在此添加命令处理程序代码
     m_show_statusbar = !m_show_statusbar;
     ShowStatusbar(m_show_statusbar);
+}
+
+
+void CSimpleNotePadDlg::OnGotoLine()
+{
+    // TODO: 在此添加命令处理程序代码
+    CGoToLineDlg dlg;
+    if (dlg.DoModal() == IDOK)
+    {
+        int line = dlg.GetLine();
+        m_view->GotoLine(line - 1);
+    }
 }

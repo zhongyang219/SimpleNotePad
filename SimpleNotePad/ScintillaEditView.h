@@ -114,6 +114,8 @@ public:
 
     void SetSelectionBackColor(COLORREF color);     //设置选中部分的背景色
 
+    void GotoLine(int line);    //跳转到行
+
     //语法解析
     void SetLexer(int lexer);
     void SetKeywords(int id, const char* keywords);

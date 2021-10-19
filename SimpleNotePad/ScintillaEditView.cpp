@@ -406,6 +406,11 @@ void CScintillaEditView::SetSelectionBackColor(COLORREF color)
     SendMessage(SCI_SETSELBACK, 1, color);
 }
 
+void CScintillaEditView::GotoLine(int line)
+{
+    SendMessage(SCI_GOTOLINE, line);
+}
+
 void CScintillaEditView::SetLexer(int lexer)
 {
     SendMessage(SCI_SETLEXER, lexer);
