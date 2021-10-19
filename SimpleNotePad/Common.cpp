@@ -381,9 +381,9 @@ void CCommon::StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& r
     }
 }
 
-bool CCommon::GetFileContent(const wchar_t* file_path, string& contents_buff, bool binary /*= true*/)
+bool CCommon::GetFileContent(const wchar_t* file_path, string& contents_buff)
 {
-    std::ifstream file{ file_path, (binary ? std::ios::binary : std::ios::in) };
+    std::ifstream file{ file_path, std::ios::binary };
     if (file.fail())
         return false;
     //获取文件长度
@@ -401,9 +401,9 @@ bool CCommon::GetFileContent(const wchar_t* file_path, string& contents_buff, bo
     return true;
 }
 
-const char* CCommon::GetFileContent(const wchar_t* file_path, size_t& length, bool binary /*= true*/)
+const char* CCommon::GetFileContent(const wchar_t* file_path, size_t& length)
 {
-    std::ifstream file{ file_path, (binary ? std::ios::binary : std::ios::in) };
+    std::ifstream file{ file_path, std::ios::binary };
     length = 0;
     if (file.fail())
         return nullptr;

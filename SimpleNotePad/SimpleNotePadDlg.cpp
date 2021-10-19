@@ -91,25 +91,29 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 		m_file_path.Empty();
 		return;
 	}
-	while (!file.eof())
-	{
-		m_edit_str.push_back(file.get());
-		if (m_edit_str.size() > MAX_FILE_SIZE)	//当文件大小超过MAX_FILE_SIZE时禁止打开
-		{
-			CString info = CCommon::LoadTextFormat(IDS_FILE_TOO_LARGE_WARNING, { file_path, MAX_FILE_SIZE / 1024 / 1024 });
-			if (MessageBox(info, NULL, MB_YESNO | MB_ICONQUESTION) == IDYES)
-			{
-				break;
-			}
-			else
-			{
-				m_file_path.Empty();
-				m_edit_str.clear();
-				return;
-			}
-		}
-	}
-	m_edit_str.pop_back();
+
+    //获取文件长度
+    file.seekg(0, file.end);
+    size_t length = file.tellg();
+    file.seekg(0, file.beg);
+    if (length > MAX_FILE_SIZE)	//当文件大小超过MAX_FILE_SIZE时禁止打开
+    {
+        CString info = CCommon::LoadTextFormat(IDS_FILE_TOO_LARGE_WARNING, { file_path, MAX_FILE_SIZE / 1024 / 1024 });
+        if (MessageBox(info, NULL, MB_YESNO | MB_ICONQUESTION) != IDYES)
+        {
+            m_file_path.Empty();
+            m_edit_str.clear();
+            return;
+        }
+        length = MAX_FILE_SIZE;
+    }
+
+    //读取数据
+    char* buff = new char[length];
+    file.read(buff, length);
+    file.close();
+    m_edit_str.assign(buff, length);
+    delete[] buff;
 
 	bool code_confirm = JudgeCode();											//判断编码类型
 	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code, m_code_page);	//转换成Unicode

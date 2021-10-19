@@ -103,14 +103,13 @@ public:
     static void StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& results, bool skip_empty = true);
 
     //读取文件内容
-    static bool GetFileContent(const wchar_t* file_path, string& contents_buff, bool binary = true);
+    static bool GetFileContent(const wchar_t* file_path, string& contents_buff);
 
     //读取文件内容
     //file_path: 文件的路径
     //length: 文件的长度
-    //binary: 是否以进制方式读取
     //返回值: 读取成功返回读取到的文件内容的const char类型的指针，在使用完毕后这个指针需要自行使用delete释放。读取失败返回nullptr
-    static const char* GetFileContent(const wchar_t* file_path, size_t& length, bool binary = true);
+    static const char* GetFileContent(const wchar_t* file_path, size_t& length);
 
     //获取当前进程exe文件所在目录
     static wstring GetExePath();
