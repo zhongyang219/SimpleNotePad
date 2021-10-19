@@ -311,13 +311,15 @@
 #define ID_32987                        32987
 #define ID_CLIPBOARD_ITEM_START         32988
 #define ID_CLIPBOARD_ITEM_MAX           33005
+#define ID_33006                        33006
+#define ID_SHOW_STATUSBAR               33007
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        187
-#define _APS_NEXT_COMMAND_VALUE         33006
+#define _APS_NEXT_COMMAND_VALUE         33008
 #define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

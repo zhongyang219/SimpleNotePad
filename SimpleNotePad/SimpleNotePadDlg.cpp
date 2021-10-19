@@ -123,7 +123,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	//m_flag = true;
     CScintillaEditView::eEolMode eol_mode = CScintillaEditView::JudgeEolMode(m_edit_wcs);
     m_view->SetEolMode(eol_mode);
-	ShowStatusBar();										//更新状态栏
+	UpdateStatusBarInfo();										//更新状态栏
 
     if (PathFileExists(m_file_path))
         theApp.AddToRecentFileList(m_file_path);
@@ -149,7 +149,7 @@ bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_pag
 		return false;
 	file << m_edit_str;
     m_view->SetSavePoint();
-	ShowStatusBar();		//保存后刷新状态栏
+	UpdateStatusBarInfo();		//保存后刷新状态栏
     SetTitle();
 	return true;
 }
@@ -180,7 +180,7 @@ bool CSimpleNotePadDlg::JudgeCode()
 	return rtn;
 }
 
-void CSimpleNotePadDlg::ShowStatusBar()
+void CSimpleNotePadDlg::UpdateStatusBarInfo()
 {
 	//显示编码格式
 	CString str{/*_T("编码格式: ")*/};
@@ -266,7 +266,7 @@ void CSimpleNotePadDlg::ChangeCode()
 	m_view->SetText(m_edit_wcs);
     m_view->EmptyUndoBuffer();
     //m_flag = true;
-	ShowStatusBar();
+	UpdateStatusBarInfo();
 }
 
 bool CSimpleNotePadDlg::BeforeChangeCode()
@@ -280,6 +280,7 @@ void CSimpleNotePadDlg::SaveConfig()
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
     theApp.WriteProfileInt(_T("config"), _T("word_wrap_mode"), m_word_wrap_mode);
 	theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
+	theApp.WriteProfileInt(L"config", L"show_statusbar", m_show_statusbar);
 	theApp.WriteProfileInt(L"config", L"show_line_number", m_show_line_number);
     theApp.WriteProfileInt(L"config", L"show_eol", m_show_eol);
 
@@ -293,6 +294,7 @@ void CSimpleNotePadDlg::LoadConfig()
 	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
     m_word_wrap_mode = static_cast<CScintillaEditView::eWordWrapMode>(theApp.GetProfileInt(_T("config"), _T("word_wrap_mode"), CScintillaEditView::WW_WORD));
 	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
+    m_show_statusbar = (theApp.GetProfileInt(_T("config"), _T("show_statusbar"), 1) != 0);
     m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 1) != 0);
     m_show_eol = (theApp.GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
 
@@ -345,6 +347,23 @@ void CSimpleNotePadDlg::SetTitle()
 		str_title += CCommon::LoadText(IDS_NO_TITLE);
 	str_title += _T(" - SimpleNotePad");
     SetWindowText(str_title);
+}
+
+void CSimpleNotePadDlg::ShowStatusbar(bool show)
+{
+    CRect rect;
+    GetClientRect(&rect);
+
+    if (show)
+    {
+        m_status_bar.ShowWindow(SW_SHOW);
+        rect.bottom = rect.bottom - m_edit_bottom_space - theApp.DPI(2);
+    }
+    else
+    {
+        m_status_bar.ShowWindow(SW_HIDE);
+    }
+    m_view->MoveWindow(rect);
 }
 
 void CSimpleNotePadDlg::GetStatusbarWidth(std::vector<int>& part_widths)
@@ -451,7 +470,7 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 			    m_file_path = fileDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
 			    SetTitle();					//用新的文件名设置标题
 			    m_code = m_save_code;		//另存为后当前编码类型设置为另存为的编码类型
-			    ShowStatusBar();			//刷新状态栏
+			    UpdateStatusBarInfo();			//刷新状态栏
 			    return true;
 		    }
 
@@ -512,7 +531,7 @@ void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
         m_cur_lan_index = -1;
     }
     m_view->SetFold();
-    ShowStatusBar();
+    UpdateStatusBarInfo();
 }
 
 void CSimpleNotePadDlg::SetEditorSyntaxHight()
@@ -676,7 +695,7 @@ CMenu* CSimpleNotePadDlg::GetClipboardHistoryMenu()
 //		m_file_path = fileDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
 //		SaveHex();
 //		SetTitle();					//用新的文件名设置标题
-//		ShowStatusBar();			//刷新状态栏
+//		UpdateStatusBarInfo();			//刷新状态栏
 //	}
 //}
 
@@ -755,6 +774,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_WORD_WRAP_WORD, &CSimpleNotePadDlg::OnWordWrapWord)
     ON_COMMAND(ID_WORD_CHARACTER, &CSimpleNotePadDlg::OnWordCharacter)
     ON_COMMAND(ID_WORD_WRAP_WHITESPACE, &CSimpleNotePadDlg::OnWordWrapWhitespace)
+    ON_COMMAND(ID_SHOW_STATUSBAR, &CSimpleNotePadDlg::OnShowStatusbar)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -820,7 +840,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	CRect rect;
 	GetClientRect(&rect);
 	//rect.bottom = rect.bottom - 22;
-	rect.bottom = rect.bottom - m_edit_bottom_space - theApp.DPI(2);
+    if (m_show_statusbar)
+	    rect.bottom = rect.bottom - m_edit_bottom_space - theApp.DPI(2);
 	//m_edit.MoveWindow(rect);
 
     m_view = (CScintillaEditView*)RUNTIME_CLASS(CScintillaEditView)->CreateObject();
@@ -848,7 +869,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     vector<int> parts;
     GetStatusbarWidth(parts);
 	m_status_bar.SetParts(parts.size(), parts.data()); //分割状态栏
-	ShowStatusBar();
+	UpdateStatusBarInfo();
+    ShowStatusbar(m_show_statusbar);
 
 	//初始化字体
 	//m_font.CreatePointFont(m_font_size * 10, m_font_name);
@@ -997,7 +1019,7 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 	CRect size;		//编辑框矩形区域
 	size.right = cx;
 	//size.bottom = cy - 22;		//窗口下方状态栏占20个像素高度
-	size.bottom = cy - m_edit_bottom_space;		//窗口下方状态栏占20个像素高度
+	size.bottom = cy - (m_show_statusbar ? m_edit_bottom_space : -theApp.DPI(2));		//窗口下方状态栏占20个像素高度
 	if (nType != SIZE_MINIMIZED && m_view->GetSafeHwnd() != NULL)
 	{
         //窗口大小改变时改变编辑框大小
@@ -1283,7 +1305,7 @@ void CSimpleNotePadDlg::OnFileNew()
     m_view->EmptyUndoBuffer();
     m_code = CodeType::ANSI;
     m_view->SetSavePoint();
-    ShowStatusBar();
+    UpdateStatusBarInfo();
 	SetWindowText(CCommon::LoadText(IDS_NO_TITLE, _T(" - SimpleNotePad")));
 }
 
@@ -1502,7 +1524,7 @@ void CSimpleNotePadDlg::OnMenuSelect(UINT nItemID, UINT nFlags, HMENU hSysMenu)
 	if (!menu_tip.IsEmpty())
 		m_status_bar.SetText(menu_tip, 0, 0);
 	else
-		ShowStatusBar();
+		UpdateStatusBarInfo();
 }
 
 
@@ -1557,6 +1579,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 
 	pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
+	pMenu->CheckMenuItem(ID_SHOW_STATUSBAR, MF_BYCOMMAND | (m_show_statusbar ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_SHOW_LINE_NUMBER, MF_BYCOMMAND | (m_show_line_number ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_SHOW_EOL, MF_BYCOMMAND | (m_show_eol ? MF_CHECKED : MF_UNCHECKED));
 
@@ -1777,14 +1800,14 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             if ((notification->modificationType & marsk) != 0)
             {
                 m_view->GetText(m_edit_wcs);
-                ShowStatusBar();
+                UpdateStatusBarInfo();
                 SetTitle();
             }
         }
         else if (notification->nmhdr.code == SCN_ZOOM)
         {
             m_zoom = m_view->GetZoom();
-            ShowStatusBar();
+            UpdateStatusBarInfo();
         }
         else if (notification->nmhdr.code == SCN_COPY)
         {
@@ -1823,7 +1846,7 @@ void CSimpleNotePadDlg::OnEolCrlf()
     // TODO: 在此添加命令处理程序代码
     m_view->SetEolMode(CScintillaEditView::EOL_CRLF);
     m_view->ConvertEolMode(CScintillaEditView::EOL_CRLF);
-    ShowStatusBar();
+    UpdateStatusBarInfo();
 }
 
 
@@ -1832,7 +1855,7 @@ void CSimpleNotePadDlg::OnEolCr()
     // TODO: 在此添加命令处理程序代码
     m_view->SetEolMode(CScintillaEditView::EOL_CR);
     m_view->ConvertEolMode(CScintillaEditView::EOL_CR);
-    ShowStatusBar();
+    UpdateStatusBarInfo();
 }
 
 
@@ -1841,7 +1864,7 @@ void CSimpleNotePadDlg::OnEolLf()
     // TODO: 在此添加命令处理程序代码
     m_view->SetEolMode(CScintillaEditView::EOL_LF);
     m_view->ConvertEolMode(CScintillaEditView::EOL_LF);
-    ShowStatusBar();
+    UpdateStatusBarInfo();
 }
 
 
@@ -1874,7 +1897,7 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
     {
         SetSyntaxHight(CLanguage());
         m_cur_lan_index = -1;
-        ShowStatusBar();
+        UpdateStatusBarInfo();
     }
     //响应最近打开文件
     if (command >= ID_FILE_MRU_FILE1 && command < ID_FILE_MRU_FILE1 + RECENT_FILE_LIST_MAX_SIZE)
@@ -2041,4 +2064,12 @@ void CSimpleNotePadDlg::OnWordWrapWhitespace()
     // TODO: 在此添加命令处理程序代码
     m_word_wrap_mode = CScintillaEditView::WW_WHITESPACE;
     m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
+}
+
+
+void CSimpleNotePadDlg::OnShowStatusbar()
+{
+    // TODO: 在此添加命令处理程序代码
+    m_show_statusbar = !m_show_statusbar;
+    ShowStatusbar(m_show_statusbar);
 }

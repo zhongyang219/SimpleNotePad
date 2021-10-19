@@ -58,6 +58,7 @@ protected:
 	bool m_word_wrap;		//是否自动换行
     CScintillaEditView::eWordWrapMode m_word_wrap_mode{ CScintillaEditView::WW_WORD };  //自动换行模式
     bool m_always_on_top{ false };
+    bool m_show_statusbar{ true };
     bool m_show_line_number{ false };
     bool m_show_eol{ false };
     int m_cur_lan_index{ -1 };      //当前选择的语言索引
@@ -82,13 +83,14 @@ protected:
 
     bool SaveFile(LPCTSTR file_path, CodeType code, UINT code_page = CP_ACP);	//保存文件的处理
 	bool JudgeCode();				//判断编码格式（如果编码格式可以完全确定，则返回true，否则返回false）
-	void ShowStatusBar();			//刷新状态栏
+	void UpdateStatusBarInfo();			//刷新状态栏
 	void ChangeCode();				//更改编码格式时的处理
 	bool BeforeChangeCode();		//在更改编码格式前的处理
 	void SaveConfig();				//保存设置
 	void LoadConfig();				//载入设置
 	bool SaveInquiry(LPCTSTR info = NULL);	//询问用户是否保存，参数为提示信息(用户点击了取消后返回false，否则返回true)
 	void SetTitle();				//设置窗口标题
+    void ShowStatusbar(bool show);  //显示或隐藏状态栏
 
     void GetStatusbarWidth(std::vector<int>& part_widths);
 
@@ -197,4 +199,5 @@ public:
     afx_msg void OnWordWrapWord();
     afx_msg void OnWordCharacter();
     afx_msg void OnWordWrapWhitespace();
+    afx_msg void OnShowStatusbar();
 };
