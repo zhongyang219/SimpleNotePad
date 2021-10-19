@@ -12,8 +12,6 @@
 
 #include "CommonData.h"
 
-#define RECENT_FILE_LIST_MAX_SIZE 6
-
 // CSimpleNotePadApp:
 // 有关此类的实现，请参阅 SimpleNotePad.cpp
 //

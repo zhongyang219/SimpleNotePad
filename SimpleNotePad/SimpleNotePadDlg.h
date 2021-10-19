@@ -13,7 +13,6 @@
 #include <deque>
 
 const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//将FINDMSGSTRING注册为WM_FINDREPLACE消息
-const int CLIPBOARD_ITEM_MAX = 8;
 
 // CSimpleNotePadDlg 对话框
 class CSimpleNotePadDlg : public CBaseDialog
