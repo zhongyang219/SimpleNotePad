@@ -662,8 +662,9 @@ void CSimpleNotePadDlg::InitClipboardHistoryMenu()
                     menu_item += _T("...");
                 }
                 //添加序号
-                menu_item.Format(_T("&%d. %s"), index + 1, menu_item.GetString());
-                pMenu->AppendMenu(MF_STRING | MF_ENABLED, ID_CLIPBOARD_ITEM_START + index, menu_item);
+                CString str_menu_item;
+                str_menu_item.Format(_T("&%d. %s"), index + 1, menu_item.GetString());
+                pMenu->AppendMenu(MF_STRING | MF_ENABLED, ID_CLIPBOARD_ITEM_START + index, str_menu_item);
                 index++;
             }
         }
