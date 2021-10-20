@@ -421,7 +421,7 @@ bool CSimpleNotePadDlg::_OnFileSave()
 bool CSimpleNotePadDlg::_OnFileSaveAs()
 {
 	//设置过滤器
-	CString szFilter = CCommon::LoadText(IDS_FILE_OPEN_FILTER);
+	CString szFilter = GetOpenFileFilter();
 	//设置另存为时的默认文件名
 	wstring file_name;
 	if (!m_file_path.IsEmpty())
@@ -576,6 +576,46 @@ void CSimpleNotePadDlg::UpdateLineNumberWidth(bool update)
         m_view->ShowLineNumber(m_show_line_number);
     }
     last_digits = digits;
+}
+
+CString CSimpleNotePadDlg::GetOpenFileFilter()
+{
+    CString filter;
+    filter += CCommon::LoadText(IDS_TEXT_FILE, _T("(*.txt)|*.txt|"));
+    for (const auto& lan : m_syntax_highlight.GetLanguageList())
+    {
+        filter += lan.m_name.c_str();
+        wstring ext_list;
+        bool full_name = false;
+        for (const auto& ext : lan.m_ext)
+        {
+            if (!ext.empty() && ext.front() == L'$')
+            {
+                ext_list += ext.substr(1);
+                full_name = true;
+            }
+            else
+            {
+                ext_list += L"*.";
+                ext_list += ext;
+            }
+            ext_list += L";";
+        }
+        if (!lan.m_ext.empty())
+            ext_list.pop_back();
+        if (!full_name)
+        {
+            filter += _T(" (");
+            filter += ext_list.c_str();
+            filter += _T(")");
+        }
+        filter += _T("|");
+        filter += ext_list.c_str();
+        filter += _T("|");
+    }
+    filter += CCommon::LoadText(IDS_ALL_FILES);
+    filter += _T("(*.*)|*.*||");
+    return filter;
 }
 
 void CSimpleNotePadDlg::InitMenuIcon()
@@ -1066,7 +1106,7 @@ void CSimpleNotePadDlg::OnFileOpen()
 	if (!SaveInquiry())
 		return;
 	//设置过滤器
-	CString szFilter = CCommon::LoadText(IDS_FILE_OPEN_FILTER);
+	CString szFilter = GetOpenFileFilter();
 	//构造打开文件对话框
 	CFileDialog fileDlg(TRUE, _T("txt"), NULL, 0, szFilter, this);
 	//显示打开文件对话框

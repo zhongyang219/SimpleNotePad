@@ -115,7 +115,9 @@
 #define IDS_STRING179                   179
 #define IDS_EDITOR_SETTINGS             179
 #define IDI_PIN                         180
+#define IDS_TEXT_FILE                   180
 #define IDI_SAVE_AS                     181
+#define IDS_ALL_FILES                   181
 #define IDI_FIND                        182
 #define IDI_CODE_BATCH                  183
 #define IDI_CODE                        184

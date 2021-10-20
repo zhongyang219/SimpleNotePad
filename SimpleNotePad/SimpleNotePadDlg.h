@@ -110,6 +110,9 @@ protected:
     //数据当前行号的位数自动设置行号的宽度
     void UpdateLineNumberWidth(bool update = false);
 
+    //获取打开文件对话框中的筛选器
+    CString GetOpenFileFilter();
+
     void InitMenuIcon();
     void AddItemToClipboardHistory(const std::wstring& str);
     void InitClipboardHistoryMenu();
