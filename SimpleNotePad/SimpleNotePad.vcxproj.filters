@@ -392,5 +392,20 @@
     <Image Include="res\compare.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\explore.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\clipboard.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\recent_files.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\language.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\exit.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

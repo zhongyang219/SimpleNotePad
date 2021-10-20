@@ -116,7 +116,7 @@ protected:
     void InitMenuIcon();
     void AddItemToClipboardHistory(const std::wstring& str);
     void InitClipboardHistoryMenu();
-    CMenu* GetClipboardHistoryMenu();
+    CMenu* GetClipboardHistoryMenu(bool context_menu);
 
 private:
 

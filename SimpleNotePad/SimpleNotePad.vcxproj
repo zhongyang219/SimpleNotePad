@@ -288,19 +288,24 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\capital.ico" />
+    <Image Include="res\clipboard.ico" />
     <Image Include="res\code.ico" />
     <Image Include="res\code_batch.ico" />
     <Image Include="res\compare.ico" />
     <Image Include="res\copy.ico" />
     <Image Include="res\cut.ico" />
+    <Image Include="res\exit.ico" />
+    <Image Include="res\explore.ico" />
     <Image Include="res\find.ico" />
     <Image Include="res\font.ico" />
     <Image Include="res\hex_view.ico" />
+    <Image Include="res\language.ico" />
     <Image Include="res\lower_case.ico" />
     <Image Include="res\new.ico" />
     <Image Include="res\open.ico" />
     <Image Include="res\paste.ico" />
     <Image Include="res\pin.ico" />
+    <Image Include="res\recent_files.ico" />
     <Image Include="res\redo.ico" />
     <Image Include="res\save.ico" />
     <Image Include="res\save_as.ico" />

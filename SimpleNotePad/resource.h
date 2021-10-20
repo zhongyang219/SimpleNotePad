@@ -125,6 +125,12 @@
 #define IDI_ICON5                       186
 #define IDI_COMPARE                     186
 #define IDD_GTO_DIALOG                  187
+#define IDI_EXPLORE                     189
+#define IDI_CLIPBOARD                   190
+#define IDI_RECENT_FILES                191
+#define IDI_LANGUAGE                    192
+#define IDI_ICON1                       193
+#define IDI_EXIT                        193
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -322,7 +328,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        189
+#define _APS_NEXT_RESOURCE_VALUE        194
 #define _APS_NEXT_COMMAND_VALUE         33011
 #define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           105

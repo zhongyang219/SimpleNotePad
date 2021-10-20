@@ -625,17 +625,22 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_NEW, FALSE, theApp.GetMenuIcon(IDI_NEW));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE, FALSE, theApp.GetMenuIcon(IDI_SAVE));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE_AS, FALSE, theApp.GetMenuIcon(IDI_SAVE_AS));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_OPEN_LOCATION, FALSE, theApp.GetMenuIcon(IDI_EXPLORE));
+    CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(0)->GetSafeHmenu(), 5, TRUE, theApp.GetMenuIcon(IDI_RECENT_FILES));
+    CMenuIcon::AddIconToMenuItem(menu, ID_APP_EXIT, FALSE, theApp.GetMenuIcon(IDI_EXIT));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_UNDO, FALSE, theApp.GetMenuIcon(IDI_UNDO));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_REDO, FALSE, theApp.GetMenuIcon(IDI_REDO));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_COPY, FALSE, theApp.GetMenuIcon(IDI_COPY));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_CUT, FALSE, theApp.GetMenuIcon(IDI_CUT));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_PASTE, FALSE, theApp.GetMenuIcon(IDI_PASTE));
+    CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(1)->GetSafeHmenu(), 6, TRUE, theApp.GetMenuIcon(IDI_CLIPBOARD));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_FIND, FALSE, theApp.GetMenuIcon(IDI_FIND));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_SELECT_ALL, FALSE, theApp.GetMenuIcon(IDI_SELECT_ALL));
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_CAPITAL, FALSE, theApp.GetMenuIcon(IDI_FONT));
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_LOWER_CASE, FALSE, theApp.GetMenuIcon(IDI_LOWER_CASE));
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_TITLE_CASE, FALSE, theApp.GetMenuIcon(IDI_CAPITAL));
     CMenuIcon::AddIconToMenuItem(menu, ID_FORMAT_FONT, FALSE, theApp.GetMenuIcon(IDI_FONT));
+    CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(3)->GetSafeHmenu(), 7, TRUE, theApp.GetMenuIcon(IDI_LANGUAGE));
     CMenuIcon::AddIconToMenuItem(menu, ID_ALWAYS_ON_TOP, FALSE, theApp.GetMenuIcon(IDI_PIN));
     CMenuIcon::AddIconToMenuItem(menu, ID_HEX_VIEW, FALSE, theApp.GetMenuIcon(IDI_HEX_VIEW));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_COMPARE, FALSE, theApp.GetMenuIcon(IDI_COMPARE));
@@ -649,6 +654,7 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_COPY, FALSE, theApp.GetMenuIcon(IDI_COPY));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_CUT, FALSE, theApp.GetMenuIcon(IDI_CUT));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_PASTE, FALSE, theApp.GetMenuIcon(IDI_PASTE));
+    CMenuIcon::AddIconToMenuItem(m_context_menu.GetSubMenu(0)->GetSafeHmenu(), 6, TRUE, theApp.GetMenuIcon(IDI_CLIPBOARD));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_SELECT_ALL, FALSE, theApp.GetMenuIcon(IDI_SELECT_ALL));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_CONVERT_TO_CAPITAL, FALSE, theApp.GetMenuIcon(IDI_FONT));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_CONVERT_TO_LOWER_CASE, FALSE, theApp.GetMenuIcon(IDI_LOWER_CASE));
@@ -710,19 +716,19 @@ void CSimpleNotePadDlg::InitClipboardHistoryMenu()
         }
     };
 
-    CMenu* pMenu = GetMenu();
-    if (pMenu != nullptr)
-    {
-        //初始化最近打开文件列表
-        CMenu* pClipboardMenu = GetClipboardHistoryMenu();
-        initClipboardHistoryMenu(pClipboardMenu);
-    }
+    //初始化主菜单和右键菜单中的剪贴板历史记录菜单
+    initClipboardHistoryMenu(GetClipboardHistoryMenu(true));
+    initClipboardHistoryMenu(GetClipboardHistoryMenu(false));
 
 }
 
-CMenu* CSimpleNotePadDlg::GetClipboardHistoryMenu()
+CMenu* CSimpleNotePadDlg::GetClipboardHistoryMenu(bool context_menu)
 {
-    CMenu* pMenu = m_context_menu.GetSubMenu(0)->GetSubMenu(6);
+    CMenu* pMenu{};
+    if (context_menu)
+        pMenu = m_context_menu.GetSubMenu(0)->GetSubMenu(6);
+    else
+        pMenu = GetMenu()->GetSubMenu(1)->GetSubMenu(6);
     ASSERT(pMenu != nullptr);
     return pMenu;
 }
@@ -1231,7 +1237,7 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
             if (pMsg->wParam == 'V')
             {
                 //按下Ctrl+Shift+V打开剪贴板历史记录
-                CMenu* pClipboardHistory = GetClipboardHistoryMenu();
+                CMenu* pClipboardHistory = GetClipboardHistoryMenu(false);
                 CPoint point;
                 ClientToScreen(&point);
                 pClipboardHistory->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this); //在指定位置显示弹出菜单
@@ -1962,22 +1968,18 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
     //响应剪贴板历史记录
     if (command >= ID_CLIPBOARD_ITEM_START && command < ID_CLIPBOARD_ITEM_MAX)
     {
-        CMenu* pMenu = GetClipboardHistoryMenu();
-        if (pMenu != nullptr)
+        int index = command - ID_CLIPBOARD_ITEM_START;
+        if (index >= 0 && index < m_clipboard_items.size())
         {
-            int index = command - ID_CLIPBOARD_ITEM_START;
-            if (index >= 0 && index < m_clipboard_items.size())
+            std::wstring str = m_clipboard_items.at(index);
+            if (!str.empty())
             {
-                std::wstring str = m_clipboard_items.at(index);
-                if (!str.empty())
-                {
-                    //粘贴选中的文本
-                    m_view->Paste(str);
-                    //将选中的文本移动到列表的顶端
-                    m_clipboard_items.erase(m_clipboard_items.begin() + index);
-                    m_clipboard_items.push_front(str);
-                    InitClipboardHistoryMenu();
-                }
+                //粘贴选中的文本
+                m_view->Paste(str);
+                //将选中的文本移动到列表的顶端
+                m_clipboard_items.erase(m_clipboard_items.begin() + index);
+                m_clipboard_items.push_front(str);
+                InitClipboardHistoryMenu();
             }
         }
     }
