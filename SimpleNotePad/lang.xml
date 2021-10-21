@@ -172,7 +172,7 @@
 			<Syntax name= "SCE_CSS_VARIABLE" id="23" color="0x000000" />
 		</SyntaxList>
 	</Language>
-	<Language name="VisualBasic" lexId="8" ext="vb">
+	<Language name="VisualBasic" lexId="8" ext="vb vbs frm bas">
 		<Keywords id="0">reserved keywords addhandler addressof alias and andalso as boolean byref byte byval call case catch cbool cbyte cchar cdate cdbl cdec char cint class constraint statement clng cobj const continue csbyte cshort csng cstr ctype cuint culng cushort date decimal declare default delegate dim directcast do double each else elseif end endif enum erase error event exit false finally for in for next friend function get gettype getxmlnamespace global gosub goto handles if implements imports in inherits integer interface is isnot let lib like long loop me mod module mustinherit mustoverride mybase myclass nameof narrowing new operator next not nothing notinheritable notoverridable object of on option optional or orelse out overloads overridable overrides paramarray partial private property protected public raiseevent readonly redim rem removehandler resume return sbyte select set shadows shared short single static step stop string structure sub synclock then throw to true try trycast typeof uinteger ulong ushort using variant wend when while widening with withevents writeonly xor const else elseif end if </Keywords>
 		<SyntaxList>
 			<Syntax name= "SCE_B_DEFAULT" id="0" color="0x000000" />
