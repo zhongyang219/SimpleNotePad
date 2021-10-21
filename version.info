@@ -1,12 +1,12 @@
-﻿<version>1.41</version>
+﻿<version>1.42</version>
 <GitHub>
-	<link>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.41/SimpleNotePad_V1.41_x86.zip</link>
-	<link_x64>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.41/SimpleNotePad_V1.41_x64.zip</link_x64>
+	<link>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.42/SimpleNotePad_V1.42_x86.zip</link>
+	<link_x64>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.42/SimpleNotePad_V1.42_x64.zip</link_x64>
 </GitHub>
 <Gitee>
-	<link>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/724356/download/SimpleNotePad_V1.41_x86.zip</link>
-	<link_x64>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/724357/download/SimpleNotePad_V1.41_x64.zip</link_x64>
+	<link>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/858535/download/SimpleNotePad_V1.42_x86.zip</link>
+	<link_x64>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/858536/download/SimpleNotePad_V1.42_x64.zip</link_x64>
 </Gitee>
 <update_contents>
-	<contents_zh_cn>选项设置中增加编辑器设置\n选项设置中增加十六进制编辑器设置\n右键菜单中增加大小写转换的功能\n新增检查更新的功能</contents_zh_cn>
+	<contents_zh_cn>新增菜单图标\n新增最近打开文件历史记录功能\n新增多语言支持，增加了英语\n修正使用大小写转换后会出现多余的Unicode字符的问题\n新增剪贴板历史记录的功能\n新增跳转到指定行的功能</contents_zh_cn>
 </update_contents>
