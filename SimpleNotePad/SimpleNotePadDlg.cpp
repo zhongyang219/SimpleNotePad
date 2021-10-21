@@ -1959,9 +1959,12 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
         if (recent_file_index >= 0 && recent_file_index < static_cast<int>(theApp.GetRecentFileList().size()))
         {
             CString file_path = theApp.GetRecentFileList()[recent_file_index];
-            m_file_path = file_path;	//获取打开的文件路径
-            OpenFile(m_file_path);					//打开文件
-            SetTitle();								//设置窗口标题
+            if (SaveInquiry())              //询问是否要保存更改
+            {
+                m_file_path = file_path;	//获取打开的文件路径
+                OpenFile(m_file_path);					//打开文件
+                SetTitle();								//设置窗口标题
+            }
         }
         return TRUE;
     }
