@@ -4,7 +4,7 @@
 
 #include <windows.h>
 
-#define VERSION_SCINTILLA "4.4.6"
+#define VERSION_SCINTILLA "4.4.6 for SimpleNotePad"
 #define VERSION_WORDS 4, 4, 6, 0
 
 VS_VERSION_INFO VERSIONINFO
