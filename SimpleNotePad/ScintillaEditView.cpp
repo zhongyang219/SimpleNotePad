@@ -554,6 +554,9 @@ void CScintillaEditView::OnInitialUpdate()
 
     SendMessage(SCI_SETSCROLLWIDTH, 100);
     SendMessage(SCI_SETSCROLLWIDTHTRACKING, TRUE);
+
+    //设置仅点击加号或减号时才展开或收缩级别
+    SendMessage(SCI_SETAUTOMATICFOLD, SC_AUTOMATICFOLD_CLICK);
 }
 
 
