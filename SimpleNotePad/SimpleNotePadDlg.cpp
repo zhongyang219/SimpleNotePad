@@ -440,9 +440,9 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	fileDlg.AddComboBox(IDC_SAVE_COMBO_BOX);
 	//为组合选择框添加项目
 
-    for (size_t i{}; i < CONST_VAL->code_list.size(); i++)
+    for (size_t i{}; i < CONST_VAL->CodeList().size(); i++)
     {
-        fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, i, CONST_VAL->code_list[i].name);
+        fileDlg.AddControlItem(IDC_SAVE_COMBO_BOX, i, CONST_VAL->CodeList()[i].name);
     }
 
 	//fileDlg.SetControlLabel(IDC_SAVE_COMBO_BOX, _T("编码类型："));
@@ -464,10 +464,10 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 	{
 		DWORD selected_item;
 		fileDlg.GetSelectedControlItem(IDC_SAVE_COMBO_BOX, selected_item);	//获取“编码格式”中选中的项目
-        if (selected_item >= 0 && selected_item < static_cast<DWORD>(CONST_VAL->code_list.size()))
+        if (selected_item >= 0 && selected_item < static_cast<DWORD>(CONST_VAL->CodeList().size()))
         {
-		    m_save_code = CONST_VAL->code_list[selected_item].code_type;
-		    UINT save_code_page = CONST_VAL->code_list[selected_item].code_page;
+		    m_save_code = CONST_VAL->CodeList()[selected_item].code_type;
+		    UINT save_code_page = CONST_VAL->CodeList()[selected_item].code_page;
             if (save_code_page == CODE_PAGE_DEFAULT)
                 save_code_page = theApp.GetGeneralSettings().default_code_page;
 		    if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code, save_code_page))

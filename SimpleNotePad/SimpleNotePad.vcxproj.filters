@@ -99,6 +99,9 @@
     <Filter Include="公共的类\WIC">
       <UniqueIdentifier>{650626b4-fcf2-4630-b474-21cdc7896d6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件和源文件\对话框类\GoToLineDlg">
+      <UniqueIdentifier>{f39e7bd9-daa7-4c89-baec-7b2d7f717b6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -216,7 +219,7 @@
       <Filter>公共的类\WIC</Filter>
     </ClInclude>
     <ClInclude Include="GoToLineDlg.h">
-      <Filter>头文件和源文件\头文件</Filter>
+      <Filter>头文件和源文件\对话框类\GoToLineDlg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,7 +319,9 @@
     <ClCompile Include="WIC.cpp">
       <Filter>公共的类\WIC</Filter>
     </ClCompile>
-    <ClCompile Include="GoToLineDlg.cpp" />
+    <ClCompile Include="GoToLineDlg.cpp">
+      <Filter>头文件和源文件\对话框类\GoToLineDlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SimpleNotePad.rc">

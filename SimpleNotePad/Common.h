@@ -30,12 +30,14 @@ struct CodeTypeItem
     CString name;
     CodeType code_type{};
     UINT code_page{};
-};
 
-struct CodePageItem
-{
-    CString name;
-    UINT code_page{};
+    CodeTypeItem() {}
+    CodeTypeItem(const CString& _name, CodeType _code_type, UINT _code_page)
+        : name(_name), code_type(_code_type), code_page(_code_page)
+    {}
+    CodeTypeItem(const CString& _name, UINT _code_page)
+        : name(_name), code_type(CodeType::ANSI), code_page(_code_page)
+    {}
 };
 
 
@@ -136,33 +138,16 @@ public:
 
 struct ConstVal
 {
-    const vector<CodeTypeItem> code_list{ {CCommon::LoadText(_T("ANSI ("), IDS_LOCAL_CODE_PAGE, _T(")")), CodeType::ANSI, CP_ACP},
-        {CCommon::LoadText(IDS_UTF8_BOM), CodeType::UTF8, CP_ACP},
-        {CCommon::LoadText(IDS_UTF8_NO_BOM), CodeType::UTF8_NO_BOM, CP_ACP},
-        {_T("UTF-16"), CodeType::UTF16, CP_ACP},
-        {CCommon::LoadText(IDS_CODE_PAGE_SIMPLIFIED_CHINESE), CodeType::ANSI, CODE_PAGE_CHS},
-        {CCommon::LoadText(IDS_CODE_PAGE_TRADITIONAL_CHINESE), CodeType::ANSI, CODE_PAGE_CHT},
-        {CCommon::LoadText(IDS_CODE_PAGE_JAPANESE), CodeType::ANSI, CODE_PAGE_JP},
-        {CCommon::LoadText(IDS_CODE_PAGE_WESTERN_EUROPE_LANGUAGE), CodeType::ANSI, CODE_PAGE_EN},
-        {CCommon::LoadText(IDS_CODE_PAGE_KOREAN), CodeType::ANSI, CODE_PAGE_KOR},
-        {CCommon::LoadText(IDS_CODE_PAGE_THAI), CodeType::ANSI, CODE_PAGE_THAI},
-        {CCommon::LoadText(IDS_CODE_PAGE_VIETNAMESE), CodeType::ANSI, CODE_PAGE_VIET},
-        {CCommon::LoadText(IDS_DEFAULT_CODE_PAGE_FOR_NONE_UNICODE_IN_SETTINGS), CodeType::ANSI, CODE_PAGE_DEFAULT},
-    };
-
-	const vector<CodePageItem> code_page_list{
-        {CCommon::LoadText(IDS_LOCAL_CODE_PAGE), CP_ACP},
-        {CCommon::LoadText(IDS_CODE_PAGE_SIMPLIFIED_CHINESE), CODE_PAGE_CHS},
-        {CCommon::LoadText(IDS_CODE_PAGE_TRADITIONAL_CHINESE), CODE_PAGE_CHT},
-        {CCommon::LoadText(IDS_CODE_PAGE_JAPANESE), CODE_PAGE_JP},
-        {CCommon::LoadText(IDS_CODE_PAGE_WESTERN_EUROPE_LANGUAGE), CODE_PAGE_EN},
-        {CCommon::LoadText(IDS_CODE_PAGE_KOREAN), CODE_PAGE_KOR},
-        {CCommon::LoadText(IDS_CODE_PAGE_THAI), CODE_PAGE_THAI},
-        {CCommon::LoadText(IDS_CODE_PAGE_VIETNAMESE), CODE_PAGE_VIET},
-        {CCommon::LoadText(IDS_SPECIFY_CODE_PAGE_MANUALLY), 0}
-    };
-
+public:
+    const vector<CodeTypeItem>& CodeList() { return code_list; }
+    const vector<CodeTypeItem>& CodePageList() { return code_page_list; }
     static ConstVal* Instance();
+
+private:
+    vector<CodeTypeItem> code_list;           //所有编码格式列表
+	vector<CodeTypeItem> code_page_list;      //仅ANSI格式列表
+    void Init();
+    void InitCommonParts(vector<CodeTypeItem>& item_list);
 };
 
 #define CONST_VAL ConstVal::Instance()

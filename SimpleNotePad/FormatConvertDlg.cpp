@@ -149,11 +149,11 @@ BOOL CFormatConvertDlg::OnInitDialog()
 	m_output_box.AddString(_T("UTF16"));
 	m_output_box.SetCurSel(1);
 
-    for (size_t i{}; i < CONST_VAL->code_page_list.size() - 1; i++)
+    for (size_t i{}; i < CONST_VAL->CodePageList().size() - 1; i++)
     {
-        m_input_codepage_box.AddString(CONST_VAL->code_page_list[i].name);
+        m_input_codepage_box.AddString(CONST_VAL->CodePageList()[i].name);
     }
-    if (!CONST_VAL->code_page_list.empty())
+    if (!CONST_VAL->CodePageList().empty())
         m_input_codepage_box.SetCurSel(0);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -250,8 +250,8 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 
     m_code_page = 0;
     int index = m_input_codepage_box.GetCurSel();
-    if (index >= 0 && index < static_cast<int>(CONST_VAL->code_page_list.size()))
-        m_code_page = CONST_VAL->code_page_list[index].code_page;
+    if (index >= 0 && index < static_cast<int>(CONST_VAL->CodePageList().size()))
+        m_code_page = CONST_VAL->CodePageList()[index].code_page;
 
 	int convert_cnt{};
 	for (const auto& item : m_file_list)
