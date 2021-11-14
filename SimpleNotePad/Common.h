@@ -22,6 +22,7 @@ enum class CodeType
     UTF8,
     UTF8_NO_BOM,
     UTF16,
+    UTF16BE,
     AUTO
 };
 
@@ -52,6 +53,9 @@ public:
 
 	//将Unicode编码的wstring字符串转换成string类型的字符串(如果至少有一个字符无法转换，则将char_cannot_convert置为true)
 	static string UnicodeToStr(const wstring& wstr, bool& char_cannot_convert, CodeType code_type = CodeType::ANSI, UINT code_page = CP_ACP);
+
+    //进行UTF16的BE、LE之间的转换
+    static void convertBE_LE(wchar_t* bigEndianBuffer, unsigned int length);
 
 	//判断字符串是否UTF8编码
 	static bool IsUTF8Bytes(const char* data);

@@ -129,7 +129,6 @@
 #define IDI_CLIPBOARD                   190
 #define IDI_RECENT_FILES                191
 #define IDI_LANGUAGE                    192
-#define IDI_ICON1                       193
 #define IDI_EXIT                        193
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
@@ -235,15 +234,15 @@
 #define ID_CODE_ANSI                    32792
 #define ID_CODE_UTF8                    32793
 #define ID_CODE_UTF8_NOBOM              32794
-#define ID_UTF16                        32795
-#define ID_32796                        32796
-#define ID_32797                        32797
+#define ID_CODE_UTF16                   32795
+#define ID_CODE_UTF16BE                 32796
+#define ID_UTF16                        32797
 #define ID_32798                        32798
 #define ID_SAVE_UTF8_NOBOM              32799
 #define ID_SAVE_UTF8                    32800
 #define ID_32801                        32801
 #define ID_SAVE_UTF16                   32802
-#define ID_CODE_UTF16                   32803
+#define ID_32803                        32803
 #define ID_32804                        32804
 #define ID_                             32805
 #define ID_32806                        32806

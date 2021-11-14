@@ -55,7 +55,23 @@ wstring CCommon::StrToUnicode(const string & str, CodeType code_type, UINT code_
 		temp.push_back('\0');
 		result.assign((const wchar_t*)temp.c_str(), temp.size() / sizeof(wchar_t));
 	}
-	return result;
+    else if (code_type == CodeType::UTF16BE)
+    {
+        string temp;
+        //如果前面有BOM，则去掉BOM
+        if (str.size() >= 2 && str[0] == -2 && str[1] == -1)
+            temp = str.substr(2);
+        else
+            temp = str;
+        if (temp.size() % 2 == 1)
+            temp.pop_back();
+        temp.push_back('\0');
+        wchar_t* p = (wchar_t*)temp.c_str();
+        convertBE_LE(p, temp.size() >> 1);
+        result.assign(p, temp.size() / sizeof(wchar_t));
+    }
+
+    return result;
 }
 
 string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, CodeType code_type, UINT code_page)
@@ -98,8 +114,30 @@ string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, Co
 		result.append((const char*)wstr.c_str(), (const char*)wstr.c_str() + wstr.size() * 2);
 		result.push_back('\0');
 	}
-	char_cannot_convert = (UsedDefaultChar != FALSE);
+    else if (code_type == CodeType::UTF16BE)
+    {
+        result.clear();
+        result.push_back(-2);	//在前面加上UTF16BE的BOM
+        result.push_back(-1);
+        wstring temp = wstr;
+        wchar_t* p = (wchar_t*)temp.c_str();
+        convertBE_LE(p, temp.size());
+        result.append((const char*)temp.c_str(), (const char*)temp.c_str() + temp.size() * 2);
+        result.push_back('\0');
+    }
+    char_cannot_convert = (UsedDefaultChar != FALSE);
 	return result;
+}
+
+void CCommon::convertBE_LE(wchar_t* bigEndianBuffer, unsigned int length)
+{
+    for (unsigned int i = 0; i < length; ++i)
+    {
+        unsigned char* chr = (unsigned char*)(bigEndianBuffer + i);
+        unsigned char temp = *chr;
+        *chr = *(chr + 1);
+        *(chr + 1) = temp;
+    }
 }
 
 bool CCommon::IsUTF8Bytes(const char * data)
@@ -546,6 +584,7 @@ void ConstVal::Init()
     code_list.emplace_back(CCommon::LoadText(IDS_UTF8_BOM), CodeType::UTF8, CP_ACP);
     code_list.emplace_back(CCommon::LoadText(IDS_UTF8_NO_BOM), CodeType::UTF8_NO_BOM, CP_ACP);
     code_list.emplace_back(_T("UTF-16"), CodeType::UTF16, CP_ACP);
+    code_list.emplace_back(_T("UTF-16 Big Ending"), CodeType::UTF16BE, CP_ACP);
     InitCommonParts(code_list);
     code_list.emplace_back(CCommon::LoadText(IDS_DEFAULT_CODE_PAGE_FOR_NONE_UNICODE_IN_SETTINGS), CodeType::ANSI, CODE_PAGE_DEFAULT);
 

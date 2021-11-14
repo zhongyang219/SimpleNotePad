@@ -203,4 +203,5 @@ public:
     afx_msg void OnWordWrapWhitespace();
     afx_msg void OnShowStatusbar();
     afx_msg void OnGotoLine();
+    afx_msg void OnCodeUtf16be();
 };

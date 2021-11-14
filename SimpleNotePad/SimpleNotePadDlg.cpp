@@ -172,6 +172,11 @@ bool CSimpleNotePadDlg::JudgeCode()
 		m_code = CodeType::UTF16;
 		rtn = true;
 	}
+	else if (m_edit_str.size() >= 2 && m_edit_str[0] == -2 && m_edit_str[1] == -1)
+	{
+		m_code = CodeType::UTF16BE;
+		rtn = true;
+	}
 	else if (CCommon::IsUTF8Bytes(m_edit_str.c_str()))
 	{
 		m_code = CodeType::UTF8_NO_BOM;
@@ -216,7 +221,8 @@ void CSimpleNotePadDlg::UpdateStatusBarInfo()
 		break;
 	case CodeType::UTF8: str += CCommon::LoadText(IDS_UTF8_BOM); break;
 	case CodeType::UTF8_NO_BOM: str += CCommon::LoadText(IDS_UTF8_NO_BOM); break;
-	case CodeType::UTF16: str += _T("UTF16"); break;
+	case CodeType::UTF16: str += _T("UTF16LE"); break;
+	case CodeType::UTF16BE: str += _T("UTF16BE"); break;
 	}
 	//}
 
@@ -828,6 +834,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_WORD_WRAP_WHITESPACE, &CSimpleNotePadDlg::OnWordWrapWhitespace)
     ON_COMMAND(ID_SHOW_STATUSBAR, &CSimpleNotePadDlg::OnShowStatusbar)
     ON_COMMAND(ID_GOTO_LINE, &CSimpleNotePadDlg::OnGotoLine)
+    ON_COMMAND(ID_CODE_UTF16BE, &CSimpleNotePadDlg::OnCodeUtf16be)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1598,9 +1605,10 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
     {
 	    switch (m_code)
 	    {
-	    case CodeType::ANSI: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_ANSI, MF_BYCOMMAND | MF_CHECKED); break;
-	    case CodeType::UTF8: case CodeType::UTF8_NO_BOM: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_UTF8, MF_BYCOMMAND | MF_CHECKED); break;
-	    case CodeType::UTF16: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16, ID_CODE_UTF16, MF_BYCOMMAND | MF_CHECKED); break;
+	    case CodeType::ANSI: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16BE, ID_CODE_ANSI, MF_BYCOMMAND | MF_CHECKED); break;
+	    case CodeType::UTF8: case CodeType::UTF8_NO_BOM: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16BE, ID_CODE_UTF8, MF_BYCOMMAND | MF_CHECKED); break;
+	    case CodeType::UTF16: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16BE, ID_CODE_UTF16, MF_BYCOMMAND | MF_CHECKED); break;
+	    case CodeType::UTF16BE: pMenu->CheckMenuRadioItem(ID_CODE_ANSI, ID_CODE_UTF16BE, ID_CODE_UTF16BE, MF_BYCOMMAND | MF_CHECKED); break;
 	    }
     }
 
@@ -2136,4 +2144,12 @@ void CSimpleNotePadDlg::OnGotoLine()
         int line = dlg.GetLine();
         m_view->GotoLine(line - 1);
     }
+}
+
+
+void CSimpleNotePadDlg::OnCodeUtf16be()
+{
+    if (!BeforeChangeCode()) return;
+    m_code = CodeType::UTF16BE;
+    ChangeCode();
 }
