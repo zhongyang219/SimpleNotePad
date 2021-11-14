@@ -82,6 +82,7 @@ public:
     bool CanPaste();
     bool IsSelectionEmpty();
     bool IsModified();
+    void SetModified();
     void SetSavePoint();
 
     void SetLineNumberWidth(int width);
@@ -142,6 +143,7 @@ private:
 
     CMenu* m_pMenu{};
     CWnd* m_pContextMenuOwner{};
+    bool m_modified{};
 
 protected:
 	DECLARE_MESSAGE_MAP()

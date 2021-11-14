@@ -322,13 +322,21 @@
 #define ID_33006                        33006
 #define ID_SHOW_STATUSBAR               33007
 #define ID_GOTO_LINE                    33008
+#define ID_33011                        33011
+#define ID_CONVERT_TO_ANSI              33012
+#define ID_CONVERT_TO_UTF8              33013
+#define ID_33014                        33014
+#define ID_CONVERT_TO_UTF8_BOM          33015
+#define ID_CONVERT_TO_UTF8_NO_BOM       33016
+#define ID_CONVERT_TO_UTF16             33017
+#define ID_CONVERT_TO_UTF16BE           33018
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        194
-#define _APS_NEXT_COMMAND_VALUE         33011
+#define _APS_NEXT_COMMAND_VALUE         33019
 #define _APS_NEXT_CONTROL_VALUE         1070
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

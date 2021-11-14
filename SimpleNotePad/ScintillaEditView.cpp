@@ -270,11 +270,17 @@ bool CScintillaEditView::IsSelectionEmpty()
 
 bool CScintillaEditView::IsModified()
 {
-    return (SendMessage(SCI_GETMODIFY) != 0);
+    return m_modified || (SendMessage(SCI_GETMODIFY) != 0);
+}
+
+void CScintillaEditView::SetModified()
+{
+    m_modified = true;
 }
 
 void CScintillaEditView::SetSavePoint()
 {
+    m_modified = false;
     SendMessage(SCI_SETSAVEPOINT);
 }
 

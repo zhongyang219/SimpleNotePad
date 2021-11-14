@@ -285,6 +285,19 @@ bool CSimpleNotePadDlg::BeforeChangeCode()
 	return SaveInquiry(CCommon::LoadText(IDS_ENCODE_CHANGE_WARNING));
 }
 
+void CSimpleNotePadDlg::ConvertToCode(CodeType code_type)
+{
+    if (m_code != code_type)
+    {
+        m_code = code_type;
+        m_code_page = CP_ACP;
+        m_view->EmptyUndoBuffer();
+        m_view->SetModified();
+        SetTitle();
+        UpdateStatusBarInfo();
+    }
+}
+
 void CSimpleNotePadDlg::SaveConfig()
 {
 
@@ -835,6 +848,11 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_SHOW_STATUSBAR, &CSimpleNotePadDlg::OnShowStatusbar)
     ON_COMMAND(ID_GOTO_LINE, &CSimpleNotePadDlg::OnGotoLine)
     ON_COMMAND(ID_CODE_UTF16BE, &CSimpleNotePadDlg::OnCodeUtf16be)
+    ON_COMMAND(ID_CONVERT_TO_ANSI, &CSimpleNotePadDlg::OnConvertToAnsi)
+    ON_COMMAND(ID_CONVERT_TO_UTF8_BOM, &CSimpleNotePadDlg::OnConvertToUtf8Bom)
+    ON_COMMAND(ID_CONVERT_TO_UTF8_NO_BOM, &CSimpleNotePadDlg::OnConvertToUtf8NoBom)
+    ON_COMMAND(ID_CONVERT_TO_UTF16, &CSimpleNotePadDlg::OnConvertToUtf16)
+    ON_COMMAND(ID_CONVERT_TO_UTF16BE, &CSimpleNotePadDlg::OnConvertToUtf16be)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -2152,4 +2170,34 @@ void CSimpleNotePadDlg::OnCodeUtf16be()
     if (!BeforeChangeCode()) return;
     m_code = CodeType::UTF16BE;
     ChangeCode();
+}
+
+
+void CSimpleNotePadDlg::OnConvertToAnsi()
+{
+    ConvertToCode(CodeType::ANSI);
+}
+
+
+void CSimpleNotePadDlg::OnConvertToUtf8Bom()
+{
+    ConvertToCode(CodeType::UTF8);
+}
+
+
+void CSimpleNotePadDlg::OnConvertToUtf8NoBom()
+{
+    ConvertToCode(CodeType::UTF8_NO_BOM);
+}
+
+
+void CSimpleNotePadDlg::OnConvertToUtf16()
+{
+    ConvertToCode(CodeType::UTF16);
+}
+
+
+void CSimpleNotePadDlg::OnConvertToUtf16be()
+{
+    ConvertToCode(CodeType::UTF16BE);
 }

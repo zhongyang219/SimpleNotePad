@@ -85,6 +85,7 @@ protected:
 	void UpdateStatusBarInfo();			//刷新状态栏
 	void ChangeCode();				//更改编码格式时的处理
 	bool BeforeChangeCode();		//在更改编码格式前的处理
+    void ConvertToCode(CodeType code_type); //转换为一种编码格式
 	void SaveConfig();				//保存设置
 	void LoadConfig();				//载入设置
 	bool SaveInquiry(LPCTSTR info = NULL);	//询问用户是否保存，参数为提示信息(用户点击了取消后返回false，否则返回true)
@@ -204,4 +205,9 @@ public:
     afx_msg void OnShowStatusbar();
     afx_msg void OnGotoLine();
     afx_msg void OnCodeUtf16be();
+    afx_msg void OnConvertToAnsi();
+    afx_msg void OnConvertToUtf8Bom();
+    afx_msg void OnConvertToUtf8NoBom();
+    afx_msg void OnConvertToUtf16();
+    afx_msg void OnConvertToUtf16be();
 };
