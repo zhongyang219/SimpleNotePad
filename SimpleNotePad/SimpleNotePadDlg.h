@@ -11,6 +11,7 @@
 #include "ScintillaEditView.h"
 #include "SyntaxHighlight.h"
 #include <deque>
+#include "FindReplaceDlg.h"
 
 const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//将FINDMSGSTRING注册为WM_FINDREPLACE消息
 
@@ -64,13 +65,8 @@ protected:
 
 	CFindReplaceDialog* m_pFindDlg{};	//查找对话框
 	CFindReplaceDialog* m_pReplaceDlg{};	//替换对话框
-	wstring m_find_str;		//查找的字符串
-	wstring m_replace_str;	//替换的字符串
-	int m_find_index{ -1 };	//查找的字符串的索引
-	bool m_find_down{ true };		//是否向后查找
-	bool m_find_no_case;			//查找时是否不区分大小写
-	bool m_find_whole_word;			//查找时是否全词匹配
-	bool m_find_flag{ false };
+
+    CFindReplaceDlg m_find_replace_dlg;
 
     CSyntaxHighlight m_syntax_highlight;
     std::deque<std::wstring> m_clipboard_items;
@@ -135,19 +131,6 @@ public:
 	afx_msg void OnCodeAnsi();
 	afx_msg void OnCodeUtf8();
 	afx_msg void OnCodeUtf16();
-//	afx_msg void OnUpdateCodeAnsi(CCmdUI *pCmdUI);
-//	afx_msg void OnUpdateCodeUtf8(CCmdUI *pCmdUI);
-//	afx_msg void OnUpdateCodeUtf16(CCmdUI *pCmdUI);
-//	afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
-	//afx_msg void OnEnChangeEdit1();
-//	afx_msg void OnSaveAnsi();
-//	afx_msg void OnSaveUtf8();
-//	afx_msg void OnSaveUtf8Nobom();
-//	afx_msg void OnSaveUtf16();
-//	afx_msg void OnUpdateSaveAnsi(CCmdUI *pCmdUI);
-//	afx_msg void OnUpdateSaveUtf8(CCmdUI *pCmdUI);
-//	afx_msg void OnUpdateSaveUtf8Nobom(CCmdUI *pCmdUI);
-//	afx_msg void OnUpdateSaveUtf16(CCmdUI *pCmdUI);
 	afx_msg void OnFileSave();
 	afx_msg void OnFileSaveAs();
 	afx_msg void OnFormatFont();
@@ -164,17 +147,14 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	afx_msg void OnFileCompare();
 	afx_msg void OnWordWrap();
-//	afx_msg void OnUpdateWordWrap(CCmdUI *pCmdUI);
 	afx_msg void OnClose();
 	afx_msg void OnFind();
-    afx_msg LRESULT OnFindReplace(WPARAM wParam, LPARAM lParam);
     afx_msg void OnFindNext();
 	afx_msg void OnMarkAll();
 	afx_msg void OnReplace();
 	afx_msg void OnMenuSelect(UINT nItemID, UINT nFlags, HMENU hSysMenu);
 	afx_msg void OnInitMenu(CMenu* pMenu);
 	afx_msg void OnFormatConvert();
-//	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
     afx_msg void OnAlwaysOnTop();
 	afx_msg void OnCodePageChs();
 	afx_msg void OnCodePageCht();
@@ -210,4 +190,6 @@ public:
     afx_msg void OnConvertToUtf8NoBom();
     afx_msg void OnConvertToUtf16();
     afx_msg void OnConvertToUtf16be();
+protected:
+    afx_msg LRESULT OnNpFindReplace(WPARAM wParam, LPARAM lParam);
 };

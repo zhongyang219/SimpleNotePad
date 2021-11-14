@@ -216,6 +216,8 @@
     <ClInclude Include="EditSettingsDlg.h" />
     <ClInclude Include="FileCompareDlg.h" />
     <ClInclude Include="FilePathHelper.h" />
+    <ClInclude Include="FindReplaceDlg.h" />
+    <ClInclude Include="FindReplaceTools.h" />
     <ClInclude Include="FormatConvertDlg.h" />
     <ClInclude Include="GoToLineDlg.h" />
     <ClInclude Include="HexEditView.h" />
@@ -253,6 +255,8 @@
     <ClCompile Include="EditSettingsDlg.cpp" />
     <ClCompile Include="FileCompareDlg.cpp" />
     <ClCompile Include="FilePathHelper.cpp" />
+    <ClCompile Include="FindReplaceDlg.cpp" />
+    <ClCompile Include="FindReplaceTools.cpp" />
     <ClCompile Include="FormatConvertDlg.cpp" />
     <ClCompile Include="GoToLineDlg.cpp" />
     <ClCompile Include="HexEditView.cpp" />
@@ -302,9 +306,11 @@
     <Image Include="res\language.ico" />
     <Image Include="res\lower_case.ico" />
     <Image Include="res\new.ico" />
+    <Image Include="res\next.ico" />
     <Image Include="res\open.ico" />
     <Image Include="res\paste.ico" />
     <Image Include="res\pin.ico" />
+    <Image Include="res\previous.ico" />
     <Image Include="res\recent_files.ico" />
     <Image Include="res\redo.ico" />
     <Image Include="res\save.ico" />

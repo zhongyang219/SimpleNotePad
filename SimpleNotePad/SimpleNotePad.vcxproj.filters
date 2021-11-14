@@ -5,78 +5,8 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="头文件和源文件">
-      <UniqueIdentifier>{9da476c3-0b12-4fea-9f8c-5d3270f2b2c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="头文件和源文件\派生的控件类">
-      <UniqueIdentifier>{3d711d39-7391-4c90-bfb3-1bbdc2fa66f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类">
-      <UniqueIdentifier>{0d71fcbd-9c44-41c2-9d0d-86027e3bbc61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\SimpleNotePad">
-      <UniqueIdentifier>{03243729-e4f8-4857-9170-8fff63fa5d74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\SimpleNotePadDlg">
-      <UniqueIdentifier>{ba9f5bda-7ce7-414e-9abe-38e56f58fd5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\stdafx">
-      <UniqueIdentifier>{ba8ba2c7-1eb7-4cce-83c2-9c2e1e52dc02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\派生的控件类\EditEx">
-      <UniqueIdentifier>{2055b162-ee83-4532-8c94-7d72e5b91010}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\FileCompareDlg">
-      <UniqueIdentifier>{a29f31ac-41a0-4feb-93ac-639e38221b92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\FormatConvertDlg">
-      <UniqueIdentifier>{e559a4eb-760d-409e-b0e1-e85a52da5a48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\HexViewDlg">
-      <UniqueIdentifier>{ac80fd45-4750-4b1e-8b6e-a3622dfc665f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\InsertDataDlg">
-      <UniqueIdentifier>{51aa861a-a756-407f-a96f-f63a6f6c0b1d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\DeleteDataDlg">
-      <UniqueIdentifier>{0b45f8a9-ef9c-4791-83bc-aa5a65b10eaf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\InputDlg">
-      <UniqueIdentifier>{e0e1172e-720a-4754-939f-5bb8af76d656}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\SettingDlg">
-      <UniqueIdentifier>{8a03c136-10ff-4c57-9e04-72b73c5f4203}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\BaseDialog">
-      <UniqueIdentifier>{6b5c8192-1e4b-45a9-a7bd-16789a7d842e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\对话框类\CodeConvertDlg">
-      <UniqueIdentifier>{cbe82370-0b29-473d-8495-f1963e6cba36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\ScintillaEditView">
-      <UniqueIdentifier>{c6cc31f7-77fb-421b-845c-38166a975887}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\头文件\scintilla">
-      <UniqueIdentifier>{5cefd671-5925-40be-a18a-e6e4c1835b36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Test">
       <UniqueIdentifier>{95c1a6ad-369c-4aba-983d-99ef2a93d981}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\SyntaxHighlight">
-      <UniqueIdentifier>{7a7c7c82-94cd-4969-8a99-0dd24f1b417a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\派生的控件类\TabCtrlEx">
-      <UniqueIdentifier>{6b9e88ce-4d62-43d4-ab16-1570f3d872e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\派生的控件类\ColorStatic">
-      <UniqueIdentifier>{a698f1d2-24f8-4151-b88c-8bde5dbdde1c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="头文件和源文件\派生的控件类\SpinEdit">
-      <UniqueIdentifier>{bdcc0a9b-0da3-4abe-be62-7e781b4f8021}</UniqueIdentifier>
     </Filter>
     <Filter Include="公共的类">
       <UniqueIdentifier>{91a5671c-8993-46a5-b8db-0ddd5eb90dde}</UniqueIdentifier>
@@ -90,17 +20,87 @@
     <Filter Include="公共的类\SimpleXML">
       <UniqueIdentifier>{c693d1d8-ea9a-4033-88b3-aa304829ae71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件和源文件\对话框类\AboutDlg">
-      <UniqueIdentifier>{7879f34c-aeaf-49ca-a7e3-109d70b68552}</UniqueIdentifier>
-    </Filter>
     <Filter Include="公共的类\CVariant">
       <UniqueIdentifier>{59ba128c-7c64-4c59-81ea-8e062d0bc982}</UniqueIdentifier>
     </Filter>
     <Filter Include="公共的类\WIC">
       <UniqueIdentifier>{650626b4-fcf2-4630-b474-21cdc7896d6c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件和源文件\对话框类\GoToLineDlg">
+    <Filter Include="ScintillaEditView">
+      <UniqueIdentifier>{c6cc31f7-77fb-421b-845c-38166a975887}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimpleNotePad">
+      <UniqueIdentifier>{03243729-e4f8-4857-9170-8fff63fa5d74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimpleNotePadDlg">
+      <UniqueIdentifier>{ba9f5bda-7ce7-414e-9abe-38e56f58fd5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="stdafx">
+      <UniqueIdentifier>{ba8ba2c7-1eb7-4cce-83c2-9c2e1e52dc02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SyntaxHighlight">
+      <UniqueIdentifier>{7a7c7c82-94cd-4969-8a99-0dd24f1b417a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类">
+      <UniqueIdentifier>{0d71fcbd-9c44-41c2-9d0d-86027e3bbc61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\FileCompareDlg">
+      <UniqueIdentifier>{a29f31ac-41a0-4feb-93ac-639e38221b92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\FormatConvertDlg">
+      <UniqueIdentifier>{e559a4eb-760d-409e-b0e1-e85a52da5a48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\HexViewDlg">
+      <UniqueIdentifier>{ac80fd45-4750-4b1e-8b6e-a3622dfc665f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\InsertDataDlg">
+      <UniqueIdentifier>{51aa861a-a756-407f-a96f-f63a6f6c0b1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\DeleteDataDlg">
+      <UniqueIdentifier>{0b45f8a9-ef9c-4791-83bc-aa5a65b10eaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\InputDlg">
+      <UniqueIdentifier>{e0e1172e-720a-4754-939f-5bb8af76d656}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\SettingDlg">
+      <UniqueIdentifier>{8a03c136-10ff-4c57-9e04-72b73c5f4203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\BaseDialog">
+      <UniqueIdentifier>{6b5c8192-1e4b-45a9-a7bd-16789a7d842e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\CodeConvertDlg">
+      <UniqueIdentifier>{cbe82370-0b29-473d-8495-f1963e6cba36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\AboutDlg">
+      <UniqueIdentifier>{7879f34c-aeaf-49ca-a7e3-109d70b68552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\GoToLineDlg">
       <UniqueIdentifier>{f39e7bd9-daa7-4c89-baec-7b2d7f717b6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="派生的控件类">
+      <UniqueIdentifier>{3d711d39-7391-4c90-bfb3-1bbdc2fa66f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="派生的控件类\EditEx">
+      <UniqueIdentifier>{2055b162-ee83-4532-8c94-7d72e5b91010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="派生的控件类\TabCtrlEx">
+      <UniqueIdentifier>{6b9e88ce-4d62-43d4-ab16-1570f3d872e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="派生的控件类\ColorStatic">
+      <UniqueIdentifier>{a698f1d2-24f8-4151-b88c-8bde5dbdde1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="派生的控件类\SpinEdit">
+      <UniqueIdentifier>{bdcc0a9b-0da3-4abe-be62-7e781b4f8021}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="头文件\scintilla">
+      <UniqueIdentifier>{5cefd671-5925-40be-a18a-e6e4c1835b36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\FindReplaceDlg">
+      <UniqueIdentifier>{17618258-bcf7-4a06-a2bd-7174f56be164}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -108,52 +108,52 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
-      <Filter>头文件和源文件\头文件</Filter>
+      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>头文件和源文件\头文件</Filter>
+      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SimpleNotePad.h">
-      <Filter>头文件和源文件\SimpleNotePad</Filter>
+      <Filter>SimpleNotePad</Filter>
     </ClInclude>
     <ClInclude Include="SimpleNotePadDlg.h">
-      <Filter>头文件和源文件\SimpleNotePadDlg</Filter>
+      <Filter>SimpleNotePadDlg</Filter>
     </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>公共的类\Common</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>头文件和源文件\stdafx</Filter>
+      <Filter>stdafx</Filter>
     </ClInclude>
     <ClInclude Include="EditEx.h">
-      <Filter>头文件和源文件\派生的控件类\EditEx</Filter>
+      <Filter>派生的控件类\EditEx</Filter>
     </ClInclude>
     <ClInclude Include="FileCompareDlg.h">
-      <Filter>头文件和源文件\对话框类\FileCompareDlg</Filter>
+      <Filter>对话框类\FileCompareDlg</Filter>
     </ClInclude>
     <ClInclude Include="FormatConvertDlg.h">
-      <Filter>头文件和源文件\对话框类\FormatConvertDlg</Filter>
+      <Filter>对话框类\FormatConvertDlg</Filter>
     </ClInclude>
     <ClInclude Include="HexViewDlg.h">
-      <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
+      <Filter>对话框类\HexViewDlg</Filter>
     </ClInclude>
     <ClInclude Include="InsertDataDlg.h">
-      <Filter>头文件和源文件\对话框类\InsertDataDlg</Filter>
+      <Filter>对话框类\InsertDataDlg</Filter>
     </ClInclude>
     <ClInclude Include="DeleteDataDlg.h">
-      <Filter>头文件和源文件\对话框类\DeleteDataDlg</Filter>
+      <Filter>对话框类\DeleteDataDlg</Filter>
     </ClInclude>
     <ClInclude Include="InputDlg.h">
-      <Filter>头文件和源文件\对话框类\InputDlg</Filter>
+      <Filter>对话框类\InputDlg</Filter>
     </ClInclude>
     <ClInclude Include="BaseDialog.h">
-      <Filter>头文件和源文件\对话框类\BaseDialog</Filter>
+      <Filter>对话框类\BaseDialog</Filter>
     </ClInclude>
     <ClInclude Include="CodeConvertDlg.h">
-      <Filter>头文件和源文件\对话框类\CodeConvertDlg</Filter>
+      <Filter>对话框类\CodeConvertDlg</Filter>
     </ClInclude>
     <ClInclude Include="ScintillaEditView.h">
-      <Filter>头文件和源文件\ScintillaEditView</Filter>
+      <Filter>ScintillaEditView</Filter>
     </ClInclude>
     <ClInclude Include="Test.h">
       <Filter>Test</Filter>
@@ -162,46 +162,46 @@
       <Filter>公共的类\Common</Filter>
     </ClInclude>
     <ClInclude Include="SyntaxHighlight.h">
-      <Filter>头文件和源文件\SyntaxHighlight</Filter>
+      <Filter>SyntaxHighlight</Filter>
     </ClInclude>
     <ClInclude Include="..\scintilla\include\SciLexer.h">
-      <Filter>头文件和源文件\头文件\scintilla</Filter>
+      <Filter>头文件\scintilla</Filter>
     </ClInclude>
     <ClInclude Include="..\scintilla\include\Scintilla.h">
-      <Filter>头文件和源文件\头文件\scintilla</Filter>
+      <Filter>头文件\scintilla</Filter>
     </ClInclude>
     <ClInclude Include="HexEditView.h">
-      <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
+      <Filter>对话框类\HexViewDlg</Filter>
     </ClInclude>
     <ClInclude Include="FilePathHelper.h">
       <Filter>公共的类\Common</Filter>
     </ClInclude>
     <ClInclude Include="CommonData.h">
-      <Filter>头文件和源文件\头文件</Filter>
+      <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GeneralSettingsDlg.h">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+      <Filter>对话框类\SettingDlg</Filter>
     </ClInclude>
     <ClInclude Include="TabDlg.h">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+      <Filter>对话框类\SettingDlg</Filter>
     </ClInclude>
     <ClInclude Include="SettingsDlg.h">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+      <Filter>对话框类\SettingDlg</Filter>
     </ClInclude>
     <ClInclude Include="TabCtrlEx.h">
-      <Filter>头文件和源文件\派生的控件类\TabCtrlEx</Filter>
+      <Filter>派生的控件类\TabCtrlEx</Filter>
     </ClInclude>
     <ClInclude Include="EditSettingsDlg.h">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+      <Filter>对话框类\SettingDlg</Filter>
     </ClInclude>
     <ClInclude Include="ColorStatic.h">
-      <Filter>头文件和源文件\派生的控件类\ColorStatic</Filter>
+      <Filter>派生的控件类\ColorStatic</Filter>
     </ClInclude>
     <ClInclude Include="ColorStaticEx.h">
-      <Filter>头文件和源文件\派生的控件类\ColorStatic</Filter>
+      <Filter>派生的控件类\ColorStatic</Filter>
     </ClInclude>
     <ClInclude Include="SpinEdit.h">
-      <Filter>头文件和源文件\派生的控件类\SpinEdit</Filter>
+      <Filter>派生的控件类\SpinEdit</Filter>
     </ClInclude>
     <ClInclude Include="UpdateHelper.h">
       <Filter>公共的类\UpdateHelper</Filter>
@@ -210,7 +210,7 @@
       <Filter>公共的类\SimpleXML</Filter>
     </ClInclude>
     <ClInclude Include="AboutDlg.h">
-      <Filter>头文件和源文件\对话框类\AboutDlg</Filter>
+      <Filter>对话框类\AboutDlg</Filter>
     </ClInclude>
     <ClInclude Include="CVariant.h">
       <Filter>公共的类\CVariant</Filter>
@@ -219,51 +219,57 @@
       <Filter>公共的类\WIC</Filter>
     </ClInclude>
     <ClInclude Include="GoToLineDlg.h">
-      <Filter>头文件和源文件\对话框类\GoToLineDlg</Filter>
+      <Filter>对话框类\GoToLineDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="FindReplaceDlg.h">
+      <Filter>对话框类\FindReplaceDlg</Filter>
+    </ClInclude>
+    <ClInclude Include="FindReplaceTools.h">
+      <Filter>对话框类\FindReplaceDlg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
-      <Filter>头文件和源文件\SimpleNotePad</Filter>
+      <Filter>SimpleNotePad</Filter>
     </ClCompile>
     <ClCompile Include="SimpleNotePadDlg.cpp">
-      <Filter>头文件和源文件\SimpleNotePadDlg</Filter>
+      <Filter>SimpleNotePadDlg</Filter>
     </ClCompile>
     <ClCompile Include="Common.cpp">
       <Filter>公共的类\Common</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>头文件和源文件\stdafx</Filter>
+      <Filter>stdafx</Filter>
     </ClCompile>
     <ClCompile Include="EditEx.cpp">
-      <Filter>头文件和源文件\派生的控件类\EditEx</Filter>
+      <Filter>派生的控件类\EditEx</Filter>
     </ClCompile>
     <ClCompile Include="FileCompareDlg.cpp">
-      <Filter>头文件和源文件\对话框类\FileCompareDlg</Filter>
+      <Filter>对话框类\FileCompareDlg</Filter>
     </ClCompile>
     <ClCompile Include="FormatConvertDlg.cpp">
-      <Filter>头文件和源文件\对话框类\FormatConvertDlg</Filter>
+      <Filter>对话框类\FormatConvertDlg</Filter>
     </ClCompile>
     <ClCompile Include="HexViewDlg.cpp">
-      <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
+      <Filter>对话框类\HexViewDlg</Filter>
     </ClCompile>
     <ClCompile Include="InsertDataDlg.cpp">
-      <Filter>头文件和源文件\对话框类\InsertDataDlg</Filter>
+      <Filter>对话框类\InsertDataDlg</Filter>
     </ClCompile>
     <ClCompile Include="DeleteDataDlg.cpp">
-      <Filter>头文件和源文件\对话框类\DeleteDataDlg</Filter>
+      <Filter>对话框类\DeleteDataDlg</Filter>
     </ClCompile>
     <ClCompile Include="InputDlg.cpp">
-      <Filter>头文件和源文件\对话框类\InputDlg</Filter>
+      <Filter>对话框类\InputDlg</Filter>
     </ClCompile>
     <ClCompile Include="BaseDialog.cpp">
-      <Filter>头文件和源文件\对话框类\BaseDialog</Filter>
+      <Filter>对话框类\BaseDialog</Filter>
     </ClCompile>
     <ClCompile Include="CodeConvertDlg.cpp">
-      <Filter>头文件和源文件\对话框类\CodeConvertDlg</Filter>
+      <Filter>对话框类\CodeConvertDlg</Filter>
     </ClCompile>
     <ClCompile Include="ScintillaEditView.cpp">
-      <Filter>头文件和源文件\ScintillaEditView</Filter>
+      <Filter>ScintillaEditView</Filter>
     </ClCompile>
     <ClCompile Include="Test.cpp">
       <Filter>Test</Filter>
@@ -272,37 +278,37 @@
       <Filter>公共的类\Common</Filter>
     </ClCompile>
     <ClCompile Include="SyntaxHighlight.cpp">
-      <Filter>头文件和源文件\SyntaxHighlight</Filter>
+      <Filter>SyntaxHighlight</Filter>
     </ClCompile>
     <ClCompile Include="HexEditView.cpp">
-      <Filter>头文件和源文件\对话框类\HexViewDlg</Filter>
+      <Filter>对话框类\HexViewDlg</Filter>
     </ClCompile>
     <ClCompile Include="FilePathHelper.cpp">
       <Filter>公共的类\Common</Filter>
     </ClCompile>
     <ClCompile Include="GeneralSettingsDlg.cpp">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+      <Filter>对话框类\SettingDlg</Filter>
     </ClCompile>
     <ClCompile Include="TabDlg.cpp">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+      <Filter>对话框类\SettingDlg</Filter>
     </ClCompile>
     <ClCompile Include="SettingsDlg.cpp">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+      <Filter>对话框类\SettingDlg</Filter>
     </ClCompile>
     <ClCompile Include="TabCtrlEx.cpp">
-      <Filter>头文件和源文件\派生的控件类\TabCtrlEx</Filter>
+      <Filter>派生的控件类\TabCtrlEx</Filter>
     </ClCompile>
     <ClCompile Include="EditSettingsDlg.cpp">
-      <Filter>头文件和源文件\对话框类\SettingDlg</Filter>
+      <Filter>对话框类\SettingDlg</Filter>
     </ClCompile>
     <ClCompile Include="ColorStatic.cpp">
-      <Filter>头文件和源文件\派生的控件类\ColorStatic</Filter>
+      <Filter>派生的控件类\ColorStatic</Filter>
     </ClCompile>
     <ClCompile Include="ColorStaticEx.cpp">
-      <Filter>头文件和源文件\派生的控件类\ColorStatic</Filter>
+      <Filter>派生的控件类\ColorStatic</Filter>
     </ClCompile>
     <ClCompile Include="SpinEdit.cpp">
-      <Filter>头文件和源文件\派生的控件类\SpinEdit</Filter>
+      <Filter>派生的控件类\SpinEdit</Filter>
     </ClCompile>
     <ClCompile Include="UpdateHelper.cpp">
       <Filter>公共的类\UpdateHelper</Filter>
@@ -311,7 +317,7 @@
       <Filter>公共的类\SimpleXML</Filter>
     </ClCompile>
     <ClCompile Include="AboutDlg.cpp">
-      <Filter>头文件和源文件\对话框类\AboutDlg</Filter>
+      <Filter>对话框类\AboutDlg</Filter>
     </ClCompile>
     <ClCompile Include="CVariant.cpp">
       <Filter>公共的类\CVariant</Filter>
@@ -320,7 +326,13 @@
       <Filter>公共的类\WIC</Filter>
     </ClCompile>
     <ClCompile Include="GoToLineDlg.cpp">
-      <Filter>头文件和源文件\对话框类\GoToLineDlg</Filter>
+      <Filter>对话框类\GoToLineDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="FindReplaceDlg.cpp">
+      <Filter>对话框类\FindReplaceDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="FindReplaceTools.cpp">
+      <Filter>对话框类\FindReplaceDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -410,6 +422,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="res\exit.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\next.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\previous.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

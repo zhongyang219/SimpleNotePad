@@ -16,6 +16,7 @@
 #include "AboutDlg.h"
 #include "WIC.h"
 #include "GoToLineDlg.h"
+#include "FindReplaceTools.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -308,8 +309,8 @@ void CSimpleNotePadDlg::SaveConfig()
 	theApp.WriteProfileInt(L"config", L"show_line_number", m_show_line_number);
     theApp.WriteProfileInt(L"config", L"show_eol", m_show_eol);
 
-	theApp.WriteProfileInt(L"config", L"find_no_case", m_find_no_case);
-	theApp.WriteProfileInt(L"config", L"find_whole_word", m_find_whole_word);
+	//theApp.WriteProfileInt(L"config", L"find_no_case", m_find_no_case);
+	//theApp.WriteProfileInt(L"config", L"find_whole_word", m_find_whole_word);
 
 }
 
@@ -322,8 +323,8 @@ void CSimpleNotePadDlg::LoadConfig()
     m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 1) != 0);
     m_show_eol = (theApp.GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
 
-	m_find_no_case = (theApp.GetProfileInt(_T("config"), _T("find_no_case"), 0) != 0);
-	m_find_whole_word = (theApp.GetProfileInt(_T("config"), _T("find_whole_word"), 0) != 0);
+	//m_find_no_case = (theApp.GetProfileInt(_T("config"), _T("find_no_case"), 0) != 0);
+	//m_find_whole_word = (theApp.GetProfileInt(_T("config"), _T("find_whole_word"), 0) != 0);
 
 }
 
@@ -781,19 +782,6 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
 	ON_COMMAND(ID_CODE_ANSI, &CSimpleNotePadDlg::OnCodeAnsi)
 	ON_COMMAND(ID_CODE_UTF8, &CSimpleNotePadDlg::OnCodeUtf8)
 	ON_COMMAND(ID_CODE_UTF16, &CSimpleNotePadDlg::OnCodeUtf16)
-//	ON_UPDATE_COMMAND_UI(ID_CODE_ANSI, &CSimpleNotePadDlg::OnUpdateCodeAnsi)
-//	ON_UPDATE_COMMAND_UI(ID_CODE_UTF8, &CSimpleNotePadDlg::OnUpdateCodeUtf8)
-//	ON_UPDATE_COMMAND_UI(ID_CODE_UTF16, &CSimpleNotePadDlg::OnUpdateCodeUtf16)
-//	ON_WM_INITMENUPOPUP()
-	//ON_EN_CHANGE(IDC_EDIT1, &CSimpleNotePadDlg::OnEnChangeEdit1)
-//	ON_COMMAND(ID_SAVE_ANSI, &CSimpleNotePadDlg::OnSaveAnsi)
-//	ON_COMMAND(ID_SAVE_UTF8, &CSimpleNotePadDlg::OnSaveUtf8)
-//	ON_COMMAND(ID_SAVE_UTF8_NOBOM, &CSimpleNotePadDlg::OnSaveUtf8Nobom)
-//	ON_COMMAND(ID_SAVE_UTF16, &CSimpleNotePadDlg::OnSaveUtf16)
-//	ON_UPDATE_COMMAND_UI(ID_SAVE_ANSI, &CSimpleNotePadDlg::OnUpdateSaveAnsi)
-//	ON_UPDATE_COMMAND_UI(ID_SAVE_UTF8, &CSimpleNotePadDlg::OnUpdateSaveUtf8)
-//	ON_UPDATE_COMMAND_UI(ID_SAVE_UTF8_NOBOM, &CSimpleNotePadDlg::OnUpdateSaveUtf8Nobom)
-//	ON_UPDATE_COMMAND_UI(ID_SAVE_UTF16, &CSimpleNotePadDlg::OnUpdateSaveUtf16)
 	ON_COMMAND(ID_FILE_SAVE, &CSimpleNotePadDlg::OnFileSave)
 	ON_COMMAND(ID_FILE_SAVE_AS, &CSimpleNotePadDlg::OnFileSaveAs)
 	ON_COMMAND(ID_FORMAT_FONT, &CSimpleNotePadDlg::OnFormatFont)
@@ -812,7 +800,6 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
 //	ON_UPDATE_COMMAND_UI(ID_WORD_WRAP, &CSimpleNotePadDlg::OnUpdateWordWrap)
 	ON_WM_CLOSE()
 	ON_COMMAND(ID_EDIT_FIND, &CSimpleNotePadDlg::OnFind)
-    ON_REGISTERED_MESSAGE(WM_FINDREPLACE, &CSimpleNotePadDlg::OnFindReplace)
     ON_COMMAND(ID_FIND_NEXT, &CSimpleNotePadDlg::OnFindNext)
 	ON_COMMAND(ID_MARK_ALL, &CSimpleNotePadDlg::OnMarkAll)
 	ON_COMMAND(ID_EDIT_REPLACE, &CSimpleNotePadDlg::OnReplace)
@@ -853,6 +840,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_CONVERT_TO_UTF8_NO_BOM, &CSimpleNotePadDlg::OnConvertToUtf8NoBom)
     ON_COMMAND(ID_CONVERT_TO_UTF16, &CSimpleNotePadDlg::OnConvertToUtf16)
     ON_COMMAND(ID_CONVERT_TO_UTF16BE, &CSimpleNotePadDlg::OnConvertToUtf16be)
+    ON_MESSAGE(WM_NP_FIND_REPLACE, &CSimpleNotePadDlg::OnNpFindReplace)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1026,6 +1014,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     SetAlwaysOnTop();
 
     InitMenuIcon();
+
+    //初始化查找替换对话框
+    m_find_replace_dlg.Create(this);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -1431,14 +1422,6 @@ void CSimpleNotePadDlg::OnClose()
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	//询问是否保存
 	if(!SaveInquiry()) return;
-	//保存窗口大小
-	//if (!IsZoomed())
-	//{
-	//	CRect rect;
-	//	GetWindowRect(&rect);
-	//	m_window_width = rect.Width();
-	//	m_window_hight = rect.Height();
-	//}
 	SaveConfig();
 
 	CBaseDialog::OnClose();
@@ -1447,118 +1430,24 @@ void CSimpleNotePadDlg::OnClose()
 
 void CSimpleNotePadDlg::OnFind()
 {
-	// TODO: 在此添加命令处理程序代码
-	if (m_pFindDlg == nullptr)
-	{
-		m_pFindDlg = new CFindReplaceDialog;
-		//初始化“查找”对话框的状态
-		if (m_find_no_case)
-			m_pFindDlg->m_fr.Flags &= (~FR_MATCHCASE);
-		else
-			m_pFindDlg->m_fr.Flags |= FR_MATCHCASE;
-		if (m_find_whole_word)
-			m_pFindDlg->m_fr.Flags |= FR_WHOLEWORD;
-		else
-			m_pFindDlg->m_fr.Flags &= (~FR_WHOLEWORD);
-		m_pFindDlg->Create(TRUE, NULL, NULL, FR_DOWN/* | FR_HIDEWHOLEWORD | FR_HIDEMATCHCASE*/, this);
-	}
-	m_pFindDlg->ShowWindow(SW_SHOW);
-	m_pFindDlg->SetActiveWindow();
-}
-
-afx_msg LRESULT CSimpleNotePadDlg::OnFindReplace(WPARAM wParam, LPARAM lParam)
-{
-	m_pFindDlg = CFindReplaceDialog::GetNotifier(lParam);
-	if (m_pFindDlg != nullptr)
-	{
-		m_find_str = m_pFindDlg->GetFindString();
-		m_find_down = (m_pFindDlg->SearchDown() != 0);
-		m_find_no_case = (m_pFindDlg->MatchCase() == 0);
-		m_find_whole_word = (m_pFindDlg->MatchWholeWord() != 0);
-		if (m_pFindDlg->FindNext())		//查找下一个时
-		{
-			OnFindNext();
-		}
-		if (m_pFindDlg->IsTerminating())	//关闭窗口时
-		{
-			//m_pFindDlg->DestroyWindow();
-			m_pFindDlg = nullptr;
-		}
-	}
-	//delete m_pFindDlg;
-
-	if (m_pReplaceDlg != nullptr)
-	{
-		m_find_str = m_pReplaceDlg->GetFindString();
-		m_replace_str = m_pReplaceDlg->GetReplaceString();
-		if (m_pReplaceDlg->FindNext())		//查找下一个时
-		{
-			OnFindNext();
-		}
-		if (m_pReplaceDlg->ReplaceCurrent())	//替换当前时
-		{
-			if (m_find_flag)
-			{
-				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
-                m_view->SetText(m_edit_wcs);
-				//m_modified = true;
-				SetTitle();
-				OnFindNext();
-				m_view->SetSel(m_find_index, m_find_index + m_find_str.size(), m_edit_wcs);	//选中替换的字符串
-				SetActiveWindow();		//将编辑器窗口设置活动窗口
-			}
-			else
-			{
-				OnFindNext();
-			}
-		}
-		if (m_pReplaceDlg->ReplaceAll())		//替换全部时
-		{
-			int replace_count{};	//统计替换的字符串的个数
-			while (true)
-			{
-				m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);	//查找字符串
-				if (m_find_index == string::npos)
-					break;
-				m_edit_wcs.replace(m_find_index, m_find_str.size(), m_replace_str.c_str(), m_replace_str.size());	//替换找到的字符串
-				replace_count++;
-			}
-            m_view->SetText(m_edit_wcs);
-            //m_modified = true;
-            SetTitle();
-            if (replace_count != 0)
-			{
-				CString info;
-				info.Format(CCommon::LoadText(IDS_REPLACED_INFO),replace_count);
-				MessageBox(info, NULL, MB_ICONINFORMATION);
-			}
-		}
-		if (m_pReplaceDlg->IsTerminating())
-		{
-			m_pReplaceDlg = nullptr;
-		}
-	}
-	return 0;
+    m_find_replace_dlg.ShowWindow(SW_SHOW);
+    m_find_replace_dlg.SetActiveWindow();
+    m_find_replace_dlg.SetMode(CFindReplaceDlg::Mode::FIND);
 }
 
 
 void CSimpleNotePadDlg::OnFindNext()
 {
-	// TODO: 在此添加命令处理程序代码
-	m_find_index = CCommon::StringFind(m_edit_wcs, m_find_str, m_find_no_case, m_find_whole_word, m_find_down, (m_find_down ? (m_find_index + 1) : (m_find_index - 1)));
-	if (m_find_index == string::npos)
-	{
-		CString info;
-		info.Format(CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_str }));
-		MessageBox(info, NULL, MB_OK | MB_ICONINFORMATION);
-		m_find_flag = false;
-	}
-	else
-	{
-        m_view->SetSel(m_find_index, m_find_index + m_find_str.size(), m_edit_wcs);		//选中找到的字符串
-		SetActiveWindow();		//将编辑器窗口设为活动窗口
-		m_find_flag = true;
-	}
+    bool res = FindReplaceTools::FindTexts(m_find_replace_dlg.GetOptions(), true, m_view);
+    if (!res)
+    {
+        CString info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
+        m_find_replace_dlg.SetInfoString(info);
+    }
+    else
+    {
+        m_find_replace_dlg.ClearInfoString();
+    }
 }
 
 //该函数无效
@@ -1580,13 +1469,10 @@ void CSimpleNotePadDlg::OnMarkAll()
 void CSimpleNotePadDlg::OnReplace()
 {
 	// TODO: 在此添加命令处理程序代码
-	if (m_pReplaceDlg == nullptr)
-	{
-		m_pReplaceDlg = new CFindReplaceDialog;
-		m_pReplaceDlg->Create(FALSE, NULL, NULL, FR_DOWN | FR_HIDEWHOLEWORD | FR_HIDEMATCHCASE, this);
-	}
-	m_pReplaceDlg->ShowWindow(SW_SHOW);
-	m_pReplaceDlg->SetActiveWindow();
+    m_find_replace_dlg.ShowWindow(SW_SHOW);
+    m_find_replace_dlg.SetActiveWindow();
+    m_find_replace_dlg.SetMode(CFindReplaceDlg::Mode::REPLACE);
+
 }
 
 
@@ -2200,4 +2086,44 @@ void CSimpleNotePadDlg::OnConvertToUtf16()
 void CSimpleNotePadDlg::OnConvertToUtf16be()
 {
     ConvertToCode(CodeType::UTF16BE);
+}
+
+
+afx_msg LRESULT CSimpleNotePadDlg::OnNpFindReplace(WPARAM wParam, LPARAM lParam)
+{
+    CFindReplaceDlg::Command cmd = static_cast<CFindReplaceDlg::Command>(wParam);
+    switch (cmd)
+    {
+    case CFindReplaceDlg::Command::FIND_PREVIOUS:
+    {
+        bool res = FindReplaceTools::FindTexts(m_find_replace_dlg.GetOptions(), false, m_view);
+        if (!res && !m_find_replace_dlg.GetOptions().find_str.empty())
+        {
+            CString info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
+            m_find_replace_dlg.SetInfoString(info);
+        }
+    }
+        break;
+    case CFindReplaceDlg::Command::FIND_NEXT:
+        OnFindNext();
+        break;
+    case CFindReplaceDlg::Command::REPLACE:
+        FindReplaceTools::ReplaceTexts(m_find_replace_dlg.GetOptions(), m_view);
+        break;
+    case CFindReplaceDlg::Command::REPLACE_ALL:
+    {
+        int replaced_count = FindReplaceTools::ReplaceAll(m_find_replace_dlg.GetOptions(), m_view);
+        CString info;
+        if (replaced_count != 0)
+            info = CCommon::LoadTextFormat(IDS_REPLACED_INFO, { replaced_count });
+        else if (!m_find_replace_dlg.GetOptions().find_str.empty())
+            info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
+        m_find_replace_dlg.SetInfoString(info);
+    }
+        break;
+    default:
+        break;
+    }
+
+    return 0;
 }

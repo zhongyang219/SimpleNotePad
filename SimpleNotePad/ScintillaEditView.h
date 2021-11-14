@@ -52,9 +52,11 @@ public:
     void SetTabSize(int tab_size);
     void SetSel(int start, int end, const wstring& edit_str);        //设置选中范围（位置以字符为单位）
     void GetSel(int& start, int& end);      //获取选中范围（位置以字符为单位）
+    void SetSelByBytes(int start, int end);     //设置选中范围（以字节为单位）
     void SetBackgroundColor(COLORREF color);
     void SetReadOnly(bool read_only);
     bool IsReadOnly();
+    int GetCursorIndex();       //获取光标位置
 
     void Undo();
     void Redo();
@@ -76,6 +78,7 @@ public:
     void SetWordWrap(bool word_wrap, eWordWrapMode mode = WW_WORD);
 
     bool IsEditChangeNotificationEnable();
+    void SetEditChangeNotificationEnable(bool enable);
 
     bool CanUndo();
     bool CanRedo();

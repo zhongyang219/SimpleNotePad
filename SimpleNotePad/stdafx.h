@@ -87,6 +87,10 @@ typedef char _tchar;
 #define RECENT_FILE_LIST_MAX_SIZE 12
 #define CLIPBOARD_ITEM_MAX 8
 
+#define WM_NP_FIND_REPLACE (WM_USER + 100)  //查找替换消息，WPARA为CFindReplaceDlg::FindMode类型
+
+#define WM_NEXT_USER_MSG (WM_USER + 101)
+
 #define SAFE_DELETE(p) do \
 {\
     if(p != nullptr) \

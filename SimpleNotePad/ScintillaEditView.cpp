@@ -133,7 +133,7 @@ void CScintillaEditView::SetSel(int start, int end, const wstring& edit_str)
 {
     int byte_start = CharactorPosToBytePos(start, edit_str.c_str(), edit_str.size());
     int byte_end = CharactorPosToBytePos(end, edit_str.c_str(), edit_str.size());
-    SendMessage(SCI_SETSEL, byte_start, byte_end);
+    SetSelByBytes(byte_start, byte_end);
 }
 
 void CScintillaEditView::GetSel(int & start, int & end)
@@ -147,6 +147,11 @@ void CScintillaEditView::GetSel(int & start, int & end)
     start = BytePosToCharactorPos(byte_start, str, size);
     end = BytePosToCharactorPos(byte_end, str, size);
     delete[] str;
+}
+
+void CScintillaEditView::SetSelByBytes(int start, int end)
+{
+    SendMessage(SCI_SETSEL, start, end);
 }
 
 void CScintillaEditView::SetBackgroundColor(COLORREF color)
@@ -163,6 +168,11 @@ void CScintillaEditView::SetReadOnly(bool read_only)
 bool CScintillaEditView::IsReadOnly()
 {
     return (SendMessage(SCI_GETREADONLY) != 0);
+}
+
+int CScintillaEditView::GetCursorIndex()
+{
+    return SendMessage(SCI_GETANCHOR);
 }
 
 void CScintillaEditView::Undo()
@@ -244,6 +254,11 @@ void CScintillaEditView::SetWordWrap(bool word_wrap, eWordWrapMode mode)
 bool CScintillaEditView::IsEditChangeNotificationEnable()
 {
     return m_change_notification_enable;
+}
+
+void CScintillaEditView::SetEditChangeNotificationEnable(bool enable)
+{
+    m_change_notification_enable = enable;
 }
 
 bool CScintillaEditView::CanUndo()

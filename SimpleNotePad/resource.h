@@ -119,7 +119,9 @@
 #define IDI_SAVE_AS                     181
 #define IDS_ALL_FILES                   181
 #define IDI_FIND                        182
+#define IDS_FIND                        182
 #define IDI_CODE_BATCH                  183
+#define IDS_REPLACE                     183
 #define IDI_CODE                        184
 #define IDI_HEX_VIEW                    185
 #define IDI_ICON5                       186
@@ -130,6 +132,10 @@
 #define IDI_RECENT_FILES                191
 #define IDI_LANGUAGE                    192
 #define IDI_EXIT                        193
+#define IDD_FIND_REPLACE_DIALOG         194
+#define IDI_NEXT                        196
+#define IDI_ICON1                       197
+#define IDI_PREVIOUS                    197
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -202,14 +208,29 @@
 #define IDC_STATIC_GITHUB               1065
 #define IDC_CHECK1                      1065
 #define IDC_CHECK_UPDATE_CHECK          1065
+#define IDC_MATCH_WHOLE_WORD_CHECK      1065
 #define IDC_HEX_SET_FONT_BUTTON         1066
 #define IDC_STATIC_GITEE                1066
 #define IDC_GITHUB_RADIO                1066
+#define IDC_MATCH_CASE_CHECK            1066
 #define IDC_SELECTION_BACKGROUND_COLOR_STATIC 1067
 #define IDC_STATIC_CHECK_FOR_UPDATE     1067
 #define IDC_GITEE_RADIO                 1067
+#define IDC_WRAP_AROUND_CHECK           1067
 #define IDC_STATIC_VERSION              1068
 #define IDC_LANGUAGE_COMBO              1069
+#define IDC_FIND_PREVIOUS_BUTTON        1070
+#define IDC_FIND_NEXT_BUTTON            1071
+#define IDC_FIND_EDIT                   1072
+#define IDC_REPLACE_EDIT                1073
+#define IDC_REPLACE_BUTTON              1074
+#define IDC_REPLACE_ALL_BUTTON          1075
+#define IDC_FIND_MODE_NORMAL_RADIO      1076
+#define IDC_FIND_MODE_EXTENDED_RADIO    1077
+#define IDC_FIND_MODE_REGULAR_EXP_RADIO 1078
+#define IDC_FIND_RADIO                  1079
+#define IDC_REPLACE_RADIO               1080
+#define IDC_REPLACE_AS_STATIC           1082
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -335,9 +356,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        194
+#define _APS_NEXT_RESOURCE_VALUE        198
 #define _APS_NEXT_COMMAND_VALUE         33019
-#define _APS_NEXT_CONTROL_VALUE         1070
+#define _APS_NEXT_CONTROL_VALUE         1083
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

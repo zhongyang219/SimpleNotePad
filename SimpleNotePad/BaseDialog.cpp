@@ -39,6 +39,20 @@ void CBaseDialog::SaveConfig() const
 	theApp.WriteProfileInt(_T("window_size"), GetDialogName() + _T("_height"), m_window_size.cy);
 }
 
+void CBaseDialog::SetButtonIcon(UINT id, HICON icon)
+{
+    CButton* btn = (CButton*)(GetDlgItem(id));
+    if (btn != nullptr)
+        btn->SetIcon(icon);
+}
+
+void CBaseDialog::ShowDlgCtrl(UINT id, bool show)
+{
+    CWnd* pCtrl = GetDlgItem(id);
+    if (pCtrl != nullptr)
+        pCtrl->ShowWindow(show);
+}
+
 void CBaseDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);

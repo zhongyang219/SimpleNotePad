@@ -30,6 +30,8 @@ protected:
 
 protected:
 	virtual CString GetDialogName() const = 0;
+    void SetButtonIcon(UINT id, HICON icon);
+    void ShowDlgCtrl(UINT id, bool show);
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
