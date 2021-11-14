@@ -314,6 +314,9 @@
     <Image Include="res\SimpleNotePad.ico" />
     <Image Include="res\undo.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="lang.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

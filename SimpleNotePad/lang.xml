@@ -32,7 +32,7 @@
 			<Syntax name= "Escape sequence" id="27" color="0x000000" />
 		</SyntaxList>
 	</Language>
-	<Language name="C++" lexId="3" ext="h cpp cxx cc hxx inl">
+	<Language name="C++" lexId="3" ext="h cpp cxx cc hxx hpp inl">
 		<Keywords id="0">asm do if return typedef inline typeid dynamic_cast typename break else sizeof case mutable static catch explicit namespace static_cast using export new virtual class extern operator struct switch const false private template volatile const_cast protected this continue for public throw while default friend register true delete goto reinterpret_cast try alignas alignof constexpr decltype noexcept nullptr static_assert thread_local</Keywords>
 		<Keywords id="1">auto double short long bool int signed union enum unsigned char float wchar_t char16_t char32_t void </Keywords>
 		<Keywords id="2">author brief date copyright file note para param return ref see version</Keywords>
