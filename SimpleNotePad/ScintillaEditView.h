@@ -57,6 +57,7 @@ public:
     void SetReadOnly(bool read_only);
     bool IsReadOnly();
     int GetCursorIndex();       //获取光标位置
+    std::wstring GetSelectedText();         //获取选中文本
 
     void Undo();
     void Redo();

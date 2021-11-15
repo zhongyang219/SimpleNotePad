@@ -419,6 +419,21 @@ void CCommon::StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& r
     }
 }
 
+wstring CCommon::StringMerge(const vector<wstring>& str_list, wchar_t connector, bool skip_empty /*= true*/)
+{
+    wstring result;
+    for (const auto& str : str_list)
+    {
+        if (skip_empty && str.empty())
+            continue;
+        result += str;
+        result.push_back(connector);
+    }
+    if (!str_list.empty())
+        result.pop_back();
+    return result;
+}
+
 bool CCommon::GetFileContent(const wchar_t* file_path, string& contents_buff)
 {
     std::ifstream file{ file_path, std::ios::binary };

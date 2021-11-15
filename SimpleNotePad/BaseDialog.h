@@ -20,9 +20,9 @@ public:
 
 	void SetMinSize(int cx, int cy);		//设置窗口的最小大小，如果未设置，则使用窗口的初始大小作为最小大小
 
-private:
-	void LoadConfig();
-	void SaveConfig() const;
+protected:
+	virtual void LoadConfig();
+	virtual void SaveConfig() const;
 
 protected:
 	CSize m_min_size{};

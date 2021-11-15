@@ -108,6 +108,8 @@ public:
     //result: 接收分割后的结果
     static void StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& results, bool skip_empty = true);
 
+    static wstring StringMerge(const vector<wstring>& str_list, wchar_t connector, bool skip_empty = true);
+
     //读取文件内容
     static bool GetFileContent(const wchar_t* file_path, string& contents_buff);
 

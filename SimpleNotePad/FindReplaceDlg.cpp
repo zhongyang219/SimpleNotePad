@@ -66,6 +66,26 @@ void CFindReplaceDlg::ClearInfoString()
     SetDlgItemText(IDC_INFO_STATIC, _T(""));
 }
 
+void CFindReplaceDlg::LoadConfig()
+{
+    CBaseDialog::LoadConfig();
+
+    m_options.match_case = theApp.GetProfileInt(L"find_replace", L"match_case", 0);
+    m_options.match_whole_word = theApp.GetProfileInt(L"find_replace", L"match_whole_word", 0);
+    m_options.find_loop = theApp.GetProfileInt(L"find_replace", L"find_loop", 0);
+    m_options.find_mode = static_cast<FindMode>(theApp.GetProfileInt(L"find_replace", L"find_mode", 0));
+}
+
+void CFindReplaceDlg::SaveConfig() const
+{
+    CBaseDialog::SaveConfig();
+
+    theApp.WriteProfileInt(L"find_replace", L"match_case", m_options.match_case);
+    theApp.WriteProfileInt(L"find_replace", L"match_whole_word", m_options.match_whole_word);
+    theApp.WriteProfileInt(L"find_replace", L"find_loop", m_options.find_loop);
+    theApp.WriteProfileInt(L"find_replace", L"find_mode", static_cast<int>(m_options.find_mode));
+}
+
 void CFindReplaceDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CBaseDialog::DoDataExchange(pDX);
@@ -104,10 +124,27 @@ BOOL CFindReplaceDlg::OnInitDialog()
 
     // TODO:  在此添加额外的初始化
     CenterWindow();
-    CheckDlgButton(IDC_FIND_MODE_NORMAL_RADIO, true);
     SetIcon(theApp.GetMenuIcon(IDI_FIND), FALSE);
     SetButtonIcon(IDC_FIND_PREVIOUS_BUTTON, theApp.GetMenuIcon(IDI_PREVIOUS));
     SetButtonIcon(IDC_FIND_NEXT_BUTTON, theApp.GetMenuIcon(IDI_NEXT));
+
+    switch (m_options.find_mode)
+    {
+    case FindMode::NORMAL:
+        CheckDlgButton(IDC_FIND_MODE_NORMAL_RADIO, true);
+        break;
+    case FindMode::EXTENDED:
+        CheckDlgButton(IDC_FIND_MODE_EXTENDED_RADIO, true);
+        break;
+    case FindMode::REGULAR_EXPRESSION:
+        CheckDlgButton(IDC_FIND_MODE_REGULAR_EXP_RADIO, true);
+        break;
+    default:
+        break;
+    }
+    CheckDlgButton(IDC_MATCH_CASE_CHECK, m_options.match_case);
+    CheckDlgButton(IDC_MATCH_WHOLE_WORD_CHECK, m_options.match_whole_word);
+    CheckDlgButton(IDC_WRAP_AROUND_CHECK, m_options.find_loop);
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 异常: OCX 属性页应返回 FALSE
@@ -168,7 +205,7 @@ void CFindReplaceDlg::OnEnChangeReplaceEdit()
 
 void CFindReplaceDlg::OnBnClickedMatchWholeWordCheck()
 {
-    m_options.match_while_word = (IsDlgButtonChecked(IDC_MATCH_WHOLE_WORD_CHECK) != 0);
+    m_options.match_whole_word = (IsDlgButtonChecked(IDC_MATCH_WHOLE_WORD_CHECK) != 0);
 }
 
 

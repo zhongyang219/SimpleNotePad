@@ -308,10 +308,6 @@ void CSimpleNotePadDlg::SaveConfig()
 	theApp.WriteProfileInt(L"config", L"show_statusbar", m_show_statusbar);
 	theApp.WriteProfileInt(L"config", L"show_line_number", m_show_line_number);
     theApp.WriteProfileInt(L"config", L"show_eol", m_show_eol);
-
-	//theApp.WriteProfileInt(L"config", L"find_no_case", m_find_no_case);
-	//theApp.WriteProfileInt(L"config", L"find_whole_word", m_find_whole_word);
-
 }
 
 void CSimpleNotePadDlg::LoadConfig()
@@ -322,10 +318,6 @@ void CSimpleNotePadDlg::LoadConfig()
     m_show_statusbar = (theApp.GetProfileInt(_T("config"), _T("show_statusbar"), 1) != 0);
     m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 1) != 0);
     m_show_eol = (theApp.GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
-
-	//m_find_no_case = (theApp.GetProfileInt(_T("config"), _T("find_no_case"), 0) != 0);
-	//m_find_whole_word = (theApp.GetProfileInt(_T("config"), _T("find_whole_word"), 0) != 0);
-
 }
 
 bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
@@ -841,6 +833,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_CONVERT_TO_UTF16, &CSimpleNotePadDlg::OnConvertToUtf16)
     ON_COMMAND(ID_CONVERT_TO_UTF16BE, &CSimpleNotePadDlg::OnConvertToUtf16be)
     ON_MESSAGE(WM_NP_FIND_REPLACE, &CSimpleNotePadDlg::OnNpFindReplace)
+    ON_COMMAND(ID_FIND_PRIVIOUS, &CSimpleNotePadDlg::OnFindPrivious)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1436,17 +1429,37 @@ void CSimpleNotePadDlg::OnFind()
 }
 
 
+void CSimpleNotePadDlg::OnFindPrivious()
+{
+    if (!m_find_replace_dlg.GetOptions().find_str.empty())
+    {
+        bool res = FindReplaceTools::FindTexts(m_find_replace_dlg.GetOptions(), false, m_view);
+        if (!res)
+        {
+            CString info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
+            m_find_replace_dlg.SetInfoString(info);
+        }
+        else
+        {
+            m_find_replace_dlg.ClearInfoString();
+        }
+    }
+}
+
 void CSimpleNotePadDlg::OnFindNext()
 {
-    bool res = FindReplaceTools::FindTexts(m_find_replace_dlg.GetOptions(), true, m_view);
-    if (!res)
+    if (!m_find_replace_dlg.GetOptions().find_str.empty())
     {
-        CString info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
-        m_find_replace_dlg.SetInfoString(info);
-    }
-    else
-    {
-        m_find_replace_dlg.ClearInfoString();
+        bool res = FindReplaceTools::FindTexts(m_find_replace_dlg.GetOptions(), true, m_view);
+        if (!res)
+        {
+            CString info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
+            m_find_replace_dlg.SetInfoString(info);
+        }
+        else
+        {
+            m_find_replace_dlg.ClearInfoString();
+        }
     }
 }
 
@@ -2095,20 +2108,14 @@ afx_msg LRESULT CSimpleNotePadDlg::OnNpFindReplace(WPARAM wParam, LPARAM lParam)
     switch (cmd)
     {
     case CFindReplaceDlg::Command::FIND_PREVIOUS:
-    {
-        bool res = FindReplaceTools::FindTexts(m_find_replace_dlg.GetOptions(), false, m_view);
-        if (!res && !m_find_replace_dlg.GetOptions().find_str.empty())
-        {
-            CString info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
-            m_find_replace_dlg.SetInfoString(info);
-        }
-    }
+        OnFindPrivious();
         break;
     case CFindReplaceDlg::Command::FIND_NEXT:
         OnFindNext();
         break;
     case CFindReplaceDlg::Command::REPLACE:
         FindReplaceTools::ReplaceTexts(m_find_replace_dlg.GetOptions(), m_view);
+        OnFindNext();
         break;
     case CFindReplaceDlg::Command::REPLACE_ALL:
     {

@@ -14,7 +14,7 @@ struct FindOption
 {
     std::wstring find_str;
     std::wstring replace_str;
-    bool match_while_word{};
+    bool match_whole_word{};
     bool match_case{};
     bool find_loop{};
     FindMode find_mode{};
@@ -24,7 +24,7 @@ class FindReplaceTools
 {
 public:
     static bool FindTexts(FindOption options, bool next, CScintillaEditView* pEditView);
-    static void ReplaceTexts(FindOption options, CScintillaEditView* pEditView);
+    static bool ReplaceTexts(FindOption options, CScintillaEditView* pEditView);
     static int ReplaceAll(FindOption options, CScintillaEditView* pEditView);
 
 private:

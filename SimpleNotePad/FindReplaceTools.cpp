@@ -50,14 +50,17 @@ bool FindReplaceTools::FindTexts(FindOption options, bool next, CScintillaEditVi
 }
 
 
-void FindReplaceTools::ReplaceTexts(FindOption options, CScintillaEditView* pEditView)
+bool FindReplaceTools::ReplaceTexts(FindOption options, CScintillaEditView* pEditView)
 {
     if (pEditView->IsSelectionEmpty())
-        return;
+        return false;
     if (options.find_mode == FindMode::EXTENDED)
     {
         options.replace_str = FindReplaceTools::convertExtendedToString(options.replace_str);
+        options.find_str = FindReplaceTools::convertExtendedToString(options.find_str);
     }
+    if (pEditView->GetSelectedText() != options.find_str)
+        return false;
     int start = pEditView->SendMessage(SCI_GETANCHOR);
     int end = pEditView->SendMessage(SCI_GETCURRENTPOS);
     pEditView->SendMessage(SCI_SETTARGETSTART, start);
@@ -67,6 +70,7 @@ void FindReplaceTools::ReplaceTexts(FindOption options, CScintillaEditView* pEdi
     UINT replace_msg = (options.find_mode == FindMode::REGULAR_EXPRESSION ? SCI_REPLACETARGETRE : SCI_REPLACETARGET);
     pEditView->SendMessage(replace_msg, replace_str.size(), (sptr_t)replace_str.c_str());
     pEditView->SendMessage(SCI_SETSEL, start, start + replace_str.size());
+    return true;
 }
 
 int FindReplaceTools::ReplaceAll(FindOption options, CScintillaEditView* pEditView)
@@ -199,13 +203,13 @@ std::wstring FindReplaceTools::convertExtendedToString(const std::wstring query)
         ++i;
         ++j;
     }
-    result[j] = 0;
+    result.resize(j);
     return result;
 }
 
 unsigned int FindReplaceTools::buildSearchFlags(const FindOption& option)
 {
-    return	(option.match_while_word ? SCFIND_WHOLEWORD : 0) |
+    return	(option.match_whole_word ? SCFIND_WHOLEWORD : 0) |
         (option.match_case ? SCFIND_MATCHCASE : 0) |
         (option.find_mode == FindMode::REGULAR_EXPRESSION ? SCFIND_REGEXP | SCFIND_POSIX : 0);
 };

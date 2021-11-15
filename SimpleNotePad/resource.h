@@ -134,7 +134,6 @@
 #define IDI_EXIT                        193
 #define IDD_FIND_REPLACE_DIALOG         194
 #define IDI_NEXT                        196
-#define IDI_ICON1                       197
 #define IDI_PREVIOUS                    197
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
@@ -351,13 +350,14 @@
 #define ID_CONVERT_TO_UTF8_NO_BOM       33016
 #define ID_CONVERT_TO_UTF16             33017
 #define ID_CONVERT_TO_UTF16BE           33018
+#define ID_FIND_PRIVIOUS                33019
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        198
-#define _APS_NEXT_COMMAND_VALUE         33019
+#define _APS_NEXT_COMMAND_VALUE         33022
 #define _APS_NEXT_CONTROL_VALUE         1083
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

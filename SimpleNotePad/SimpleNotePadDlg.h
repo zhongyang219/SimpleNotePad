@@ -13,7 +13,7 @@
 #include <deque>
 #include "FindReplaceDlg.h"
 
-const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//将FINDMSGSTRING注册为WM_FINDREPLACE消息
+//const int WM_FINDREPLACE = ::RegisterWindowMessage(FINDMSGSTRING);	//将FINDMSGSTRING注册为WM_FINDREPLACE消息
 
 // CSimpleNotePadDlg 对话框
 class CSimpleNotePadDlg : public CBaseDialog
@@ -149,8 +149,9 @@ public:
 	afx_msg void OnWordWrap();
 	afx_msg void OnClose();
 	afx_msg void OnFind();
+    afx_msg void OnFindPrivious();
     afx_msg void OnFindNext();
-	afx_msg void OnMarkAll();
+    afx_msg void OnMarkAll();
 	afx_msg void OnReplace();
 	afx_msg void OnMenuSelect(UINT nItemID, UINT nFlags, HMENU hSysMenu);
 	afx_msg void OnInitMenu(CMenu* pMenu);

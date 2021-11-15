@@ -28,7 +28,6 @@ public:
     void SetMode(Mode mode);
 
     FindOption GetOptions() const { return m_options; }
-    FindOption& Options() { return m_options; }
 
     enum class Command
     {
@@ -50,6 +49,8 @@ private:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
     virtual CString GetDialogName() const override;
+    virtual void LoadConfig() override;
+    virtual void SaveConfig() const override;
 
 	DECLARE_MESSAGE_MAP()
 

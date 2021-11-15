@@ -175,6 +175,25 @@ int CScintillaEditView::GetCursorIndex()
     return SendMessage(SCI_GETANCHOR);
 }
 
+std::wstring CScintillaEditView::GetSelectedText()
+{
+    Sci_TextRange text_range;
+    //获取选中范围
+    text_range.chrg.cpMin = SendMessage(SCI_GETANCHOR);
+    text_range.chrg.cpMax = SendMessage(SCI_GETCURRENTPOS);
+    if (text_range.chrg.cpMax < text_range.chrg.cpMin)
+        std::swap(text_range.chrg.cpMin, text_range.chrg.cpMin);
+    //选中范围长度
+    int length = text_range.chrg.cpMax - text_range.chrg.cpMin;
+    //初始化接收字符串缓冲区
+    text_range.lpstrText = new char[length + 1];
+    //获取选中部分文本
+    SendMessage(SCI_GETTEXTRANGE, 0, (LPARAM)&text_range);
+    std::string str_selected(text_range.lpstrText, length);
+    delete[] text_range.lpstrText;
+    return CCommon::StrToUnicode(str_selected, CodeType::UTF8_NO_BOM);
+}
+
 void CScintillaEditView::Undo()
 {
     SendMessage(SCI_UNDO);
