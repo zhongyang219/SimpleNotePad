@@ -107,6 +107,7 @@ public:
     //div_ch: 用于分割的字符
     //result: 接收分割后的结果
     static void StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& results, bool skip_empty = true);
+    static void StringSplit(const string& str, const string& div_ch, vector<string>& results, bool skip_empty = true);
 
     static wstring StringMerge(const vector<wstring>& str_list, wchar_t connector, bool skip_empty = true);
 

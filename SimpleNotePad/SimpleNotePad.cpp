@@ -6,11 +6,13 @@
 #include "SimpleNotePad.h"
 #include "SimpleNotePadDlg.h"
 #include "UpdateHelper.h"
+#include "Test.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
+const std::string SPLIT_STRING{'\xff', '\xff', '\xff', '\xff' };
 
 // CSimpleNotePadApp
 
@@ -160,6 +162,37 @@ const std::vector<CString>& CSimpleNotePadApp::GetRecentFileList()
     return m_recent_file_list;
 }
 
+void CSimpleNotePadApp::WriteStringList(LPCTSTR app_name, LPCTSTR key_name, const std::vector<std::wstring>& string_list)
+{
+    std::string buff;
+    for (const auto& str : string_list)
+    {
+        buff.append((const char*)str.c_str(), str.size() * 2);
+        buff.append(SPLIT_STRING);
+    }
+    if (!string_list.empty())
+        buff.resize(buff.size() - SPLIT_STRING.size());
+    WriteProfileBinary(app_name, key_name, (LPBYTE)buff.c_str(), buff.size());
+}
+
+void CSimpleNotePadApp::GetStringList(LPCTSTR app_name, LPCTSTR key_name, std::vector<std::wstring>& string_list)
+{
+    string_list.clear();
+    LPBYTE buff;
+    UINT length{};
+    if (GetProfileBinary(app_name, key_name, &buff, &length))
+    {
+        std::string str_read((const char*)buff, length);
+        std::vector<std::string> split_result;
+        CCommon::StringSplit(str_read, SPLIT_STRING, split_result);
+        for (const auto& str : split_result)
+        {
+            wstring temp((const wchar_t*)str.c_str(), (str.size() + 1) / 2);
+            string_list.push_back(temp);
+        }
+    }
+}
+
 void CSimpleNotePadApp::LoadConfig()
 {
     //载入选项设置
@@ -288,6 +321,9 @@ BOOL CSimpleNotePadApp::InitInstance()
     }
 #endif // !_DEBUG
 
+#ifdef _DEBUG
+    CTest::Test();
+#endif
 
     CSimpleNotePadDlg dlg(m_lpCmdLine);
 	m_pMainWnd = &dlg;

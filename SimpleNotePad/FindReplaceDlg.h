@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "BaseDialog.h"
 #include "FindReplaceTools.h"
+#include <deque>
 
 // CFindReplaceDlg 对话框
 
@@ -46,12 +47,23 @@ public:
 private:
     Mode m_mode{};
     FindOption m_options;
+    std::deque<std::wstring> m_find_history;
+    std::deque<std::wstring> m_replace_history;
+
+    CComboBox m_find_combo;
+    CComboBox m_replace_combo;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
     virtual CString GetDialogName() const override;
     virtual void LoadConfig() override;
     virtual void SaveConfig() const override;
+    bool AppendStringToHistory(std::deque<std::wstring>& history, const std::wstring& str);
+    void AppendFindStringToHistory();
+    void AppendReplaceStringToHistory();
+    void InitFindCombo();
+    void InitReplaceCombo();
+    static void ClearComboboxItems(CComboBox& combobox);
 
 	DECLARE_MESSAGE_MAP()
 
@@ -63,15 +75,16 @@ public:
     afx_msg void OnBnClickedReplaceAllButton();
     afx_msg void OnBnClickedFindRadio();
     afx_msg void OnBnClickedReplaceRadio();
-    afx_msg void OnEnChangeFindEdit();
-    afx_msg void OnEnChangeReplaceEdit();
     afx_msg void OnBnClickedMatchWholeWordCheck();
     afx_msg void OnBnClickedMatchCaseCheck();
     afx_msg void OnBnClickedWrapAroundCheck();
     afx_msg void OnBnClickedFindModeNormalRadio();
     afx_msg void OnBnClickedFindModeExtendedRadio();
     afx_msg void OnBnClickedFindModeRegularExpRadio();
-    virtual void OnCancel();
     virtual BOOL Create(CWnd* pParentWnd = NULL);
     afx_msg void OnBnClickedReplaceSelecteButton();
+    afx_msg void OnCbnEditchangeFindCombo();
+    afx_msg void OnCbnEditchangeReplaceCombo();
+    afx_msg void OnCbnSelchangeFindCombo();
+    afx_msg void OnCbnSelchangeReplaceCombo();
 };

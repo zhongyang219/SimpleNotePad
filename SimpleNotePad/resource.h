@@ -220,8 +220,6 @@
 #define IDC_LANGUAGE_COMBO              1069
 #define IDC_FIND_PREVIOUS_BUTTON        1070
 #define IDC_FIND_NEXT_BUTTON            1071
-#define IDC_FIND_EDIT                   1072
-#define IDC_REPLACE_EDIT                1073
 #define IDC_REPLACE_BUTTON              1074
 #define IDC_REPLACE_ALL_BUTTON          1075
 #define IDC_FIND_MODE_NORMAL_RADIO      1076
@@ -231,6 +229,8 @@
 #define IDC_REPLACE_RADIO               1080
 #define IDC_REPLACE_SELECTE_BUTTON      1081
 #define IDC_REPLACE_AS_STATIC           1082
+#define IDC_FIND_COMBO                  1083
+#define IDC_REPLACE_COMBO               1084
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -359,7 +359,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        198
 #define _APS_NEXT_COMMAND_VALUE         33022
-#define _APS_NEXT_CONTROL_VALUE         1083
+#define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif
