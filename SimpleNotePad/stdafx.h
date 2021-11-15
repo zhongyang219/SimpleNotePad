@@ -86,10 +86,14 @@ typedef char _tchar;
 
 #define RECENT_FILE_LIST_MAX_SIZE 12
 #define CLIPBOARD_ITEM_MAX 8
+#define FIND_REPLACE_AUTO_FILL_MAX_LENGTH 32    //将选中文本自动填充到查找或替换对话框中的查找框中的最大长度
 
 #define WM_NP_FIND_REPLACE (WM_USER + 100)  //查找替换消息，WPARA为CFindReplaceDlg::FindMode类型
 
 #define WM_NEXT_USER_MSG (WM_USER + 101)
+
+#undef min
+#undef max
 
 #define SAFE_DELETE(p) do \
 {\

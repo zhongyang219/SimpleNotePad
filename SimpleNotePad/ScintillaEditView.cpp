@@ -181,6 +181,8 @@ std::wstring CScintillaEditView::GetSelectedText()
     //获取选中范围
     text_range.chrg.cpMin = SendMessage(SCI_GETANCHOR);
     text_range.chrg.cpMax = SendMessage(SCI_GETCURRENTPOS);
+    if (text_range.chrg.cpMin == text_range.chrg.cpMax)
+        return std::wstring();
     if (text_range.chrg.cpMax < text_range.chrg.cpMin)
         std::swap(text_range.chrg.cpMin, text_range.chrg.cpMin);
     //选中范围长度

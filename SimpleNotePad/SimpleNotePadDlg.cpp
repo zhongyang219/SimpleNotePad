@@ -745,6 +745,16 @@ CMenu* CSimpleNotePadDlg::GetClipboardHistoryMenu(bool context_menu)
     return pMenu;
 }
 
+void CSimpleNotePadDlg::FillFindText()
+{
+    //将选中文本设置到查找对话框中“查找”文本框
+    std::wstring str_selected = m_view->GetSelectedText();
+    if (str_selected.size() <= FIND_REPLACE_AUTO_FILL_MAX_LENGTH)
+        m_find_replace_dlg.SetFindString(str_selected.c_str());
+    else
+        m_find_replace_dlg.SetFindString(L"");
+}
+
 //void CSimpleNotePadDlg::SaveAsHex()
 //{
 //	//设置过滤器
@@ -1426,6 +1436,7 @@ void CSimpleNotePadDlg::OnFind()
     m_find_replace_dlg.ShowWindow(SW_SHOW);
     m_find_replace_dlg.SetActiveWindow();
     m_find_replace_dlg.SetMode(CFindReplaceDlg::Mode::FIND);
+    FillFindText();
 }
 
 
@@ -1485,7 +1496,7 @@ void CSimpleNotePadDlg::OnReplace()
     m_find_replace_dlg.ShowWindow(SW_SHOW);
     m_find_replace_dlg.SetActiveWindow();
     m_find_replace_dlg.SetMode(CFindReplaceDlg::Mode::REPLACE);
-
+    FillFindText();
 }
 
 

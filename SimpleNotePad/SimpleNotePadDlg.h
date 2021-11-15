@@ -115,6 +115,8 @@ protected:
     void InitClipboardHistoryMenu();
     CMenu* GetClipboardHistoryMenu(bool context_menu);
 
+    void FillFindText();    //向查找替换对话框中的查找文本框填充选中文本
+
 private:
 
 protected:
