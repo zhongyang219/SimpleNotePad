@@ -26,8 +26,11 @@ public:
     static bool FindTexts(FindOption options, bool next, CScintillaEditView* pEditView);
     static bool ReplaceTexts(FindOption options, CScintillaEditView* pEditView);
     static int ReplaceAll(FindOption options, CScintillaEditView* pEditView);
+    static int ReplaceSelection(FindOption options, CScintillaEditView* pEditView);
 
 private:
+    static int ReplaceInRange(int start, int end, FindOption options, CScintillaEditView* pEditView);
+    
     static std::wstring convertExtendedToString(const std::wstring query);
     static unsigned int buildSearchFlags(const FindOption& option);
     static bool readBase(const TCHAR* str, int* value, int base, int size);

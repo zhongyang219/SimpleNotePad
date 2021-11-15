@@ -75,6 +75,20 @@ bool FindReplaceTools::ReplaceTexts(FindOption options, CScintillaEditView* pEdi
 
 int FindReplaceTools::ReplaceAll(FindOption options, CScintillaEditView* pEditView)
 {
+    return ReplaceInRange(0, pEditView->SendMessage(SCI_GETLENGTH), options, pEditView);
+}
+
+int FindReplaceTools::ReplaceSelection(FindOption options, CScintillaEditView* pEditView)
+{
+    int start = pEditView->SendMessage(SCI_GETANCHOR);
+    int end = pEditView->SendMessage(SCI_GETCURRENTPOS);
+    if (start != end)
+        return ReplaceInRange(start, end, options, pEditView);
+    return 0;
+}
+
+int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CScintillaEditView* pEditView)
+{
     if (options.find_str.empty() || pEditView->SendMessage(SCI_GETLENGTH) <= 0)
         return false;
     pEditView->SetEditChangeNotificationEnable(false);
@@ -87,11 +101,11 @@ int FindReplaceTools::ReplaceAll(FindOption options, CScintillaEditView* pEditVi
     bool char_cannot_convert{};
     std::string find_str = CCommon::UnicodeToStr(options.find_str, char_cannot_convert, CodeType::UTF8_NO_BOM);
     std::string replace_str = CCommon::UnicodeToStr(options.replace_str, char_cannot_convert, CodeType::UTF8_NO_BOM);
-    
+
     UINT flags{ FindReplaceTools::buildSearchFlags(options) };
     Sci_TextToFind ttf;
-    ttf.chrg.cpMin = 0;
-    ttf.chrg.cpMax = pEditView->SendMessage(SCI_GETLENGTH, 0, 0);
+    ttf.chrg.cpMin = start;
+    ttf.chrg.cpMax = end;
     ttf.lpstrText = find_str.c_str();
     while (true)
     {

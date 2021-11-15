@@ -30,6 +30,7 @@ void CFindReplaceDlg::SetMode(Mode mode)
         ShowDlgCtrl(IDC_REPLACE_EDIT, false);
         ShowDlgCtrl(IDC_REPLACE_BUTTON, false);
         ShowDlgCtrl(IDC_REPLACE_ALL_BUTTON, false);
+        ShowDlgCtrl(IDC_REPLACE_SELECTE_BUTTON, false);
         CheckDlgButton(IDC_FIND_RADIO, true);
         CheckDlgButton(IDC_REPLACE_RADIO, false);
         SetWindowText(CCommon::LoadText(IDS_FIND));
@@ -40,6 +41,7 @@ void CFindReplaceDlg::SetMode(Mode mode)
         ShowDlgCtrl(IDC_REPLACE_EDIT, true);
         ShowDlgCtrl(IDC_REPLACE_BUTTON, true);
         ShowDlgCtrl(IDC_REPLACE_ALL_BUTTON, true);
+        ShowDlgCtrl(IDC_REPLACE_SELECTE_BUTTON, true);
         CheckDlgButton(IDC_FIND_RADIO, false);
         CheckDlgButton(IDC_REPLACE_RADIO, true);
         SetWindowText(CCommon::LoadText(IDS_REPLACE));
@@ -112,6 +114,7 @@ BEGIN_MESSAGE_MAP(CFindReplaceDlg, CBaseDialog)
     ON_BN_CLICKED(IDC_FIND_MODE_NORMAL_RADIO, &CFindReplaceDlg::OnBnClickedFindModeNormalRadio)
     ON_BN_CLICKED(IDC_FIND_MODE_EXTENDED_RADIO, &CFindReplaceDlg::OnBnClickedFindModeExtendedRadio)
     ON_BN_CLICKED(IDC_FIND_MODE_REGULAR_EXP_RADIO, &CFindReplaceDlg::OnBnClickedFindModeRegularExpRadio)
+    ON_BN_CLICKED(IDC_REPLACE_SELECTE_BUTTON, &CFindReplaceDlg::OnBnClickedReplaceSelecteButton)
 END_MESSAGE_MAP()
 
 
@@ -253,4 +256,10 @@ BOOL CFindReplaceDlg::Create(CWnd* pParentWnd)
     // TODO: 在此添加专用代码和/或调用基类
 
     return CBaseDialog::Create(IDD_FIND_REPLACE_DIALOG, pParentWnd);
+}
+
+
+void CFindReplaceDlg::OnBnClickedReplaceSelecteButton()
+{
+    theApp.m_pMainWnd->SendMessage(WM_NP_FIND_REPLACE, static_cast<WPARAM>(Command::REPLACE_SELECTION), 0);
 }

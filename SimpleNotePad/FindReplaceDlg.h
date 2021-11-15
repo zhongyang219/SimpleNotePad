@@ -34,7 +34,8 @@ public:
         FIND_PREVIOUS,
         FIND_NEXT,
         REPLACE,
-        REPLACE_ALL
+        REPLACE_ALL,
+        REPLACE_SELECTION
     };
 
     void SetFindString(LPCTSTR str);
@@ -72,4 +73,5 @@ public:
     afx_msg void OnBnClickedFindModeRegularExpRadio();
     virtual void OnCancel();
     virtual BOOL Create(CWnd* pParentWnd = NULL);
+    afx_msg void OnBnClickedReplaceSelecteButton();
 };

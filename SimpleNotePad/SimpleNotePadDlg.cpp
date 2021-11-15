@@ -2128,6 +2128,17 @@ afx_msg LRESULT CSimpleNotePadDlg::OnNpFindReplace(WPARAM wParam, LPARAM lParam)
         m_find_replace_dlg.SetInfoString(info);
     }
         break;
+    case CFindReplaceDlg::Command::REPLACE_SELECTION:
+    {
+        int replaced_count = FindReplaceTools::ReplaceSelection(m_find_replace_dlg.GetOptions(), m_view);
+        CString info;
+        if (replaced_count != 0)
+            info = CCommon::LoadTextFormat(IDS_REPLACED_INFO, { replaced_count });
+        else if (!m_find_replace_dlg.GetOptions().find_str.empty())
+            info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
+        m_find_replace_dlg.SetInfoString(info);
+    }
+    break;
     default:
         break;
     }

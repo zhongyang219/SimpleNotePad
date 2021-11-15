@@ -229,6 +229,7 @@
 #define IDC_FIND_MODE_REGULAR_EXP_RADIO 1078
 #define IDC_FIND_RADIO                  1079
 #define IDC_REPLACE_RADIO               1080
+#define IDC_REPLACE_SELECTE_BUTTON      1081
 #define IDC_REPLACE_AS_STATIC           1082
 #define ID_32771                        32771
 #define ID_32772                        32772
