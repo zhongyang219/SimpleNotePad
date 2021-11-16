@@ -87,6 +87,38 @@ int FindReplaceTools::ReplaceSelection(FindOption options, CScintillaEditView* p
     return 0;
 }
 
+int FindReplaceTools::MarkAll(FindOption options, CScintillaEditView* pEditView)
+{
+    if (options.find_str.empty() || pEditView->SendMessage(SCI_GETLENGTH) <= 0)
+        return false;
+    int count{};
+    if (options.find_mode == FindMode::EXTENDED)
+    {
+        options.find_str = FindReplaceTools::convertExtendedToString(options.find_str);
+    }
+    bool char_cannot_convert{};
+    std::string find_str = CCommon::UnicodeToStr(options.find_str, char_cannot_convert, CodeType::UTF8_NO_BOM);
+
+    UINT flags{ FindReplaceTools::buildSearchFlags(options) };
+    Sci_TextToFind ttf;
+    ttf.chrg.cpMin = 0;
+    ttf.chrg.cpMax = pEditView->SendMessage(SCI_GETLENGTH);
+    ttf.lpstrText = find_str.c_str();
+    while (true)
+    {
+        //查找
+        int find_result = pEditView->SendMessage(SCI_FINDTEXT, flags, (LPARAM)&ttf);
+        if (find_result < 0)
+            break;
+        ttf.chrg.cpMin = find_result + find_str.size();
+        //标记
+        pEditView->SetMark(MARK_STYLE_MARK_ALL, find_result, find_str.size());
+        count++;
+    }
+    pEditView->SetEditChangeNotificationEnable(true);
+    return count;
+}
+
 int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CScintillaEditView* pEditView)
 {
     if (options.find_str.empty() || pEditView->SendMessage(SCI_GETLENGTH) <= 0)

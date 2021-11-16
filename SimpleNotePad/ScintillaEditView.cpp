@@ -463,6 +463,17 @@ void CScintillaEditView::GotoLine(int line)
     SendMessage(SCI_GOTOLINE, line);
 }
 
+void CScintillaEditView::SetMark(int mark_style, int start, int length)
+{
+    SendMessage(SCI_SETINDICATORCURRENT, mark_style);
+    SendMessage(SCI_INDICATORFILLRANGE, start, length);
+}
+
+void CScintillaEditView::ClearAllMark()
+{
+    SendMessage(SCI_INDICATORCLEARRANGE, 0, SendMessage(SCI_GETLENGTH));
+}
+
 void CScintillaEditView::SetLexer(int lexer)
 {
     SendMessage(SCI_SETLEXER, lexer);
@@ -611,6 +622,11 @@ void CScintillaEditView::OnInitialUpdate()
     SendMessage(SCI_SETAUTOMATICFOLD, SC_AUTOMATICFOLD_CLICK);
 
     SendMessage(SCI_SETCARETWIDTH, theApp.DPI(1.2));
+
+    //设置标记样式
+    SendMessage(SCI_INDICSETSTYLE, MARK_STYLE_MARK_ALL, INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, MARK_STYLE_MARK_ALL, 140);
+    SendMessage(SCI_INDICSETFORE, MARK_STYLE_MARK_ALL, RGB(255, 143, 107));
 }
 
 

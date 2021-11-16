@@ -70,6 +70,7 @@ protected:
 
     CSyntaxHighlight m_syntax_highlight;
     std::deque<std::wstring> m_clipboard_items;
+    bool m_marked{ false };
 	
 protected:
     void ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before);

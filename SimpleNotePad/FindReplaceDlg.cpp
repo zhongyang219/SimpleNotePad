@@ -31,6 +31,7 @@ void CFindReplaceDlg::SetMode(Mode mode)
         ShowDlgCtrl(IDC_REPLACE_BUTTON, false);
         ShowDlgCtrl(IDC_REPLACE_ALL_BUTTON, false);
         ShowDlgCtrl(IDC_REPLACE_SELECTE_BUTTON, false);
+        ShowDlgCtrl(IDC_MARK_ALL_BUTTON, true);
         CheckDlgButton(IDC_FIND_RADIO, true);
         CheckDlgButton(IDC_REPLACE_RADIO, false);
         SetWindowText(CCommon::LoadText(IDS_FIND));
@@ -42,6 +43,7 @@ void CFindReplaceDlg::SetMode(Mode mode)
         ShowDlgCtrl(IDC_REPLACE_BUTTON, true);
         ShowDlgCtrl(IDC_REPLACE_ALL_BUTTON, true);
         ShowDlgCtrl(IDC_REPLACE_SELECTE_BUTTON, true);
+        ShowDlgCtrl(IDC_MARK_ALL_BUTTON, false);
         CheckDlgButton(IDC_FIND_RADIO, false);
         CheckDlgButton(IDC_REPLACE_RADIO, true);
         SetWindowText(CCommon::LoadText(IDS_REPLACE));
@@ -187,6 +189,7 @@ BEGIN_MESSAGE_MAP(CFindReplaceDlg, CBaseDialog)
     ON_CBN_SELCHANGE(IDC_FIND_COMBO, &CFindReplaceDlg::OnCbnSelchangeFindCombo)
     ON_CBN_SELCHANGE(IDC_REPLACE_COMBO, &CFindReplaceDlg::OnCbnSelchangeReplaceCombo)
     ON_WM_SHOWWINDOW()
+    ON_BN_CLICKED(IDC_MARK_ALL_BUTTON, &CFindReplaceDlg::OnBnClickedMarkAllButton)
 END_MESSAGE_MAP()
 
 
@@ -362,4 +365,11 @@ void CFindReplaceDlg::OnShowWindow(BOOL bShow, UINT nStatus)
     CBaseDialog::OnShowWindow(bShow, nStatus);
 
     m_find_combo.SetFocus();
+}
+
+
+void CFindReplaceDlg::OnBnClickedMarkAllButton()
+{
+    theApp.m_pMainWnd->SendMessage(WM_NP_FIND_REPLACE, static_cast<WPARAM>(Command::MARK_ALL_CLEAR), 0);
+    AppendFindStringToHistory();
 }

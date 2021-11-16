@@ -36,7 +36,8 @@ public:
         FIND_NEXT,
         REPLACE,
         REPLACE_ALL,
-        REPLACE_SELECTION
+        REPLACE_SELECTION,
+        MARK_ALL_CLEAR
     };
 
     void SetFindString(LPCTSTR str);
@@ -88,4 +89,5 @@ public:
     afx_msg void OnCbnSelchangeFindCombo();
     afx_msg void OnCbnSelchangeReplaceCombo();
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+    afx_msg void OnBnClickedMarkAllButton();
 };

@@ -1249,9 +1249,17 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
             return TRUE;
     }
 
-	//屏蔽ESC键退出
+    //按下Esc键清除所有标记
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
-		return TRUE;
+    {
+        if (m_marked)
+        {
+            m_view->ClearAllMark();
+            m_find_replace_dlg.SetInfoString(_T(""));
+            m_marked = false;
+        }
+        return TRUE;
+    }
     //按下Ctrl键时
 	if (GetKeyState(VK_CONTROL) & 0x80)
 	{
@@ -1488,19 +1496,23 @@ void CSimpleNotePadDlg::OnFindNext()
     }
 }
 
-//该函数无效
 void CSimpleNotePadDlg::OnMarkAll()
 {
-	// TODO: 在此添加命令处理程序代码
-	//if (!m_find_str.empty())
-	//{
-	//	while (true)
-	//	{
-	//		m_find_index = m_edit_wcs.find(m_find_str, m_find_index + 1);
-	//		if (m_find_index == string::npos) return;
-	//		m_edit.SetHighlight(m_find_index, m_find_index + m_find_str.size());
-	//	}
-	//}
+    if (!m_marked)
+    {
+        int mark_count = FindReplaceTools::MarkAll(m_find_replace_dlg.GetOptions(), m_view);
+        if (mark_count > 0)
+        {
+            CString info = CCommon::LoadTextFormat(IDS_MARK_ALL_INFO, { mark_count });
+            m_find_replace_dlg.SetInfoString(info);
+        }
+    }
+    else
+    {
+        m_view->ClearAllMark();
+        m_find_replace_dlg.SetInfoString(_T(""));
+    }
+    m_marked = !m_marked;
 }
 
 
@@ -2164,7 +2176,10 @@ afx_msg LRESULT CSimpleNotePadDlg::OnNpFindReplace(WPARAM wParam, LPARAM lParam)
             info = CCommon::LoadTextFormat(IDS_CANNOT_FIND_INFO, { m_find_replace_dlg.GetOptions().find_str });
         m_find_replace_dlg.SetInfoString(info);
     }
-    break;
+        break;
+    case CFindReplaceDlg::Command::MARK_ALL_CLEAR:
+        OnMarkAll();
+        break;
     default:
         break;
     }

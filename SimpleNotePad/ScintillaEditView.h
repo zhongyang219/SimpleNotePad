@@ -7,6 +7,7 @@
 
 #define SCINTILLA_MARGIN_LINENUMBER 0
 #define MARGIN_FOLD_INDEX 1
+#define MARK_STYLE_MARK_ALL 1
 
 class CScintillaEditView : public CView
 {
@@ -121,6 +122,9 @@ public:
     void SetSelectionBackColor(COLORREF color);     //设置选中部分的背景色
 
     void GotoLine(int line);    //跳转到行
+
+    void SetMark(int mark_style, int start, int length);
+    void ClearAllMark();
 
     //语法解析
     void SetLexer(int lexer);

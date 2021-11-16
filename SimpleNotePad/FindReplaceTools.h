@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "ScintillaEditView.h"
+#include <functional>
 
 
 enum class FindMode
@@ -27,6 +28,7 @@ public:
     static bool ReplaceTexts(FindOption options, CScintillaEditView* pEditView);
     static int ReplaceAll(FindOption options, CScintillaEditView* pEditView);
     static int ReplaceSelection(FindOption options, CScintillaEditView* pEditView);
+    static int MarkAll(FindOption options, CScintillaEditView* pEditView);
 
 private:
     static int ReplaceInRange(int start, int end, FindOption options, CScintillaEditView* pEditView);

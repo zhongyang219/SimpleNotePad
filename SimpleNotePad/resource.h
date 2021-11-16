@@ -123,6 +123,7 @@
 #define IDI_CODE_BATCH                  183
 #define IDS_REPLACE                     183
 #define IDI_CODE                        184
+#define IDS_MARK_ALL_INFO               184
 #define IDI_HEX_VIEW                    185
 #define IDI_ICON5                       186
 #define IDI_COMPARE                     186
@@ -231,6 +232,7 @@
 #define IDC_REPLACE_AS_STATIC           1082
 #define IDC_FIND_COMBO                  1083
 #define IDC_REPLACE_COMBO               1084
+#define IDC_MARK_ALL_BUTTON             1085
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -358,7 +360,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        198
-#define _APS_NEXT_COMMAND_VALUE         33022
+#define _APS_NEXT_COMMAND_VALUE         33024
 #define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
