@@ -58,6 +58,7 @@ public:
     bool IsReadOnly();
     int GetCursorIndex();       //获取光标位置
     std::wstring GetSelectedText();         //获取选中文本
+    CPoint GetCursorPosition();   //获取光标的坐标
 
     void Undo();
     void Redo();

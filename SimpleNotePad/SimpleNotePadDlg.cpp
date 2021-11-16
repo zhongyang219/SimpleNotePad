@@ -1270,7 +1270,8 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
             {
                 //按下Ctrl+Shift+V打开剪贴板历史记录
                 CMenu* pClipboardHistory = GetClipboardHistoryMenu(false);
-                CPoint point;
+                CPoint point = m_view->GetCursorPosition();
+                point.y += m_view->GetLineHeight();
                 ClientToScreen(&point);
                 pClipboardHistory->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this); //在指定位置显示弹出菜单
                 return TRUE;

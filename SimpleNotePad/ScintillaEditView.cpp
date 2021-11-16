@@ -196,6 +196,15 @@ std::wstring CScintillaEditView::GetSelectedText()
     return CCommon::StrToUnicode(str_selected, CodeType::UTF8_NO_BOM);
 }
 
+CPoint CScintillaEditView::GetCursorPosition()
+{
+    int cur_index = GetCursorIndex();
+    CPoint point{};
+    point.x = SendMessage(SCI_POINTXFROMPOSITION, 0, cur_index);
+    point.y = SendMessage(SCI_POINTYFROMPOSITION, 0, cur_index);
+    return point;
+}
+
 void CScintillaEditView::Undo()
 {
     SendMessage(SCI_UNDO);
