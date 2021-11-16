@@ -1961,7 +1961,7 @@ void CSimpleNotePadDlg::OnConvertToCapital()
             }
             //替换成转换后的文本
             m_view->ReplaceSelected(str_selected);
-            m_view->SetSel(start, end + 1, m_edit_wcs);
+            m_view->SetSel(start, end, m_edit_wcs);
             SetTitle();
         }
     }
@@ -1987,7 +1987,7 @@ void CSimpleNotePadDlg::OnConvertToLowerCase()
 			}
 			//替换成转换后的文本
 			m_view->ReplaceSelected(str_selected);
-            m_view->SetSel(start, end + 1, m_edit_wcs);
+            m_view->SetSel(start, end, m_edit_wcs);
             SetTitle();
         }
     }
@@ -2021,7 +2021,7 @@ void CSimpleNotePadDlg::OnConvertToTitleCase()
             }
             //替换成转换后的文本
             m_view->ReplaceSelected(str_selected);
-            m_view->SetSel(start, end + 1, m_edit_wcs);
+            m_view->SetSel(start, end, m_edit_wcs);
             SetTitle();
         }
     }
