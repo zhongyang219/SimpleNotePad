@@ -87,4 +87,5 @@ public:
     afx_msg void OnCbnEditchangeReplaceCombo();
     afx_msg void OnCbnSelchangeFindCombo();
     afx_msg void OnCbnSelchangeReplaceCombo();
+    afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };

@@ -46,6 +46,7 @@ void CFindReplaceDlg::SetMode(Mode mode)
         CheckDlgButton(IDC_REPLACE_RADIO, true);
         SetWindowText(CCommon::LoadText(IDS_REPLACE));
     }
+    m_find_combo.SetFocus();
 }
 
 void CFindReplaceDlg::SetFindString(LPCTSTR str)
@@ -185,6 +186,7 @@ BEGIN_MESSAGE_MAP(CFindReplaceDlg, CBaseDialog)
     ON_CBN_EDITCHANGE(IDC_REPLACE_COMBO, &CFindReplaceDlg::OnCbnEditchangeReplaceCombo)
     ON_CBN_SELCHANGE(IDC_FIND_COMBO, &CFindReplaceDlg::OnCbnSelchangeFindCombo)
     ON_CBN_SELCHANGE(IDC_REPLACE_COMBO, &CFindReplaceDlg::OnCbnSelchangeReplaceCombo)
+    ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
 
@@ -222,7 +224,9 @@ BOOL CFindReplaceDlg::OnInitDialog()
     InitFindCombo();
     InitReplaceCombo();
 
-    return TRUE;  // return TRUE unless you set the focus to a control
+    m_find_combo.SetFocus();
+
+    return FALSE;  // return TRUE unless you set the focus to a control
                   // 异常: OCX 属性页应返回 FALSE
 }
 
@@ -350,4 +354,12 @@ void CFindReplaceDlg::OnCbnSelchangeReplaceCombo()
     CString str;
     m_replace_combo.GetLBText(m_replace_combo.GetCurSel(), str);
     m_options.replace_str = str.GetString();
+}
+
+
+void CFindReplaceDlg::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+    CBaseDialog::OnShowWindow(bShow, nStatus);
+
+    m_find_combo.SetFocus();
 }
