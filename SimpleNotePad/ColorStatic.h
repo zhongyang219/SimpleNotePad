@@ -12,6 +12,7 @@ public:
 	virtual ~CColorStatic();
 
 	void SetFillColor(COLORREF fill_color);		//设置要填充的背景色
+    void EnableWindow(bool enable);
 
 protected:
 	COLORREF m_fill_color{ RGB(255, 255,255) };
@@ -21,5 +22,3 @@ protected:
 public:
 	afx_msg void OnPaint();
 };
-
-

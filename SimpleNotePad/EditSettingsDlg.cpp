@@ -33,10 +33,16 @@ void CEditSettingsDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
+void CEditSettingsDlg::EnableControl()
+{
+    m_highlight_color_static.EnableWindow(m_data.current_line_highlight);
+}
+
 BEGIN_MESSAGE_MAP(CEditSettingsDlg, CTabDlg)
     ON_MESSAGE(WM_COLOR_SELECTED, &CEditSettingsDlg::OnColorSelected)
     ON_BN_CLICKED(IDC_CHOOSE_FONT_BUTTON, &CEditSettingsDlg::OnBnClickedChooseFontButton)
     ON_BN_CLICKED(IDC_HEX_SET_FONT_BUTTON, &CEditSettingsDlg::OnBnClickedHexSetFontButton)
+    ON_BN_CLICKED(IDC_CURRENT_LINE_HIGHLIGHT_CHECK, &CEditSettingsDlg::OnBnClickedCurrentLineHighlightCheck)
 END_MESSAGE_MAP()
 
 
@@ -61,6 +67,7 @@ BOOL CEditSettingsDlg::OnInitDialog()
     m_tab_width_edit.SetValue(m_data.tab_width);
 
     CheckDlgButton(IDC_SHOW_INVISIBLE_CHARACTOR_CHECK, m_data.show_invisible_characters_hex);
+    EnableControl();
 
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 异常: OCX 属性页应返回 FALSE
@@ -137,4 +144,11 @@ void CEditSettingsDlg::OnBnClickedHexSetFontButton()
         m_data.font_name_hex = fontDlg.m_cf.lpLogFont->lfFaceName;
         m_data.font_size_hex = fontDlg.m_cf.iPointSize / 10;
     }
+}
+
+
+void CEditSettingsDlg::OnBnClickedCurrentLineHighlightCheck()
+{
+    m_data.current_line_highlight = (IsDlgButtonChecked(IDC_CURRENT_LINE_HIGHLIGHT_CHECK) != 0);
+    EnableControl();
 }

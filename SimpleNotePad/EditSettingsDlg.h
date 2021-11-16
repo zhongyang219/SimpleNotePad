@@ -31,6 +31,7 @@ private:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+    void EnableControl();
 
 	DECLARE_MESSAGE_MAP()
 public:
@@ -41,4 +42,5 @@ protected:
 public:
     afx_msg void OnBnClickedChooseFontButton();
     afx_msg void OnBnClickedHexSetFontButton();
+    afx_msg void OnBnClickedCurrentLineHighlightCheck();
 };

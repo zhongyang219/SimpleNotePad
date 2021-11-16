@@ -25,6 +25,12 @@ void CColorStatic::SetFillColor(COLORREF fill_color)
 }
 
 
+void CColorStatic::EnableWindow(bool enable)
+{
+    CStatic::EnableWindow(enable);
+    Invalidate(FALSE);
+}
+
 BEGIN_MESSAGE_MAP(CColorStatic, CStatic)
 	ON_WM_PAINT()
 END_MESSAGE_MAP()
@@ -43,5 +49,13 @@ void CColorStatic::OnPaint()
 					   // 不为绘图消息调用 CStatic::OnPaint()
 	CRect rect;
 	GetClientRect(rect);
-	dc.FillSolidRect(rect, m_fill_color);
+    if (IsWindowEnabled())
+    {
+        dc.FillSolidRect(rect, m_fill_color);
+    }
+    else
+    {
+        CBrush brush(HS_BDIAGONAL, RGB(190, 190, 190));
+        dc.FillRect(rect, &brush);
+    }
 }
