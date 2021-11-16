@@ -3,11 +3,13 @@
 #include "TinyXml2Helper.h"
 #include "SyntaxHighlight.h"
 #include "SimpleNotePad.h"
+#include "Common.h"
 
 void CTest::Test()
 {
     //TestXml();
-    TextSaveStringList();
+    //TestSaveStringList();
+    //TestFindWindows();
 }
 
 void CTest::TestXml()
@@ -26,7 +28,7 @@ void CTest::TestXml()
     int a = 0;
 }
 
-void CTest::TextSaveStringList()
+void CTest::TestSaveStringList()
 {
     std::vector<std::wstring> test;
     test.push_back(L"123");
@@ -35,5 +37,12 @@ void CTest::TextSaveStringList()
     theApp.WriteStringList(L"test", L"test_string_list", test);
     std::vector<std::wstring> test_result;
     theApp.GetStringList(L"test", L"test_string_list", test_result);
+    int a = 0;
+}
+
+void CTest::TestFindWindows()
+{
+    std::vector<HWND> result;
+    CCommon::FindAllWindow(APP_CLASS_NAME, result);
     int a = 0;
 }

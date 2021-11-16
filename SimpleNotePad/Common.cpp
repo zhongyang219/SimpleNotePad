@@ -599,6 +599,54 @@ void CCommon::SetThreadLanguage(Language language)
     }
 }
 
+void CCommon::SendProcessMessage(HWND hwnd, ProcessMsgType msg_id, const std::wstring& msg_data)
+{
+    //通过WM_COPYDATA消息向已有进程传递消息
+    COPYDATASTRUCT copy_data;
+    copy_data.dwData = static_cast<UINT>(msg_id);
+    copy_data.cbData = msg_data.size() * sizeof(wchar_t);
+    copy_data.lpData = (const PVOID)msg_data.c_str();
+    ::SendMessage(hwnd, WM_COPYDATA, 0, (LPARAM)&copy_data);
+}
+
+void CCommon::ParseProcessMessage(COPYDATASTRUCT* copy_data, ProcessMsgType& msg_id, std::wstring& msg_data)
+{
+    if (copy_data != nullptr)
+    {
+        msg_id = static_cast<ProcessMsgType>(copy_data->dwData);
+        int length = copy_data->cbData / sizeof(wchar_t);
+        const wchar_t* str = (const wchar_t*)copy_data->lpData;
+        msg_data.assign(str, length);
+    }
+}
+
+void CCommon::FindAllWindow(LPCTSTR class_name, std::vector<HWND>& result)
+{
+    struct ParaData
+    {
+        LPCTSTR class_name;
+        std::vector<HWND>& result;
+        ParaData(LPCTSTR _class_name, std::vector<HWND>& _result)
+            : class_name(_class_name), result(_result)
+        {}
+    };
+    //由于EnumChildWindows的回调函数中无法获取当前函数的参数，因此构造了一个结构体ParaData，通过该结构体向回调函数传递数据
+    ParaData para_data(class_name, result);
+    ::EnumChildWindows(NULL, [](HWND hWnd, LPARAM lparam)->BOOL
+        {
+            TCHAR buff[256]{};
+            ::GetClassName(hWnd, buff, 256);
+            ParaData* para_data = (ParaData*)lparam;
+            if (wstring(para_data->class_name) == buff)
+                para_data->result.push_back(hWnd);
+            return TRUE;
+
+        }, (LPARAM)&para_data);
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
 ConstVal* ConstVal::Instance()
 {
     static std::shared_ptr<ConstVal> instance;

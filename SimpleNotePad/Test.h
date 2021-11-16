@@ -6,5 +6,6 @@ public:
 
 private:
     static void TestXml();
-    static void TextSaveStringList();
+    static void TestSaveStringList();
+    static void TestFindWindows();
 };

@@ -257,6 +257,12 @@ BOOL CSimpleNotePadApp::InitInstance()
 	if (is_restart)				//如果程序被重新启动，则直接退出程序
 		return FALSE;
 
+    //替换掉对话框程序的默认类名
+    WNDCLASS wc;
+    ::GetClassInfo(AfxGetInstanceHandle(), _T("#32770"), &wc);       //MFC默认的所有对话框的类名为#32770
+    wc.lpszClassName = APP_CLASS_NAME;      //将对话框的类名修改为新类名
+    AfxRegisterClass(&wc);
+
 	// 如果一个运行在 Windows XP 上的应用程序清单指定要
 	// 使用 ComCtl32.dll 版本 6 或更高版本来启用可视化方式，
 	//则需要 InitCommonControlsEx()。  否则，将无法创建窗口。

@@ -139,6 +139,18 @@ public:
     //设置线程语言
     static void SetThreadLanguage(Language language);
 
+    enum class ProcessMsgType
+    {
+        CLIP_BOARD
+    };
+
+    //向其他进程发送WM_COPYDATA消息
+    static void SendProcessMessage(HWND hwnd, ProcessMsgType msg_id, const std::wstring& msg_data);
+
+    static void ParseProcessMessage(COPYDATASTRUCT* copy_data, ProcessMsgType& msg_id, std::wstring& msg_data);
+
+    //根据类名查找所有句柄
+    static void FindAllWindow(LPCTSTR class_name, std::vector<HWND>& result);
 };
 
 

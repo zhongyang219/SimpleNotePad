@@ -745,6 +745,18 @@ CMenu* CSimpleNotePadDlg::GetClipboardHistoryMenu(bool context_menu)
     return pMenu;
 }
 
+void CSimpleNotePadDlg::AddClipboardDataToAllProcess(const std::wstring str)
+{
+    //查找所有SimpleNotePad窗口句柄
+    std::vector<HWND> handles;
+    CCommon::FindAllWindow(APP_CLASS_NAME, handles);
+    for (auto handle : handles)
+    {
+        if (handle != m_hWnd)
+            CCommon::SendProcessMessage(handle, CCommon::ProcessMsgType::CLIP_BOARD, str);
+    }
+}
+
 void CSimpleNotePadDlg::FillFindText()
 {
     //将选中文本设置到查找对话框中“查找”文本框
@@ -844,6 +856,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_CONVERT_TO_UTF16BE, &CSimpleNotePadDlg::OnConvertToUtf16be)
     ON_MESSAGE(WM_NP_FIND_REPLACE, &CSimpleNotePadDlg::OnNpFindReplace)
     ON_COMMAND(ID_FIND_PRIVIOUS, &CSimpleNotePadDlg::OnFindPrivious)
+    ON_WM_COPYDATA()
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1802,6 +1815,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
         {
             std::wstring str = CCommon::StrToUnicode(notification->text, CodeType::UTF8_NO_BOM);
             AddItemToClipboardHistory(str);
+            AddClipboardDataToAllProcess(str);
         }
         else if (notification->nmhdr.code == SCN_MARGINCLICK)
         {
@@ -2155,4 +2169,20 @@ afx_msg LRESULT CSimpleNotePadDlg::OnNpFindReplace(WPARAM wParam, LPARAM lParam)
     }
 
     return 0;
+}
+
+
+BOOL CSimpleNotePadDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
+{
+    // TODO: 在此添加消息处理程序代码和/或调用默认值
+    CCommon::ProcessMsgType msg_id{};
+    std::wstring mdg_data;
+    CCommon::ParseProcessMessage(pCopyDataStruct, msg_id, mdg_data);
+    if (msg_id == CCommon::ProcessMsgType::CLIP_BOARD)
+    {
+        //收到其他进程传递的剪贴板消息，将字符串添加到当前剪贴板历史记录
+        AddItemToClipboardHistory(mdg_data);
+    }
+
+    return CBaseDialog::OnCopyData(pWnd, pCopyDataStruct);
 }

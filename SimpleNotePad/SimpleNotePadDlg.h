@@ -114,6 +114,7 @@ protected:
     void AddItemToClipboardHistory(const std::wstring& str);
     void InitClipboardHistoryMenu();
     CMenu* GetClipboardHistoryMenu(bool context_menu);
+    void AddClipboardDataToAllProcess(const std::wstring str);    //将一个剪贴板数据添加到所有SimpleNotePad窗口
 
     void FillFindText();    //向查找替换对话框中的查找文本框填充选中文本
 
@@ -195,4 +196,6 @@ public:
     afx_msg void OnConvertToUtf16be();
 protected:
     afx_msg LRESULT OnNpFindReplace(WPARAM wParam, LPARAM lParam);
+public:
+    afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
 };
