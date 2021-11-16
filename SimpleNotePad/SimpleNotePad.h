@@ -26,6 +26,7 @@ public:
     void DPIFromWindow(CWnd* pWnd);
 
     int DPI(int pixel);
+    int DPI(double pixel);
 
     SettingsData GetGeneralSettings() const;
     void SetGeneralSettings(const SettingsData& data);

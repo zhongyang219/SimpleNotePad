@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "ScintillaEditView.h"
 #include "Common.h"
+#include "SimpleNotePad.h"
 
 
 // CScintillaEditView
@@ -608,6 +609,8 @@ void CScintillaEditView::OnInitialUpdate()
 
     //设置仅点击加号或减号时才展开或收缩级别
     SendMessage(SCI_SETAUTOMATICFOLD, SC_AUTOMATICFOLD_CLICK);
+
+    SendMessage(SCI_SETCARETWIDTH, theApp.DPI(1.2));
 }
 
 

@@ -44,6 +44,11 @@ int CSimpleNotePadApp::DPI(int pixel)
     return pixel * m_dpi / 96;
 }
 
+int CSimpleNotePadApp::DPI(double pixel)
+{
+    return static_cast<int>(pixel * m_dpi / 96);
+}
+
 SettingsData CSimpleNotePadApp::GetGeneralSettings() const
 {
     return m_settings_data;
