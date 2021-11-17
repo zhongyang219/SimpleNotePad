@@ -175,7 +175,6 @@ CString CFindReplaceDlg::GetDialogName() const
 void CFindReplaceDlg::EnableControl()
 {
     bool find_enable{ !m_options.find_str.empty() };
-    bool replace_enable{ !m_options.replace_str.empty() };
 
     EnableDlgCtrl(IDC_FIND_PREVIOUS_BUTTON, find_enable);
     EnableDlgCtrl(IDC_FIND_NEXT_BUTTON, find_enable);
@@ -184,9 +183,9 @@ void CFindReplaceDlg::EnableControl()
     CSimpleNotePadDlg* main_window = dynamic_cast<CSimpleNotePadDlg*>(theApp.m_pMainWnd);
     CScintillaEditView* edit_view = main_window->GetEditView();
     bool select_valid = !edit_view->IsSelectionEmpty();
-    EnableDlgCtrl(IDC_REPLACE_BUTTON, replace_enable && select_valid);
-    EnableDlgCtrl(IDC_REPLACE_ALL_BUTTON, replace_enable && find_enable);
-    EnableDlgCtrl(IDC_REPLACE_SELECTE_BUTTON, replace_enable && find_enable && select_valid);
+    EnableDlgCtrl(IDC_REPLACE_BUTTON, find_enable || select_valid);
+    EnableDlgCtrl(IDC_REPLACE_ALL_BUTTON, find_enable);
+    EnableDlgCtrl(IDC_REPLACE_SELECTE_BUTTON, find_enable && select_valid);
 }
 
 BEGIN_MESSAGE_MAP(CFindReplaceDlg, CBaseDialog)
