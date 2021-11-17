@@ -304,9 +304,9 @@ void CSimpleNotePadDlg::ConvertToCode(CodeType code_type)
     }
 }
 
-void CSimpleNotePadDlg::SaveConfig()
+void CSimpleNotePadDlg::SaveConfig() const
 {
-
+    CBaseDialog::SaveConfig();
 	theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
     theApp.WriteProfileInt(_T("config"), _T("word_wrap_mode"), m_word_wrap_mode);
 	theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
@@ -317,6 +317,7 @@ void CSimpleNotePadDlg::SaveConfig()
 
 void CSimpleNotePadDlg::LoadConfig()
 {
+    CBaseDialog::LoadConfig();
 	m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
     m_word_wrap_mode = static_cast<CScintillaEditView::eWordWrapMode>(theApp.GetProfileInt(_T("config"), _T("word_wrap_mode"), CScintillaEditView::WW_WORD));
 	m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
@@ -900,8 +901,6 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	// TODO: 在此添加额外的初始化代码
     m_pDC = GetDC();
 
-    //载入设置
-	LoadConfig();
 	////初始化窗口大小
 	//SetWindowPos(nullptr, 0, 0, m_window_width, m_window_hight, SWP_NOZORDER | SWP_NOMOVE);
 
@@ -1450,7 +1449,6 @@ void CSimpleNotePadDlg::OnClose()
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	//询问是否保存
 	if(!SaveInquiry()) return;
-	SaveConfig();
 
 	CBaseDialog::OnClose();
 }

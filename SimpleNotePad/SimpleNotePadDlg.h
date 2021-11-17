@@ -85,8 +85,8 @@ protected:
 	void ChangeCode();				//更改编码格式时的处理
 	bool BeforeChangeCode();		//在更改编码格式前的处理
     void ConvertToCode(CodeType code_type); //转换为一种编码格式
-	void SaveConfig();				//保存设置
-	void LoadConfig();				//载入设置
+	virtual void SaveConfig() const override;				//保存设置
+	virtual void LoadConfig() override;				//载入设置
 	bool SaveInquiry(LPCTSTR info = NULL);	//询问用户是否保存，参数为提示信息(用户点击了取消后返回false，否则返回true)
 	void SetTitle();				//设置窗口标题
     void ShowStatusbar(bool show);  //显示或隐藏状态栏
