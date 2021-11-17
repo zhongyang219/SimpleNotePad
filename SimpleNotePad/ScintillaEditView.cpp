@@ -191,7 +191,7 @@ std::string CScintillaEditView::GetSelectedTextWithUtf8()
     if (text_range.chrg.cpMin == text_range.chrg.cpMax)
         return std::string();
     if (text_range.chrg.cpMax < text_range.chrg.cpMin)
-        std::swap(text_range.chrg.cpMin, text_range.chrg.cpMin);
+        std::swap(text_range.chrg.cpMin, text_range.chrg.cpMax);
     //选中范围长度
     int length = text_range.chrg.cpMax - text_range.chrg.cpMin;
     //初始化接收字符串缓冲区
