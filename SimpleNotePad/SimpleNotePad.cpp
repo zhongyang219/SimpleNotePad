@@ -188,6 +188,7 @@ void CSimpleNotePadApp::GetStringList(LPCTSTR app_name, LPCTSTR key_name, std::v
     if (GetProfileBinary(app_name, key_name, &buff, &length))
     {
         std::string str_read((const char*)buff, length);
+        delete[] buff;
         std::vector<std::string> split_result;
         CCommon::StringSplit(str_read, SPLIT_STRING, split_result);
         for (const auto& str : split_result)
