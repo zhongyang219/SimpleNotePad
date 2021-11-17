@@ -11,8 +11,10 @@ bool FindReplaceTools::FindTexts(FindOption options, bool next, CScintillaEditVi
     }
 
     UINT flags{ FindReplaceTools::buildSearchFlags(options) };
+    static int find_result{};       //查找到的位置
+    static bool last_next{ !next }; //上一次是查找一下个还是查找下一个
     Sci_TextToFind ttf;
-    if (options.find_loop && pEditView->IsSelectionEmpty())  //如果是循环查找，在找不到时重置查找
+    if (options.find_loop && find_result < 0)  //如果是循环查找，在找不到时重置查找
     {
         if (next)       //向后查找
         {
@@ -27,6 +29,8 @@ bool FindReplaceTools::FindTexts(FindOption options, bool next, CScintillaEditVi
     }
     else
     {
+        if (find_result < 0 && last_next == next)    //非循环查找，如果找不到则不再查找
+            return false;
         //设置查找位置
         if (next)       //向后查找
         {
@@ -43,9 +47,11 @@ bool FindReplaceTools::FindTexts(FindOption options, bool next, CScintillaEditVi
     std::string find_str = CCommon::UnicodeToStr(options.find_str, char_cannot_convert, CodeType::UTF8_NO_BOM);
     ttf.lpstrText = find_str.c_str();
     //查找文本
-    int find_result = pEditView->SendMessage(SCI_FINDTEXT, flags, (LPARAM)&ttf);
+    find_result = pEditView->SendMessage(SCI_FINDTEXT, flags, (LPARAM)&ttf);
     //选中找到的文本
     pEditView->SetSelByBytes(find_result, find_result + find_str.size());
+
+    last_next = next;
     return find_result >= 0;
 }
 
