@@ -5,7 +5,7 @@
 #include "SimpleNotePad.h"
 #include "FindReplaceDlg.h"
 #include "Common.h"
-
+#include "SimpleNotePadDlg.h"
 
 // CFindReplaceDlg 对话框
 
@@ -55,12 +55,14 @@ void CFindReplaceDlg::SetFindString(LPCTSTR str)
 {
     SetDlgItemText(IDC_FIND_COMBO, str);
     m_options.find_str = str;
+    EnableControl();
 }
 
 void CFindReplaceDlg::SetReplaceString(LPCTSTR str)
 {
     SetDlgItemText(IDC_REPLACE_COMBO, str);
     m_options.replace_str = str;
+    EnableControl();
 }
 
 void CFindReplaceDlg::SetInfoString(LPCTSTR str)
@@ -168,6 +170,23 @@ void CFindReplaceDlg::DoDataExchange(CDataExchange* pDX)
 CString CFindReplaceDlg::GetDialogName() const
 {
     return _T("FindReplaceDlg");
+}
+
+void CFindReplaceDlg::EnableControl()
+{
+    bool find_enable{ !m_options.find_str.empty() };
+    bool replace_enable{ !m_options.replace_str.empty() };
+
+    EnableDlgCtrl(IDC_FIND_PREVIOUS_BUTTON, find_enable);
+    EnableDlgCtrl(IDC_FIND_NEXT_BUTTON, find_enable);
+    EnableDlgCtrl(IDC_MARK_ALL_BUTTON, find_enable);
+
+    CSimpleNotePadDlg* main_window = dynamic_cast<CSimpleNotePadDlg*>(theApp.m_pMainWnd);
+    CScintillaEditView* edit_view = main_window->GetEditView();
+    bool select_valid = !edit_view->IsSelectionEmpty();
+    EnableDlgCtrl(IDC_REPLACE_BUTTON, replace_enable && select_valid);
+    EnableDlgCtrl(IDC_REPLACE_ALL_BUTTON, replace_enable && find_enable);
+    EnableDlgCtrl(IDC_REPLACE_SELECTE_BUTTON, replace_enable && find_enable && select_valid);
 }
 
 BEGIN_MESSAGE_MAP(CFindReplaceDlg, CBaseDialog)
@@ -333,6 +352,7 @@ void CFindReplaceDlg::OnCbnEditchangeFindCombo()
     CString str;
     m_find_combo.GetWindowText(str);
     m_options.find_str = str.GetString();
+    EnableControl();
 }
 
 
@@ -341,6 +361,7 @@ void CFindReplaceDlg::OnCbnEditchangeReplaceCombo()
     CString str;
     m_replace_combo.GetWindowText(str);
     m_options.replace_str = str.GetString();
+    EnableControl();
 }
 
 
@@ -349,6 +370,7 @@ void CFindReplaceDlg::OnCbnSelchangeFindCombo()
     CString str;
     m_find_combo.GetLBText(m_find_combo.GetCurSel(), str);
     m_options.find_str = str.GetString();
+    EnableControl();
 }
 
 
@@ -357,6 +379,7 @@ void CFindReplaceDlg::OnCbnSelchangeReplaceCombo()
     CString str;
     m_replace_combo.GetLBText(m_replace_combo.GetCurSel(), str);
     m_options.replace_str = str.GetString();
+    EnableControl();
 }
 
 

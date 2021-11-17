@@ -23,6 +23,8 @@ public:
 	CSimpleNotePadDlg(CString file_path = _T(""), CWnd* pParent = NULL);	// 标准构造函数
     ~CSimpleNotePadDlg();
 
+    CScintillaEditView* GetEditView();
+
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_SIMPLENOTEPAD_DIALOG };

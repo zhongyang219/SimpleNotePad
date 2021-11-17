@@ -35,6 +35,11 @@ CSimpleNotePadDlg::~CSimpleNotePadDlg()
 {
 }
 
+CScintillaEditView* CSimpleNotePadDlg::GetEditView()
+{
+    return m_view;
+}
+
 void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CBaseDialog::DoDataExchange(pDX);
@@ -647,6 +652,8 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_PASTE, FALSE, theApp.GetMenuIcon(IDI_PASTE));
     CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(1)->GetSafeHmenu(), 6, TRUE, theApp.GetMenuIcon(IDI_CLIPBOARD));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_FIND, FALSE, theApp.GetMenuIcon(IDI_FIND));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FIND_PRIVIOUS, FALSE, theApp.GetMenuIcon(IDI_PREVIOUS));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FIND_NEXT, FALSE, theApp.GetMenuIcon(IDI_NEXT));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_SELECT_ALL, FALSE, theApp.GetMenuIcon(IDI_SELECT_ALL));
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_CAPITAL, FALSE, theApp.GetMenuIcon(IDI_FONT));
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_LOWER_CASE, FALSE, theApp.GetMenuIcon(IDI_LOWER_CASE));
@@ -1856,6 +1863,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                         m_find_replace_dlg.SetFindString(selected_text_wcs.c_str());
                     }
                 }
+                m_find_replace_dlg.EnableControl();
             }
         }
     }

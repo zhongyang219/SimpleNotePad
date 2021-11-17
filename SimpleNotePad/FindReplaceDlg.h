@@ -44,6 +44,7 @@ public:
     void SetReplaceString(LPCTSTR str);
     void SetInfoString(LPCTSTR str);
     void ClearInfoString();
+    void EnableControl();
 
 private:
     Mode m_mode{};

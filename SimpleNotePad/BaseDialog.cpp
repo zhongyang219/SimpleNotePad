@@ -46,6 +46,13 @@ void CBaseDialog::SetButtonIcon(UINT id, HICON icon)
         btn->SetIcon(icon);
 }
 
+void CBaseDialog::EnableDlgCtrl(UINT id, bool enable)
+{
+    CWnd* pCtrl = GetDlgItem(id);
+    if (pCtrl != nullptr)
+        pCtrl->EnableWindow(enable);
+}
+
 void CBaseDialog::ShowDlgCtrl(UINT id, bool show)
 {
     CWnd* pCtrl = GetDlgItem(id);
