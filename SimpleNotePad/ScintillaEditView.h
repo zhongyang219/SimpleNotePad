@@ -7,15 +7,14 @@
 
 #define SCINTILLA_MARGIN_LINENUMBER 0
 #define MARGIN_FOLD_INDEX 1
-#define MARK_STYLE_MARK_ALL 1
 
 class CScintillaEditView : public CView
 {
-	DECLARE_DYNCREATE(CScintillaEditView)
+    DECLARE_DYNCREATE(CScintillaEditView)
 
 protected:
-	CScintillaEditView();           // 动态创建所使用的受保护的构造函数
-	virtual ~CScintillaEditView();
+    CScintillaEditView();           // 动态创建所使用的受保护的构造函数
+    virtual ~CScintillaEditView();
 
 public:
     struct KeepCurrentLine
@@ -36,11 +35,11 @@ public:
         int current_line{};
     };
 
-	virtual void OnDraw(CDC* pDC);      // 重写以绘制该视图
+    virtual void OnDraw(CDC* pDC);      // 重写以绘制该视图
 #ifdef _DEBUG
-	virtual void AssertValid() const;
+    virtual void AssertValid() const;
 #ifndef _WIN32_WCE
-	virtual void Dump(CDumpContext& dc) const;
+    virtual void Dump(CDumpContext& dc) const;
 #endif
 #endif
 
@@ -59,6 +58,7 @@ public:
     bool IsReadOnly();
     int GetCursorIndex();       //获取光标位置
     std::wstring GetSelectedText();         //获取选中文本
+    std::string GetSelectedTextWithUtf8();  //获取UTF8格式的选中文本
     CPoint GetCursorPosition();   //获取光标的坐标
 
     void Undo();
@@ -123,8 +123,14 @@ public:
 
     void GotoLine(int line);    //跳转到行
 
-    void SetMark(int mark_style, int start, int length);
-    void ClearAllMark();
+    enum class MarkStyle
+    {
+        MARK_ALL = 1,
+        SELECTION_MARK,
+        HTML_MATCH
+    };
+    void SetMark(MarkStyle mark_style, int start, int length);
+    void ClearAllMark(MarkStyle mark_style);
 
     //语法解析
     void SetLexer(int lexer);
@@ -155,7 +161,7 @@ private:
     bool m_modified{};
 
 protected:
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 public:
     afx_msg void OnPaint();

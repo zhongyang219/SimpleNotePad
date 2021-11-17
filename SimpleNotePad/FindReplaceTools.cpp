@@ -118,11 +118,39 @@ int FindReplaceTools::MarkAll(FindOption options, CScintillaEditView* pEditView)
             break;
         ttf.chrg.cpMin = find_result + find_str.size();
         //标记
-        pEditView->SetMark(MARK_STYLE_MARK_ALL, find_result, find_str.size());
+        pEditView->SetMark(CScintillaEditView::MarkStyle::MARK_ALL, find_result, find_str.size());
         count++;
     }
     pEditView->SetEditChangeNotificationEnable(true);
     return count;
+}
+
+void FindReplaceTools::MarkSameWord(const std::wstring& str, CScintillaEditView::MarkStyle mark_style, CScintillaEditView* pEditView)
+{
+    bool char_cannot_convert{};
+    std::string find_str = CCommon::UnicodeToStr(str, char_cannot_convert, CodeType::UTF8_NO_BOM);
+    MarkSameWord(find_str, mark_style, pEditView);
+}
+
+void FindReplaceTools::MarkSameWord(const std::string& str, CScintillaEditView::MarkStyle mark_style, CScintillaEditView* pEditView)
+{
+    if (str.empty() || pEditView->SendMessage(SCI_GETLENGTH) <= 0)
+        return;
+
+    Sci_TextToFind ttf;
+    ttf.chrg.cpMin = 0;
+    ttf.chrg.cpMax = pEditView->SendMessage(SCI_GETLENGTH);
+    ttf.lpstrText = str.c_str();
+    while (true)
+    {
+        //查找
+        int find_result = pEditView->SendMessage(SCI_FINDTEXT, SCFIND_WHOLEWORD, (LPARAM)&ttf);
+        if (find_result < 0)
+            break;
+        ttf.chrg.cpMin = find_result + str.size();
+        //标记
+        pEditView->SetMark(CScintillaEditView::MarkStyle::SELECTION_MARK, find_result, str.size());
+    }
 }
 
 int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CScintillaEditView* pEditView)

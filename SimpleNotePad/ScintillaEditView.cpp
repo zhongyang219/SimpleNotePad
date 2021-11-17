@@ -178,23 +178,30 @@ int CScintillaEditView::GetCursorIndex()
 
 std::wstring CScintillaEditView::GetSelectedText()
 {
+    std::string str_selected = GetSelectedTextWithUtf8();
+    return CCommon::StrToUnicode(str_selected, CodeType::UTF8_NO_BOM);
+}
+
+std::string CScintillaEditView::GetSelectedTextWithUtf8()
+{
     Sci_TextRange text_range;
     //获取选中范围
     text_range.chrg.cpMin = SendMessage(SCI_GETANCHOR);
     text_range.chrg.cpMax = SendMessage(SCI_GETCURRENTPOS);
     if (text_range.chrg.cpMin == text_range.chrg.cpMax)
-        return std::wstring();
+        return std::string();
     if (text_range.chrg.cpMax < text_range.chrg.cpMin)
         std::swap(text_range.chrg.cpMin, text_range.chrg.cpMin);
     //选中范围长度
     int length = text_range.chrg.cpMax - text_range.chrg.cpMin;
     //初始化接收字符串缓冲区
-    text_range.lpstrText = new char[length + 1];
+    char* buff = new char[length + 1];
+    text_range.lpstrText = buff;
     //获取选中部分文本
     SendMessage(SCI_GETTEXTRANGE, 0, (LPARAM)&text_range);
-    std::string str_selected(text_range.lpstrText, length);
-    delete[] text_range.lpstrText;
-    return CCommon::StrToUnicode(str_selected, CodeType::UTF8_NO_BOM);
+    std::string str_selected(buff, length);
+    delete[] buff;
+    return str_selected;
 }
 
 CPoint CScintillaEditView::GetCursorPosition()
@@ -463,14 +470,15 @@ void CScintillaEditView::GotoLine(int line)
     SendMessage(SCI_GOTOLINE, line);
 }
 
-void CScintillaEditView::SetMark(int mark_style, int start, int length)
+void CScintillaEditView::SetMark(MarkStyle mark_style, int start, int length)
 {
-    SendMessage(SCI_SETINDICATORCURRENT, mark_style);
+    SendMessage(SCI_SETINDICATORCURRENT, static_cast<WPARAM>(mark_style));
     SendMessage(SCI_INDICATORFILLRANGE, start, length);
 }
 
-void CScintillaEditView::ClearAllMark()
+void CScintillaEditView::ClearAllMark(MarkStyle mark_style)
 {
+    SendMessage(SCI_SETINDICATORCURRENT, static_cast<WPARAM>(mark_style));
     SendMessage(SCI_INDICATORCLEARRANGE, 0, SendMessage(SCI_GETLENGTH));
 }
 
@@ -624,9 +632,13 @@ void CScintillaEditView::OnInitialUpdate()
     SendMessage(SCI_SETCARETWIDTH, theApp.DPI(1.2));
 
     //设置标记样式
-    SendMessage(SCI_INDICSETSTYLE, MARK_STYLE_MARK_ALL, INDIC_ROUNDBOX);
-    SendMessage(SCI_INDICSETALPHA, MARK_STYLE_MARK_ALL, 140);
-    SendMessage(SCI_INDICSETFORE, MARK_STYLE_MARK_ALL, RGB(255, 143, 107));
+    SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::MARK_ALL), INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::MARK_ALL), 140);
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::MARK_ALL), RGB(255, 143, 107));
+    
+    SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), 110);
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), RGB(107, 169, 14));
 }
 
 

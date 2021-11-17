@@ -29,6 +29,8 @@ public:
     static int ReplaceAll(FindOption options, CScintillaEditView* pEditView);
     static int ReplaceSelection(FindOption options, CScintillaEditView* pEditView);
     static int MarkAll(FindOption options, CScintillaEditView* pEditView);
+    static void MarkSameWord(const std::string& str, CScintillaEditView::MarkStyle mark_style, CScintillaEditView* pEditView);
+    static void MarkSameWord(const std::wstring& str, CScintillaEditView::MarkStyle mark_style, CScintillaEditView* pEditView);
 
 private:
     static int ReplaceInRange(int start, int end, FindOption options, CScintillaEditView* pEditView);
