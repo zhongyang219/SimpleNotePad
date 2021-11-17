@@ -141,6 +141,8 @@ void FindReplaceTools::MarkSameWord(const std::string& str, CScintillaEditView::
     ttf.chrg.cpMin = 0;
     ttf.chrg.cpMax = pEditView->SendMessage(SCI_GETLENGTH);
     ttf.lpstrText = str.c_str();
+    int mark_count{};   //统计匹配次数
+    int last_find_result{}; //上次匹配的位置
     while (true)
     {
         //查找
@@ -150,7 +152,12 @@ void FindReplaceTools::MarkSameWord(const std::string& str, CScintillaEditView::
         ttf.chrg.cpMin = find_result + str.size();
         //标记
         pEditView->SetMark(CScintillaEditView::MarkStyle::SELECTION_MARK, find_result, str.size());
+        last_find_result = find_result;
+        mark_count++;
     }
+    //如果只匹配到1次，则清除标记
+    if (mark_count == 1)
+        pEditView->ClearMark(CScintillaEditView::MarkStyle::SELECTION_MARK, last_find_result, str.size());
 }
 
 int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CScintillaEditView* pEditView)

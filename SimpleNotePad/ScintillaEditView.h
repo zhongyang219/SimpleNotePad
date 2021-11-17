@@ -130,6 +130,7 @@ public:
         HTML_MATCH
     };
     void SetMark(MarkStyle mark_style, int start, int length);
+    void ClearMark(MarkStyle mark_style, int start, int length);
     void ClearAllMark(MarkStyle mark_style);
 
     //语法解析

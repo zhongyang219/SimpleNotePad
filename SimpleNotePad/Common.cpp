@@ -451,6 +451,24 @@ wstring CCommon::StringMerge(const vector<wstring>& str_list, wchar_t connector,
     return result;
 }
 
+bool CCommon::IsCharactorIdentifier(char ch)
+{
+    return (ch >= 'a' && ch <= 'z')
+        || (ch >= 'A' && ch <= 'Z')
+        || (ch >= '0' && ch <= '9')
+        || ch == '_';
+}
+
+bool CCommon::IsStringIdentifier(const std::string& str)
+{
+    for (const auto& ch : str)
+    {
+        if (!IsCharactorIdentifier(ch))
+            return false;
+    }
+    return true;
+}
+
 bool CCommon::GetFileContent(const wchar_t* file_path, string& contents_buff)
 {
     std::ifstream file{ file_path, std::ios::binary };

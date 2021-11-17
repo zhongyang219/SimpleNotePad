@@ -1259,6 +1259,7 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
                 m_view->ClearAllMark(CScintillaEditView::MarkStyle::MARK_ALL);
                 m_find_replace_dlg.SetInfoString(_T(""));
                 m_marked = false;
+                m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
             }
             return TRUE;
         }
@@ -1840,11 +1841,10 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             //选择区域变化
             if ((notification->updated & SC_UPDATE_SELECTION) != 0)
             {
+                m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
                 std::string selected_text = m_view->GetSelectedTextWithUtf8();
-                if (!selected_text.empty())
+                if (!selected_text.empty() && CCommon::IsStringIdentifier(selected_text))
                     FindReplaceTools::MarkSameWord(selected_text, CScintillaEditView::MarkStyle::SELECTION_MARK, m_view);
-                else
-                    m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
             }
         }
     }

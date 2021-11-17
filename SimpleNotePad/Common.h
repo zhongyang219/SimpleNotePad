@@ -111,6 +111,12 @@ public:
 
     static wstring StringMerge(const vector<wstring>& str_list, wchar_t connector, bool skip_empty = true);
 
+    //判断一个字符是否是标签标识符（字母、数字和下划线）
+    static bool IsCharactorIdentifier(char ch);
+
+    //判断一个字符串是否是标签标识符（只含字母、数字和下划线）
+    static bool IsStringIdentifier(const std::string& str);
+
     //读取文件内容
     static bool GetFileContent(const wchar_t* file_path, string& contents_buff);
 

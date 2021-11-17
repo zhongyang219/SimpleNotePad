@@ -476,10 +476,15 @@ void CScintillaEditView::SetMark(MarkStyle mark_style, int start, int length)
     SendMessage(SCI_INDICATORFILLRANGE, start, length);
 }
 
-void CScintillaEditView::ClearAllMark(MarkStyle mark_style)
+void CScintillaEditView::ClearMark(MarkStyle mark_style, int start, int length)
 {
     SendMessage(SCI_SETINDICATORCURRENT, static_cast<WPARAM>(mark_style));
-    SendMessage(SCI_INDICATORCLEARRANGE, 0, SendMessage(SCI_GETLENGTH));
+    SendMessage(SCI_INDICATORCLEARRANGE, start, length);
+}
+
+void CScintillaEditView::ClearAllMark(MarkStyle mark_style)
+{
+    ClearMark(mark_style, 0, SendMessage(SCI_GETLENGTH));
 }
 
 void CScintillaEditView::SetLexer(int lexer)
@@ -638,7 +643,7 @@ void CScintillaEditView::OnInitialUpdate()
     
     SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), INDIC_ROUNDBOX);
     SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), 110);
-    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), RGB(107, 169, 14));
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), RGB(103, 230, 7));
 }
 
 
