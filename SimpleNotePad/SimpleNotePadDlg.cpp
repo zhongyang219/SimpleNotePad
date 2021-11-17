@@ -1249,43 +1249,38 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
             return TRUE;
     }
 
-    //按下Esc键清除所有标记
-	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_ESCAPE)
+    if (pMsg->message == WM_KEYDOWN)
     {
-        if (m_marked)
+        //按下Esc键清除所有标记
+        if (pMsg->wParam == VK_ESCAPE)
         {
-            m_view->ClearAllMark();
-            m_find_replace_dlg.SetInfoString(_T(""));
-            m_marked = false;
-        }
-        return TRUE;
-    }
-    //按下Ctrl键时
-	if (GetKeyState(VK_CONTROL) & 0x80)
-	{
-#ifdef DEBUG
-        //else if (pMsg->wParam == 'Q')
-        //{
-        //    CTest::Test();
-        //    return TRUE;
-        //}
-
-#endif // DEBUG
-        //按下Shift键时
-        if (GetKeyState(VK_SHIFT) & 0x8000)
-        {
-            if (pMsg->wParam == 'V')
+            if (m_marked)
             {
-                //按下Ctrl+Shift+V打开剪贴板历史记录
-                CMenu* pClipboardHistory = GetClipboardHistoryMenu(false);
-                CPoint point = m_view->GetCursorPosition();
-                point.y += m_view->GetLineHeight();
-                ClientToScreen(&point);
-                pClipboardHistory->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this); //在指定位置显示弹出菜单
-                return TRUE;
+                m_view->ClearAllMark();
+                m_find_replace_dlg.SetInfoString(_T(""));
+                m_marked = false;
+            }
+            return TRUE;
+        }
+        //按下Ctrl键时
+        if (GetKeyState(VK_CONTROL) & 0x80)
+        {
+            //按下Shift键时
+            if (GetKeyState(VK_SHIFT) & 0x8000)
+            {
+                if (pMsg->wParam == 'V')
+                {
+                    //按下Ctrl+Shift+V打开剪贴板历史记录
+                    CMenu* pClipboardHistory = GetClipboardHistoryMenu(false);
+                    CPoint point = m_view->GetCursorPosition();
+                    point.y += m_view->GetLineHeight();
+                    ClientToScreen(&point);
+                    pClipboardHistory->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this); //在指定位置显示弹出菜单
+                    return TRUE;
+                }
             }
         }
-	}
+    }
 
     return CBaseDialog::PreTranslateMessage(pMsg);
 }

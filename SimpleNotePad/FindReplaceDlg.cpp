@@ -373,3 +373,50 @@ void CFindReplaceDlg::OnBnClickedMarkAllButton()
     theApp.m_pMainWnd->SendMessage(WM_NP_FIND_REPLACE, static_cast<WPARAM>(Command::MARK_ALL_CLEAR), 0);
     AppendFindStringToHistory();
 }
+
+
+BOOL CFindReplaceDlg::PreTranslateMessage(MSG* pMsg)
+{
+    // TODO: 在此添加专用代码和/或调用基类
+    if (pMsg->message == WM_KEYDOWN)
+    {
+        //按下Ctrl键时
+        if (GetKeyState(VK_CONTROL) & 0x80)
+        {
+            if (pMsg->wParam == 'F')
+            {
+                SetMode(Mode::FIND);
+                return TRUE;
+            }
+            else if (pMsg->wParam == 'H')
+            {
+                SetMode(Mode::REPLACE);
+                return TRUE;
+            }
+            else if (pMsg->wParam == 'M')
+            {
+                OnBnClickedMarkAllButton();
+                return TRUE;
+            }
+        }
+        //按下Shift键时
+        else if (GetKeyState(VK_SHIFT) & 0x8000)
+        {
+            if (pMsg->wParam == VK_F3)
+            {
+                OnBnClickedFindPreviousButton();
+                return TRUE;
+            }
+        }
+        else
+        {
+            if (pMsg->wParam == VK_F3)
+            {
+                OnBnClickedFindNextButton();
+                return TRUE;
+            }
+        }
+    }
+
+    return CBaseDialog::PreTranslateMessage(pMsg);
+}
