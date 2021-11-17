@@ -125,17 +125,17 @@ int FindReplaceTools::MarkAll(FindOption options, CScintillaEditView* pEditView)
     return count;
 }
 
-void FindReplaceTools::MarkSameWord(const std::wstring& str, CScintillaEditView::MarkStyle mark_style, CScintillaEditView* pEditView)
+bool FindReplaceTools::MarkSameWord(const std::wstring& str, CScintillaEditView::MarkStyle mark_style, CScintillaEditView* pEditView)
 {
     bool char_cannot_convert{};
     std::string find_str = CCommon::UnicodeToStr(str, char_cannot_convert, CodeType::UTF8_NO_BOM);
-    MarkSameWord(find_str, mark_style, pEditView);
+    return MarkSameWord(find_str, mark_style, pEditView);
 }
 
-void FindReplaceTools::MarkSameWord(const std::string& str, CScintillaEditView::MarkStyle mark_style, CScintillaEditView* pEditView)
+bool FindReplaceTools::MarkSameWord(const std::string& str, CScintillaEditView::MarkStyle mark_style, CScintillaEditView* pEditView)
 {
     if (str.empty() || pEditView->SendMessage(SCI_GETLENGTH) <= 0)
-        return;
+        return false;
 
     Sci_TextToFind ttf;
     ttf.chrg.cpMin = 0;
@@ -158,6 +158,7 @@ void FindReplaceTools::MarkSameWord(const std::string& str, CScintillaEditView::
     //如果只匹配到1次，则清除标记
     if (mark_count == 1)
         pEditView->ClearMark(CScintillaEditView::MarkStyle::SELECTION_MARK, last_find_result, str.size());
+    return mark_count > 1;
 }
 
 int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CScintillaEditView* pEditView)

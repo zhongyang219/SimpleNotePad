@@ -1841,10 +1841,21 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             //选择区域变化
             if ((notification->updated & SC_UPDATE_SELECTION) != 0)
             {
+                //标记文档中与选中部分相同单词
+                //先清除标记
                 m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
+                //获取选中部分文本
                 std::string selected_text = m_view->GetSelectedTextWithUtf8();
                 if (!selected_text.empty() && CCommon::IsStringIdentifier(selected_text))
-                    FindReplaceTools::MarkSameWord(selected_text, CScintillaEditView::MarkStyle::SELECTION_MARK, m_view);
+                {
+                    //标记相同单词
+                    if (FindReplaceTools::MarkSameWord(selected_text, CScintillaEditView::MarkStyle::SELECTION_MARK, m_view))
+                    {
+                        //如果成功标记，则将已标记单词填充到查找替换对话框中的查找文本框中
+                        std::wstring selected_text_wcs = CCommon::StrToUnicode(selected_text, CodeType::UTF8_NO_BOM);
+                        m_find_replace_dlg.SetFindString(selected_text_wcs.c_str());
+                    }
+                }
             }
         }
     }

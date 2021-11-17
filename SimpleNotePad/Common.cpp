@@ -456,7 +456,8 @@ bool CCommon::IsCharactorIdentifier(char ch)
     return (ch >= 'a' && ch <= 'z')
         || (ch >= 'A' && ch <= 'Z')
         || (ch >= '0' && ch <= '9')
-        || ch == '_';
+        || ch == '_'
+        || ch < 0;
 }
 
 bool CCommon::IsStringIdentifier(const std::string& str)
