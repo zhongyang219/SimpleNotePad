@@ -91,4 +91,5 @@ public:
     afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
     afx_msg void OnBnClickedMarkAllButton();
     virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual void OnOK();
 };

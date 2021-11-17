@@ -408,6 +408,7 @@ BOOL CFindReplaceDlg::PreTranslateMessage(MSG* pMsg)
                 return TRUE;
             }
         }
+
         else
         {
             if (pMsg->wParam == VK_F3)
@@ -419,4 +420,11 @@ BOOL CFindReplaceDlg::PreTranslateMessage(MSG* pMsg)
     }
 
     return CBaseDialog::PreTranslateMessage(pMsg);
+}
+
+
+void CFindReplaceDlg::OnOK()
+{
+    OnBnClickedFindNextButton();
+    //CBaseDialog::OnOK();
 }
