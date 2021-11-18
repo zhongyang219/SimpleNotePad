@@ -122,7 +122,8 @@
 		</SyntaxList>
 	</Language>
 	<Language name="Config" lexId="17" ext="conf">
-		<Keywords id="0"></Keywords>
+    <Comment commentLine="#"/>
+    <Keywords id="0"></Keywords>
 		<SyntaxList>
 			<Syntax name= "SCE_CONF_DEFAULT" id="0" color="0x000000" />
 			<Syntax name= "SCE_CONF_COMMENT" id="1" color="0xB840B" />
