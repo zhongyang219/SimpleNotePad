@@ -568,7 +568,7 @@ void CSimpleNotePadDlg::SetEditorSyntaxHight()
 bool CSimpleNotePadDlg::IsCommentEnable()
 {
     CLanguage::Comment comment = m_syntax_highlight.GetLanguage(m_cur_lan_index).m_comment;
-    return !comment.line.empty() && comment.isMultiLeneCommentValid();
+    return !comment.line.empty() || comment.isMultiLeneCommentValid();
 }
 
 void CSimpleNotePadDlg::CreateFontObject()
@@ -1615,7 +1615,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
     pMenu->EnableMenuItem(ID_CONVERT_TO_CAPITAL, is_selection_empty ? MF_GRAYED : MF_ENABLED);
     pMenu->EnableMenuItem(ID_CONVERT_TO_LOWER_CASE, is_selection_empty ? MF_GRAYED : MF_ENABLED);
     pMenu->EnableMenuItem(ID_CONVERT_TO_TITLE_CASE, is_selection_empty ? MF_GRAYED : MF_ENABLED);
-    pMenu->EnableMenuItem(ID_ADD_DELETE_COMMENT, IsCommentEnable() ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_ADD_DELETE_COMMENT, IsCommentEnable() ? MF_ENABLED : MF_GRAYED);
 
     //pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
 
