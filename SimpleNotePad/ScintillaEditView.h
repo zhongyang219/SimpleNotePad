@@ -43,22 +43,23 @@ public:
 #endif
 #endif
 
-    void SetText(const wstring& text);
-    void GetText(wstring& text);
-    const wchar_t* GetText(int& size);      //获取文本（返回字符串指针，需要自行释放内存）
-    const char* GetTextUtf8(int& size);      //获取UTF8格式文本（返回字符串指针，需要自行释放内存）
-    void SetFontFace(const wchar_t* font_face);
+    void SetTextW(const wstring& text);
+    void GetTextW(wstring& text);
+    const wchar_t* GetTextW(int& size);      //获取文本（返回字符串指针，需要自行释放内存）
+    const char* GetText(int& size);      //获取UTF8格式文本（返回字符串指针，需要自行释放内存）
+    void SetFontFaceW(const wchar_t* font_face);
     void SetFontSize(int font_size);
     void SetTabSize(int tab_size);
-    void SetSel(int start, int end, const wstring& edit_str);        //设置选中范围（位置以字符为单位）
-    void GetSel(int& start, int& end);      //获取选中范围（位置以字符为单位）
-    void SetSelByBytes(int start, int end);     //设置选中范围（以字节为单位）
+    void SetSelW(int start, int end, const wstring& edit_str);        //设置选中范围（位置以字符为单位）
+    void GetSelW(int& start, int& end);      //获取选中范围（位置以字符为单位）
+    void SetSel(int start, int end);     //设置选中范围（以字节为单位）
+    void GetSel(int& start, int& end);     //获取选中范围（以字节为单位）
     void SetBackgroundColor(COLORREF color);
     void SetReadOnly(bool read_only);
     bool IsReadOnly();
     int GetCursorIndex();       //获取光标位置
-    std::wstring GetSelectedText();         //获取选中文本
-    std::string GetSelectedTextWithUtf8();  //获取UTF8格式的选中文本
+    std::wstring GetSelectedTextW();         //获取选中文本
+    std::string GetSelectedText();  //获取UTF8格式的选中文本
     CPoint GetCursorPosition();   //获取光标的坐标
 
     void Undo();
@@ -70,7 +71,9 @@ public:
     void SelectAll();
     void EmptyUndoBuffer();     //清空撤销缓存
 
-    void ReplaceSelected(const wstring& replace_str);   //替换选中的字符串
+    void ReplaceSelectedW(const wstring& replace_str);   //替换选中的字符串
+    void InserText(const std::string& str, int pos);
+    void DeleteText(int pos, int length);
 
     enum eWordWrapMode
     {
@@ -82,6 +85,23 @@ public:
 
     bool IsEditChangeNotificationEnable();
     void SetEditChangeNotificationEnable(bool enable);
+
+    //需要将多个操作标记为一组操作，并将它们撤销为一个操作时使用此结构体，
+    //在对象构造时标记为操作开始，析构时标记为操作结束
+    struct UndoRedoActionLocker
+    {
+        UndoRedoActionLocker(HWND hview)
+            : m_hview(hview)
+        {
+            ::SendMessage(m_hview, SCI_BEGINUNDOACTION, 0, 0);
+        }
+        ~UndoRedoActionLocker()
+        {
+            ::SendMessage(m_hview, SCI_ENDUNDOACTION, 0, 0);
+        }
+    private:
+        HWND m_hview;
+    };
 
     bool CanUndo();
     bool CanRedo();
@@ -147,6 +167,12 @@ public:
     void SetFold();
 
     void SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner);
+
+    int Find(std::string str, int start, int end = -1);     //在指定范围内查找一个字符串，返回位置
+    void GetLinePos(int line, int& start, int& end);        //获取某一行的开始和结束位置
+    void GetCurLinePos(int& start, int& end);               //获取当前行的开始和结束位置
+    bool IsFullLineSelected();      //当前是否选中了整行
+    void GetLineSelected(int& first_line, int& last_line);  //获取选中区域所在的行范围。first_line：选中区域的第一行，last_line：选中区域最后一行的下一行
 
 private:
 

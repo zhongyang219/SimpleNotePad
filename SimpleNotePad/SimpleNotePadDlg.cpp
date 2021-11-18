@@ -71,7 +71,7 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
     if (theApp.GetEditSettings().font_name != edit_settings_before.font_name || theApp.GetEditSettings().font_size != edit_settings_before.font_size)
     {
         //设置字体
-        m_view->SetFontFace(theApp.GetEditSettings().font_name.GetString());
+        m_view->SetFontFaceW(theApp.GetEditSettings().font_name.GetString());
         m_view->SetFontSize(theApp.GetEditSettings().font_size);
         CreateFontObject();
         UpdateLineNumberWidth(true);
@@ -129,7 +129,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 		m_code = CodeType::UTF16;
 		m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);	//重新转换成Unicode
 	}
-	m_view->SetText(m_edit_wcs);				//将文件中的内容显示到编缉窗口中
+	m_view->SetTextW(m_edit_wcs);				//将文件中的内容显示到编缉窗口中
     m_view->EmptyUndoBuffer();
 	//m_flag = true;
     CScintillaEditView::eEolMode eol_mode = CScintillaEditView::JudgeEolMode(m_edit_wcs);
@@ -280,7 +280,7 @@ void CSimpleNotePadDlg::UpdateStatusBarInfo()
 void CSimpleNotePadDlg::ChangeCode()
 {
 	m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code, m_code_page);
-	m_view->SetText(m_edit_wcs);
+	m_view->SetTextW(m_edit_wcs);
     m_view->EmptyUndoBuffer();
     //m_flag = true;
 	UpdateStatusBarInfo();
@@ -565,6 +565,12 @@ void CSimpleNotePadDlg::SetEditorSyntaxHight()
     SetSyntaxHight(lan);
 }
 
+bool CSimpleNotePadDlg::IsCommentEnable()
+{
+    CLanguage::Comment comment = m_syntax_highlight.GetLanguage(m_cur_lan_index).m_comment;
+    return !comment.line.empty() && comment.isMultiLeneCommentValid();
+}
+
 void CSimpleNotePadDlg::CreateFontObject()
 {
     //如果m_font已经关联了一个字体资源对象，则释放它
@@ -768,7 +774,7 @@ void CSimpleNotePadDlg::AddClipboardDataToAllProcess(const std::wstring str)
 void CSimpleNotePadDlg::FillFindText()
 {
     //将选中文本设置到查找对话框中“查找”文本框
-    std::wstring str_selected = m_view->GetSelectedText();
+    std::wstring str_selected = m_view->GetSelectedTextW();
     if (str_selected.size() <= FIND_REPLACE_AUTO_FILL_MAX_LENGTH)
         m_find_replace_dlg.SetFindString(str_selected.c_str());
     else
@@ -865,6 +871,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_MESSAGE(WM_NP_FIND_REPLACE, &CSimpleNotePadDlg::OnNpFindReplace)
     ON_COMMAND(ID_FIND_PRIVIOUS, &CSimpleNotePadDlg::OnFindPrivious)
     ON_WM_COPYDATA()
+    ON_COMMAND(ID_ADD_DELETE_COMMENT, &CSimpleNotePadDlg::OnAddDeleteComment)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -963,7 +970,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	//初始化字体
 	//m_font.CreatePointFont(m_font_size * 10, m_font_name);
 	//m_edit.SetFont(&m_font);
-    m_view->SetFontFace(theApp.GetEditSettings().font_name.GetString());
+    m_view->SetFontFaceW(theApp.GetEditSettings().font_name.GetString());
     m_view->SetFontSize(theApp.GetEditSettings().font_size);
 
     m_view->SetLexerNormalText();
@@ -1232,7 +1239,7 @@ void CSimpleNotePadDlg::OnFormatFont()
         edit_settings.font_size = fontDlg.m_cf.iPointSize / 10;
         theApp.SetEditSettings(edit_settings);
 		//设置字体
-        m_view->SetFontFace(theApp.GetEditSettings().font_name.GetString());
+        m_view->SetFontFaceW(theApp.GetEditSettings().font_name.GetString());
         m_view->SetFontSize(theApp.GetEditSettings().font_size);
         CreateFontObject();
         UpdateLineNumberWidth(true);
@@ -1349,7 +1356,7 @@ void CSimpleNotePadDlg::OnHexView()
 		if (MessageBox(CCommon::LoadText(IDS_HEX_SAVE_INQUIRY), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
 		{
 			m_edit_wcs = CCommon::StrToUnicode(m_edit_str, m_code);
-            m_view->SetText(m_edit_wcs);
+            m_view->SetTextW(m_edit_wcs);
             m_view->EmptyUndoBuffer();
             SaveHex();
 		}
@@ -1397,7 +1404,7 @@ void CSimpleNotePadDlg::OnFileNew()
 	m_edit_str.clear();
 	m_edit_wcs.clear();
 	m_file_path.Empty();
-    m_view->SetText(L"");
+    m_view->SetTextW(L"");
     m_view->EmptyUndoBuffer();
     m_code = CodeType::ANSI;
     m_view->SetSavePoint();
@@ -1608,6 +1615,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
     pMenu->EnableMenuItem(ID_CONVERT_TO_CAPITAL, is_selection_empty ? MF_GRAYED : MF_ENABLED);
     pMenu->EnableMenuItem(ID_CONVERT_TO_LOWER_CASE, is_selection_empty ? MF_GRAYED : MF_ENABLED);
     pMenu->EnableMenuItem(ID_CONVERT_TO_TITLE_CASE, is_selection_empty ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_ADD_DELETE_COMMENT, IsCommentEnable() ? MF_GRAYED : MF_ENABLED);
 
     //pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
 
@@ -1815,7 +1823,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             UINT marsk = (SC_MOD_DELETETEXT | SC_MOD_INSERTTEXT | SC_PERFORMED_UNDO | SC_PERFORMED_REDO);
             if ((notification->modificationType & marsk) != 0)
             {
-                m_view->GetText(m_edit_wcs);
+                m_view->GetTextW(m_edit_wcs);
                 UpdateStatusBarInfo();
                 SetTitle();
             }
@@ -1850,7 +1858,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                 //先清除标记
                 m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
                 //获取选中部分文本
-                std::string selected_text = m_view->GetSelectedTextWithUtf8();
+                std::string selected_text = m_view->GetSelectedText();
                 if (!selected_text.empty() && CCommon::IsStringIdentifier(selected_text))
                 {
                     //标记相同单词
@@ -1982,7 +1990,7 @@ void CSimpleNotePadDlg::OnConvertToCapital()
     {
         //CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
         int start{}, end{};
-        m_view->GetSel(start, end);
+        m_view->GetSelW(start, end);
         if (end > start)
         {
             //获取选中部分的文本
@@ -1993,8 +2001,8 @@ void CSimpleNotePadDlg::OnConvertToCapital()
                 CCommon::ConvertCharCase(ch, true);
             }
             //替换成转换后的文本
-            m_view->ReplaceSelected(str_selected);
-            m_view->SetSel(start, end, m_edit_wcs);
+            m_view->ReplaceSelectedW(str_selected);
+            m_view->SetSelW(start, end, m_edit_wcs);
             SetTitle();
         }
     }
@@ -2008,7 +2016,7 @@ void CSimpleNotePadDlg::OnConvertToLowerCase()
     {
         //CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
         int start{}, end{};
-        m_view->GetSel(start, end);
+        m_view->GetSelW(start, end);
 		if (end > start)
         {
 			//获取选中部分的文本
@@ -2019,8 +2027,8 @@ void CSimpleNotePadDlg::OnConvertToLowerCase()
                 CCommon::ConvertCharCase(ch, false);
 			}
 			//替换成转换后的文本
-			m_view->ReplaceSelected(str_selected);
-            m_view->SetSel(start, end, m_edit_wcs);
+			m_view->ReplaceSelectedW(str_selected);
+            m_view->SetSelW(start, end, m_edit_wcs);
             SetTitle();
         }
     }
@@ -2034,7 +2042,7 @@ void CSimpleNotePadDlg::OnConvertToTitleCase()
     {
         //CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
         int start{}, end{};
-        m_view->GetSel(start, end);
+        m_view->GetSelW(start, end);
         if (end > start)
         {
             //获取选中部分的文本
@@ -2053,8 +2061,8 @@ void CSimpleNotePadDlg::OnConvertToTitleCase()
                 }
             }
             //替换成转换后的文本
-            m_view->ReplaceSelected(str_selected);
-            m_view->SetSel(start, end, m_edit_wcs);
+            m_view->ReplaceSelectedW(str_selected);
+            m_view->SetSelW(start, end, m_edit_wcs);
             SetTitle();
         }
     }
@@ -2222,4 +2230,95 @@ BOOL CSimpleNotePadDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
     }
 
     return CBaseDialog::OnCopyData(pWnd, pCopyDataStruct);
+}
+
+
+void CSimpleNotePadDlg::OnAddDeleteComment()
+{
+    CLanguage::Comment comment = m_syntax_highlight.GetLanguage(m_cur_lan_index).m_comment;
+    CScintillaEditView::UndoRedoActionLocker locker(m_view->GetSafeHwnd());
+
+    //添加/删除单行注释（使用单行注释的条件是当前语言有单行注释，并且编辑器没有选中内容）
+    if (!comment.line.empty() && m_view->IsSelectionEmpty())
+    {
+        int start{}, end{};
+        m_view->GetCurLinePos(start, end);
+        //查找单行注释
+        int comment_pos = m_view->Find(comment.line, start, end);
+        if (comment_pos < 0)    //单行注释不存在，添加单行注释
+        {
+            m_view->InserText(comment.line, start);
+        }
+        else    //单行注释存在，删除单行注释
+        {
+            m_view->DeleteText(comment_pos, comment.line.size());
+        }
+    }
+    //如果选中的是整行，则对每行使用单行注释
+    else if (!comment.line.empty() && m_view->IsFullLineSelected())
+    {
+        int first_line{}, last_line{};
+        m_view->GetLineSelected(first_line, last_line);
+        //判断应该对这此行添加还是删除单行注释
+        bool comment_exist{ true };
+        //在每一行中查找单行注释，如果每行都有单行注释，则删除注释，否则添加注释
+        for (int i{ first_line }; i < last_line; i++)
+        {
+            int start{}, end{};
+            m_view->GetLinePos(i, start, end);
+            int comment_pos = m_view->Find(comment.line, start, end);
+            if (comment_pos < 0)
+                comment_exist = false;
+        }
+        //对每一行执行添加或删除注释
+        for (int i{ first_line }; i < last_line; i++)
+        {
+            int start{}, end{};
+            m_view->GetLinePos(i, start, end);
+            if (comment_exist)
+            {
+                //删除注释
+                int comment_pos = m_view->Find(comment.line, start, end);
+                if (comment_pos >= 0)
+                {
+                    m_view->DeleteText(comment_pos, comment.line.size());
+                }
+            }
+            else
+            {
+                //添加注释
+                int start{}, end{};
+                m_view->GetLinePos(i, start, end);
+                m_view->InserText(comment.line, start);
+            }
+        }
+    }
+    //添加/删除多行注释
+    else if (comment.isMultiLeneCommentValid())
+    {
+        int start{}, end{};
+        m_view->GetSel(start, end);
+        if (start == end)
+            m_view->GetCurLinePos(start, end);
+        //查找多行注释
+        bool comment_exist{ false };
+        int comment_start = m_view->Find(comment.start, start, end);
+        if (comment_start >= 0)
+        {
+            comment_exist = true;
+            m_view->DeleteText(comment_start, comment.start.size());
+        }
+        int comment_end = m_view->Find(comment.end, end, start);
+        if (comment_end >= 0)
+        {
+            comment_exist = true;
+            m_view->DeleteText(comment_end, comment.end.size());
+        }
+        //多行注释不存在，添加注释
+        if (!comment_exist)
+        {
+            m_view->InserText(comment.start, start);
+            m_view->InserText(comment.end, end + comment.start.size()); //由于上一步已经插入了多行注释的开头，所以需要加上comment.start.size()以修正插入的位置
+        }
+    }
 }

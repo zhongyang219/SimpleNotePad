@@ -19,10 +19,24 @@ public:
     std::map<int, std::string> m_keywords_list;
     std::vector<SyntaxStyle> m_syntax_list;
 
+    struct Comment
+    {
+        std::string line;
+        std::string start;
+        std::string end;
+
+        bool isMultiLeneCommentValid() const
+        {
+            return !start.empty() && !end.empty();
+        }
+    };
+    Comment m_comment;
+
     //从配置文件“Language”节点解析语法高亮信息
     //ele: xml节点
     //syntax_from: 如果语法高亮颜色设置要从其他语言复制，则将该语言的名称保存在这里
-    void FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from);
+    //comment_from: 如果注释设置要从其他语言复制，则将该语言的名称保存在这里
+    void FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from, wstring& comment_from);
 };
 
 class CSyntaxHighlight
@@ -40,4 +54,3 @@ public:
 private:
     std::vector<CLanguage> m_language_list;
 };
-

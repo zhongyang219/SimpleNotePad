@@ -104,6 +104,7 @@ protected:
 
     void SetSyntaxHight(const CLanguage& lan);
     void SetEditorSyntaxHight();
+    bool IsCommentEnable();     //当前语言的“添加/删除注释”功能是否可用
 
     void CreateFontObject();
 
@@ -201,4 +202,5 @@ protected:
     afx_msg LRESULT OnNpFindReplace(WPARAM wParam, LPARAM lParam);
 public:
     afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
+    afx_msg void OnAddDeleteComment();
 };

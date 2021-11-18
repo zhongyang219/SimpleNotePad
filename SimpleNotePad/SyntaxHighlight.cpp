@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "FilePathHelper.h"
 
-void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from)
+void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from, wstring& comment_from)
 {
     syntax_from.clear();
     m_name = CCommon::StrToUnicode(CTinyXml2Helper::ElementAttribute(ele, "name"), CodeType::UTF8_NO_BOM);
@@ -26,6 +26,20 @@ void CLanguage::FromXmlElement(tinyxml2::XMLElement* ele, wstring& syntax_from)
         {
             int keywords_id = atoi(CTinyXml2Helper::ElementAttribute(child, "id"));
             m_keywords_list[keywords_id] = CTinyXml2Helper::ElementText(child);
+        }
+        else if (node_name == "Comment")
+        {
+            string str_comment_from = CTinyXml2Helper::ElementAttribute(child, "copyFrom");
+            if (!str_comment_from.empty())
+            {
+                comment_from = CCommon::StrToUnicode(str_comment_from, CodeType::UTF8_NO_BOM);
+            }
+            else
+            {
+                m_comment.line = CTinyXml2Helper::ElementAttribute(child, "commentLine");
+                m_comment.start = CTinyXml2Helper::ElementAttribute(child, "commentStart");
+                m_comment.end = CTinyXml2Helper::ElementAttribute(child, "commentEnd");
+            }
         }
         else if (node_name == "SyntaxList")
         {
@@ -60,13 +74,22 @@ void CSyntaxHighlight::LoadFromFile(const wchar_t* file_path)
         {
             CLanguage lan;
             wstring syntax_from;
-            lan.FromXmlElement(child, syntax_from);
+            wstring comment_from;
+            lan.FromXmlElement(child, syntax_from, comment_from);
             if (!syntax_from.empty())       //如果语言的语法高亮颜色设置从其他语言复制，则在已读取列表中找到该语言
             {
                 CLanguage lan_copy = FindLanguageByName(syntax_from.c_str());
                 if (!lan_copy.m_name.empty())
                 {
                     lan.m_syntax_list = lan_copy.m_syntax_list;
+                }
+            }
+            if (!comment_from.empty())       //如果语言的注释设置从其他语言复制，则在已读取列表中找到该语言
+            {
+                CLanguage lan_copy = FindLanguageByName(comment_from.c_str());
+                if (!lan_copy.m_name.empty())
+                {
+                    lan.m_comment = lan_copy.m_comment;
                 }
             }
             m_language_list.push_back(lan);

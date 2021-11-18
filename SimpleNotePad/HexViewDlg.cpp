@@ -115,7 +115,7 @@ void CHexViewDlg::ShowHexData()
 			m_str += temp;
 		}
 	}
-    m_view->SetText(m_str);
+    m_view->SetTextW(m_str);
 
 }
 
@@ -239,7 +239,7 @@ BOOL CHexViewDlg::OnInitDialog()
     m_view->ShowWindow(SW_SHOW);
 
 	//设置字体
-    m_view->SetFontFace(theApp.GetEditSettings().font_name_hex.GetString());
+    m_view->SetFontFaceW(theApp.GetEditSettings().font_name_hex.GetString());
     m_view->SetFontSize(theApp.GetEditSettings().font_size_hex);
     m_font.CreatePointFont(theApp.GetEditSettings().font_size_hex * 10, theApp.GetEditSettings().font_name_hex);
     m_static_head.SetFont(&m_font);

@@ -53,7 +53,7 @@ void CScintillaEditView::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-void CScintillaEditView::SetText(const wstring& text)
+void CScintillaEditView::SetTextW(const wstring& text)
 {
     m_change_notification_enable = false;       //确保正在执行SetText时不响应文本改变消息
     bool is_read_onle = IsReadOnly();
@@ -78,18 +78,18 @@ void CScintillaEditView::SetText(const wstring& text)
     m_change_notification_enable = true;
 }
 
-void CScintillaEditView::GetText(wstring& text)
+void CScintillaEditView::GetTextW(wstring& text)
 {
     text.clear();
     int size{};
-    const wchar_t* str_unicode = GetText(size);
+    const wchar_t* str_unicode = GetTextW(size);
     if (size == 0)
         return;
     text.assign(str_unicode, size);
     delete[] str_unicode;
 }
 
-const wchar_t* CScintillaEditView::GetText(int& size)
+const wchar_t* CScintillaEditView::GetTextW(int& size)
 {
     auto length = SendMessage(SCI_GETLENGTH);
     char* buf = new char[length + 1];
@@ -105,7 +105,7 @@ const wchar_t* CScintillaEditView::GetText(int& size)
     return str_unicode;
 }
 
-const char * CScintillaEditView::GetTextUtf8(int & size)
+const char * CScintillaEditView::GetText(int & size)
 {
     size = SendMessage(SCI_GETLENGTH);
     char* buf = new char[size + 1];
@@ -113,7 +113,7 @@ const char * CScintillaEditView::GetTextUtf8(int & size)
     return buf;
 }
 
-void CScintillaEditView::SetFontFace(const wchar_t* font_face)
+void CScintillaEditView::SetFontFaceW(const wchar_t* font_face)
 {
     bool char_connot_convert;
     string str_font_face = CCommon::UnicodeToStr(font_face, char_connot_convert, CodeType::UTF8_NO_BOM);
@@ -130,29 +130,36 @@ void CScintillaEditView::SetTabSize(int tab_size)
     SendMessage(SCI_SETTABWIDTH, tab_size);
 }
 
-void CScintillaEditView::SetSel(int start, int end, const wstring& edit_str)
+void CScintillaEditView::SetSelW(int start, int end, const wstring& edit_str)
 {
     int byte_start = CharactorPosToBytePos(start, edit_str.c_str(), edit_str.size());
     int byte_end = CharactorPosToBytePos(end, edit_str.c_str(), edit_str.size());
-    SetSelByBytes(byte_start, byte_end);
+    SetSel(byte_start, byte_end);
 }
 
-void CScintillaEditView::GetSel(int & start, int & end)
+void CScintillaEditView::GetSelW(int & start, int & end)
 {
-    int byte_start = SendMessage(SCI_GETANCHOR);
-    int byte_end = SendMessage(SCI_GETCURRENTPOS);
-    if (byte_end < byte_start)
-        std::swap(byte_start, byte_end);
+    int byte_start{};
+    int byte_end{};
+    GetSel(byte_start, byte_end);
     int size{};
-    const char* str = GetTextUtf8(size);
+    const char* str = GetText(size);
     start = BytePosToCharactorPos(byte_start, str, size);
     end = BytePosToCharactorPos(byte_end, str, size);
     delete[] str;
 }
 
-void CScintillaEditView::SetSelByBytes(int start, int end)
+void CScintillaEditView::SetSel(int start, int end)
 {
     SendMessage(SCI_SETSEL, start, end);
+}
+
+void CScintillaEditView::GetSel(int& start, int& end)
+{
+    start = SendMessage(SCI_GETANCHOR);
+    end = SendMessage(SCI_GETCURRENTPOS);
+    if (end < start)
+        std::swap(start, end);
 }
 
 void CScintillaEditView::SetBackgroundColor(COLORREF color)
@@ -176,13 +183,13 @@ int CScintillaEditView::GetCursorIndex()
     return SendMessage(SCI_GETANCHOR);
 }
 
-std::wstring CScintillaEditView::GetSelectedText()
+std::wstring CScintillaEditView::GetSelectedTextW()
 {
-    std::string str_selected = GetSelectedTextWithUtf8();
+    std::string str_selected = GetSelectedText();
     return CCommon::StrToUnicode(str_selected, CodeType::UTF8_NO_BOM);
 }
 
-std::string CScintillaEditView::GetSelectedTextWithUtf8()
+std::string CScintillaEditView::GetSelectedText()
 {
     Sci_TextRange text_range;
     //获取选中范围
@@ -257,11 +264,21 @@ void CScintillaEditView::EmptyUndoBuffer()
     SendMessage(SCI_EMPTYUNDOBUFFER);
 }
 
-void CScintillaEditView::ReplaceSelected(const wstring& replace_str)
+void CScintillaEditView::ReplaceSelectedW(const wstring& replace_str)
 {
     bool noused;
     string replaced_str = CCommon::UnicodeToStr(replace_str, noused, CodeType::UTF8_NO_BOM);
     SendMessage(SCI_REPLACESEL, 0, (sptr_t)replaced_str.c_str());
+}
+
+void CScintillaEditView::InserText(const std::string& str, int pos)
+{
+    SendMessage(SCI_INSERTTEXT, pos, (sptr_t)str.c_str());
+}
+
+void CScintillaEditView::DeleteText(int pos, int length)
+{
+    SendMessage(SCI_DELETERANGE, pos, length);
 }
 
 void CScintillaEditView::SetWordWrap(bool word_wrap, eWordWrapMode mode)
@@ -588,6 +605,56 @@ void CScintillaEditView::SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner)
         SendMessage(SCI_USEPOPUP, SC_POPUP_NEVER);
     }
 
+}
+
+int CScintillaEditView::Find(std::string str, int start, int end)
+{
+    if (end < 0)
+        end = SendMessage(SCI_GETLENGTH);
+    Sci_TextToFind ttf;
+    ttf.chrg.cpMin = start;
+    ttf.chrg.cpMax = end;
+    ttf.lpstrText = str.c_str();
+    return SendMessage(SCI_FINDTEXT, SCFIND_MATCHCASE, (LPARAM)&ttf);
+}
+
+void CScintillaEditView::GetLinePos(int line, int& start, int& end)
+{
+    start = SendMessage(SCI_POSITIONFROMLINE, line);
+    end = SendMessage(SCI_GETLINEENDPOSITION, line);
+    int doc_length = SendMessage(SCI_GETLENGTH);
+    if (start < 0 && start > doc_length)
+        start = 0;
+    if (end < 0 || end > doc_length)
+        end = doc_length;
+}
+
+void CScintillaEditView::GetCurLinePos(int& start, int& end)
+{
+    int cur_pos = SendMessage(SCI_GETCURRENTPOS);
+    int cur_line = SendMessage(SCI_LINEFROMPOSITION, cur_pos);
+    GetLinePos(cur_line, start, end);
+}
+
+bool CScintillaEditView::IsFullLineSelected()
+{
+    int start{}, end{};
+    GetSel(start, end);
+    if (start == end)
+        return false;
+    int first_line_colume = SendMessage(SCI_GETCOLUMN, start);
+    int last_line_colume = SendMessage(SCI_GETCOLUMN, end);
+    return first_line_colume == 0 && (last_line_colume == 0 || end == SendMessage(SCI_GETLENGTH));
+}
+
+void CScintillaEditView::GetLineSelected(int& first_line, int& last_line)
+{
+    int start{}, end{};
+    GetSel(start, end);
+    first_line = SendMessage(SCI_LINEFROMPOSITION, start);
+    last_line = SendMessage(SCI_LINEFROMPOSITION, end);
+    if (end == SendMessage(SCI_GETLENGTH))
+        last_line++;
 }
 
 // CScintillaEditView 消息处理程序

@@ -49,7 +49,7 @@ bool FindReplaceTools::FindTexts(FindOption options, bool next, CScintillaEditVi
     //查找文本
     find_result = pEditView->SendMessage(SCI_FINDTEXT, flags, (LPARAM)&ttf);
     //选中找到的文本
-    pEditView->SetSelByBytes(find_result, find_result + find_str.size());
+    pEditView->SetSel(find_result, find_result + find_str.size());
 
     last_next = next;
     return find_result >= 0;
@@ -65,7 +65,7 @@ bool FindReplaceTools::ReplaceTexts(FindOption options, CScintillaEditView* pEdi
         options.replace_str = FindReplaceTools::convertExtendedToString(options.replace_str);
         options.find_str = FindReplaceTools::convertExtendedToString(options.find_str);
     }
-    if (pEditView->GetSelectedText() != options.find_str)
+    if (pEditView->GetSelectedTextW() != options.find_str)
         return false;
     int start = pEditView->SendMessage(SCI_GETANCHOR);
     int end = pEditView->SendMessage(SCI_GETCURRENTPOS);
