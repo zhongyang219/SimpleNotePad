@@ -232,7 +232,7 @@ void CSimpleNotePadDlg::UpdateStatusBarInfo()
 	}
 	//}
 
-	m_status_bar.SetText(str, 4, 0);
+	m_status_bar.SetText(str, SP_CODE_TYPE, 0);
 
 	//显示字符数
 	//if (m_edit_wcs.empty())
@@ -241,7 +241,7 @@ void CSimpleNotePadDlg::UpdateStatusBarInfo()
 		str = CCommon::LoadTextFormat(IDS_FILE_CHARACTOR_NUM_INFO, { m_edit_str.size(), m_edit_wcs.size() });
 	else
 		str = CCommon::LoadTextFormat(IDS_FILE_CHARACTOR_NUM_INFO2, { m_edit_str.size(), m_edit_str.size() / 1024, m_edit_wcs.size() });
-	m_status_bar.SetText(str, 0, 0);
+	m_status_bar.SetText(str, SP_INFO, 0);
 
 	////显示是否修改
 	//m_status_bar.SetText(m_modified?_T("已修改"):_T("未修改"), 1, 0);
@@ -263,18 +263,28 @@ void CSimpleNotePadDlg::UpdateStatusBarInfo()
     default:
         break;
     }
-    m_status_bar.SetText(str_eol, 2, 0);
+    m_status_bar.SetText(str_eol, SP_EOL_MODE, 0);
 
     //显示缩放比例
     int scale = 100 + m_zoom * 10;
     CString str_zoom;
     str_zoom.Format(_T("%d%%"), scale);
-    m_status_bar.SetText(str_zoom, 3, 0);
+    m_status_bar.SetText(str_zoom, SP_ZOOM, 0);
 
     //显示语言
     wstring cur_lan_name = m_syntax_highlight.GetLanguage(m_cur_lan_index).m_name;
-    m_status_bar.SetText(cur_lan_name.empty() ? CCommon::LoadText(IDS_NORMAL_TEXT) : cur_lan_name.c_str(), 1, 0);
+    m_status_bar.SetText(cur_lan_name.empty() ? CCommon::LoadText(IDS_NORMAL_TEXT) : cur_lan_name.c_str(), SP_LANGUAGE, 0);
 
+    //显示位置信息
+    int row = m_view->GetRow() + 1;
+    int col = m_view->GetColumn() + 1;
+    int start{}, end{};
+    CString pos_info;
+    if (m_view->IsSelectionEmpty())
+        pos_info = CCommon::LoadTextFormat(IDS_STATUS_BAR_POSITION_IFNO2, { row, col, m_view->GetCursorIndex() + 1 });
+    else
+        pos_info = CCommon::LoadTextFormat(IDS_STATUS_BAR_POSITION_IFNO, {row, col, m_view->GetSelCount()});
+    m_status_bar.SetText(pos_info, SP_POSITION_INDICATIOR, 0);
 }
 
 void CSimpleNotePadDlg::ChangeCode()
@@ -389,31 +399,35 @@ void CSimpleNotePadDlg::ShowStatusbar(bool show)
     m_view->MoveWindow(rect);
 }
 
-void CSimpleNotePadDlg::GetStatusbarWidth(std::vector<int>& part_widths)
-{
-    const int PARTS = 5;
-    part_widths.resize(PARTS);
 
-    const int WIDTHS = PARTS - 1;
+void CSimpleNotePadDlg::InitStatusbarWidth()
+{
+    //计算宽度
+    std::vector<int> part_widths;
+    part_widths.resize(STATUSBAR_MAX);
+
     std::vector<int> widths;
-    widths.resize(WIDTHS);
-    widths[WIDTHS - 1] = theApp.DPI(174);
-    widths[WIDTHS - 2] = theApp.DPI(60);
-    widths[WIDTHS - 3] = theApp.DPI(40);
-    widths[WIDTHS - 4] = theApp.DPI(60);
+    widths.resize(STATUSBAR_MAX);
+    widths[SP_POSITION_INDICATIOR] = theApp.DPI(190);
+    widths[SP_LANGUAGE] = theApp.DPI(80);
+    widths[SP_EOL_MODE] = theApp.DPI(40);
+    widths[SP_ZOOM] = theApp.DPI(40);
+    widths[SP_CODE_TYPE] = theApp.DPI(174);
 
     CRect rect;
     GetClientRect(rect);
 
-    for (int i = 0; i < PARTS - 1; i++)
+    for (int i = 0; i < STATUSBAR_MAX - 1; i++)
     {
         part_widths[i] = rect.Width();
-        for (int j = WIDTHS - 1; j >= i; j--)
+        for (int j = STATUSBAR_MAX - 1; j > i; j--)
         {
             part_widths[i] -= widths[j];
         }
     }
-    part_widths[PARTS - 1] = -1;
+    part_widths[STATUSBAR_MAX - 1] = -1;
+
+    m_status_bar.SetParts(part_widths.size(), part_widths.data()); //分割状态栏
 }
 
 bool CSimpleNotePadDlg::_OnFileSave()
@@ -961,10 +975,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	rect.top = rect.bottom - m_status_bar_hight;
 	m_status_bar.Create(WS_VISIBLE | CBRS_BOTTOM, rect, this, 3);
 
-    vector<int> parts;
-    GetStatusbarWidth(parts);
-	m_status_bar.SetParts(parts.size(), parts.data()); //分割状态栏
-	UpdateStatusBarInfo();
+    InitStatusbarWidth();
+    UpdateStatusBarInfo();
     ShowStatusbar(m_show_statusbar);
 
 	//初始化字体
@@ -1132,12 +1144,8 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
 	if (nType != SIZE_MINIMIZED && m_status_bar.m_hWnd != NULL)
 	{
 		m_status_bar.MoveWindow(status_bar_size);
-		//int nParts[3] = { cx - m_status_bar_right_width - m_status_bar_mid_width, cx - m_status_bar_right_width, -1 }; //分割尺寸
-        vector<int> parts;
-        GetStatusbarWidth(parts);
-
-        m_status_bar.SetParts(parts.size(), parts.data()); //分割状态栏
-	}
+        InitStatusbarWidth();
+    }
 	//if (nType != SIZE_MAXIMIZED && nType != SIZE_MINIMIZED)
 	//{
 	//	//m_window_width = cx;
@@ -1870,6 +1878,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                     }
                 }
                 m_find_replace_dlg.EnableControl();
+                UpdateStatusBarInfo();
             }
         }
     }

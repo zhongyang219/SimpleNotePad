@@ -54,6 +54,18 @@ protected:
 	//bool m_flag{ false };			//一个flag，当调用m_edit.SetWindowText()函数将文本显示在文本框内时，将它置为true
     int m_zoom{};
 
+    //状态栏各部分的定义
+    enum StatusbarParts
+    {
+        SP_INFO,
+        SP_POSITION_INDICATIOR,
+        SP_LANGUAGE,
+        SP_EOL_MODE,
+        SP_ZOOM,
+        SP_CODE_TYPE,
+        STATUSBAR_MAX
+    };
+
 	int m_status_bar_hight;		//状态栏高度
 	int m_edit_bottom_space;	//编辑窗口底部距窗口底部的距离
 
@@ -91,7 +103,7 @@ protected:
 	void SetTitle();				//设置窗口标题
     void ShowStatusbar(bool show);  //显示或隐藏状态栏
 
-    void GetStatusbarWidth(std::vector<int>& part_widths);
+    void InitStatusbarWidth();      //设置状态栏每部分的宽度
 
 	bool _OnFileSave();		//如果已经执行了保存操作，则返回true，否则返回false
 	bool _OnFileSaveAs();	//

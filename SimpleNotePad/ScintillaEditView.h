@@ -54,6 +54,9 @@ public:
     void GetSelW(int& start, int& end);      //获取选中范围（位置以字符为单位）
     void SetSel(int start, int end);     //设置选中范围（以字节为单位）
     void GetSel(int& start, int& end);     //获取选中范围（以字节为单位）
+    int GetColumn();
+    int GetRow();
+    int GetSelCount();
     void SetBackgroundColor(COLORREF color);
     void SetReadOnly(bool read_only);
     bool IsReadOnly();

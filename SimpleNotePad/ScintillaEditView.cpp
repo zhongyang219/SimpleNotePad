@@ -162,6 +162,25 @@ void CScintillaEditView::GetSel(int& start, int& end)
         std::swap(start, end);
 }
 
+int CScintillaEditView::GetColumn()
+{
+    int pos = SendMessage(SCI_GETCURRENTPOS);
+    return SendMessage(SCI_GETCOLUMN, pos);
+}
+
+int CScintillaEditView::GetRow()
+{
+    int pos = SendMessage(SCI_GETCURRENTPOS);
+    return SendMessage(SCI_LINEFROMPOSITION, pos);
+}
+
+int CScintillaEditView::GetSelCount()
+{
+    int start{}, end{};
+    GetSel(start, end);
+    return SendMessage(SCI_COUNTCHARACTERS, start, end);
+}
+
 void CScintillaEditView::SetBackgroundColor(COLORREF color)
 {
     m_background_color = color;
@@ -180,7 +199,7 @@ bool CScintillaEditView::IsReadOnly()
 
 int CScintillaEditView::GetCursorIndex()
 {
-    return SendMessage(SCI_GETANCHOR);
+    return SendMessage(SCI_GETCURRENTPOS);
 }
 
 std::wstring CScintillaEditView::GetSelectedTextW()

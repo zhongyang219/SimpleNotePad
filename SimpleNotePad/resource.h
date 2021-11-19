@@ -125,8 +125,10 @@
 #define IDI_CODE                        184
 #define IDS_MARK_ALL_INFO               184
 #define IDI_HEX_VIEW                    185
+#define IDS_STATUS_BAR_POSITION_IFNO    185
 #define IDI_ICON5                       186
 #define IDI_COMPARE                     186
+#define IDS_STATUS_BAR_POSITION_IFNO2   186
 #define IDD_GTO_DIALOG                  187
 #define IDI_EXPLORE                     189
 #define IDI_CLIPBOARD                   190
@@ -356,7 +358,6 @@
 #define ID_FIND_PRIVIOUS                33019
 #define ID_1_33024                      33024
 #define ID_ADD_DELETE_COMMENT           33025
-#define ID_ACCELERATOR33028             33028
 
 // Next default values for new objects
 // 
