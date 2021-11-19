@@ -1,12 +1,13 @@
-﻿<version>1.42</version>
+﻿<version>1.43</version>
 <GitHub>
-	<link>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.42/SimpleNotePad_V1.42_x86.zip</link>
-	<link_x64>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.42/SimpleNotePad_V1.42_x64.zip</link_x64>
+	<link>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.43/SimpleNotePad_V1.43_x86.zip</link>
+	<link_x64>https://github.com/zhongyang219/SimpleNotePad/releases/download/V1.43/SimpleNotePad_V1.43_x64.zip</link_x64>
 </GitHub>
 <Gitee>
-	<link>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/858535/download/SimpleNotePad_V1.42_x86.zip</link>
-	<link_x64>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/858536/download/SimpleNotePad_V1.42_x64.zip</link_x64>
+	<link>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/885788/download/SimpleNotePad_V1.43_x86.zip</link>
+	<link_x64>https://gitee.com/zhongyang219/SimpleNotePad/attach_files/885789/download/SimpleNotePad_V1.43_x64.zip</link_x64>
 </Gitee>
 <update_contents>
-	<contents_zh_cn>新增菜单图标\n新增最近打开文件历史记录功能\n新增多语言支持，增加了英语\n修正使用大小写转换后会出现多余的Unicode字符的问题\n新增剪贴板历史记录的功能\n新增跳转到指定行的功能</contents_zh_cn>
+	<contents_zh_cn>应用图标重新设计\n新增UTF16 Big Ending编码格式的支持\n新增转换为指定编码格式的功能\n查找替换功能增强\n剪贴板历史记录在所有打开的SimpleNotePad进程间同步\nCtrl+Shift+V打开剪贴板菜单跟随光标\n新增选择变化时标记相同单词的功能\n新增添加/删除注释的功能\n状态栏增加行、列和当前位置的显示\n优化打开大文件时打开十六进制查看器的性能</contents_zh_cn>
+	<contents_en>Application icon redesign.\nAdded support for UTF16 Big Ending encoding format.\nAdded the function of converting to the specified encoding format.\nFind and replace function enhancement.\nClipboard history is synchronized among all open SimpleNotePad processes.\nThe clipboard menu opend by Ctrl+Shift+V follow the cursor.\nAdded the function to mark the same word when the selection changed.\nAdded the function of add / remove comments.\nAdded the function of displaying rows, columns and current position in the status bar.\nOptimize the performance of opening the hexadecimal viewer when opening large files.</contents_en>
 </update_contents>
