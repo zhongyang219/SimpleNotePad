@@ -323,6 +323,7 @@ void CSimpleNotePadDlg::SaveConfig() const
 	theApp.WriteProfileInt(L"config", L"show_statusbar", m_show_statusbar);
 	theApp.WriteProfileInt(L"config", L"show_line_number", m_show_line_number);
     theApp.WriteProfileInt(L"config", L"show_eol", m_show_eol);
+    theApp.WriteProfileInt(L"config", L"zoom", m_zoom);
 }
 
 void CSimpleNotePadDlg::LoadConfig()
@@ -334,6 +335,7 @@ void CSimpleNotePadDlg::LoadConfig()
     m_show_statusbar = (theApp.GetProfileInt(_T("config"), _T("show_statusbar"), 1) != 0);
     m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 1) != 0);
     m_show_eol = (theApp.GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
+    m_zoom = theApp.GetProfileInt(_T("config"), _T("zoom"), 0);
 }
 
 bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
@@ -887,6 +889,9 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_FIND_PRIVIOUS, &CSimpleNotePadDlg::OnFindPrivious)
     ON_WM_COPYDATA()
     ON_COMMAND(ID_ADD_DELETE_COMMENT, &CSimpleNotePadDlg::OnAddDeleteComment)
+    ON_COMMAND(ID_VIEW_ZOOM_IN, &CSimpleNotePadDlg::OnViewZoomIn)
+    ON_COMMAND(ID_VIEW_ZOOM_OUT, &CSimpleNotePadDlg::OnViewZoomOut)
+    ON_COMMAND(ID_VIEW_ZOOM_DEFAULT, &CSimpleNotePadDlg::OnViewZoomDefault)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -979,6 +984,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     InitStatusbarWidth();
     UpdateStatusBarInfo();
     ShowStatusbar(m_show_statusbar);
+
+    m_view->SetZoom(m_zoom);
 
 	//初始化字体
 	//m_font.CreatePointFont(m_font_size * 10, m_font_name);
@@ -1302,6 +1309,10 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
                     return TRUE;
                 }
             }
+            //if (pMsg->wParam != VK_CONTROL)
+            //{
+            //    int a = 0;
+            //}
         }
     }
 
@@ -2331,4 +2342,22 @@ void CSimpleNotePadDlg::OnAddDeleteComment()
             m_view->InserText(comment.end, end + comment.start.size()); //由于上一步已经插入了多行注释的开头，所以需要加上comment.start.size()以修正插入的位置
         }
     }
+}
+
+
+void CSimpleNotePadDlg::OnViewZoomIn()
+{
+    m_view->Zoom(true);
+}
+
+
+void CSimpleNotePadDlg::OnViewZoomOut()
+{
+    m_view->Zoom(false);
+}
+
+
+void CSimpleNotePadDlg::OnViewZoomDefault()
+{
+    m_view->SetZoom(0);
 }

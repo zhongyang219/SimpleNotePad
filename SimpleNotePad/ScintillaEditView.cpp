@@ -402,6 +402,14 @@ void CScintillaEditView::SetZoom(int zoom)
     SendMessage(SCI_SETZOOM, zoom);
 }
 
+void CScintillaEditView::Zoom(bool in)
+{
+    if (in)
+        SendMessage(SCI_ZOOMIN);
+    else
+        SendMessage(SCI_ZOOMOUT);
+}
+
 void CScintillaEditView::SetEolMode(eEolMode eolMode)
 {
     int mode = 0;

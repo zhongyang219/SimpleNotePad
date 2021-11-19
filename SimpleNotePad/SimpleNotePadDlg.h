@@ -215,4 +215,7 @@ protected:
 public:
     afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
     afx_msg void OnAddDeleteComment();
+    afx_msg void OnViewZoomIn();
+    afx_msg void OnViewZoomOut();
+    afx_msg void OnViewZoomDefault();
 };

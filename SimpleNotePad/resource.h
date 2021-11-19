@@ -360,13 +360,19 @@
 #define ID_1_33024                      33024
 #define ID_ADD_DELETE_COMMENT           33025
 #define ID_FILE_NEW_WINDOW              33030
+#define ID_33036                        33036
+#define ID_33037                        33037
+#define ID_33038                        33038
+#define ID_VIEW_ZOOM_IN                 33039
+#define ID_VIEW_ZOOM_OUT                33040
+#define ID_VIEW_ZOOM_DEFAULT            33041
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        199
-#define _APS_NEXT_COMMAND_VALUE         33036
+#define _APS_NEXT_COMMAND_VALUE         33045
 #define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

@@ -120,6 +120,7 @@ public:
 
     int GetZoom();
     void SetZoom(int zoom);
+    void Zoom(bool in);
 
     enum eEolMode
     {
