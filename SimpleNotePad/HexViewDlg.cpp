@@ -279,7 +279,7 @@ BOOL CHexViewDlg::OnInitDialog()
 
 	m_modified = false;
 
-    AfxGetMainWnd()->ShowWindow(SW_HIDE);       //打开此对话框时隐藏主窗口
+    //AfxGetMainWnd()->ShowWindow(SW_HIDE);       //打开此对话框时隐藏主窗口
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
@@ -653,7 +653,7 @@ void CHexViewDlg::OnDestroy()
 	// TODO: 在此处添加消息处理程序代码
 	SaveConfig();
 
-    AfxGetMainWnd()->ShowWindow(SW_SHOW);       //打开此对话框时隐藏主窗口
+    //AfxGetMainWnd()->ShowWindow(SW_SHOW);       //打开此对话框时隐藏主窗口
 
 }
 

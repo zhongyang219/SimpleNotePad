@@ -342,6 +342,9 @@ bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 {
 	if (m_view->IsModified())
 	{
+        ShowWindow(SW_SHOW);
+        SetActiveWindow();
+
 		CString text;
 		if (info == NULL)
 		{
