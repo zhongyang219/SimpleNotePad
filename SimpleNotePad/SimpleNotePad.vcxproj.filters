@@ -430,6 +430,9 @@
     <Image Include="res\previous.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\new_window.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="lang.xml" />

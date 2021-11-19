@@ -661,10 +661,11 @@ void CSimpleNotePadDlg::InitMenuIcon()
     HMENU menu{ GetMenu()->GetSafeHmenu() };
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_OPEN, FALSE, theApp.GetMenuIcon(IDI_OPEN));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_NEW, FALSE, theApp.GetMenuIcon(IDI_NEW));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_NEW_WINDOW, FALSE, theApp.GetMenuIcon(IDI_NEW_WINDOW));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE, FALSE, theApp.GetMenuIcon(IDI_SAVE));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE_AS, FALSE, theApp.GetMenuIcon(IDI_SAVE_AS));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_OPEN_LOCATION, FALSE, theApp.GetMenuIcon(IDI_EXPLORE));
-    CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(0)->GetSafeHmenu(), 5, TRUE, theApp.GetMenuIcon(IDI_RECENT_FILES));
+    CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(0)->GetSafeHmenu(), 6, TRUE, theApp.GetMenuIcon(IDI_RECENT_FILES));
     CMenuIcon::AddIconToMenuItem(menu, ID_APP_EXIT, FALSE, theApp.GetMenuIcon(IDI_EXIT));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_UNDO, FALSE, theApp.GetMenuIcon(IDI_UNDO));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_REDO, FALSE, theApp.GetMenuIcon(IDI_REDO));
@@ -1005,7 +1006,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
         }
 
         //初始化最近打开文件列表
-        CMenu* pRecentFileMenu = pMenu->GetSubMenu(0)->GetSubMenu(5);
+        CMenu* pRecentFileMenu = pMenu->GetSubMenu(0)->GetSubMenu(6);
         ASSERT(pRecentFileMenu != nullptr);
         if (pRecentFileMenu != nullptr)
         {

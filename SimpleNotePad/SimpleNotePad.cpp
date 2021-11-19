@@ -18,6 +18,7 @@ const std::string SPLIT_STRING{'\xff', '\xff', '\xff', '\xff' };
 
 BEGIN_MESSAGE_MAP(CSimpleNotePadApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+    ON_COMMAND(ID_FILE_NEW_WINDOW, &CSimpleNotePadApp::OnFileNewWindow)
 END_MESSAGE_MAP()
 
 
@@ -371,4 +372,12 @@ BOOL CSimpleNotePadApp::InitInstance()
 	// 由于对话框已关闭，所以将返回 FALSE 以便退出应用程序，
 	//  而不是启动应用程序的消息泵。
 	return FALSE;
+}
+
+
+void CSimpleNotePadApp::OnFileNewWindow()
+{
+    TCHAR path[MAX_PATH];
+    GetModuleFileNameW(NULL, path, MAX_PATH);
+    ShellExecuteW(NULL, _T("open"), path, NULL, NULL, SW_NORMAL);       //打开一个新的实例
 }

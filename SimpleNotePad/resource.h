@@ -138,6 +138,8 @@
 #define IDD_FIND_REPLACE_DIALOG         194
 #define IDI_NEXT                        196
 #define IDI_PREVIOUS                    197
+#define IDI_ICON1                       198
+#define IDI_NEW_WINDOW                  198
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -358,13 +360,14 @@
 #define ID_FIND_PRIVIOUS                33019
 #define ID_1_33024                      33024
 #define ID_ADD_DELETE_COMMENT           33025
+#define ID_FILE_NEW_WINDOW              33030
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        198
-#define _APS_NEXT_COMMAND_VALUE         33030
+#define _APS_NEXT_RESOURCE_VALUE        199
+#define _APS_NEXT_COMMAND_VALUE         33031
 #define _APS_NEXT_CONTROL_VALUE         1085
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

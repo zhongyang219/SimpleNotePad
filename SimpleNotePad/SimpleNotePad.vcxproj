@@ -306,6 +306,7 @@
     <Image Include="res\language.ico" />
     <Image Include="res\lower_case.ico" />
     <Image Include="res\new.ico" />
+    <Image Include="res\new_window.ico" />
     <Image Include="res\next.ico" />
     <Image Include="res\open.ico" />
     <Image Include="res\paste.ico" />
