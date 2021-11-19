@@ -49,11 +49,11 @@ void CUpdateHelper::ParseUpdateInfo(wstring version_info)
     m_link64 = version_xml.GetNode(L"link_x64", str_source_tag.c_str());
     m_link = version_xml.GetNode(L"link", str_source_tag.c_str());
     CString contents_zh_cn = version_xml.GetNode(L"contents_zh_cn", L"update_contents").c_str();
-    //CString contents_en = version_xml.GetNode(L"contents_en", L"update_contents").c_str();
+    CString contents_en = version_xml.GetNode(L"contents_en", L"update_contents").c_str();
     contents_zh_cn.Replace(L"\\n", L"\r\n");
-    //contents_en.Replace(L"\\n", L"\r\n");
+    contents_en.Replace(L"\\n", L"\r\n");
     m_contents_zh_cn = contents_zh_cn;
-    //m_contents_en = contents_en;
+    m_contents_en = contents_en;
 }
 
 const std::wstring& CUpdateHelper::GetVersion() const
@@ -71,10 +71,10 @@ const std::wstring& CUpdateHelper::GetLink64() const
     return m_link64;
 }
 
-//const std::wstring& CUpdateHelper::GetContentsEn() const
-//{
-//    return m_contents_en;
-//}
+const std::wstring& CUpdateHelper::GetContentsEn() const
+{
+    return m_contents_en;
+}
 
 const std::wstring& CUpdateHelper::GetContentsZhCn() const
 {

@@ -80,7 +80,7 @@ void CSimpleNotePadApp::CheckUpdate(bool message)
     wstring version;        //程序版本
     wstring link;           //下载链接
     wstring contents_zh_cn; //更新内容（简体中文）
-    //wstring contents_en;    //更新内容（English）
+    wstring contents_en;    //更新内容（English）
     CUpdateHelper update_helper;
     update_helper.SetUpdateSource(static_cast<CUpdateHelper::UpdateSource>(m_settings_data.update_source));
     if (!update_helper.CheckForUpdate())
@@ -96,7 +96,7 @@ void CSimpleNotePadApp::CheckUpdate(bool message)
     link = update_helper.GetLink();
 #endif
     contents_zh_cn = update_helper.GetContentsZhCn();
-    //contents_en = update_helper.GetContentsEn();
+    contents_en = update_helper.GetContentsEn();
     if (version.empty() || link.empty())
     {
         if (message)
@@ -110,14 +110,13 @@ void CSimpleNotePadApp::CheckUpdate(bool message)
     {
         CString info;
         //根据语言设置选择对应语言版本的更新内容
-        //int language_code = _ttoi(CCommon::LoadText(IDS_LANGUAGE_CODE));
+        int language_code = _ttoi(CCommon::LoadText(IDS_LANGUAGE_CODE));
         wstring contents_lan;
-        //switch (language_code)
-        //{
-        //case 2: contents_lan = contents_zh_cn; break;
-        //default: contents_lan = contents_en; break;
-        //}
-        contents_lan = contents_zh_cn;
+        switch (language_code)
+        {
+        case 2: contents_lan = contents_zh_cn; break;
+        default: contents_lan = contents_en; break;
+        }
 
         if (contents_lan.empty())
             info.Format(CCommon::LoadText(IDS_UPDATE_AVLIABLE), version.c_str());

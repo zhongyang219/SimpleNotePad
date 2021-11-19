@@ -130,6 +130,7 @@
 #define IDI_COMPARE                     186
 #define IDS_STATUS_BAR_POSITION_IFNO2   186
 #define IDD_GTO_DIALOG                  187
+#define IDS_LANGUAGE_CODE               187
 #define IDI_EXPLORE                     189
 #define IDI_CLIPBOARD                   190
 #define IDI_RECENT_FILES                191
