@@ -47,6 +47,8 @@ public:
     //获取最近打开文件列表
     const std::vector<CString>& GetRecentFileList();
 
+    void RemoveFromRecentFileList(LPCTSTR file_path);
+
     void WriteStringList(LPCTSTR app_name, LPCTSTR key_name, const std::vector<std::wstring>& string_list); //将一个字符串列表保存到配置
     void GetStringList(LPCTSTR app_name, LPCTSTR key_name, std::vector<std::wstring>& string_list);         //从配置读取一个字符串列表
 

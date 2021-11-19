@@ -95,7 +95,8 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 	if (file.fail())
 	{
 		MessageBox(CCommon::LoadTextFormat(IDS_CANNOT_OPEN_FILE_WARNING, { file_path }), NULL, MB_OK | MB_ICONSTOP);
-		m_file_path.Empty();
+        theApp.RemoveFromRecentFileList(m_file_path);
+        m_file_path.Empty();
 		return;
 	}
 
@@ -138,6 +139,8 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 
     if (PathFileExists(m_file_path))
         theApp.AddToRecentFileList(m_file_path);
+    else
+        theApp.RemoveFromRecentFileList(m_file_path);
 
     //文件打开后为编辑设置语法高亮
     SetEditorSyntaxHight();

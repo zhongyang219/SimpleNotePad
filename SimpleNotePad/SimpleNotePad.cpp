@@ -168,6 +168,19 @@ const std::vector<CString>& CSimpleNotePadApp::GetRecentFileList()
     return m_recent_file_list;
 }
 
+void CSimpleNotePadApp::RemoveFromRecentFileList(LPCTSTR file_path)
+{
+    int length = m_pRecentFileList->GetSize();
+    for (int i = 0; i < length; i++)
+    {
+        if ((*m_pRecentFileList)[i] == file_path)
+        {
+            m_pRecentFileList->Remove(i);
+            i--;
+        }
+    }
+}
+
 void CSimpleNotePadApp::WriteStringList(LPCTSTR app_name, LPCTSTR key_name, const std::vector<std::wstring>& string_list)
 {
     std::string buff;
