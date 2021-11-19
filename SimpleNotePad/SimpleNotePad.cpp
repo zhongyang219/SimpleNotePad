@@ -60,7 +60,7 @@ void CSimpleNotePadApp::SetGeneralSettings(const SettingsData & data)
     m_settings_data = data;
 }
 
-EditSettingData CSimpleNotePadApp::GetEditSettings() const
+const EditSettingData& CSimpleNotePadApp::GetEditSettings() const
 {
     return m_edit_settings_data;
 }

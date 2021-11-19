@@ -8,6 +8,45 @@
 #include "InsertDataDlg.h"
 #include "DeleteDataDlg.h"
 
+//以下几个函数虽然使用CString::Format就可以实现，但是CString::Format性能太差，因此这里重新实现了字节和地址转换成字符串的函数
+////////////////////////////////////////////////////////////////////////////////////
+char ByteUnder16ToChar(unsigned char ch)
+{
+    ch = ch % 16;
+    if (ch >= 0 && ch <= 9)
+        return '0' + ch;
+    else if (ch >= 10 && ch <= 15)
+        return 'A' + (ch - 10);
+    else
+        return '0';
+}
+
+void BtyeToString(unsigned char byte, CString& str)
+{
+    TCHAR buff[3];
+    buff[0] = ByteUnder16ToChar(byte >> 4);
+    buff[1] = ByteUnder16ToChar(byte % 16);
+    buff[2] = '\0';
+    str = buff;
+}
+
+void AddressToString(unsigned int addr, CString& str)
+{
+    TCHAR buff[9];
+    buff[0] = ByteUnder16ToChar((addr >> 28) % 16);
+    buff[1] = ByteUnder16ToChar((addr >> 24) % 16);
+    buff[2] = ByteUnder16ToChar((addr >> 20) % 16);
+    buff[3] = ByteUnder16ToChar((addr >> 16) % 16);
+    buff[4] = ByteUnder16ToChar((addr >> 12) % 16);
+    buff[5] = ByteUnder16ToChar((addr >> 8) % 16);
+    buff[6] = ByteUnder16ToChar((addr >> 4) % 16);
+    buff[7] = ByteUnder16ToChar(addr % 16);
+    buff[8] = '\0';
+    str = buff;
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
 // CHexViewDlg 对话框
 
 
@@ -95,9 +134,12 @@ void CHexViewDlg::ShowHexData()
 			//显示地址
 			if (i < max)
 			{
-				temp.Format(_T("%.8x  "), i);
-				temp.MakeUpper();
-				m_str += temp;
+				//temp.Format(_T("%.8x  "), i);
+				//temp.MakeUpper();
+                AddressToString(i, temp);
+                temp.AppendChar(_T(' '));
+                temp.AppendChar(_T(' '));
+                m_str += temp;
 			}
 		}
 		//显示数据
@@ -105,8 +147,10 @@ void CHexViewDlg::ShowHexData()
 		{
 			if (i < m_data.size())
 			{
-				temp.Format(_T("%.2x "), static_cast<unsigned char>(m_data[i]));
-				temp.MakeUpper();
+				//temp.Format(_T("%.2x "), static_cast<unsigned char>(m_data[i]));
+				//temp.MakeUpper();
+                BtyeToString(m_data[i], temp);
+                temp.AppendChar(_T(' '));
 			}
 			else
 			{
@@ -279,7 +323,7 @@ BOOL CHexViewDlg::OnInitDialog()
 
 	m_modified = false;
 
-    //AfxGetMainWnd()->ShowWindow(SW_HIDE);       //打开此对话框时隐藏主窗口
+    AfxGetMainWnd()->ShowWindow(SW_HIDE);       //打开此对话框时隐藏主窗口
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
@@ -653,7 +697,7 @@ void CHexViewDlg::OnDestroy()
 	// TODO: 在此处添加消息处理程序代码
 	SaveConfig();
 
-    //AfxGetMainWnd()->ShowWindow(SW_SHOW);       //打开此对话框时隐藏主窗口
+    AfxGetMainWnd()->ShowWindow(SW_SHOW);       //打开此对话框时隐藏主窗口
 
 }
 

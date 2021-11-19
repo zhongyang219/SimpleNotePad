@@ -31,7 +31,7 @@ public:
     SettingsData GetGeneralSettings() const;
     void SetGeneralSettings(const SettingsData& data);
 
-    EditSettingData GetEditSettings() const;
+    const EditSettingData& GetEditSettings() const;
     void SetEditSettings(const EditSettingData& data);
 
     void CheckUpdate(bool message);     //检查更新，如果message为true，则在检查时弹出提示信息
