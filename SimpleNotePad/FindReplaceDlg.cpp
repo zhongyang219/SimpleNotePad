@@ -186,6 +186,8 @@ void CFindReplaceDlg::EnableControl()
     EnableDlgCtrl(IDC_REPLACE_BUTTON, find_enable || select_valid);
     EnableDlgCtrl(IDC_REPLACE_ALL_BUTTON, find_enable);
     EnableDlgCtrl(IDC_REPLACE_SELECTE_BUTTON, find_enable && select_valid);
+
+    EnableDlgCtrl(IDC_MATCH_WHOLE_WORD_CHECK, m_options.find_mode != FindMode::REGULAR_EXPRESSION);
 }
 
 BEGIN_MESSAGE_MAP(CFindReplaceDlg, CBaseDialog)
@@ -315,18 +317,21 @@ void CFindReplaceDlg::OnBnClickedWrapAroundCheck()
 void CFindReplaceDlg::OnBnClickedFindModeNormalRadio()
 {
     m_options.find_mode = FindMode::NORMAL;
+    EnableControl();
 }
 
 
 void CFindReplaceDlg::OnBnClickedFindModeExtendedRadio()
 {
     m_options.find_mode = FindMode::EXTENDED;
+    EnableControl();
 }
 
 
 void CFindReplaceDlg::OnBnClickedFindModeRegularExpRadio()
 {
     m_options.find_mode = FindMode::REGULAR_EXPRESSION;
+    EnableControl();
 }
 
 
