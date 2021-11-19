@@ -91,7 +91,7 @@ void CScintillaEditView::GetTextW(wstring& text)
 
 const wchar_t* CScintillaEditView::GetTextW(int& size)
 {
-    auto length = SendMessage(SCI_GETLENGTH);
+    auto length = GetDocLength();
     char* buf = new char[length + 1];
     SendMessage(SCI_GETTEXT, length + 1, reinterpret_cast<LPARAM>(buf));
 
@@ -107,10 +107,15 @@ const wchar_t* CScintillaEditView::GetTextW(int& size)
 
 const char * CScintillaEditView::GetText(int & size)
 {
-    size = SendMessage(SCI_GETLENGTH);
+    size = GetDocLength();
     char* buf = new char[size + 1];
     SendMessage(SCI_GETTEXT, size + 1, reinterpret_cast<LPARAM>(buf));
     return buf;
+}
+
+int CScintillaEditView::GetDocLength()
+{
+    return SendMessage(SCI_GETLENGTH);
 }
 
 void CScintillaEditView::SetFontFaceW(const wchar_t* font_face)
@@ -237,6 +242,32 @@ CPoint CScintillaEditView::GetCursorPosition()
     point.x = SendMessage(SCI_POINTXFROMPOSITION, 0, cur_index);
     point.y = SendMessage(SCI_POINTYFROMPOSITION, 0, cur_index);
     return point;
+}
+
+char CScintillaEditView::At(int index)
+{
+    int ch = SendMessage(SCI_GETCHARAT, index);
+    return static_cast<char>(ch);
+}
+
+bool CScintillaEditView::AutoSelectWord()
+{
+    if (!IsSelectionEmpty())
+        return false;
+
+    int pos = GetCursorIndex();
+    int start = SendMessage(SCI_WORDSTARTPOSITION, pos, true);
+    int end = SendMessage(SCI_WORDENDPOSITION, pos, true);
+
+    if (start == end)
+    {
+        return false;
+    }
+    else
+    {
+        SetSel(start, end);
+        return true;
+    }
 }
 
 void CScintillaEditView::Undo()
@@ -528,7 +559,7 @@ void CScintillaEditView::ClearMark(MarkStyle mark_style, int start, int length)
 
 void CScintillaEditView::ClearAllMark(MarkStyle mark_style)
 {
-    ClearMark(mark_style, 0, SendMessage(SCI_GETLENGTH));
+    ClearMark(mark_style, 0, GetDocLength());
 }
 
 void CScintillaEditView::SetLexer(int lexer)
@@ -637,7 +668,7 @@ void CScintillaEditView::SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner)
 int CScintillaEditView::Find(std::string str, int start, int end)
 {
     if (end < 0)
-        end = SendMessage(SCI_GETLENGTH);
+        end = GetDocLength();
     Sci_TextToFind ttf;
     ttf.chrg.cpMin = start;
     ttf.chrg.cpMax = end;
@@ -649,7 +680,7 @@ void CScintillaEditView::GetLinePos(int line, int& start, int& end)
 {
     start = SendMessage(SCI_POSITIONFROMLINE, line);
     end = SendMessage(SCI_GETLINEENDPOSITION, line);
-    int doc_length = SendMessage(SCI_GETLENGTH);
+    int doc_length = GetDocLength();
     if (start < 0 && start > doc_length)
         start = 0;
     if (end < 0 || end > doc_length)
@@ -671,7 +702,7 @@ bool CScintillaEditView::IsFullLineSelected()
         return false;
     int first_line_colume = SendMessage(SCI_GETCOLUMN, start);
     int last_line_colume = SendMessage(SCI_GETCOLUMN, end);
-    return first_line_colume == 0 && (last_line_colume == 0 || end == SendMessage(SCI_GETLENGTH));
+    return first_line_colume == 0 && (last_line_colume == 0 || end == GetDocLength());
 }
 
 void CScintillaEditView::GetLineSelected(int& first_line, int& last_line)
@@ -680,7 +711,7 @@ void CScintillaEditView::GetLineSelected(int& first_line, int& last_line)
     GetSel(start, end);
     first_line = SendMessage(SCI_LINEFROMPOSITION, start);
     last_line = SendMessage(SCI_LINEFROMPOSITION, end);
-    if (end == SendMessage(SCI_GETLENGTH))
+    if (end == GetDocLength())
         last_line++;
 }
 

@@ -1309,10 +1309,17 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
                     return TRUE;
                 }
             }
+#ifdef _DEBUG
             //if (pMsg->wParam != VK_CONTROL)
             //{
             //    int a = 0;
             //}
+            if (pMsg->wParam == 'Q')
+            {
+                m_view->AutoSelectWord();
+                return TRUE;
+            }
+#endif
         }
     }
 
@@ -1486,6 +1493,7 @@ void CSimpleNotePadDlg::OnFind()
     m_find_replace_dlg.ShowWindow(SW_SHOW);
     m_find_replace_dlg.SetActiveWindow();
     m_find_replace_dlg.SetMode(CFindReplaceDlg::Mode::FIND);
+    m_view->AutoSelectWord();   //自动选中光标处的一个单词
     FillFindText();
 }
 
@@ -1550,6 +1558,7 @@ void CSimpleNotePadDlg::OnReplace()
     m_find_replace_dlg.ShowWindow(SW_SHOW);
     m_find_replace_dlg.SetActiveWindow();
     m_find_replace_dlg.SetMode(CFindReplaceDlg::Mode::REPLACE);
+    m_view->AutoSelectWord();   //自动选中光标处的一个单词
     FillFindText();
 }
 

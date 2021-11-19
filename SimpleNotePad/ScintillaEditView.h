@@ -47,6 +47,7 @@ public:
     void GetTextW(wstring& text);
     const wchar_t* GetTextW(int& size);      //获取文本（返回字符串指针，需要自行释放内存）
     const char* GetText(int& size);      //获取UTF8格式文本（返回字符串指针，需要自行释放内存）
+    int GetDocLength();
     void SetFontFaceW(const wchar_t* font_face);
     void SetFontSize(int font_size);
     void SetTabSize(int tab_size);
@@ -64,6 +65,8 @@ public:
     std::wstring GetSelectedTextW();         //获取选中文本
     std::string GetSelectedText();  //获取UTF8格式的选中文本
     CPoint GetCursorPosition();   //获取光标的坐标
+    char At(int index);         //获取指定位置的一个字符
+    bool AutoSelectWord();      //在未选中任何文本状态下，自动选中光标处的一个单词
 
     void Undo();
     void Redo();
