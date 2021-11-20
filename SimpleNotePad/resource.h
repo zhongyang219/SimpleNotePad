@@ -140,6 +140,10 @@
 #define IDI_NEXT                        196
 #define IDI_PREVIOUS                    197
 #define IDI_NEW_WINDOW                  198
+#define IDI_REPLACE                     199
+#define IDI_ZOOM_IN                     200
+#define IDI_ICON1                       201
+#define IDI_ZOOM_OUT                    201
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -237,7 +241,6 @@
 #define IDC_FIND_COMBO                  1083
 #define IDC_REPLACE_COMBO               1084
 #define IDC_MARK_ALL_BUTTON             1085
-#define IDC_CHECK2                      1085
 #define IDC_SHOW_INDENTATION_GUIDE_CHECK 1085
 #define ID_32771                        32771
 #define ID_32772                        32772
@@ -374,7 +377,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        199
+#define _APS_NEXT_RESOURCE_VALUE        202
 #define _APS_NEXT_COMMAND_VALUE         33045
 #define _APS_NEXT_CONTROL_VALUE         1086
 #define _APS_NEXT_SYMED_VALUE           105

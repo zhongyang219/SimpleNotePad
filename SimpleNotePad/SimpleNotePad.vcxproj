@@ -314,12 +314,15 @@
     <Image Include="res\previous.ico" />
     <Image Include="res\recent_files.ico" />
     <Image Include="res\redo.ico" />
+    <Image Include="res\replace.ico" />
     <Image Include="res\save.ico" />
     <Image Include="res\save_as.ico" />
     <Image Include="res\select_all.ico" />
     <Image Include="res\settings.ico" />
     <Image Include="res\SimpleNotePad.ico" />
     <Image Include="res\undo.ico" />
+    <Image Include="res\zoom_in.ico" />
+    <Image Include="res\zoom_out.ico" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="lang.xml" />

@@ -35,6 +35,7 @@ void CFindReplaceDlg::SetMode(Mode mode)
         CheckDlgButton(IDC_FIND_RADIO, true);
         CheckDlgButton(IDC_REPLACE_RADIO, false);
         SetWindowText(CCommon::LoadText(IDS_FIND));
+        SetIcon(theApp.GetMenuIcon(IDI_FIND), FALSE);
     }
     else if (m_mode == Mode::REPLACE)
     {
@@ -47,6 +48,7 @@ void CFindReplaceDlg::SetMode(Mode mode)
         CheckDlgButton(IDC_FIND_RADIO, false);
         CheckDlgButton(IDC_REPLACE_RADIO, true);
         SetWindowText(CCommon::LoadText(IDS_REPLACE));
+        SetIcon(theApp.GetMenuIcon(IDI_REPLACE), FALSE);
     }
     m_find_combo.SetFocus();
 }
@@ -222,7 +224,6 @@ BOOL CFindReplaceDlg::OnInitDialog()
 
     // TODO:  在此添加额外的初始化
     CenterWindow();
-    SetIcon(theApp.GetMenuIcon(IDI_FIND), FALSE);
     SetButtonIcon(IDC_FIND_PREVIOUS_BUTTON, theApp.GetMenuIcon(IDI_PREVIOUS));
     SetButtonIcon(IDC_FIND_NEXT_BUTTON, theApp.GetMenuIcon(IDI_NEXT));
 

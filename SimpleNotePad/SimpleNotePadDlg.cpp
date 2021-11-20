@@ -686,6 +686,7 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_PASTE, FALSE, theApp.GetMenuIcon(IDI_PASTE));
     CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(1)->GetSafeHmenu(), 6, TRUE, theApp.GetMenuIcon(IDI_CLIPBOARD));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_FIND, FALSE, theApp.GetMenuIcon(IDI_FIND));
+    CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_REPLACE, FALSE, theApp.GetMenuIcon(IDI_REPLACE));
     CMenuIcon::AddIconToMenuItem(menu, ID_FIND_PRIVIOUS, FALSE, theApp.GetMenuIcon(IDI_PREVIOUS));
     CMenuIcon::AddIconToMenuItem(menu, ID_FIND_NEXT, FALSE, theApp.GetMenuIcon(IDI_NEXT));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_SELECT_ALL, FALSE, theApp.GetMenuIcon(IDI_SELECT_ALL));
@@ -695,6 +696,9 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(menu, ID_FORMAT_FONT, FALSE, theApp.GetMenuIcon(IDI_FONT));
     CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(3)->GetSafeHmenu(), 7, TRUE, theApp.GetMenuIcon(IDI_LANGUAGE));
     CMenuIcon::AddIconToMenuItem(menu, ID_ALWAYS_ON_TOP, FALSE, theApp.GetMenuIcon(IDI_PIN));
+    CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(4)->GetSafeHmenu(), 1, TRUE, theApp.GetMenuIcon(IDI_ZOOM_IN));
+    CMenuIcon::AddIconToMenuItem(menu, ID_VIEW_ZOOM_IN, FALSE, theApp.GetMenuIcon(IDI_ZOOM_IN));
+    CMenuIcon::AddIconToMenuItem(menu, ID_VIEW_ZOOM_OUT, FALSE, theApp.GetMenuIcon(IDI_ZOOM_OUT));
     CMenuIcon::AddIconToMenuItem(menu, ID_HEX_VIEW, FALSE, theApp.GetMenuIcon(IDI_HEX_VIEW));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_COMPARE, FALSE, theApp.GetMenuIcon(IDI_COMPARE));
     CMenuIcon::AddIconToMenuItem(menu, ID_FORMAT_CONVERT, FALSE, theApp.GetMenuIcon(IDI_CODE_BATCH));

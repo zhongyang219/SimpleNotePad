@@ -433,6 +433,15 @@
     <Image Include="res\new_window.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\replace.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\zoom_in.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\zoom_out.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="lang.xml" />
