@@ -929,7 +929,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	// 设置此对话框的图标。  当应用程序主窗口不是对话框时，框架将自动
 	//  执行此操作
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
-	SetIcon(m_hIcon, FALSE);		// 设置小图标
+	SetIcon(theApp.GetMenuIcon(IDR_MAINFRAME), FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
     m_pDC = GetDC();
