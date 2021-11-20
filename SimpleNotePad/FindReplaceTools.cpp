@@ -166,6 +166,7 @@ int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CSc
     if (options.find_str.empty() || pEditView->SendMessage(SCI_GETLENGTH) <= 0)
         return false;
     pEditView->SetEditChangeNotificationEnable(false);
+    CScintillaEditView::UndoRedoActionLocker locker(pEditView->GetSafeHwnd());
     int replaced_count{};
     if (options.find_mode == FindMode::EXTENDED)
     {
