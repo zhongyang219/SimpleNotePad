@@ -202,7 +202,7 @@ bool CScintillaEditView::IsReadOnly()
     return (SendMessage(SCI_GETREADONLY) != 0);
 }
 
-int CScintillaEditView::GetCursorIndex()
+int CScintillaEditView::GetCurrentIndex()
 {
     return SendMessage(SCI_GETCURRENTPOS);
 }
@@ -237,7 +237,7 @@ std::string CScintillaEditView::GetSelectedText()
 
 CPoint CScintillaEditView::GetCursorPosition()
 {
-    int cur_index = GetCursorIndex();
+    int cur_index = GetCurrentIndex();
     CPoint point{};
     point.x = SendMessage(SCI_POINTXFROMPOSITION, 0, cur_index);
     point.y = SendMessage(SCI_POINTYFROMPOSITION, 0, cur_index);
@@ -255,7 +255,7 @@ bool CScintillaEditView::AutoSelectWord()
     if (!IsSelectionEmpty())
         return false;
 
-    int pos = GetCursorIndex();
+    int pos = GetCurrentIndex();
     int start = SendMessage(SCI_WORDSTARTPOSITION, pos, true);
     int end = SendMessage(SCI_WORDENDPOSITION, pos, true);
 
@@ -719,6 +719,76 @@ void CScintillaEditView::GetLineSelected(int& first_line, int& last_line)
         last_line++;
 }
 
+void CScintillaEditView::MarkMatchedBrackets()
+{
+    ClearAllMark(MarkStyle::MATCHED_BRACKETS);
+    const std::vector<std::pair<char, char>> matched_brackets{ {'{', '}'},{'[', ']'},{'(', ')'} };
+    int pos = GetCurrentIndex();
+    int length = GetDocLength();
+    for (const auto& item : matched_brackets)
+    {
+        int left_bracket_pos{ -1 };
+        //当前是左括号
+        if (At(pos) == item.first)
+            left_bracket_pos = pos;
+        if (At(pos - 1) == item.first)
+            left_bracket_pos = pos - 1;
+        if (left_bracket_pos >= 0)
+        {
+            int left_bracket_count{};
+            //向后查找右括号
+            for (int i = left_bracket_pos + 1; i < length; i++)
+            {
+                char ch = At(i);
+                if (ch == item.first)
+                    left_bracket_count++;
+                if (ch == item.second)
+                {
+                    if (left_bracket_count == 0)
+                    {
+                        //找到右括号，将括号对标记
+                        SetMark(MarkStyle::MATCHED_BRACKETS, left_bracket_pos, 1);
+                        SetMark(MarkStyle::MATCHED_BRACKETS, i, 1);
+                        break;
+                    }
+                    left_bracket_count--;
+               }
+            }
+        }
+
+        int right_bracket_pos{ -1 };
+        //当前是右括号
+        if (At(pos) == item.second)
+            right_bracket_pos = pos;
+        if (At(pos - 1) == item.second)
+            right_bracket_pos = pos - 1;
+        if (right_bracket_pos >= 0)
+        {
+            int right_bracket_count{};
+            //向前查找左括号
+            for (int i = right_bracket_pos - 1; i >= 0; i--)
+            {
+                char ch = At(i);
+                if (ch == item.second)
+                    right_bracket_count++;
+
+                if (ch == item.first)
+                {
+                    if (right_bracket_count == 0)
+                    {
+                        //找到左括号，将括号对标记
+                        SetMark(MarkStyle::MATCHED_BRACKETS, right_bracket_pos, 1);
+                        SetMark(MarkStyle::MATCHED_BRACKETS, i, 1);
+                        break;
+                    }
+                    right_bracket_count--;
+                }
+            }
+        }
+
+    }
+}
+
 // CScintillaEditView 消息处理程序
 
 
@@ -773,6 +843,10 @@ void CScintillaEditView::OnInitialUpdate()
     SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), INDIC_ROUNDBOX);
     SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), 110);
     SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), RGB(103, 230, 7));
+    
+    SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), 110);
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), RGB(255, 209, 62));
 }
 
 

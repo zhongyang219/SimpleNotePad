@@ -286,7 +286,7 @@ void CSimpleNotePadDlg::UpdateStatusBarInfo()
     int start{}, end{};
     CString pos_info;
     if (m_view->IsSelectionEmpty())
-        pos_info = CCommon::LoadTextFormat(IDS_STATUS_BAR_POSITION_IFNO2, { row, col, m_view->GetCursorIndex() + 1 });
+        pos_info = CCommon::LoadTextFormat(IDS_STATUS_BAR_POSITION_IFNO2, { row, col, m_view->GetCurrentIndex() + 1 });
     else
         pos_info = CCommon::LoadTextFormat(IDS_STATUS_BAR_POSITION_IFNO, {row, col, m_view->GetSelCount()});
     m_status_bar.SetText(pos_info, SP_POSITION_INDICATIOR, 0);
@@ -1326,7 +1326,7 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
             if (pMsg->wParam == 'Q')
             {
                 //m_view->AutoSelectWord();
-                int pos = m_view->GetCursorIndex();
+                int pos = m_view->GetCurrentIndex();
                 m_view->DeleteText(pos, 1);
 
                 return TRUE;
@@ -1872,7 +1872,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             if (notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER)
                 || notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER | SC_STARTACTION))
             {
-                int pos = m_view->GetCursorIndex();
+                int pos = m_view->GetCurrentIndex();
                 int start{}, end{};
                 m_view->GetCurLinePos(start, end);
                 //确保删除的括号对在一行的末尾
@@ -1936,6 +1936,10 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                         m_find_replace_dlg.SetFindString(selected_text_wcs.c_str());
                     }
                 }
+
+                //标记匹配的括号
+                m_view->MarkMatchedBrackets();
+
                 m_find_replace_dlg.EnableControl();
                 UpdateStatusBarInfo();
             }
@@ -1945,7 +1949,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             if (notification->characterSource == SC_CHARACTERSOURCE_DIRECT_INPUT)
             {
                 //如果键入了一个括号对的左半部分，则自动插入括号对的右半部分
-                int pos = m_view->GetCursorIndex();
+                int pos = m_view->GetCurrentIndex();
                 int start{}, end{};
                 m_view->GetCurLinePos(start, end);
                 //只有当光标所在的位置为一行的末尾时才进行此操作

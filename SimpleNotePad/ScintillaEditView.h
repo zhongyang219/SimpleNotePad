@@ -61,7 +61,7 @@ public:
     void SetBackgroundColor(COLORREF color);
     void SetReadOnly(bool read_only);
     bool IsReadOnly();
-    int GetCursorIndex();       //获取光标位置
+    int GetCurrentIndex();       //获取光标位置
     std::wstring GetSelectedTextW();         //获取选中文本
     std::string GetSelectedText();  //获取UTF8格式的选中文本
     CPoint GetCursorPosition();   //获取光标的坐标
@@ -151,10 +151,12 @@ public:
 
     void GotoLine(int line);    //跳转到行
 
+    //标记样式
     enum class MarkStyle
     {
-        MARK_ALL = 1,
-        SELECTION_MARK,
+        MARK_ALL = 1,       //使用“标记全部”功能时的标记样式
+        SELECTION_MARK,     //标记相同单词的标记样式
+        MATCHED_BRACKETS,      //匹配括号对的标记样式
         HTML_MATCH
     };
     void SetMark(MarkStyle mark_style, int start, int length);
@@ -181,6 +183,8 @@ public:
     void GetCurLinePos(int& start, int& end);               //获取当前行的开始和结束位置
     bool IsFullLineSelected();      //当前是否选中了整行
     void GetLineSelected(int& first_line, int& last_line);  //获取选中区域所在的行范围。first_line：选中区域的第一行，last_line：选中区域最后一行的下一行
+
+    void MarkMatchedBrackets();
 
 private:
 
