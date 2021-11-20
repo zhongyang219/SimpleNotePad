@@ -91,8 +91,9 @@ typedef char _tchar;
 #define APP_CLASS_NAME _T("SimpleNotePad_7HG074cT") //程序主窗口的类名
 
 #define WM_NP_FIND_REPLACE (WM_USER + 100)  //查找替换消息，WPARA为CFindReplaceDlg::FindMode类型
+#define WM_DELETE_CHAR (WM_USER + 101)      //删除编辑器一个字符，wParam为删除位置
 
-#define WM_NEXT_USER_MSG (WM_USER + 101)
+#define WM_NEXT_USER_MSG (WM_USER + 102)
 
 #undef min
 #undef max

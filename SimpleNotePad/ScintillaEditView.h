@@ -73,7 +73,8 @@ public:
     void Cut();
     void Copy();
     void Paste();
-    void Paste(const wstring& text);
+    void Paste(const string& text);
+    void PasteW(const wstring& text);
     void SelectAll();
     void EmptyUndoBuffer();     //清空撤销缓存
 

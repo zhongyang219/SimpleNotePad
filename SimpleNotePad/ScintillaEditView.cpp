@@ -295,13 +295,17 @@ void CScintillaEditView::Paste()
     SendMessage(SCI_PASTE);
 }
 
-void CScintillaEditView::Paste(const wstring& text)
+void CScintillaEditView::Paste(const string& text)
+{
+    //插入要粘贴的文本
+    SendMessage(SCI_INSERTTEXT, -1, (sptr_t)text.c_str());
+}
+
+void CScintillaEditView::PasteW(const wstring& text)
 {
     bool b;
     std::string str_paste = CCommon::UnicodeToStr(text, b, CodeType::UTF8_NO_BOM);
-    //插入要粘贴的文本
-    SendMessage(SCI_INSERTTEXT, -1, (sptr_t)str_paste.c_str());
-
+    Paste(str_paste);
 }
 
 void CScintillaEditView::SelectAll()

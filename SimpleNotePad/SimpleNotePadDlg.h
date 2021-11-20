@@ -218,4 +218,6 @@ public:
     afx_msg void OnViewZoomIn();
     afx_msg void OnViewZoomOut();
     afx_msg void OnViewZoomDefault();
+protected:
+    afx_msg LRESULT OnDeleteChar(WPARAM wParam, LPARAM lParam);
 };

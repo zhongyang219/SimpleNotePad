@@ -22,6 +22,8 @@
 #define new DEBUG_NEW
 #endif
 
+const std::vector<std::pair<char, char>> matched_characters{ {'{', '}'},{'[', ']'},{'(', ')'}, {'\"', '\"'},{'\'', '\''} };
+
 // CSimpleNotePadDlg 对话框
 
 
@@ -898,6 +900,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_VIEW_ZOOM_IN, &CSimpleNotePadDlg::OnViewZoomIn)
     ON_COMMAND(ID_VIEW_ZOOM_OUT, &CSimpleNotePadDlg::OnViewZoomOut)
     ON_COMMAND(ID_VIEW_ZOOM_DEFAULT, &CSimpleNotePadDlg::OnViewZoomDefault)
+    ON_MESSAGE(WM_DELETE_CHAR, &CSimpleNotePadDlg::OnDeleteChar)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1322,7 +1325,10 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
             //}
             if (pMsg->wParam == 'Q')
             {
-                m_view->AutoSelectWord();
+                //m_view->AutoSelectWord();
+                int pos = m_view->GetCursorIndex();
+                m_view->DeleteText(pos, 1);
+
                 return TRUE;
             }
 #endif
@@ -1862,6 +1868,32 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                 UpdateStatusBarInfo();
                 SetTitle();
             }
+            //当删除了字符时
+            if (notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER)
+                || notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER | SC_STARTACTION))
+            {
+                int pos = m_view->GetCursorIndex();
+                int start{}, end{};
+                m_view->GetCurLinePos(start, end);
+                //确保删除的括号对在一行的末尾
+                if (pos == end - 1)
+                {
+                    char ch{};
+                    if (notification->text != nullptr)
+                        ch = notification->text[0];
+                    //如果删除的字符是括号对的左半边，则自动删除括号对的右半边
+                    for (const auto& item : matched_characters)
+                    {
+                        if (ch == item.first)
+                        {
+                            char next_ch = m_view->At(pos);
+                            if (next_ch == item.second)
+                                //m_view->DeleteText(pos, 1);
+                                PostMessage(WM_DELETE_CHAR, pos);   //在OnNotify函数里调用m_view->DeleteText(pos, 1)无效，因此这里通过PostMessage来确保在OnNotify返回后再调用
+                        }
+                    }
+                }
+            }
         }
         else if (notification->nmhdr.code == SCN_ZOOM)
         {
@@ -1906,6 +1938,29 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                 }
                 m_find_replace_dlg.EnableControl();
                 UpdateStatusBarInfo();
+            }
+        }
+        else if (notification->nmhdr.code == SCN_CHARADDED)
+        {
+            if (notification->characterSource == SC_CHARACTERSOURCE_DIRECT_INPUT)
+            {
+                //如果键入了一个括号对的左半部分，则自动插入括号对的右半部分
+                int pos = m_view->GetCursorIndex();
+                int start{}, end{};
+                m_view->GetCurLinePos(start, end);
+                //只有当光标所在的位置为一行的末尾时才进行此操作
+                if (pos == end)
+                {
+                    char ch = static_cast<char>(notification->ch);
+                    for (const auto& item : matched_characters)
+                    {
+                        if (ch == item.first)
+                        {
+                            m_view->Paste(std::string(1, item.second));
+                            m_view->SendMessage(SCI_GOTOPOS, pos);  //光标移动到插入前的位置
+                        }
+                    }
+                }
             }
         }
     }
@@ -2006,7 +2061,7 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
             if (!str.empty())
             {
                 //粘贴选中的文本
-                m_view->Paste(str);
+                m_view->PasteW(str);
                 //将选中的文本移动到列表的顶端
                 m_clipboard_items.erase(m_clipboard_items.begin() + index);
                 m_clipboard_items.push_front(str);
@@ -2375,4 +2430,12 @@ void CSimpleNotePadDlg::OnViewZoomOut()
 void CSimpleNotePadDlg::OnViewZoomDefault()
 {
     m_view->SetZoom(0);
+}
+
+
+afx_msg LRESULT CSimpleNotePadDlg::OnDeleteChar(WPARAM wParam, LPARAM lParam)
+{
+    int pos = static_cast<int>(wParam);
+    m_view->DeleteText(pos, 1);
+    return 0;
 }
