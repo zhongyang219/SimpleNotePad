@@ -202,6 +202,11 @@ bool CScintillaEditView::IsReadOnly()
     return (SendMessage(SCI_GETREADONLY) != 0);
 }
 
+void CScintillaEditView::ShowIndentationGuides(bool show)
+{
+    SendMessage(SCI_SETINDENTATIONGUIDES, show ? SC_IV_LOOKBOTH : SC_IV_NONE);
+}
+
 int CScintillaEditView::GetCurrentIndex()
 {
     return SendMessage(SCI_GETCURRENTPOS);
@@ -597,6 +602,8 @@ void CScintillaEditView::SetLexerNormalText()
     SendMessage(SCI_STYLECLEARALL);
 
     SendMessage(SCI_STYLESETFORE, STYLE_LINENUMBER, m_line_number_color);
+    SendMessage(SCI_STYLESETFORE, STYLE_INDENTGUIDE, RGB(143, 187, 240));
+
 }
 
 CScintillaEditView::eEolMode CScintillaEditView::JudgeEolMode(const wstring& str)

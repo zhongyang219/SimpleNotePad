@@ -85,6 +85,8 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
     {
         m_view->SetTabSize(theApp.GetEditSettings().tab_width);
     }
+
+    m_view->ShowIndentationGuides(theApp.GetEditSettings().show_indentation_guides);
 }
 
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
@@ -982,6 +984,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->SetViewEol(m_show_eol);
     m_view->SetBackgroundColor(theApp.GetEditSettings().background_color);
     m_view->SetSelectionBackColor(theApp.GetEditSettings().selection_back_color);
+    m_view->ShowIndentationGuides(theApp.GetEditSettings().show_indentation_guides);
     m_view->SetContextMenu(m_context_menu.GetSubMenu(0), this);
 
 	//初始化状态栏

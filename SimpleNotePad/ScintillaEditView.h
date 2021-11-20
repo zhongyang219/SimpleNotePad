@@ -61,6 +61,7 @@ public:
     void SetBackgroundColor(COLORREF color);
     void SetReadOnly(bool read_only);
     bool IsReadOnly();
+    void ShowIndentationGuides(bool show);  //显示缩进指示
     int GetCurrentIndex();       //获取光标位置
     std::wstring GetSelectedTextW();         //获取选中文本
     std::string GetSelectedText();  //获取UTF8格式的选中文本

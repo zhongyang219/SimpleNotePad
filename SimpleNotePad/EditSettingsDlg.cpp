@@ -66,6 +66,8 @@ BOOL CEditSettingsDlg::OnInitDialog()
     m_tab_width_edit.SetRange(1, 16);
     m_tab_width_edit.SetValue(m_data.tab_width);
 
+    CheckDlgButton(IDC_SHOW_INDENTATION_GUIDE_CHECK, m_data.show_indentation_guides);
+
     CheckDlgButton(IDC_SHOW_INVISIBLE_CHARACTOR_CHECK, m_data.show_invisible_characters_hex);
     EnableControl();
 
@@ -81,6 +83,7 @@ void CEditSettingsDlg::OnOK()
     GetDlgItemText(IDC_FONE_NAME_EDIT, m_data.font_name);
     m_data.font_size = m_font_size_edit.GetValue();
     m_data.tab_width = m_tab_width_edit.GetValue();
+    m_data.show_indentation_guides = (IsDlgButtonChecked(IDC_SHOW_INDENTATION_GUIDE_CHECK) != 0);
 
     m_data.show_invisible_characters_hex = (IsDlgButtonChecked(IDC_SHOW_INVISIBLE_CHARACTOR_CHECK) != 0);
 
