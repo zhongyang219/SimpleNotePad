@@ -926,6 +926,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 		}
 	}
 
+    //根据当前系统DPI设置设置状态栏大小
+    theApp.DPIFromWindow(this);
+
 	// 设置此对话框的图标。  当应用程序主窗口不是对话框时，框架将自动
 	//  执行此操作
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
@@ -948,9 +951,6 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     path = CCommon::GetExePath() + L"lang.xml";
 #endif
     m_syntax_highlight.LoadFromFile(path.c_str());
-
-	//根据当前系统DPI设置设置状态栏大小
-    theApp.DPIFromWindow(this);
 
 	m_status_bar_hight = theApp.DPI(20);
 	m_edit_bottom_space = theApp.DPI(22);
