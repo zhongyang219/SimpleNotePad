@@ -811,6 +811,10 @@ void CScintillaEditView::OnInitialUpdate()
     SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), INDIC_ROUNDBOX);
     SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), 110);
     SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), RGB(255, 209, 62));
+
+    SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), INDIC_ROUNDBOX);
+    SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::HTML_MARKS), 110);
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), RGB(134, 152, 234));
 }
 
 

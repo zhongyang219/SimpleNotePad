@@ -105,6 +105,9 @@
     <Filter Include="EditorHelper">
       <UniqueIdentifier>{c9066eda-05cc-4c1f-b886-eba62a5c98b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="公共的类\xmlMatchedTagsHighlighter">
+      <UniqueIdentifier>{ea3f42a8-901f-430d-9a0f-dec8c303c7fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -233,6 +236,9 @@
     <ClInclude Include="EditorHelper.h">
       <Filter>EditorHelper</Filter>
     </ClInclude>
+    <ClInclude Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.h">
+      <Filter>公共的类\xmlMatchedTagsHighlighter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -342,6 +348,9 @@
     </ClCompile>
     <ClCompile Include="EditorHelper.cpp">
       <Filter>EditorHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.cpp">
+      <Filter>公共的类\xmlMatchedTagsHighlighter</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

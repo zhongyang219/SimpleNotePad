@@ -159,7 +159,7 @@ public:
         MARK_ALL = 1,       //使用“标记全部”功能时的标记样式
         SELECTION_MARK,     //标记相同单词的标记样式
         MATCHED_BRACKETS,      //匹配括号对的标记样式
-        HTML_MATCH
+        HTML_MARKS          //匹配的HTML标签标记样式
     };
     void SetMark(MarkStyle mark_style, int start, int length);
     void ClearMark(MarkStyle mark_style, int start, int length);

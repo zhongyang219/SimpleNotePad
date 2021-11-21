@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "EditorHelper.h"
+#include "xmlMatchedTagsHighlighter/xmlMatchedTagsHighlighter.h"
 
 const std::vector<std::pair<char, char>> matched_characters{ {'{', '}'},{'[', ']'},{'(', ')'}, {'\"', '\"'},{'\'', '\''} };
 const std::vector<std::pair<char, char>> matched_brackets{ {'{', '}'},{'[', ']'},{'(', ')'} };
@@ -231,4 +232,12 @@ void CEditorHelper::HtmlMarkAutoComp(char character_input)
             m_view->GotoPos(cur_pos);
         }
     }
+}
+
+void CEditorHelper::MarkMatchedHtmlMarks()
+{
+    //m_view->ClearAllMark(CScintillaEditView::MarkStyle::HTML_MARKS);
+    XmlMatchedTagsHighlighter highter(m_view);
+    highter.tagMatch(false);
+
 }

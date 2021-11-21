@@ -27,6 +27,9 @@ public:
     //  character_input: 最后输入的字符
     void HtmlMarkAutoComp(char character_input);
 
+    //标记匹配的HTML标签
+    void MarkMatchedHtmlMarks();
+
 private:
     CScintillaEditView* m_view{};
 };

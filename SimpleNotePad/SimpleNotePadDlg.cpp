@@ -1931,6 +1931,11 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                 CEditorHelper helper(m_view);
                 helper.MarkMatchedBrackets();
 
+                //标记匹配的html标记
+                const CLanguage& language = m_syntax_highlight.GetLanguage(m_cur_lan_index);
+                if (language.m_id == SCLEX_XML || language.m_id == SCLEX_HTML)
+                    helper.MarkMatchedHtmlMarks();
+
                 m_find_replace_dlg.EnableControl();
                 UpdateStatusBarInfo();
             }
