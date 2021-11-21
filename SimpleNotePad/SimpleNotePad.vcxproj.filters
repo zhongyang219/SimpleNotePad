@@ -102,6 +102,9 @@
     <Filter Include="对话框类\FindReplaceDlg">
       <UniqueIdentifier>{17618258-bcf7-4a06-a2bd-7174f56be164}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EditorHelper">
+      <UniqueIdentifier>{c9066eda-05cc-4c1f-b886-eba62a5c98b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -227,6 +230,9 @@
     <ClInclude Include="FindReplaceTools.h">
       <Filter>对话框类\FindReplaceDlg</Filter>
     </ClInclude>
+    <ClInclude Include="EditorHelper.h">
+      <Filter>EditorHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -333,6 +339,9 @@
     </ClCompile>
     <ClCompile Include="FindReplaceTools.cpp">
       <Filter>对话框类\FindReplaceDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorHelper.cpp">
+      <Filter>EditorHelper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

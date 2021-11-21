@@ -213,6 +213,7 @@
     <ClInclude Include="CVariant.h" />
     <ClInclude Include="DeleteDataDlg.h" />
     <ClInclude Include="EditEx.h" />
+    <ClInclude Include="EditorHelper.h" />
     <ClInclude Include="EditSettingsDlg.h" />
     <ClInclude Include="FileCompareDlg.h" />
     <ClInclude Include="FilePathHelper.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="CVariant.cpp" />
     <ClCompile Include="DeleteDataDlg.cpp" />
     <ClCompile Include="EditEx.cpp" />
+    <ClCompile Include="EditorHelper.cpp" />
     <ClCompile Include="EditSettingsDlg.cpp" />
     <ClCompile Include="FileCompareDlg.cpp" />
     <ClCompile Include="FilePathHelper.cpp" />

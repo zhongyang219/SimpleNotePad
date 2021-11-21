@@ -17,12 +17,11 @@
 #include "WIC.h"
 #include "GoToLineDlg.h"
 #include "FindReplaceTools.h"
+#include "EditorHelper.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
-const std::vector<std::pair<char, char>> matched_characters{ {'{', '}'},{'[', ']'},{'(', ')'}, {'\"', '\"'},{'\'', '\''} };
 
 // CSimpleNotePadDlg 对话框
 
@@ -1879,27 +1878,11 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             if (notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER)
                 || notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER | SC_STARTACTION))
             {
-                int pos = m_view->GetCurrentIndex();
-                int start{}, end{};
-                m_view->GetCurLinePos(start, end);
-                //确保删除的括号对在一行的末尾
-                if (pos == end - 1)
-                {
-                    char ch{};
-                    if (notification->text != nullptr)
-                        ch = notification->text[0];
-                    //如果删除的字符是括号对的左半边，则自动删除括号对的右半边
-                    for (const auto& item : matched_characters)
-                    {
-                        if (ch == item.first)
-                        {
-                            char next_ch = m_view->At(pos);
-                            if (next_ch == item.second)
-                                //m_view->DeleteText(pos, 1);
-                                PostMessage(WM_DELETE_CHAR, pos);   //在OnNotify函数里调用m_view->DeleteText(pos, 1)无效，因此这里通过PostMessage来确保在OnNotify返回后再调用
-                        }
-                    }
-                }
+                char ch{};
+                if (notification->text != nullptr)
+                    ch = notification->text[0];
+                CEditorHelper helper(m_view);
+                helper.BracketsAutoDelete(ch);
             }
         }
         else if (notification->nmhdr.code == SCN_ZOOM)
@@ -1945,7 +1928,8 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                 }
 
                 //标记匹配的括号
-                m_view->MarkMatchedBrackets();
+                CEditorHelper helper(m_view);
+                helper.MarkMatchedBrackets();
 
                 m_find_replace_dlg.EnableControl();
                 UpdateStatusBarInfo();
@@ -1955,23 +1939,8 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
         {
             if (notification->characterSource == SC_CHARACTERSOURCE_DIRECT_INPUT)
             {
-                //如果键入了一个括号对的左半部分，则自动插入括号对的右半部分
-                int pos = m_view->GetCurrentIndex();
-                int start{}, end{};
-                m_view->GetCurLinePos(start, end);
-                //只有当光标所在的位置为一行的末尾时才进行此操作
-                if (pos == end)
-                {
-                    char ch = static_cast<char>(notification->ch);
-                    for (const auto& item : matched_characters)
-                    {
-                        if (ch == item.first)
-                        {
-                            m_view->Paste(std::string(1, item.second));
-                            m_view->SendMessage(SCI_GOTOPOS, pos);  //光标移动到插入前的位置
-                        }
-                    }
-                }
+                CEditorHelper helper(m_view);
+                helper.BracketsAutoComp(static_cast<char>(notification->ch));
             }
         }
     }

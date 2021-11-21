@@ -185,8 +185,6 @@ public:
     bool IsFullLineSelected();      //当前是否选中了整行
     void GetLineSelected(int& first_line, int& last_line);  //获取选中区域所在的行范围。first_line：选中区域的第一行，last_line：选中区域最后一行的下一行
 
-    void MarkMatchedBrackets();
-
 private:
 
 private:
