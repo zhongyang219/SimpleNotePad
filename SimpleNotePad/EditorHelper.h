@@ -30,6 +30,12 @@ public:
     //标记匹配的HTML标签
     void MarkMatchedHtmlMarks();
 
+    //自动显示代码完成列表
+    void AutoShowCompList(const CLanguage& languange);
+
+private:
+    string GetMatchedCompList(const CLanguage& languange, const std::string& str);
+
 private:
     CScintillaEditView* m_view{};
 };

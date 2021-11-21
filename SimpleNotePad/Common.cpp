@@ -402,55 +402,6 @@ int CCommon::FontSizeToLfHeight(int font_size)
     return lfHeight;
 }
 
-void CCommon::StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& results, bool skip_empty /*= true*/)
-{
-    results.clear();
-    size_t split_index = -1;
-    size_t last_split_index = -1;
-    while (true)
-    {
-        split_index = str.find(div_ch, split_index + 1);
-        wstring split_str = str.substr(last_split_index + 1, split_index - last_split_index - 1);
-        if (!split_str.empty() || !skip_empty)
-            results.push_back(split_str);
-        if (split_index == wstring::npos)
-            break;
-        last_split_index = split_index;
-    }
-}
-
-void CCommon::StringSplit(const string& str, const string& div_str, vector<string>& results, bool skip_empty /*= true*/)
-{
-    results.clear();
-    size_t split_index = 0 - div_str.size();
-    size_t last_split_index = 0 - div_str.size();
-    while (true)
-    {
-        split_index = str.find(div_str, split_index + div_str.size());
-        string split_str = str.substr(last_split_index + div_str.size(), split_index - last_split_index - div_str.size());
-        if (!split_str.empty() || !skip_empty)
-            results.push_back(split_str);
-        if (split_index == string::npos)
-            break;
-        last_split_index = split_index;
-    }
-}
-
-wstring CCommon::StringMerge(const vector<wstring>& str_list, wchar_t connector, bool skip_empty /*= true*/)
-{
-    wstring result;
-    for (const auto& str : str_list)
-    {
-        if (skip_empty && str.empty())
-            continue;
-        result += str;
-        result.push_back(connector);
-    }
-    if (!str_list.empty())
-        result.pop_back();
-    return result;
-}
-
 bool CCommon::IsCharactorIdentifier(char ch)
 {
     return (ch >= 'a' && ch <= 'z')

@@ -1955,6 +1955,8 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                 {
                     helper.HtmlMarkAutoComp(ch);
                 }
+
+                helper.AutoShowCompList(language);
             }
         }
     }

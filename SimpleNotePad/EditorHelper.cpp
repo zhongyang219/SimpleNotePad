@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "EditorHelper.h"
 #include "xmlMatchedTagsHighlighter/xmlMatchedTagsHighlighter.h"
+#include "Common.h"
 
 const std::vector<std::pair<char, char>> matched_characters{ {'{', '}'},{'[', ']'},{'(', ')'}, {'\"', '\"'},{'\'', '\''} };
 const std::vector<std::pair<char, char>> matched_brackets{ {'{', '}'},{'[', ']'},{'(', ')'} };
@@ -240,4 +241,42 @@ void CEditorHelper::MarkMatchedHtmlMarks()
     XmlMatchedTagsHighlighter highter(m_view);
     highter.tagMatch(false);
 
+}
+
+void CEditorHelper::AutoShowCompList(const CLanguage& languange)
+{
+    Sci_TextRange tr;    //用于SCI_GETTEXTRANGE命令 
+    int pos = m_view->GetCurrentIndex(); //取得当前位置 
+    int startpos = m_view->SendMessage(SCI_WORDSTARTPOSITION, pos - 1);//当前单词起始位置 
+    int endpos = m_view->SendMessage(SCI_WORDENDPOSITION, pos - 1);//当前单词终止位置 
+    std::string word = m_view->GetText(startpos, endpos);
+    string matched_list = GetMatchedCompList(languange, word);
+    if (!matched_list.empty())
+    {
+        m_view->SendMessage(SCI_AUTOCSHOW, word.size(), sptr_t(matched_list.c_str()));
+    }
+}
+
+string CEditorHelper::GetMatchedCompList(const CLanguage& languange, const std::string& str)
+{
+    //拆分所有关键字
+    std::vector<std::string> keywords_list;
+    for (const auto& keywords : languange.m_keywords_list)
+    {
+        CCommon::StringSplit(keywords.second, std::string(1, ' '), [&](const std::string& str)
+            {
+                keywords_list.push_back(str);
+            });
+    }
+    //查找匹配列表
+    std::string result;
+    for (const auto& keyword : keywords_list)
+    {
+        if (keyword.substr(0, str.size()) == str)
+        {
+            result += keyword;
+            result.push_back(' ');
+        }
+    }
+    return result;
 }

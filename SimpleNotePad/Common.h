@@ -2,6 +2,7 @@
 #include "CVariant.h"
 #include "CommonData.h"
 #include "resource.h"
+#include <functional>
 //#define MAX_STR_SIZE 1024;
 using std::wstring;
 using std::string;
@@ -106,10 +107,75 @@ public:
     //str: 原始字符串
     //div_ch: 用于分割的字符
     //result: 接收分割后的结果
-    static void StringSplit(const wstring& str, wchar_t div_ch, vector<wstring>& results, bool skip_empty = true);
-    static void StringSplit(const string& str, const string& div_ch, vector<string>& results, bool skip_empty = true);
+    template<class T>
+    static void StringSplit(const T& str, wchar_t div_ch, vector<T>& results, bool skip_empty = true)
+    {
+        results.clear();
+        size_t split_index = -1;
+        size_t last_split_index = -1;
+        while (true)
+        {
+            split_index = str.find(div_ch, split_index + 1);
+            T split_str = str.substr(last_split_index + 1, split_index - last_split_index - 1);
+            if (!split_str.empty() || !skip_empty)
+                results.push_back(split_str);
+            if (split_index == string::npos)
+                break;
+            last_split_index = split_index;
+        }
 
-    static wstring StringMerge(const vector<wstring>& str_list, wchar_t connector, bool skip_empty = true);
+    }
+
+    template<class T>
+    static void StringSplit(const T& str, const T& div_str, vector<T>& results, bool skip_empty = true)
+    {
+        results.clear();
+        size_t split_index = 0 - div_str.size();
+        size_t last_split_index = 0 - div_str.size();
+        while (true)
+        {
+            split_index = str.find(div_str, split_index + div_str.size());
+            T split_str = str.substr(last_split_index + div_str.size(), split_index - last_split_index - div_str.size());
+            if (!split_str.empty() || !skip_empty)
+                results.push_back(split_str);
+            if (split_index == string::npos)
+                break;
+            last_split_index = split_index;
+        }
+    }
+
+    //template<class T>
+    static void StringSplit(const std::string& str, const std::string& div_str, std::function<void(const std::string&)> func, bool skip_empty = true)
+    {
+        size_t split_index = 0 - div_str.size();
+        size_t last_split_index = 0 - div_str.size();
+        while (true)
+        {
+            split_index = str.find(div_str, split_index + div_str.size());
+            std::string split_str = str.substr(last_split_index + div_str.size(), split_index - last_split_index - div_str.size());
+            if (!split_str.empty() || !skip_empty)
+                func(split_str);
+            if (split_index == string::npos)
+                break;
+            last_split_index = split_index;
+        }
+    }
+
+    template<class T>
+    static T StringMerge(const vector<T>& str_list, wchar_t connector, bool skip_empty = true)
+    {
+        T result;
+        for (const auto& str : str_list)
+        {
+            if (skip_empty && str.empty())
+                continue;
+            result += str;
+            result.push_back(connector);
+        }
+        if (!str_list.empty())
+            result.pop_back();
+        return result;
+    }
 
     //判断一个字符是否是标签标识符（字母、数字和下划线）
     static bool IsCharactorIdentifier(char ch);
