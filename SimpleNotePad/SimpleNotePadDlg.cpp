@@ -1883,6 +1883,11 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                     ch = notification->text[0];
                 CEditorHelper helper(m_view);
                 helper.BracketsAutoDelete(ch);
+
+                const CLanguage& language = m_syntax_highlight.GetLanguage(m_cur_lan_index);
+                //显示自动完成列表
+                if (theApp.GetEditSettings().show_auto_comp_list)
+                    helper.AutoShowCompList(language);
             }
         }
         else if (notification->nmhdr.code == SCN_ZOOM)
@@ -1956,7 +1961,9 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                     helper.HtmlMarkAutoComp(ch);
                 }
 
-                helper.AutoShowCompList(language);
+                //显示自动完成列表
+                if (theApp.GetEditSettings().show_auto_comp_list)
+                    helper.AutoShowCompList(language);
             }
         }
     }

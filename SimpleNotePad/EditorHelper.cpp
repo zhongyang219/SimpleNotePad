@@ -245,7 +245,6 @@ void CEditorHelper::MarkMatchedHtmlMarks()
 
 void CEditorHelper::AutoShowCompList(const CLanguage& languange)
 {
-    Sci_TextRange tr;    //用于SCI_GETTEXTRANGE命令 
     int pos = m_view->GetCurrentIndex(); //取得当前位置 
     int startpos = m_view->SendMessage(SCI_WORDSTARTPOSITION, pos - 1);//当前单词起始位置 
     int endpos = m_view->SendMessage(SCI_WORDENDPOSITION, pos - 1);//当前单词终止位置 

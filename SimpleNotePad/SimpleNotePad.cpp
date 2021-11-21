@@ -230,6 +230,7 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.font_size = GetProfileInt(_T("config"), _T("font_size"), 10);
     m_edit_settings_data.tab_width = GetProfileInt(_T("config"), _T("tab_width"), 4);
     m_edit_settings_data.show_indentation_guides = (GetProfileInt(_T("config"), _T("show_indentation_guides"), 0) != 0);
+    m_edit_settings_data.show_auto_comp_list = (GetProfileInt(_T("config"), _T("show_auto_comp_list"), 0) != 0);
 
     //十六进制查看器
     m_edit_settings_data.font_name_hex = GetProfileString(_T("hex_editor"), _T("font_name"), _T("Consolas"));
@@ -256,6 +257,7 @@ void CSimpleNotePadApp::SaveConfig()
     WriteProfileInt(L"config", L"font_size", m_edit_settings_data.font_size);
     WriteProfileInt(_T("config"), _T("tab_width"), m_edit_settings_data.tab_width);
     WriteProfileInt(_T("config"), _T("show_indentation_guides"), m_edit_settings_data.show_indentation_guides);
+    WriteProfileInt(_T("config"), _T("show_auto_comp_list"), m_edit_settings_data.show_auto_comp_list);
 
     //十六进制查看器
     WriteProfileString(_T("hex_editor"), _T("font_name"), m_edit_settings_data.font_name_hex);
