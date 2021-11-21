@@ -250,7 +250,7 @@ void CEditorHelper::AutoShowCompList(const CLanguage& languange)
     int endpos = m_view->SendMessage(SCI_WORDENDPOSITION, pos - 1);//当前单词终止位置 
     std::string word = m_view->GetText(startpos, endpos);
     string matched_list = GetMatchedCompList(languange, word);
-    if (!matched_list.empty())
+    if (!matched_list.empty() && !word.empty())
     {
         m_view->SendMessage(SCI_AUTOCSHOW, word.size(), sptr_t(matched_list.c_str()));
     }
@@ -259,12 +259,12 @@ void CEditorHelper::AutoShowCompList(const CLanguage& languange)
 string CEditorHelper::GetMatchedCompList(const CLanguage& languange, const std::string& str)
 {
     //拆分所有关键字
-    std::vector<std::string> keywords_list;
+    std::set<std::string> keywords_list;
     for (const auto& keywords : languange.m_keywords_list)
     {
         CCommon::StringSplit(keywords.second, std::string(1, ' '), [&](const std::string& str)
             {
-                keywords_list.push_back(str);
+                keywords_list.insert(str);
             });
     }
     //查找匹配列表
@@ -277,5 +277,7 @@ string CEditorHelper::GetMatchedCompList(const CLanguage& languange, const std::
             result.push_back(' ');
         }
     }
+    if (!result.empty())
+        result.pop_back();
     return result;
 }
