@@ -1939,8 +1939,17 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
         {
             if (notification->characterSource == SC_CHARACTERSOURCE_DIRECT_INPUT)
             {
+                char ch = static_cast<char>(notification->ch);
                 CEditorHelper helper(m_view);
-                helper.BracketsAutoComp(static_cast<char>(notification->ch));
+                //括号自动完成
+                helper.BracketsAutoComp(ch);
+
+                //HTML标记自动完成
+                const CLanguage& language = m_syntax_highlight.GetLanguage(m_cur_lan_index);
+                if (language.m_id == SCLEX_XML || language.m_id == SCLEX_HTML)
+                {
+                    helper.HtmlMarkAutoComp(ch);
+                }
             }
         }
     }
@@ -2307,91 +2316,8 @@ BOOL CSimpleNotePadDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 void CSimpleNotePadDlg::OnAddDeleteComment()
 {
     CLanguage::Comment comment = m_syntax_highlight.GetLanguage(m_cur_lan_index).m_comment;
-    CScintillaEditView::UndoRedoActionLocker locker(m_view->GetSafeHwnd());
-
-    //添加/删除单行注释（使用单行注释的条件是当前语言有单行注释，并且编辑器没有选中内容）
-    if (!comment.line.empty() && m_view->IsSelectionEmpty())
-    {
-        int start{}, end{};
-        m_view->GetCurLinePos(start, end);
-        //查找单行注释
-        int comment_pos = m_view->Find(comment.line, start, end);
-        if (comment_pos < 0)    //单行注释不存在，添加单行注释
-        {
-            m_view->InserText(comment.line, start);
-        }
-        else    //单行注释存在，删除单行注释
-        {
-            m_view->DeleteText(comment_pos, comment.line.size());
-        }
-    }
-    //如果选中的是整行，则对每行使用单行注释
-    else if (!comment.line.empty() && m_view->IsFullLineSelected())
-    {
-        int first_line{}, last_line{};
-        m_view->GetLineSelected(first_line, last_line);
-        //判断应该对这此行添加还是删除单行注释
-        bool comment_exist{ true };
-        //在每一行中查找单行注释，如果每行都有单行注释，则删除注释，否则添加注释
-        for (int i{ first_line }; i < last_line; i++)
-        {
-            int start{}, end{};
-            m_view->GetLinePos(i, start, end);
-            int comment_pos = m_view->Find(comment.line, start, end);
-            if (comment_pos < 0)
-                comment_exist = false;
-        }
-        //对每一行执行添加或删除注释
-        for (int i{ first_line }; i < last_line; i++)
-        {
-            int start{}, end{};
-            m_view->GetLinePos(i, start, end);
-            if (comment_exist)
-            {
-                //删除注释
-                int comment_pos = m_view->Find(comment.line, start, end);
-                if (comment_pos >= 0)
-                {
-                    m_view->DeleteText(comment_pos, comment.line.size());
-                }
-            }
-            else
-            {
-                //添加注释
-                int start{}, end{};
-                m_view->GetLinePos(i, start, end);
-                m_view->InserText(comment.line, start);
-            }
-        }
-    }
-    //添加/删除多行注释
-    else if (comment.isMultiLeneCommentValid())
-    {
-        int start{}, end{};
-        m_view->GetSel(start, end);
-        if (start == end)
-            m_view->GetCurLinePos(start, end);
-        //查找多行注释
-        bool comment_exist{ false };
-        int comment_start = m_view->Find(comment.start, start, end);
-        if (comment_start >= 0)
-        {
-            comment_exist = true;
-            m_view->DeleteText(comment_start, comment.start.size());
-        }
-        int comment_end = m_view->Find(comment.end, end, start);
-        if (comment_end >= 0)
-        {
-            comment_exist = true;
-            m_view->DeleteText(comment_end, comment.end.size());
-        }
-        //多行注释不存在，添加注释
-        if (!comment_exist)
-        {
-            m_view->InserText(comment.start, start);
-            m_view->InserText(comment.end, end + comment.start.size()); //由于上一步已经插入了多行注释的开头，所以需要加上comment.start.size()以修正插入的位置
-        }
-    }
+    CEditorHelper helper(m_view);
+    helper.AddOrRemoveComment(comment);
 }
 
 

@@ -113,6 +113,28 @@ const char * CScintillaEditView::GetText(int & size)
     return buf;
 }
 
+std::string CScintillaEditView::GetText(int start, int end)
+{
+    if (start == end)
+        return std::string();
+    Sci_TextRange text_range;
+    //获取选中范围
+    text_range.chrg.cpMin = start;
+    text_range.chrg.cpMax = end;
+    if (text_range.chrg.cpMax < text_range.chrg.cpMin)
+        std::swap(text_range.chrg.cpMin, text_range.chrg.cpMax);
+    //选中范围长度
+    int length = text_range.chrg.cpMax - text_range.chrg.cpMin;
+    //初始化接收字符串缓冲区
+    char* buff = new char[length + 1];
+    text_range.lpstrText = buff;
+    //获取选中部分文本
+    SendMessage(SCI_GETTEXTRANGE, 0, (LPARAM)&text_range);
+    std::string str_selected(buff, length);
+    delete[] buff;
+    return str_selected;
+}
+
 int CScintillaEditView::GetDocLength()
 {
     return SendMessage(SCI_GETLENGTH);
@@ -724,6 +746,11 @@ void CScintillaEditView::GetLineSelected(int& first_line, int& last_line)
     last_line = SendMessage(SCI_LINEFROMPOSITION, end);
     if (end == GetDocLength())
         last_line++;
+}
+
+void CScintillaEditView::GotoPos(int pos)
+{
+    SendMessage(SCI_GOTOPOS, pos);
 }
 
 // CScintillaEditView 消息处理程序

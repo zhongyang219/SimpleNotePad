@@ -14,7 +14,7 @@ public:
         bool italic{};
     };
     std::wstring m_name;
-    int m_id;
+    int m_id{};
     std::set<wstring> m_ext;
     std::map<int, std::string> m_keywords_list;
     std::vector<SyntaxStyle> m_syntax_list;
@@ -44,13 +44,14 @@ class CSyntaxHighlight
 public:
     void LoadFromFile(const wchar_t* file_path);
 
-    CLanguage FindLanguageByFileName(const wstring& file_name);
-    CLanguage FindLanguageByName(const wchar_t* name);
-    CLanguage GetLanguage(int index);
+    const CLanguage& FindLanguageByFileName(const wstring& file_name);
+    const CLanguage& FindLanguageByName(const wchar_t* name);
+    const CLanguage& GetLanguage(int index);
     int IndexOf(const wstring& name);
 
     const std::vector<CLanguage>& GetLanguageList();
 
 private:
     std::vector<CLanguage> m_language_list;
+    CLanguage m_empty_language{};
 };

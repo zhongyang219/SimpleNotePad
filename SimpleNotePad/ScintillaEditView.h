@@ -47,6 +47,7 @@ public:
     void GetTextW(wstring& text);
     const wchar_t* GetTextW(int& size);      //获取文本（返回字符串指针，需要自行释放内存）
     const char* GetText(int& size);      //获取UTF8格式文本（返回字符串指针，需要自行释放内存）
+    std::string GetText(int start, int end);
     int GetDocLength();
     void SetFontFaceW(const wchar_t* font_face);
     void SetFontSize(int font_size);
@@ -184,6 +185,7 @@ public:
     void GetCurLinePos(int& start, int& end);               //获取当前行的开始和结束位置
     bool IsFullLineSelected();      //当前是否选中了整行
     void GetLineSelected(int& first_line, int& last_line);  //获取选中区域所在的行范围。first_line：选中区域的第一行，last_line：选中区域最后一行的下一行
+    void GotoPos(int pos);
 
 private:
 

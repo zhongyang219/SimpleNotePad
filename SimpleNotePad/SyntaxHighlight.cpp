@@ -102,7 +102,7 @@ void CSyntaxHighlight::LoadFromFile(const wchar_t* file_path)
     });
 }
 
-CLanguage CSyntaxHighlight::FindLanguageByFileName(const wstring& file_name)
+const CLanguage& CSyntaxHighlight::FindLanguageByFileName(const wstring& file_name)
 {
     CFilePathHelper helper(file_name);
     wstring ext = helper.GetFileExtension();
@@ -118,10 +118,10 @@ CLanguage CSyntaxHighlight::FindLanguageByFileName(const wstring& file_name)
             return lan;
         }
     }
-    return CLanguage();
+    return m_empty_language;
 }
 
-CLanguage CSyntaxHighlight::FindLanguageByName(const wchar_t* name)
+const CLanguage& CSyntaxHighlight::FindLanguageByName(const wchar_t* name)
 {
     for (const auto& lan : m_language_list)
     {
@@ -130,15 +130,15 @@ CLanguage CSyntaxHighlight::FindLanguageByName(const wchar_t* name)
             return lan;
         }
     }
-    return CLanguage();
+    return m_empty_language;
 }
 
-CLanguage CSyntaxHighlight::GetLanguage(int index)
+const CLanguage& CSyntaxHighlight::GetLanguage(int index)
 {
     if (index >= 0 && index < static_cast<int>(m_language_list.size()))
         return m_language_list[index];
     else
-        return CLanguage();
+        return m_empty_language;
 }
 
 int CSyntaxHighlight::IndexOf(const wstring& name)
