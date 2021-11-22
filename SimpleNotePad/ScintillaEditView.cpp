@@ -744,8 +744,8 @@ void CScintillaEditView::GetLineSelected(int& first_line, int& last_line)
     GetSel(start, end);
     first_line = SendMessage(SCI_LINEFROMPOSITION, start);
     last_line = SendMessage(SCI_LINEFROMPOSITION, end);
-    if (end == GetDocLength())
-        last_line++;
+    if (SendMessage(SCI_GETCOLUMN, end) == 0)       //如果最后一行没有字符，则不算该行
+        last_line--;
 }
 
 void CScintillaEditView::GotoPos(int pos)

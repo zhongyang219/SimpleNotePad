@@ -144,7 +144,7 @@ void CEditorHelper::AddOrRemoveComment(const CLanguage::Comment& comment)
         //判断应该对这此行添加还是删除单行注释
         bool comment_exist{ true };
         //在每一行中查找单行注释，如果每行都有单行注释，则删除注释，否则添加注释
-        for (int i{ first_line }; i < last_line; i++)
+        for (int i{ first_line }; i <= last_line; i++)
         {
             int start{}, end{};
             m_view->GetLinePos(i, start, end);
@@ -153,7 +153,7 @@ void CEditorHelper::AddOrRemoveComment(const CLanguage::Comment& comment)
                 comment_exist = false;
         }
         //对每一行执行添加或删除注释
-        for (int i{ first_line }; i < last_line; i++)
+        for (int i{ first_line }; i <= last_line; i++)
         {
             int start{}, end{};
             m_view->GetLinePos(i, start, end);
@@ -169,8 +169,6 @@ void CEditorHelper::AddOrRemoveComment(const CLanguage::Comment& comment)
             else
             {
                 //添加注释
-                int start{}, end{};
-                m_view->GetLinePos(i, start, end);
                 m_view->InserText(comment.line, start);
             }
         }
