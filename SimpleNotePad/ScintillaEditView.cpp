@@ -806,7 +806,7 @@ void CScintillaEditView::OnInitialUpdate()
     
     SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), INDIC_ROUNDBOX);
     SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), 110);
-    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), RGB(103, 230, 7));
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::SELECTION_MARK), RGB(140, 238, 20));
     
     SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), INDIC_ROUNDBOX);
     SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::MATCHED_BRACKETS), 110);
@@ -814,7 +814,7 @@ void CScintillaEditView::OnInitialUpdate()
 
     SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), INDIC_ROUNDBOX);
     SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::HTML_MARKS), 110);
-    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), RGB(134, 152, 234));
+    SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), RGB(125, 146, 243));
 }
 
 
