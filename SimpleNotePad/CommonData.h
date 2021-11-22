@@ -33,6 +33,11 @@ struct EditSettingData
     int tab_width{ 4 };     //制表符宽度
     bool show_indentation_guides{};
     bool show_auto_comp_list{}; //显示自动完成列表
+    bool mark_same_words;           //标记相同的单词
+    bool mark_matched_brackets{};   //标记匹配的括号
+    bool mark_matched_html_mark{};  //标记匹配的html标签
+    bool brackets_auto_comp{};      //括号自动完成
+    bool html_mark_auto_comp{};     //html标签自动完成
 
     //十六进制查看器
     CString font_name_hex;	//十六进制查看器的字体名称

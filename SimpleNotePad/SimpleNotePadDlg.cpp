@@ -86,6 +86,21 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
     }
 
     m_view->ShowIndentationGuides(theApp.GetEditSettings().show_indentation_guides);
+
+    if (!theApp.GetEditSettings().mark_same_words && edit_settings_before.mark_same_words)
+    {
+        m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
+    }
+
+    if (!theApp.GetEditSettings().mark_matched_html_mark && edit_settings_before.mark_matched_html_mark)
+    {
+        m_view->ClearAllMark(CScintillaEditView::MarkStyle::HTML_MARKS);
+    }
+
+    if (!theApp.GetEditSettings().mark_matched_brackets && edit_settings_before.mark_matched_brackets)
+    {
+        m_view->ClearAllMark(CScintillaEditView::MarkStyle::MATCHED_BRACKETS);
+    }
 }
 
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
@@ -1303,8 +1318,8 @@ BOOL CSimpleNotePadDlg::PreTranslateMessage(MSG* pMsg)
                 m_view->ClearAllMark(CScintillaEditView::MarkStyle::MARK_ALL);
                 m_find_replace_dlg.SetInfoString(_T(""));
                 m_marked = false;
-                m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
             }
+            m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
             return TRUE;
         }
         //按下Ctrl键时
@@ -1882,12 +1897,15 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                 if (notification->text != nullptr)
                     ch = notification->text[0];
                 CEditorHelper helper(m_view);
-                helper.BracketsAutoDelete(ch);
+                if (theApp.GetEditSettings().brackets_auto_comp)
+                    helper.BracketsAutoDelete(ch);
 
-                const CLanguage& language = m_syntax_highlight.GetLanguage(m_cur_lan_index);
                 //显示自动完成列表
                 if (theApp.GetEditSettings().show_auto_comp_list)
+                {
+                    const CLanguage& language = m_syntax_highlight.GetLanguage(m_cur_lan_index);
                     helper.AutoShowCompList(language);
+                }
             }
         }
         else if (notification->nmhdr.code == SCN_ZOOM)
@@ -1917,29 +1935,36 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             if ((notification->updated & SC_UPDATE_SELECTION) != 0)
             {
                 //标记文档中与选中部分相同单词
-                //先清除标记
-                m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
-                //获取选中部分文本
-                std::string selected_text = m_view->GetSelectedText();
-                if (!selected_text.empty() && CCommon::IsStringIdentifier(selected_text))
+                if (theApp.GetEditSettings().mark_same_words)
                 {
-                    //标记相同单词
-                    if (FindReplaceTools::MarkSameWord(selected_text, CScintillaEditView::MarkStyle::SELECTION_MARK, m_view))
+                    //先清除标记
+                    m_view->ClearAllMark(CScintillaEditView::MarkStyle::SELECTION_MARK);
+                    //获取选中部分文本
+                    std::string selected_text = m_view->GetSelectedText();
+                    if (!selected_text.empty() && CCommon::IsStringIdentifier(selected_text))
                     {
-                        //如果成功标记，则将已标记单词填充到查找替换对话框中的查找文本框中
-                        std::wstring selected_text_wcs = CCommon::StrToUnicode(selected_text, CodeType::UTF8_NO_BOM);
-                        m_find_replace_dlg.SetFindString(selected_text_wcs.c_str());
+                        //标记相同单词
+                        if (FindReplaceTools::MarkSameWord(selected_text, CScintillaEditView::MarkStyle::SELECTION_MARK, m_view))
+                        {
+                            //如果成功标记，则将已标记单词填充到查找替换对话框中的查找文本框中
+                            std::wstring selected_text_wcs = CCommon::StrToUnicode(selected_text, CodeType::UTF8_NO_BOM);
+                            m_find_replace_dlg.SetFindString(selected_text_wcs.c_str());
+                        }
                     }
                 }
 
                 //标记匹配的括号
                 CEditorHelper helper(m_view);
-                helper.MarkMatchedBrackets();
+                if (theApp.GetEditSettings().mark_matched_brackets)
+                    helper.MarkMatchedBrackets();
 
                 //标记匹配的html标记
-                const CLanguage& language = m_syntax_highlight.GetLanguage(m_cur_lan_index);
-                if (language.m_id == SCLEX_XML || language.m_id == SCLEX_HTML)
-                    helper.MarkMatchedHtmlMarks();
+                if (theApp.GetEditSettings().mark_matched_html_mark)
+                {
+                    const CLanguage& language = m_syntax_highlight.GetLanguage(m_cur_lan_index);
+                    if (language.m_id == SCLEX_XML || language.m_id == SCLEX_HTML)
+                        helper.MarkMatchedHtmlMarks();
+                }
 
                 m_find_replace_dlg.EnableControl();
                 UpdateStatusBarInfo();
@@ -1952,13 +1977,17 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
                 char ch = static_cast<char>(notification->ch);
                 CEditorHelper helper(m_view);
                 //括号自动完成
-                helper.BracketsAutoComp(ch);
+                if (theApp.GetEditSettings().brackets_auto_comp)
+                    helper.BracketsAutoComp(ch);
 
-                //HTML标记自动完成
                 const CLanguage& language = m_syntax_highlight.GetLanguage(m_cur_lan_index);
-                if (language.m_id == SCLEX_XML || language.m_id == SCLEX_HTML)
+                //HTML标记自动完成
+                if (theApp.GetEditSettings().html_mark_auto_comp)
                 {
-                    helper.HtmlMarkAutoComp(ch);
+                    if (language.m_id == SCLEX_XML || language.m_id == SCLEX_HTML)
+                    {
+                        helper.HtmlMarkAutoComp(ch);
+                    }
                 }
 
                 //显示自动完成列表

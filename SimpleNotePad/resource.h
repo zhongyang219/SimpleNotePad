@@ -241,8 +241,13 @@
 #define IDC_REPLACE_COMBO               1084
 #define IDC_MARK_ALL_BUTTON             1085
 #define IDC_SHOW_INDENTATION_GUIDE_CHECK 1085
-#define IDC_CHECK2                      1086
 #define IDC_SHOW_AUTO_COMP_CHECK        1086
+#define IDC_MARK_SAME_WORD_CHECK        1087
+#define IDC_MARK_MATCHED_BRACKETS_CHECK 1088
+#define IDC_MARK_MATCHED_HTML_CHECK     1089
+#define IDC_BRACKETS_AUTO_COMP_CHECK    1090
+#define IDC_CHECK4                      1091
+#define IDC_HTML_MARK_AUTO_COMP_CHECK   1091
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -380,7 +385,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        202
 #define _APS_NEXT_COMMAND_VALUE         33045
-#define _APS_NEXT_CONTROL_VALUE         1087
+#define _APS_NEXT_CONTROL_VALUE         1092
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

@@ -30,6 +30,8 @@ private:
     CGeneralSettingsDlg m_general_settings_dlg;
     CEditSettingsDlg m_edit_settings_dlg;
     static int m_tab_selected;
+    std::vector<CTabDlg*> m_tab_vect;
+    std::vector<int> m_tab_height;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -42,4 +44,5 @@ public:
     virtual BOOL OnInitDialog();
     virtual void OnOK();
     afx_msg void OnDestroy();
+    afx_msg void OnSize(UINT nType, int cx, int cy);
 };

@@ -49,6 +49,7 @@ CString CSettingsDlg::GetDialogName() const
 
 BEGIN_MESSAGE_MAP(CSettingsDlg, CBaseDialog)
     ON_WM_DESTROY()
+    ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -67,9 +68,27 @@ BOOL CSettingsDlg::OnInitDialog()
     m_general_settings_dlg.Create(IDD_GENERAL_SETTINGS_DIALOG);
     m_edit_settings_dlg.Create(IDD_EDIT_SETTINGS_DIALOG);
 
+    //保存子对话框
+    m_tab_vect.push_back(&m_general_settings_dlg);
+    m_tab_vect.push_back(&m_edit_settings_dlg);
+
+    //获取子对话框的初始高度
+    for (const auto* pDlg : m_tab_vect)
+    {
+        CRect rect;
+        pDlg->GetWindowRect(rect);
+        m_tab_height.push_back(rect.Height());
+    }
+
     //添加子对话框
     m_tab_ctrl.AddWindow(&m_general_settings_dlg, CCommon::LoadText(IDS_GENERAL_SETTINGS));
     m_tab_ctrl.AddWindow(&m_edit_settings_dlg, CCommon::LoadText(IDS_EDITOR_SETTINGS));
+
+    //为每个子窗口设置滚动信息
+    for (size_t i = 0; i < m_tab_vect.size(); i++)
+    {
+        m_tab_vect[i]->SetScrollbarInfo(m_tab_ctrl.m_tab_rect.Height(), m_tab_height[i]);
+    }
 
     if (m_tab_selected < 0 || m_tab_selected >= m_tab_ctrl.GetItemCount())
         m_tab_selected = 0;
@@ -97,4 +116,20 @@ void CSettingsDlg::OnDestroy()
 
     // TODO: 在此处添加消息处理程序代码
     m_tab_selected = m_tab_ctrl.GetCurSel();
+}
+
+
+void CSettingsDlg::OnSize(UINT nType, int cx, int cy)
+{
+    CBaseDialog::OnSize(nType, cx, cy);
+
+    if (nType != SIZE_MINIMIZED)
+    {
+        //为每个子窗口设置滚动信息
+        for (size_t i = 0; i < m_tab_vect.size(); i++)
+        {
+            m_tab_vect[i]->ResetScroll();
+            m_tab_vect[i]->SetScrollbarInfo(m_tab_ctrl.m_tab_rect.Height(), m_tab_height[i]);
+        }
+    }
 }

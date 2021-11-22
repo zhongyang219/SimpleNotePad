@@ -231,6 +231,11 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.tab_width = GetProfileInt(_T("config"), _T("tab_width"), 4);
     m_edit_settings_data.show_indentation_guides = (GetProfileInt(_T("config"), _T("show_indentation_guides"), 0) != 0);
     m_edit_settings_data.show_auto_comp_list = (GetProfileInt(_T("config"), _T("show_auto_comp_list"), 0) != 0);
+    m_edit_settings_data.mark_same_words = (GetProfileInt(_T("config"), _T("mark_same_words"), 1) != 0);
+    m_edit_settings_data.mark_matched_brackets = (GetProfileInt(_T("config"), _T("mark_matched_brackets"), 1) != 0);
+    m_edit_settings_data.mark_matched_html_mark = (GetProfileInt(_T("config"), _T("mark_matched_html_mark"), 1) != 0);
+    m_edit_settings_data.brackets_auto_comp = (GetProfileInt(_T("config"), _T("brackets_auto_comp"), 1) != 0);
+    m_edit_settings_data.html_mark_auto_comp = (GetProfileInt(_T("config"), _T("html_mark_auto_comp"), 1) != 0);
 
     //十六进制查看器
     m_edit_settings_data.font_name_hex = GetProfileString(_T("hex_editor"), _T("font_name"), _T("Consolas"));
@@ -258,6 +263,11 @@ void CSimpleNotePadApp::SaveConfig()
     WriteProfileInt(_T("config"), _T("tab_width"), m_edit_settings_data.tab_width);
     WriteProfileInt(_T("config"), _T("show_indentation_guides"), m_edit_settings_data.show_indentation_guides);
     WriteProfileInt(_T("config"), _T("show_auto_comp_list"), m_edit_settings_data.show_auto_comp_list);
+    WriteProfileInt(_T("config"), _T("mark_same_words"), m_edit_settings_data.mark_same_words);
+    WriteProfileInt(_T("config"), _T("mark_matched_brackets"), m_edit_settings_data.mark_matched_brackets);
+    WriteProfileInt(_T("config"), _T("mark_matched_html_mark"), m_edit_settings_data.mark_matched_html_mark);
+    WriteProfileInt(_T("config"), _T("brackets_auto_comp"), m_edit_settings_data.brackets_auto_comp);
+    WriteProfileInt(_T("config"), _T("html_mark_auto_comp"), m_edit_settings_data.html_mark_auto_comp);
 
     //十六进制查看器
     WriteProfileString(_T("hex_editor"), _T("font_name"), m_edit_settings_data.font_name_hex);
