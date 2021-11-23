@@ -131,6 +131,7 @@
 #define IDS_STATUS_BAR_POSITION_IFNO2   186
 #define IDD_GTO_DIALOG                  187
 #define IDS_LANGUAGE_CODE               187
+#define IDS_EXPLORER_CONEXT_MENU_ITEM   188
 #define IDI_EXPLORE                     189
 #define IDI_CLIPBOARD                   190
 #define IDI_RECENT_FILES                191
@@ -248,6 +249,8 @@
 #define IDC_BRACKETS_AUTO_COMP_CHECK    1090
 #define IDC_CHECK4                      1091
 #define IDC_HTML_MARK_AUTO_COMP_CHECK   1091
+#define IDC_CHECK2                      1092
+#define IDC_EXCLORER_CONTEXT_MENU_CHECK 1092
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -385,7 +388,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        202
 #define _APS_NEXT_COMMAND_VALUE         33045
-#define _APS_NEXT_CONTROL_VALUE         1092
+#define _APS_NEXT_CONTROL_VALUE         1093
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

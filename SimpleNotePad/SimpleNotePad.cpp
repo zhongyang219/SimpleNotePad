@@ -212,6 +212,60 @@ void CSimpleNotePadApp::GetStringList(LPCTSTR app_name, LPCTSTR key_name, std::v
     }
 }
 
+bool CSimpleNotePadApp::AddExplorerContextMenuItem()
+{
+    CString reg_path = _T("SOFTWARE\\Classes\\*\\shell\\");
+    reg_path += APP_NAME;
+    CRegKey key;
+    if (!CCommon::OpenRegItem(key, reg_path))
+        return false;
+
+    key.SetStringValue(_T(""), CCommon::LoadText(IDS_EXPLORER_CONEXT_MENU_ITEM));
+    CString icon_path;
+    TCHAR app_path[MAX_PATH];
+    GetModuleFileName(NULL, app_path, MAX_PATH);
+    icon_path.Format(_T("\"%s\",0"), app_path);
+    if (key.SetStringValue(_T("Icon"), icon_path) != ERROR_SUCCESS)
+        return false;
+    
+    if (!CCommon::OpenRegItem(key, reg_path + _T("\\command")))
+        return false;
+    CString command_path;
+    command_path.Format(_T("\"%s\" \"%%1\""), app_path);
+    if (key.SetStringValue(_T(""), command_path) != ERROR_SUCCESS)
+        return false;
+    return true;
+}
+
+bool CSimpleNotePadApp::RemoveExplorerContextMenuItem()
+{
+    CString reg_path = _T("SOFTWARE\\Classes\\*\\shell\\");
+    CRegKey key;
+    if (!CCommon::OpenRegItem(key, reg_path))
+        return false;
+    return (key.RecurseDeleteKey(APP_NAME) == ERROR_SUCCESS);
+}
+
+bool CSimpleNotePadApp::IsExplorerContextMenuExist()
+{
+    CString reg_path = _T("SOFTWARE\\Classes\\*\\shell\\");
+    reg_path += APP_NAME;
+    reg_path += _T("\\command");
+    CRegKey key;
+    if (key.Open(HKEY_CURRENT_USER, reg_path) != ERROR_SUCCESS)
+        return false;
+    TCHAR buff[MAX_PATH]{};
+    ULONG size{ MAX_PATH };
+    if (key.QueryStringValue(_T(""), buff, &size) == ERROR_SUCCESS)
+    {
+        CString command_path = buff;
+        command_path = command_path.Mid(1, command_path.GetLength() - 7);
+        GetModuleFileName(NULL, buff, MAX_PATH);
+        return command_path == buff;
+    }
+    return false;
+}
+
 void CSimpleNotePadApp::LoadConfig()
 {
     //载入选项设置
@@ -362,6 +416,9 @@ BOOL CSimpleNotePadApp::InitInstance()
 
 #ifdef _DEBUG
     CTest::Test();
+
+    //RemoveExplorerContextMenuItem();
+    IsExplorerContextMenuExist();
 #endif
 
     CSimpleNotePadDlg dlg(m_lpCmdLine);

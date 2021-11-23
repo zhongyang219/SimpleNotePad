@@ -615,6 +615,21 @@ void CCommon::FindAllWindow(LPCTSTR class_name, std::vector<HWND>& result)
 }
 
 
+bool CCommon::OpenRegItem(CRegKey& key, LPCTSTR item_str)
+{
+    if (key.Open(HKEY_CURRENT_USER, item_str) != ERROR_SUCCESS)
+    {
+        //如果项不存在，则创建
+        if (key.Create(HKEY_CURRENT_USER, item_str) != ERROR_SUCCESS)
+            return false;
+        //再次打开
+        if (key.Open(HKEY_CURRENT_USER, item_str) != ERROR_SUCCESS)
+            return false;
+    }
+
+    return true;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
 ConstVal* ConstVal::Instance()

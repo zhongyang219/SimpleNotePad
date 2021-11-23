@@ -404,7 +404,11 @@ void CSimpleNotePadDlg::SetTitle()
 		str_title += m_file_path;
 	else
 		str_title += CCommon::LoadText(IDS_NO_TITLE);
-	str_title += _T(" - SimpleNotePad");
+	str_title += _T(" - ");
+    str_title += APP_NAME;
+#ifdef _DEBUG
+    str_title += _T(" (Debug)");
+#endif
     SetWindowText(str_title);
 }
 

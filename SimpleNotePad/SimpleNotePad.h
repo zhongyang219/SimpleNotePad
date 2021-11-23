@@ -52,6 +52,10 @@ public:
     void WriteStringList(LPCTSTR app_name, LPCTSTR key_name, const std::vector<std::wstring>& string_list); //将一个字符串列表保存到配置
     void GetStringList(LPCTSTR app_name, LPCTSTR key_name, std::vector<std::wstring>& string_list);         //从配置读取一个字符串列表
 
+    bool AddExplorerContextMenuItem();      //在资源管理器右键菜单中添加“使用SimpleNotePad打开”菜单项
+    bool RemoveExplorerContextMenuItem();   //删除资源管理器右键菜单中的“使用SimpleNotePad打开”菜单项
+    bool IsExplorerContextMenuExist();      //资源管理器右键菜单中的“使用SimpleNotePad打开”菜单项是否存在
+
 private:
     void LoadConfig();
     void SaveConfig();

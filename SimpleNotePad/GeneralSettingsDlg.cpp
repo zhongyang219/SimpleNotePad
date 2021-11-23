@@ -68,6 +68,9 @@ BOOL CGeneralSettingsDlg::OnInitDialog()
     m_language_combo.AddString(_T("简体中文"));
     m_language_combo.SetCurSel(static_cast<int>(m_data.language));
 
+    m_explorer_context_menu_exist = theApp.IsExplorerContextMenuExist();
+    CheckDlgButton(IDC_EXCLORER_CONTEXT_MENU_CHECK, m_explorer_context_menu_exist);
+
     return TRUE;  // return TRUE unless you set the focus to a control
                   // 异常: OCX 属性页应返回 FALSE
 }
@@ -105,6 +108,15 @@ void CGeneralSettingsDlg::OnOK()
     if (m_data.language != theApp.GetGeneralSettings().language)
     {
         MessageBox(CCommon::LoadText(IDS_LANGUAGE_CHANGE_INFO), NULL, MB_ICONINFORMATION | MB_OK);
+    }
+
+    bool explorer_context_menu_checked = (IsDlgButtonChecked(IDC_EXCLORER_CONTEXT_MENU_CHECK) != 0);
+    if (m_explorer_context_menu_exist != explorer_context_menu_checked)
+    {
+        if (explorer_context_menu_checked)
+            theApp.AddExplorerContextMenuItem();
+        else
+            theApp.RemoveExplorerContextMenuItem();
     }
 
     CTabDlg::OnOK();

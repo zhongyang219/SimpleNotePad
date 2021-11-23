@@ -223,6 +223,9 @@ public:
 
     //根据类名查找所有句柄
     static void FindAllWindow(LPCTSTR class_name, std::vector<HWND>& result);
+
+    static bool OpenRegItem(CRegKey& key, LPCTSTR item_str);
+
 };
 
 

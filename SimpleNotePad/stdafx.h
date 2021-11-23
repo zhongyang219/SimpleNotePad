@@ -89,6 +89,7 @@ typedef char _tchar;
 #define FIND_REPLACE_HISTORY_MAX 8
 #define FIND_REPLACE_AUTO_FILL_MAX_LENGTH 32    //将选中文本自动填充到查找或替换对话框中的查找框中的最大长度
 #define APP_CLASS_NAME _T("SimpleNotePad_7HG074cT") //程序主窗口的类名
+#define APP_NAME _T("SimpleNotePad")
 
 #define WM_NP_FIND_REPLACE (WM_USER + 100)  //查找替换消息，WPARA为CFindReplaceDlg::FindMode类型
 #define WM_DELETE_CHAR (WM_USER + 101)      //删除编辑器一个字符，wParam为删除位置
