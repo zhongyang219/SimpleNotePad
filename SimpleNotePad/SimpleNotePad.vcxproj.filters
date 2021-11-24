@@ -108,6 +108,15 @@
     <Filter Include="公共的类\xmlMatchedTagsHighlighter">
       <UniqueIdentifier>{ea3f42a8-901f-430d-9a0f-dec8c303c7fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="公共的类\RegFileRelate">
+      <UniqueIdentifier>{2153870c-05a1-4f90-a989-1a9aad8a7d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="资源文件\icon">
+      <UniqueIdentifier>{92c386b8-a707-4941-8542-483ed486e8da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="对话框类\FileRelateDlg">
+      <UniqueIdentifier>{a51cc524-dc06-4cf6-8b28-16e5a98d9f00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -239,6 +248,12 @@
     <ClInclude Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.h">
       <Filter>公共的类\xmlMatchedTagsHighlighter</Filter>
     </ClInclude>
+    <ClInclude Include="RegFileRelate.h">
+      <Filter>公共的类\RegFileRelate</Filter>
+    </ClInclude>
+    <ClInclude Include="FileRelateDlg.h">
+      <Filter>对话框类\FileRelateDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -352,6 +367,12 @@
     <ClCompile Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.cpp">
       <Filter>公共的类\xmlMatchedTagsHighlighter</Filter>
     </ClCompile>
+    <ClCompile Include="RegFileRelate.cpp">
+      <Filter>公共的类\RegFileRelate</Filter>
+    </ClCompile>
+    <ClCompile Include="FileRelateDlg.cpp">
+      <Filter>对话框类\FileRelateDlg</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SimpleNotePad.rc">
@@ -367,97 +388,100 @@
     <Image Include="res\SimpleNotePad.ico">
       <Filter>资源文件</Filter>
     </Image>
-    <Image Include="res\copy.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\cut.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\new.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\paste.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\settings.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\open.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\select_all.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\save.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\redo.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\undo.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\lower_case.ico">
-      <Filter>资源文件</Filter>
-    </Image>
     <Image Include="res\capital.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\font.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\pin.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\save_as.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\find.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\code_batch.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\code.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\hex_view.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\compare.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\explore.ico">
-      <Filter>资源文件</Filter>
+      <Filter>资源文件\icon</Filter>
     </Image>
     <Image Include="res\clipboard.ico">
-      <Filter>资源文件</Filter>
+      <Filter>资源文件\icon</Filter>
     </Image>
-    <Image Include="res\recent_files.ico">
-      <Filter>资源文件</Filter>
+    <Image Include="res\code.ico">
+      <Filter>资源文件\icon</Filter>
     </Image>
-    <Image Include="res\language.ico">
-      <Filter>资源文件</Filter>
+    <Image Include="res\code_batch.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\compare.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\copy.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\cut.ico">
+      <Filter>资源文件\icon</Filter>
     </Image>
     <Image Include="res\exit.ico">
-      <Filter>资源文件</Filter>
+      <Filter>资源文件\icon</Filter>
     </Image>
-    <Image Include="res\next.ico">
-      <Filter>资源文件</Filter>
+    <Image Include="res\explore.ico">
+      <Filter>资源文件\icon</Filter>
     </Image>
-    <Image Include="res\previous.ico">
-      <Filter>资源文件</Filter>
+    <Image Include="res\find.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\font.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\hex_view.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\language.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\lower_case.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\new.ico">
+      <Filter>资源文件\icon</Filter>
     </Image>
     <Image Include="res\new_window.ico">
-      <Filter>资源文件</Filter>
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\next.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\open.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\paste.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\pin.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\previous.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\recent_files.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\redo.ico">
+      <Filter>资源文件\icon</Filter>
     </Image>
     <Image Include="res\replace.ico">
-      <Filter>资源文件</Filter>
+      <Filter>资源文件\icon</Filter>
     </Image>
-    <Image Include="res\zoom_in.ico">
-      <Filter>资源文件</Filter>
+    <Image Include="res\save.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\save_as.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\select_all.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\settings.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\undo.ico">
+      <Filter>资源文件\icon</Filter>
     </Image>
     <Image Include="res\zoom_out.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\zoom_in.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\file.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

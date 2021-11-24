@@ -24,6 +24,7 @@ public:
     ~CSimpleNotePadDlg();
 
     CScintillaEditView* GetEditView();
+    const CSyntaxHighlight& GetSyntaxHighlight() const;
 
 // 对话框数据
 #ifdef AFX_DESIGN_TIME

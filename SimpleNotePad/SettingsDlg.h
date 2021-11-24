@@ -3,6 +3,7 @@
 #include "TabCtrlEx.h"
 #include "GeneralSettingsDlg.h"
 #include "EditSettingsDlg.h"
+#include "FileRelateDlg.h"
 
 // CSettingsDlg1 对话框
 
@@ -29,6 +30,7 @@ private:
     CTabCtrlEx m_tab_ctrl;
     CGeneralSettingsDlg m_general_settings_dlg;
     CEditSettingsDlg m_edit_settings_dlg;
+    CFileRelateDlg m_file_relate_dlg;
     static int m_tab_selected;
     std::vector<CTabDlg*> m_tab_vect;
     std::vector<int> m_tab_height;

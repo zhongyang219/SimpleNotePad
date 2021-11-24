@@ -41,6 +41,11 @@ CScintillaEditView* CSimpleNotePadDlg::GetEditView()
     return m_view;
 }
 
+const CSyntaxHighlight& CSimpleNotePadDlg::GetSyntaxHighlight() const
+{
+    return m_syntax_highlight;
+}
+
 void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CBaseDialog::DoDataExchange(pDX);

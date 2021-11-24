@@ -217,6 +217,7 @@
     <ClInclude Include="EditSettingsDlg.h" />
     <ClInclude Include="FileCompareDlg.h" />
     <ClInclude Include="FilePathHelper.h" />
+    <ClInclude Include="FileRelateDlg.h" />
     <ClInclude Include="FindReplaceDlg.h" />
     <ClInclude Include="FindReplaceTools.h" />
     <ClInclude Include="FormatConvertDlg.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="HexViewDlg.h" />
     <ClInclude Include="InputDlg.h" />
     <ClInclude Include="InsertDataDlg.h" />
+    <ClInclude Include="RegFileRelate.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScintillaEditView.h" />
     <ClInclude Include="GeneralSettingsDlg.h" />
@@ -258,6 +260,7 @@
     <ClCompile Include="EditSettingsDlg.cpp" />
     <ClCompile Include="FileCompareDlg.cpp" />
     <ClCompile Include="FilePathHelper.cpp" />
+    <ClCompile Include="FileRelateDlg.cpp" />
     <ClCompile Include="FindReplaceDlg.cpp" />
     <ClCompile Include="FindReplaceTools.cpp" />
     <ClCompile Include="FormatConvertDlg.cpp" />
@@ -266,6 +269,7 @@
     <ClCompile Include="HexViewDlg.cpp" />
     <ClCompile Include="InputDlg.cpp" />
     <ClCompile Include="InsertDataDlg.cpp" />
+    <ClCompile Include="RegFileRelate.cpp" />
     <ClCompile Include="ScintillaEditView.cpp" />
     <ClCompile Include="GeneralSettingsDlg.cpp" />
     <ClCompile Include="SettingsDlg.cpp" />
@@ -304,6 +308,7 @@
     <Image Include="res\cut.ico" />
     <Image Include="res\exit.ico" />
     <Image Include="res\explore.ico" />
+    <Image Include="res\file.ico" />
     <Image Include="res\find.ico" />
     <Image Include="res\font.ico" />
     <Image Include="res\hex_view.ico" />

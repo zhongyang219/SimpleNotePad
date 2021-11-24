@@ -86,6 +86,7 @@
 #define IDD_EDIT_SETTINGS_DIALOG        165
 #define IDS_CONVERT_FINISH_INFO         165
 #define IDS_STRING166                   166
+#define IDI_RELATE_FILE                 166
 #define IDS_SPECIFY_CODE_PAGE_MANUALLY  166
 #define IDI_COPY                        167
 #define IDS_FILE_SIZE_MODIFY_INFO       167
@@ -132,9 +133,13 @@
 #define IDD_GTO_DIALOG                  187
 #define IDS_LANGUAGE_CODE               187
 #define IDS_EXPLORER_CONEXT_MENU_ITEM   188
+#define IDD_FILE_RELATE_DIALOG          188
 #define IDI_EXPLORE                     189
+#define IDS_FORMAT                      189
 #define IDI_CLIPBOARD                   190
+#define IDS_DESCRIPTION                 190
 #define IDI_RECENT_FILES                191
+#define IDS_FILE_RELATE                 191
 #define IDI_LANGUAGE                    192
 #define IDI_EXIT                        193
 #define IDD_FIND_REPLACE_DIALOG         194
@@ -144,6 +149,7 @@
 #define IDI_REPLACE                     199
 #define IDI_ZOOM_IN                     200
 #define IDI_ZOOM_OUT                    201
+#define IDI_ICON1                       203
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -247,10 +253,11 @@
 #define IDC_MARK_MATCHED_BRACKETS_CHECK 1088
 #define IDC_MARK_MATCHED_HTML_CHECK     1089
 #define IDC_BRACKETS_AUTO_COMP_CHECK    1090
-#define IDC_CHECK4                      1091
 #define IDC_HTML_MARK_AUTO_COMP_CHECK   1091
-#define IDC_CHECK2                      1092
 #define IDC_EXCLORER_CONTEXT_MENU_CHECK 1092
+#define IDC_LIST1                       1093
+#define IDC_SELECT_ALL_CHECK            1094
+#define IDC_DEFAULT_BUTTON              1095
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -386,9 +393,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        202
+#define _APS_NEXT_RESOURCE_VALUE        203
 #define _APS_NEXT_COMMAND_VALUE         33045
-#define _APS_NEXT_CONTROL_VALUE         1093
+#define _APS_NEXT_CONTROL_VALUE         1096
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

@@ -67,10 +67,12 @@ BOOL CSettingsDlg::OnInitDialog()
     //创建子对话框
     m_general_settings_dlg.Create(IDD_GENERAL_SETTINGS_DIALOG);
     m_edit_settings_dlg.Create(IDD_EDIT_SETTINGS_DIALOG);
+    m_file_relate_dlg.Create(IDD_FILE_RELATE_DIALOG);
 
     //保存子对话框
     m_tab_vect.push_back(&m_general_settings_dlg);
     m_tab_vect.push_back(&m_edit_settings_dlg);
+    m_tab_vect.push_back(&m_file_relate_dlg);
 
     //获取子对话框的初始高度
     for (const auto* pDlg : m_tab_vect)
@@ -83,6 +85,7 @@ BOOL CSettingsDlg::OnInitDialog()
     //添加子对话框
     m_tab_ctrl.AddWindow(&m_general_settings_dlg, CCommon::LoadText(IDS_GENERAL_SETTINGS));
     m_tab_ctrl.AddWindow(&m_edit_settings_dlg, CCommon::LoadText(IDS_EDITOR_SETTINGS));
+    m_tab_ctrl.AddWindow(&m_file_relate_dlg, CCommon::LoadText(IDS_FILE_RELATE));
 
     //为每个子窗口设置滚动信息
     for (size_t i = 0; i < m_tab_vect.size(); i++)
@@ -105,6 +108,7 @@ void CSettingsDlg::OnOK()
     // TODO: 在此添加专用代码和/或调用基类
     m_general_settings_dlg.OnOK();
     m_edit_settings_dlg.OnOK();
+    m_file_relate_dlg.OnOK();
 
     CBaseDialog::OnOK();
 }

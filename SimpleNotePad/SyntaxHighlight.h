@@ -49,7 +49,7 @@ public:
     const CLanguage& GetLanguage(int index);
     int IndexOf(const wstring& name);
 
-    const std::vector<CLanguage>& GetLanguageList();
+    const std::vector<CLanguage>& GetLanguageList() const;
 
 private:
     std::vector<CLanguage> m_language_list;

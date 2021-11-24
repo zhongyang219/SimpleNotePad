@@ -153,7 +153,7 @@ int CSyntaxHighlight::IndexOf(const wstring& name)
     return -1;
 }
 
-const std::vector<CLanguage>& CSyntaxHighlight::GetLanguageList()
+const std::vector<CLanguage>& CSyntaxHighlight::GetLanguageList() const
 {
     return m_language_list;
 }
