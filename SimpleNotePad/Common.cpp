@@ -112,7 +112,7 @@ string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, Co
 		result.push_back(-1);	//在前面加上UTF16的BOM
 		result.push_back(-2);
 		result.append((const char*)wstr.c_str(), (const char*)wstr.c_str() + wstr.size() * 2);
-		result.push_back('\0');
+		//result.push_back('\0');
 	}
     else if (code_type == CodeType::UTF16BE)
     {
@@ -123,7 +123,7 @@ string CCommon::UnicodeToStr(const wstring & wstr, bool& char_cannot_convert, Co
         wchar_t* p = (wchar_t*)temp.c_str();
         convertBE_LE(p, temp.size());
         result.append((const char*)temp.c_str(), (const char*)temp.c_str() + temp.size() * 2);
-        result.push_back('\0');
+        //result.push_back('\0');
     }
     char_cannot_convert = (UsedDefaultChar != FALSE);
 	return result;
