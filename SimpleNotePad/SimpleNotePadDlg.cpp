@@ -309,7 +309,7 @@ void CSimpleNotePadDlg::UpdateStatusBarInfo()
     if (m_view->IsSelectionEmpty())
         pos_info = CCommon::LoadTextFormat(IDS_STATUS_BAR_POSITION_IFNO2, { row, col, m_view->GetCurrentIndex() + 1 });
     else
-        pos_info = CCommon::LoadTextFormat(IDS_STATUS_BAR_POSITION_IFNO, { row, col, m_view->GetSelCount(), m_view->GetLinesSelected() });
+        pos_info = CCommon::LoadTextFormat(IDS_STATUS_BAR_POSITION_IFNO, { m_view->GetSelCount(), m_view->GetLinesSelected() });
     m_status_bar.SetText(pos_info, SP_POSITION_INDICATIOR, 0);
 }
 
@@ -443,7 +443,7 @@ void CSimpleNotePadDlg::InitStatusbarWidth()
 
     std::vector<int> widths;
     widths.resize(STATUSBAR_MAX);
-    widths[SP_POSITION_INDICATIOR] = theApp.DPI(280);
+    widths[SP_POSITION_INDICATIOR] = theApp.DPI(200);
     widths[SP_LANGUAGE] = theApp.DPI(80);
     widths[SP_EOL_MODE] = theApp.DPI(40);
     widths[SP_ZOOM] = theApp.DPI(40);
