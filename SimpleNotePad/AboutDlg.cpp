@@ -2,12 +2,14 @@
 #include "SimpleNotePad.h"
 #include "AboutDlg.h"
 #include "Common.h"
+#include "DonateDlg.h"
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	ON_NOTIFY(NM_CLICK, IDC_STATIC_MAIL, &CAboutDlg::OnNMClickStaticMail)
 	ON_NOTIFY(NM_CLICK, IDC_STATIC_CHECK_FOR_UPDATE, &CAboutDlg::OnNMClickStaticCheckForUpdate)
 	ON_NOTIFY(NM_CLICK, IDC_STATIC_GITHUB, &CAboutDlg::OnNMClickStaticGithub)
 	ON_NOTIFY(NM_CLICK, IDC_STATIC_GITEE, &CAboutDlg::OnNMClickStaticGitee)
+    ON_NOTIFY(NM_CLICK, IDC_STATIC_DONATE, &CAboutDlg::OnNMClickStaticDonate)
 END_MESSAGE_MAP()
 
 CAboutDlg::CAboutDlg() : CDialog(IDD_ABOUTBOX)
@@ -76,4 +78,12 @@ BOOL CAboutDlg::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
+}
+
+
+void CAboutDlg::OnNMClickStaticDonate(NMHDR* pNMHDR, LRESULT* pResult)
+{
+    CDonateDlg dlg;
+    dlg.DoModal();
+    *pResult = 0;
 }

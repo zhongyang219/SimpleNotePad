@@ -26,4 +26,5 @@ public:
     afx_msg void OnNMClickStaticGithub(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnNMClickStaticGitee(NMHDR* pNMHDR, LRESULT* pResult);
     virtual BOOL OnInitDialog();
+    afx_msg void OnNMClickStaticDonate(NMHDR* pNMHDR, LRESULT* pResult);
 };

@@ -212,6 +212,8 @@
     <ClInclude Include="CommonData.h" />
     <ClInclude Include="CVariant.h" />
     <ClInclude Include="DeleteDataDlg.h" />
+    <ClInclude Include="DonateDlg.h" />
+    <ClInclude Include="DrawCommon.h" />
     <ClInclude Include="EditEx.h" />
     <ClInclude Include="EditorHelper.h" />
     <ClInclude Include="EditSettingsDlg.h" />
@@ -255,6 +257,8 @@
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="CVariant.cpp" />
     <ClCompile Include="DeleteDataDlg.cpp" />
+    <ClCompile Include="DonateDlg.cpp" />
+    <ClCompile Include="DrawCommon.cpp" />
     <ClCompile Include="EditEx.cpp" />
     <ClCompile Include="EditorHelper.cpp" />
     <ClCompile Include="EditSettingsDlg.cpp" />
@@ -306,6 +310,8 @@
     <Image Include="res\compare.ico" />
     <Image Include="res\copy.ico" />
     <Image Include="res\cut.ico" />
+    <Image Include="res\donate.bmp" />
+    <Image Include="res\donate_wechat.bmp" />
     <Image Include="res\exit.ico" />
     <Image Include="res\explore.ico" />
     <Image Include="res\file.ico" />

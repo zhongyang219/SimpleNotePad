@@ -150,6 +150,9 @@
 #define IDI_ZOOM_IN                     200
 #define IDI_ZOOM_OUT                    201
 #define IDI_ICON1                       203
+#define IDD_DONATE_DIALOG               204
+#define IDB_DONATE                      205
+#define IDB_DONATE_WECHAT               206
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -233,6 +236,7 @@
 #define IDC_WRAP_AROUND_CHECK           1067
 #define IDC_STATIC_VERSION              1068
 #define IDC_LANGUAGE_COMBO              1069
+#define IDC_STATIC_DONATE               1069
 #define IDC_FIND_PREVIOUS_BUTTON        1070
 #define IDC_FIND_NEXT_BUTTON            1071
 #define IDC_REPLACE_BUTTON              1074
@@ -258,6 +262,7 @@
 #define IDC_LIST1                       1093
 #define IDC_SELECT_ALL_CHECK            1094
 #define IDC_DEFAULT_BUTTON              1095
+#define IDC_DONATE_STATIC               1096
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -393,9 +398,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        203
+#define _APS_NEXT_RESOURCE_VALUE        207
 #define _APS_NEXT_COMMAND_VALUE         33045
-#define _APS_NEXT_CONTROL_VALUE         1096
+#define _APS_NEXT_CONTROL_VALUE         1097
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

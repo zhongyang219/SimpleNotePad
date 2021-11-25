@@ -232,7 +232,7 @@
 		</SyntaxList>
 	</Language>
  -->
-	<Language name="Property files" lexId="9" ext="ini properties">
+	<Language name="Property files" lexId="9" ext="ini inf properties">
     <Comment commentLine=";"/>
     <SyntaxList>
 			<Syntax name= "SCE_PROPS_DEFAULT" id="0" color="0x000000" />
