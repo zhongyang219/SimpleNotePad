@@ -748,6 +748,13 @@ void CScintillaEditView::GetLineSelected(int& first_line, int& last_line)
         last_line--;
 }
 
+int CScintillaEditView::GetLinesSelected()
+{
+    int first_line{}, last_line{};
+    GetLineSelected(first_line, last_line);
+    return last_line - first_line + 1;
+}
+
 void CScintillaEditView::GotoPos(int pos)
 {
     SendMessage(SCI_GOTOPOS, pos);
