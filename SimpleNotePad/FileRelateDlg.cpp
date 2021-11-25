@@ -105,6 +105,7 @@ void CFileRelateDlg::RefreshList()
 
 BEGIN_MESSAGE_MAP(CFileRelateDlg, CTabDlg)
     ON_BN_CLICKED(IDC_SELECT_ALL_CHECK, &CFileRelateDlg::OnBnClickedSelectAllCheck)
+    ON_BN_CLICKED(IDC_DEFAULT_BUTTON, &CFileRelateDlg::OnBnClickedDefaultButton)
 END_MESSAGE_MAP()
 
 
@@ -173,26 +174,23 @@ void CFileRelateDlg::OnBnClickedSelectAllCheck()
 }
 
 
-//void CFileRelateDlg::OnBnClickedDefaultButton()
-//{
-//    // TODO: 在此添加控件通知处理程序代码
-//    std::set<wstring> default_selected;
-//    for (auto item : CAudioCommon::m_all_surpported_extensions)
-//    {
-//        if (!item.empty() && item[0] == L'.')
-//            item = item.substr(1);
-//        if (item != L"mp1" && item != L"mp2" && item != L"mp4")
-//            default_selected.insert(item);
-//    }
-//    int list_count{ m_list_ctrl.GetItemCount() };
-//    for (int i = 0; i < list_count; i++)
-//    {
-//        wstring item_str = m_list_ctrl.GetItemText(i, 0).GetString();
-//        auto iter = default_selected.find(item_str);
-//        if (iter != default_selected.end())
-//            m_list_ctrl.SetCheck(i, TRUE);
-//        else
-//            m_list_ctrl.SetCheck(i, FALSE);
-//    }
-//
-//}
+void CFileRelateDlg::OnBnClickedDefaultButton()
+{
+    // TODO: 在此添加控件通知处理程序代码
+    std::set<wstring> default_selected{ L"bas", L"c", L"cc", L"conf", L"cpp", L"cs", L"css", L"cxx"
+        , L"frm", L"h", L"hpp", L"hxx", L"ini", L"js", L"jse", L"jsm", L"json", L"properties", L"qss"
+        , L"rb", L"rbw", L"rs", L"sql", L"txt", L"xml" };
+
+    int list_count{ m_list_ctrl.GetItemCount() };
+    for (int i = 0; i < list_count; i++)
+    {
+        wstring item_str = m_list_ctrl.GetItemText(i, 0).GetString();
+        auto iter = default_selected.find(item_str);
+        if (iter != default_selected.end())
+            m_list_ctrl.SetCheck(i, TRUE);
+        else
+            m_list_ctrl.SetCheck(i, FALSE);
+    }
+
+}
+
