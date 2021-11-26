@@ -266,6 +266,9 @@
     <ClInclude Include="LanguageSettingsDlg.h">
       <Filter>对话框类\SettingDlg</Filter>
     </ClInclude>
+    <ClInclude Include="UserDefinedLanguageStyle.h">
+      <Filter>SyntaxHighlight</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -391,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="LanguageSettingsDlg.cpp">
       <Filter>对话框类\SettingDlg</Filter>
+    </ClCompile>
+    <ClCompile Include="UserDefinedLanguageStyle.cpp">
+      <Filter>SyntaxHighlight</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
