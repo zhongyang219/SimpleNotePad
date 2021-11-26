@@ -110,4 +110,5 @@ public:
 	afx_msg void OnBnClickedInsertDataButton();
 	afx_msg void OnBnClickedDeleteDataButton();
     afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnBnClickedRadioUtf16be();
 };

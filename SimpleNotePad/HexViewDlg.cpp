@@ -90,6 +90,7 @@ BEGIN_MESSAGE_MAP(CHexViewDlg, CBaseDialog)
 	ON_BN_CLICKED(IDC_INSERT_DATA_BUTTON, &CHexViewDlg::OnBnClickedInsertDataButton)
 	ON_BN_CLICKED(IDC_DELETE_DATA_BUTTON, &CHexViewDlg::OnBnClickedDeleteDataButton)
     ON_WM_SIZE()
+    ON_BN_CLICKED(IDC_RADIO_UTF16BE, &CHexViewDlg::OnBnClickedRadioUtf16be)
 END_MESSAGE_MAP()
 
 // CHexViewDlg 消息处理程序
@@ -116,6 +117,16 @@ void CHexViewDlg::ShowHexData()
 					for (int i{}; i < a_line_str.size() - 1; i++)
 					{
 						if (i % 2 == 0 && a_line_str[i + 1] == 0)	//第奇数个字节是0，即这是一个ASCII字符
+						{
+                            ConvertDumpChar(a_line_str[i]);
+						}
+					}
+				}
+				else if (m_code == CodeType::UTF16BE)	//如果编码是UTF16
+				{
+					for (int i{}; i < a_line_str.size() - 1; i++)
+					{
+						if (i % 2 == 0 && a_line_str[i] == 0)	//第偶数个字节是0，即这是一个ASCII字符
 						{
                             ConvertDumpChar(a_line_str[i]);
 						}
@@ -785,5 +796,16 @@ void CHexViewDlg::OnSize(UINT nType, int cx, int cy)
     if (nType != SIZE_MINIMIZED && m_view->GetSafeHwnd() != NULL)
     {
         SetHexViewPos();
+    }
+}
+
+
+void CHexViewDlg::OnBnClickedRadioUtf16be()
+{
+    // TODO: 在此添加控件通知处理程序代码
+    if (m_code != CodeType::UTF16BE)
+    {
+        m_code = CodeType::UTF16BE;
+        OnBnClickedRefreshButton();
     }
 }

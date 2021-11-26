@@ -184,6 +184,7 @@
 #define IDC_RADIO_ANSI                  1020
 #define IDC_RADIO_UTF8                  1021
 #define IDC_RADIO_UTF16                 1022
+#define IDC_RADIO_UTF16BE               1023
 #define IDC_INPUT_COMBO                 1024
 #define IDC_FILE_LIST                   1025
 #define IDC_OUTPUT_COMBO                1026
