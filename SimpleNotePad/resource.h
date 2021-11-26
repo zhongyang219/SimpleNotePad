@@ -153,6 +153,7 @@
 #define IDD_DONATE_DIALOG               204
 #define IDB_DONATE                      205
 #define IDB_DONATE_WECHAT               206
+#define IDD_LANGUAGE_SETTING_DIALOG     207
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -263,6 +264,11 @@
 #define IDC_SELECT_ALL_CHECK            1094
 #define IDC_DEFAULT_BUTTON              1095
 #define IDC_DONATE_STATIC               1096
+#define IDC_DEFAULT_EXT_STATIC          1097
+#define IDC_STYLE_LIST                  1098
+#define IDC_SELECT_FONT_BUTTON          1101
+#define IDC_FONT_DESCRIPTION_STATIC     1102
+#define IDC_TEXT_COLOR_STATIC           1103
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -398,9 +404,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        207
+#define _APS_NEXT_RESOURCE_VALUE        210
 #define _APS_NEXT_COMMAND_VALUE         33045
-#define _APS_NEXT_CONTROL_VALUE         1097
+#define _APS_NEXT_CONTROL_VALUE         1104
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

@@ -263,6 +263,9 @@
     <ClInclude Include="DrawCommon.h">
       <Filter>公共的类\DrawCommon</Filter>
     </ClInclude>
+    <ClInclude Include="LanguageSettingsDlg.h">
+      <Filter>对话框类\SettingDlg</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -385,6 +388,9 @@
     <ClCompile Include="DonateDlg.cpp" />
     <ClCompile Include="DrawCommon.cpp">
       <Filter>公共的类\DrawCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="LanguageSettingsDlg.cpp">
+      <Filter>对话框类\SettingDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
