@@ -855,10 +855,12 @@ static ColourDesired TextBackground(const EditModel &model, const ViewStyle &vsD
 	}
 }
 
-void EditView::DrawIndentGuide(Surface *surface, Sci::Line lineVisible, int lineHeight, XYPOSITION start, PRectangle rcSegment, bool highlight) {
+void EditView::DrawIndentGuide(Surface *surface, Sci::Line lineVisible, int lineHeight, XYPOSITION start, PRectangle rcSegment, bool highlight, const ViewStyle& vsDraw) {
 	const Point from = Point::FromInts(0, ((lineVisible & 1) && (lineHeight & 1)) ? 1 : 0);
-	const PRectangle rcCopyArea(start + 1, rcSegment.top,
-		start + 2, rcSegment.bottom);
+    int textWidth = std::lround(surface->WidthText(vsDraw.styles[STYLE_DEFAULT].font, " "));
+    start += (static_cast<XYPOSITION>(textWidth) / 2);
+	const PRectangle rcCopyArea(start, rcSegment.top,
+		start + 1, rcSegment.bottom);
 	surface->Copy(rcCopyArea, from,
 		highlight ? *pixmapIndentGuideHighlight : *pixmapIndentGuide);
 }
@@ -1936,7 +1938,7 @@ void EditView::DrawForeground(Surface *surface, const EditModel &model, const Vi
 							if (indentCount > 0) {
 								const XYPOSITION xIndent = std::floor(indentCount * indentWidth);
 								DrawIndentGuide(surface, lineVisible, vsDraw.lineHeight, xIndent + xStart, rcSegment,
-									(ll->xHighlightGuide == xIndent));
+									(ll->xHighlightGuide == xIndent), vsDraw);
 							}
 						}
 					}
@@ -2015,7 +2017,7 @@ void EditView::DrawForeground(Surface *surface, const EditModel &model, const Vi
 									if (indentCount > 0) {
 										const XYPOSITION xIndent = std::floor(indentCount * indentWidth);
 										DrawIndentGuide(surface, lineVisible, vsDraw.lineHeight, xIndent + xStart, rcSegment,
-											(ll->xHighlightGuide == xIndent));
+											(ll->xHighlightGuide == xIndent), vsDraw);
 									}
 								}
 							}
@@ -2093,7 +2095,7 @@ void EditView::DrawIndentGuidesOverEmpty(Surface *surface, const EditModel &mode
 			const XYPOSITION xIndent = std::floor(indentPos * vsDraw.spaceWidth);
 			if (xIndent < xStartText) {
 				DrawIndentGuide(surface, lineVisible, vsDraw.lineHeight, xIndent + xStart, rcLine,
-					(ll->xHighlightGuide == xIndent));
+					(ll->xHighlightGuide == xIndent), vsDraw);
 			}
 		}
 	}

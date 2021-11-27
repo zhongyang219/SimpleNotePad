@@ -543,7 +543,7 @@ public:
 	void DrawTextClipped(PRectangle rc, Font &font_, XYPOSITION ybase, std::string_view text, ColourDesired fore, ColourDesired back) override;
 	void DrawTextTransparent(PRectangle rc, Font &font_, XYPOSITION ybase, std::string_view text, ColourDesired fore) override;
 	void MeasureWidths(Font &font_, std::string_view text, XYPOSITION *positions) override;
-	XYPOSITION WidthText(Font &font_, std::string_view text) override;
+	XYPOSITION WidthText(const Font &font_, std::string_view text) override;
 	XYPOSITION Ascent(Font &font_) override;
 	XYPOSITION Descent(Font &font_) override;
 	XYPOSITION InternalLeading(Font &font_) override;
@@ -1030,7 +1030,7 @@ void SurfaceGDI::DrawTextTransparent(PRectangle rc, Font &font_, XYPOSITION ybas
 	}
 }
 
-XYPOSITION SurfaceGDI::WidthText(Font &font_, std::string_view text) {
+XYPOSITION SurfaceGDI::WidthText(const Font &font_, std::string_view text) {
 	SetFont(font_);
 	SIZE sz={0,0};
 	if (!unicodeMode) {
@@ -1222,7 +1222,7 @@ public:
 	void DrawTextClipped(PRectangle rc, Font &font_, XYPOSITION ybase, std::string_view text, ColourDesired fore, ColourDesired back) override;
 	void DrawTextTransparent(PRectangle rc, Font &font_, XYPOSITION ybase, std::string_view text, ColourDesired fore) override;
 	void MeasureWidths(Font &font_, std::string_view text, XYPOSITION *positions) override;
-	XYPOSITION WidthText(Font &font_, std::string_view text) override;
+	XYPOSITION WidthText(const Font &font_, std::string_view text) override;
 	XYPOSITION Ascent(Font &font_) override;
 	XYPOSITION Descent(Font &font_) override;
 	XYPOSITION InternalLeading(Font &font_) override;
@@ -2116,7 +2116,7 @@ void SurfaceD2D::DrawTextTransparent(PRectangle rc, Font &font_, XYPOSITION ybas
 	}
 }
 
-XYPOSITION SurfaceD2D::WidthText(Font &font_, std::string_view text) {
+XYPOSITION SurfaceD2D::WidthText(const Font &font_, std::string_view text) {
 	FLOAT width = 1.0;
 	SetFont(font_);
 	const TextWide tbuf(text, unicodeMode, codePageText);
