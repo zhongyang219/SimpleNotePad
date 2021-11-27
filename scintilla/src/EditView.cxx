@@ -164,6 +164,16 @@ void DrawStyledText(Surface *surface, const ViewStyle &vs, int styleOffset, PRec
 	}
 }
 
+int EditView::IndentGuideWidth(const ViewStyle& vs) const
+{
+    int width{};
+    double scale = vs.zoomLevel * 0.1 + 1;
+    width = indentGuideWidth * scale;
+    if (width < 1)
+        width = 1;
+    return width;
+}
+
 }
 
 EditView::EditView() {
@@ -310,14 +320,15 @@ static void DrawTabArrow(Surface *surface, PRectangle rcTab, int ymid, const Vie
 
 void EditView::RefreshPixMaps(Surface *surfaceWindow, WindowID wid, const ViewStyle &vsDraw) {
 	if (!pixmapIndentGuide->Initialised()) {
+        int width = IndentGuideWidth(vsDraw);
 		// 1 extra pixel in height so can handle odd/even positions and so produce a continuous line
-		pixmapIndentGuide->InitPixMap(1, vsDraw.lineHeight + 1, surfaceWindow, wid);
-		pixmapIndentGuideHighlight->InitPixMap(1, vsDraw.lineHeight + 1, surfaceWindow, wid);
-		const PRectangle rcIG = PRectangle::FromInts(0, 0, 1, vsDraw.lineHeight);
+		pixmapIndentGuide->InitPixMap(width, vsDraw.lineHeight + 1, surfaceWindow, wid);
+		pixmapIndentGuideHighlight->InitPixMap(width, vsDraw.lineHeight + 1, surfaceWindow, wid);
+		const PRectangle rcIG = PRectangle::FromInts(0, 0, width, vsDraw.lineHeight);
 		pixmapIndentGuide->FillRectangle(rcIG, vsDraw.styles[STYLE_INDENTGUIDE].back);
 		pixmapIndentGuideHighlight->FillRectangle(rcIG, vsDraw.styles[STYLE_BRACELIGHT].back);
-		for (int stripe = 1; stripe < vsDraw.lineHeight + 1; stripe += 2) {
-			const PRectangle rcPixel = PRectangle::FromInts(0, stripe, 1, stripe + 1);
+		for (int stripe = 1; stripe < vsDraw.lineHeight + 1; stripe += (width * 5)) {
+			const PRectangle rcPixel = PRectangle::FromInts(0, stripe, width, stripe + width * 2);
 			pixmapIndentGuide->FillRectangle(rcPixel, vsDraw.styles[STYLE_INDENTGUIDE].fore);
 			pixmapIndentGuideHighlight->FillRectangle(rcPixel, vsDraw.styles[STYLE_BRACELIGHT].fore);
 		}
@@ -858,9 +869,11 @@ static ColourDesired TextBackground(const EditModel &model, const ViewStyle &vsD
 void EditView::DrawIndentGuide(Surface *surface, Sci::Line lineVisible, int lineHeight, XYPOSITION start, PRectangle rcSegment, bool highlight, const ViewStyle& vsDraw) {
 	const Point from = Point::FromInts(0, ((lineVisible & 1) && (lineHeight & 1)) ? 1 : 0);
     int textWidth = std::lround(surface->WidthText(vsDraw.styles[STYLE_DEFAULT].font, " "));
+    int lineWidth = IndentGuideWidth(vsDraw);
     start += (static_cast<XYPOSITION>(textWidth) / 2);
+    start -= (lineWidth / 2);
 	const PRectangle rcCopyArea(start, rcSegment.top,
-		start + 1, rcSegment.bottom);
+		start + lineWidth, rcSegment.bottom);
 	surface->Copy(rcCopyArea, from,
 		highlight ? *pixmapIndentGuideHighlight : *pixmapIndentGuide);
 }

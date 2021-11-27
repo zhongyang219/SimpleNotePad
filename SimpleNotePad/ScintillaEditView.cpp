@@ -822,6 +822,8 @@ void CScintillaEditView::OnInitialUpdate()
     SendMessage(SCI_INDICSETSTYLE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), INDIC_ROUNDBOX);
     SendMessage(SCI_INDICSETALPHA, static_cast<WPARAM>(MarkStyle::HTML_MARKS), 110);
     SendMessage(SCI_INDICSETFORE, static_cast<WPARAM>(MarkStyle::HTML_MARKS), RGB(125, 146, 243));
+
+    SendMessage(SCI_SETINDENTGUIDWIDTH, theApp.DPI(1.2));
 }
 
 
