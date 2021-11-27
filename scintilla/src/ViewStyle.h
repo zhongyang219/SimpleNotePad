@@ -165,6 +165,8 @@ public:
 	int wrapVisualStartIndent;
 	int wrapIndentMode; // SC_WRAPINDENT_FIXED, _SAME, _INDENT
 
+    int indentGuideWidth = 1;
+
 	ViewStyle();
 	ViewStyle(const ViewStyle &source);
 	ViewStyle(ViewStyle &&) = delete;
@@ -208,6 +210,8 @@ public:
 	bool IsCaretVisible() const noexcept;
 	bool DrawCaretInsideSelection(bool inOverstrike, bool imeCaretBlockOverride) const noexcept;
 	CaretShape CaretShapeForMode(bool inOverstrike) const noexcept;
+
+    int IndentGuideWidth() const;
 
 private:
 	void AllocStyles(size_t sizeNew);

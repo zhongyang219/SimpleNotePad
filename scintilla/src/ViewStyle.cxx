@@ -626,3 +626,13 @@ void ViewStyle::FindMaxAscentDescent() {
 			maxDescent = it->second->descent;
 	}
 }
+
+int Scintilla::ViewStyle::IndentGuideWidth() const
+{
+    int width{};
+    double scale = zoomLevel * 0.1 + 1;
+    width = indentGuideWidth * scale;
+    if (width < 1)
+        width = 1;
+    return width;
+}

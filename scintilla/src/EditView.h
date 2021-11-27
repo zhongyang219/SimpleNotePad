@@ -89,8 +89,6 @@ public:
 	DrawTabArrowFn customDrawTabArrow;
 	DrawWrapMarkerFn customDrawWrapMarker;
 
-    int indentGuideWidth = 1;
-
 	EditView();
 	// Deleted so EditView objects can not be copied.
 	EditView(const EditView &) = delete;
@@ -157,9 +155,6 @@ public:
 		Sci::Line line, PRectangle rcArea, int subLine) const;
 	Sci::Position FormatRange(bool draw, const Sci_RangeToFormat *pfr, Surface *surface, Surface *surfaceMeasure,
 		const EditModel &model, const ViewStyle &vs);
-
-protected:
-    int IndentGuideWidth(const ViewStyle& vs) const;
 };
 
 /**

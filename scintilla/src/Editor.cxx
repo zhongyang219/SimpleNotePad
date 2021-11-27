@@ -8395,11 +8395,11 @@ sptr_t Editor::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {
 		return pdoc->CountUTF16(static_cast<Sci::Position>(wParam), lParam);
 
     case SCI_SETINDENTGUIDWIDTH:
-        view.indentGuideWidth = static_cast<int>(wParam);
-        if (view.indentGuideWidth < 1)
-            view.indentGuideWidth = 1;
-        if (view.indentGuideWidth > 20)
-            view.indentGuideWidth = 20;
+        vs.indentGuideWidth = static_cast<int>(wParam);
+        if (vs.indentGuideWidth < 1)
+            vs.indentGuideWidth = 1;
+        if (vs.indentGuideWidth > 20)
+            vs.indentGuideWidth = 20;
         break;
 
 	default:

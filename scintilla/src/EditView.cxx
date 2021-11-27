@@ -164,16 +164,6 @@ void DrawStyledText(Surface *surface, const ViewStyle &vs, int styleOffset, PRec
 	}
 }
 
-int EditView::IndentGuideWidth(const ViewStyle& vs) const
-{
-    int width{};
-    double scale = vs.zoomLevel * 0.1 + 1;
-    width = indentGuideWidth * scale;
-    if (width < 1)
-        width = 1;
-    return width;
-}
-
 }
 
 EditView::EditView() {
@@ -320,7 +310,7 @@ static void DrawTabArrow(Surface *surface, PRectangle rcTab, int ymid, const Vie
 
 void EditView::RefreshPixMaps(Surface *surfaceWindow, WindowID wid, const ViewStyle &vsDraw) {
 	if (!pixmapIndentGuide->Initialised()) {
-        int width = IndentGuideWidth(vsDraw);
+        int width = vsDraw.IndentGuideWidth();
 		// 1 extra pixel in height so can handle odd/even positions and so produce a continuous line
 		pixmapIndentGuide->InitPixMap(width, vsDraw.lineHeight + 1, surfaceWindow, wid);
 		pixmapIndentGuideHighlight->InitPixMap(width, vsDraw.lineHeight + 1, surfaceWindow, wid);
@@ -869,7 +859,7 @@ static ColourDesired TextBackground(const EditModel &model, const ViewStyle &vsD
 void EditView::DrawIndentGuide(Surface *surface, Sci::Line lineVisible, int lineHeight, XYPOSITION start, PRectangle rcSegment, bool highlight, const ViewStyle& vsDraw) {
 	const Point from = Point::FromInts(0, ((lineVisible & 1) && (lineHeight & 1)) ? 1 : 0);
     int textWidth = std::lround(surface->WidthText(vsDraw.styles[STYLE_DEFAULT].font, " "));
-    int lineWidth = IndentGuideWidth(vsDraw);
+    int lineWidth = vsDraw.IndentGuideWidth();
     start += (static_cast<XYPOSITION>(textWidth) / 2);
     start -= (lineWidth / 2);
 	const PRectangle rcCopyArea(start, rcSegment.top,
