@@ -3,6 +3,18 @@
 #include "Common.h"
 #include "FilePathHelper.h"
 
+void CUserLanguage::SyntaxStyle::marshal(SimplePack& sp) const
+{
+    sp << (uint32_t)color << bold << italic;
+}
+
+void CUserLanguage::SyntaxStyle::unmarshal(const SimpleUnpack& su)
+{
+    uint32_t c{};
+    su >> c >> bold >> italic;
+    color = c;
+}
+
 std::wstring CUserLanguage::ExtListToString() const
 {
     std::wstring result;
@@ -47,6 +59,16 @@ void CUserLanguage::RemoveStyle(int id)
     m_style_map.erase(id);
 }
 
+void CUserLanguage::marshal(SimplePack& sp) const
+{
+    sp << m_ext << m_style_map;
+}
+
+void CUserLanguage::unmarshal(const SimpleUnpack& su)
+{
+    su >> m_ext >> m_style_map;
+}
+
 bool CUserDefinedLanguageStyle::IsLanguageExist(const std::wstring& language_name)
 {
     return m_language_map.find(language_name) != m_language_map.end();
@@ -86,11 +108,24 @@ std::wstring CUserDefinedLanguageStyle::FindLanguageByFileName(const std::wstrin
     return std::wstring();
 }
 
-void CUserDefinedLanguageStyle::Load()
-{
+//void CUserDefinedLanguageStyle::Load()
+//{
+//}
+//
+//void CUserDefinedLanguageStyle::Save()
+//{
+//    std::string stream;
+//    Object2String(*this, stream);
+//    theApp.WriteProfileBinary(app_name, key_name, (LPBYTE)buff.c_str(), buff.size());
+//
+//}
 
+void CUserDefinedLanguageStyle::marshal(SimplePack& sp) const
+{
+    sp << m_language_map;
 }
 
-void CUserDefinedLanguageStyle::Save()
+void CUserDefinedLanguageStyle::unmarshal(const SimpleUnpack& su)
 {
+    su >> m_language_map;
 }

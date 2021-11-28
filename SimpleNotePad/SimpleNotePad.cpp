@@ -307,7 +307,14 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.show_invisible_characters_hex = GetProfileInt(_T("hex_editor"), _T("show_invisible_characters"), 0);
 
     //载入语言格式设置
-    m_lanugage_settings_data.Load();
+    LPBYTE buff;
+    UINT length{};
+    if (GetProfileBinary(_T("config"), _T("lanugage_settings"), &buff, &length))
+    {
+        std::string str_read((const char*)buff, length);
+        delete[] buff;
+        String2Object(str_read, m_lanugage_settings_data);
+    }
 }
 
 void CSimpleNotePadApp::SaveConfig()
@@ -341,7 +348,9 @@ void CSimpleNotePadApp::SaveConfig()
     WriteProfileInt(_T("hex_editor"), _T("show_invisible_characters"), m_edit_settings_data.show_invisible_characters_hex);
 
     //保存语言格式设置
-    m_lanugage_settings_data.Save();
+    std::string stream;
+    Object2String(m_lanugage_settings_data, stream);
+    WriteProfileBinary(_T("config"), _T("lanugage_settings"), (LPBYTE)stream.c_str(), stream.size());
 }
 
 

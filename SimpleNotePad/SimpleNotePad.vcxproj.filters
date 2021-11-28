@@ -269,6 +269,9 @@
     <ClInclude Include="UserDefinedLanguageStyle.h">
       <Filter>SyntaxHighlight</Filter>
     </ClInclude>
+    <ClInclude Include="simplemarshal.h">
+      <Filter>公共的类</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">

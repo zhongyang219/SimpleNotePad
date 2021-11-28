@@ -234,6 +234,7 @@
     <ClInclude Include="ScintillaEditView.h" />
     <ClInclude Include="GeneralSettingsDlg.h" />
     <ClInclude Include="SettingsDlg.h" />
+    <ClInclude Include="simplemarshal.h" />
     <ClInclude Include="SimpleNotePad.h" />
     <ClInclude Include="SimpleNotePadDlg.h" />
     <ClInclude Include="SimpleXML.h" />
