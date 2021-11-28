@@ -46,20 +46,19 @@ struct EditSettingData
 };
 
 //自定义消息
-inline int GetUserDefinedMessgeId()
+static int GetUserDefinedMessgeId()
 {
     static int current_msg_id = WM_USER + 100;
     current_msg_id++;
     return current_msg_id;
 }
 
-namespace MessageId
-{
-    const int a = GetUserDefinedMessgeId();
-};
+#define DECLARE_USER_MESSAGE_ID(id) const int id = GetUserDefinedMessgeId();
 
-//static const int WM_COLOR_SELECTED = GetUserDefinedMessgeId();     //响应颜色选择控件选择了颜色
-#define WM_COLOR_SELECTED (WM_USER + 100)     //响应颜色选择控件选择了颜色
+DECLARE_USER_MESSAGE_ID(WM_COLOR_SELECTED)     //响应颜色选择控件选择了颜色
+DECLARE_USER_MESSAGE_ID(WM_NP_FIND_REPLACE)    //查找替换消息，WPARA为CFindReplaceDlg::FindMode类型
+DECLARE_USER_MESSAGE_ID(WM_DELETE_CHAR)        //删除编辑器一个字符，wParam为删除位置
+
 
 //通过构造函数传递一个bool变量的引用，在构造时将其置为true，析构时置为false
 class CFlagLocker

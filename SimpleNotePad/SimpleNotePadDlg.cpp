@@ -46,13 +46,18 @@ const CSyntaxHighlight& CSimpleNotePadDlg::GetSyntaxHighlight() const
     return m_syntax_highlight;
 }
 
+CSimpleNotePadDlg* CSimpleNotePadDlg::Instanse()
+{
+    return dynamic_cast<CSimpleNotePadDlg*>(AfxGetMainWnd());
+}
+
 void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CBaseDialog::DoDataExchange(pDX);
 	//DDX_Control(pDX, IDC_EDIT1, m_edit);
 }
 
-void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before)
+void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before, const CUserDefinedLanguageStyle& language_settings_before)
 {
     //如果当前行高亮设置发生了变化
     if (theApp.GetEditSettings().current_line_highlight != edit_settings_before.current_line_highlight || theApp.GetEditSettings().current_line_highlight_color != edit_settings_before.current_line_highlight_color)
@@ -65,7 +70,7 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
     if (theApp.GetEditSettings().background_color != edit_settings_before.background_color)
     {
         m_view->SetBackgroundColor(theApp.GetEditSettings().background_color);
-        SetEditorSyntaxHight();
+        //SetEditorSyntaxHight();
     }
 
 	if (theApp.GetEditSettings().selection_back_color != edit_settings_before.selection_back_color)
@@ -82,7 +87,7 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
         CreateFontObject();
         UpdateLineNumberWidth(true);
         //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
-        SetSyntaxHight(m_syntax_highlight.GetLanguage(m_cur_lan_index));
+        //SetSyntaxHight(m_syntax_highlight.GetLanguage(m_cur_lan_index));
     }
 
     if (theApp.GetEditSettings().tab_width != edit_settings_before.tab_width)
@@ -106,6 +111,8 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
     {
         m_view->ClearAllMark(CScintillaEditView::MarkStyle::MATCHED_BRACKETS);
     }
+    //重新设置语法高亮
+    SetEditorSyntaxHight();
 }
 
 void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
@@ -591,10 +598,23 @@ void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
             m_view->SetKeywords(keywords.first, keywords.second.c_str());
         }
         //设置样式
+        int style_index = 0;
         for (const auto& syntax_style : lan.m_syntax_list)
         {
-            m_view->SetSyntaxColor(syntax_style.id, syntax_style.color);
-            m_view->SetSyntaxFontStyle(syntax_style.id, syntax_style.bold, syntax_style.italic);
+            //查找是自定义样式是否存在
+            CUserLanguage user_lan = theApp.GetLanguageSettings().GetLanguage(lan.m_name);
+            if (user_lan.IsStyleExist(style_index))     //自定义的样式存在，使用自定义的样式
+            {
+                CUserLanguage::SyntaxStyle user_style = user_lan.GetStyle(style_index);
+                m_view->SetSyntaxColor(syntax_style.id, user_style.color);
+                m_view->SetSyntaxFontStyle(syntax_style.id, user_style.bold, user_style.italic);
+            }
+            else        //否则使用默认的样式
+            {
+                m_view->SetSyntaxColor(syntax_style.id, syntax_style.color);
+                m_view->SetSyntaxFontStyle(syntax_style.id, syntax_style.bold, syntax_style.italic);
+            }
+            style_index++;
         }
         m_cur_lan_index = m_syntax_highlight.IndexOf(lan.m_name);
     }
@@ -611,6 +631,11 @@ void CSimpleNotePadDlg::SetEditorSyntaxHight()
     wstring wcs_file_path = m_file_path.GetString();
     CFilePathHelper helper(wcs_file_path);
     CLanguage lan = m_syntax_highlight.FindLanguageByFileName(helper.GetFileName());
+    if (lan.m_name.empty()) //如果根据当前文件的扩展名无法在默认语言列表中找到对应的语言，则在自定义语言列表中查找
+    {
+        wstring language_name = theApp.GetLanguageSettings().FindLanguageByFileName(helper.GetFileName());
+        lan = m_syntax_highlight.FindLanguageByName(language_name.c_str());
+    }
     SetSyntaxHight(lan);
 }
 
@@ -1861,13 +1886,14 @@ void CSimpleNotePadDlg::OnToolOptions()
     // TODO: 在此添加命令处理程序代码
     SettingsData general_settings_before = theApp.GetGeneralSettings();
     EditSettingData edit_settings_before = theApp.GetEditSettings();
+    CUserDefinedLanguageStyle language_settings_before = theApp.GetLanguageSettings();
 
     CSettingsDlg dlg;
     dlg.LoadSettings();
     if (dlg.DoModal() == IDOK)
     {
         dlg.SaveSettings();
-        ApplySettings(general_settings_before, edit_settings_before);
+        ApplySettings(general_settings_before, edit_settings_before, language_settings_before);
     }
 }
 

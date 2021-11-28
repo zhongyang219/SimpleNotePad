@@ -4,6 +4,7 @@
 #include "GeneralSettingsDlg.h"
 #include "EditSettingsDlg.h"
 #include "FileRelateDlg.h"
+#include "LanguageSettingsDlg.h"
 
 // CSettingsDlg1 对话框
 
@@ -31,6 +32,7 @@ private:
     CGeneralSettingsDlg m_general_settings_dlg;
     CEditSettingsDlg m_edit_settings_dlg;
     CFileRelateDlg m_file_relate_dlg;
+    CLanguageSettingsDlg m_language_settings_dlg;
     static int m_tab_selected;
     std::vector<CTabDlg*> m_tab_vect;
     std::vector<int> m_tab_height;

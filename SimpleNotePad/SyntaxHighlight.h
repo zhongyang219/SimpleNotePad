@@ -44,10 +44,10 @@ class CSyntaxHighlight
 public:
     void LoadFromFile(const wchar_t* file_path);
 
-    const CLanguage& FindLanguageByFileName(const wstring& file_name);
-    const CLanguage& FindLanguageByName(const wchar_t* name);
-    const CLanguage& GetLanguage(int index);
-    int IndexOf(const wstring& name);
+    const CLanguage& FindLanguageByFileName(const wstring& file_name) const;
+    const CLanguage& FindLanguageByName(const wchar_t* name) const;
+    const CLanguage& GetLanguage(int index) const;
+    int IndexOf(const wstring& name) const;
 
     const std::vector<CLanguage>& GetLanguageList() const;
 

@@ -26,6 +26,8 @@ public:
     CScintillaEditView* GetEditView();
     const CSyntaxHighlight& GetSyntaxHighlight() const;
 
+    static CSimpleNotePadDlg* Instanse();
+
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_SIMPLENOTEPAD_DIALOG };
@@ -88,7 +90,7 @@ protected:
     bool m_marked{ false };
 	
 protected:
-    void ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before);
+    void ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before, const CUserDefinedLanguageStyle& language_settings_before);
 
 	void OpenFile(LPCTSTR file_path);					//打开文件的处理
 

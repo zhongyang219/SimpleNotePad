@@ -141,6 +141,7 @@
 #define IDI_RECENT_FILES                191
 #define IDS_FILE_RELATE                 191
 #define IDI_LANGUAGE                    192
+#define IDS_LANGUAGE_SETTINGS           192
 #define IDI_EXIT                        193
 #define IDD_FIND_REPLACE_DIALOG         194
 #define IDI_NEXT                        196
@@ -228,10 +229,12 @@
 #define IDC_CHECK1                      1065
 #define IDC_CHECK_UPDATE_CHECK          1065
 #define IDC_MATCH_WHOLE_WORD_CHECK      1065
+#define IDC_BOLD_CHECK                  1065
 #define IDC_HEX_SET_FONT_BUTTON         1066
 #define IDC_STATIC_GITEE                1066
 #define IDC_GITHUB_RADIO                1066
 #define IDC_MATCH_CASE_CHECK            1066
+#define IDC_ITALIC_CHECK                1066
 #define IDC_SELECTION_BACKGROUND_COLOR_STATIC 1067
 #define IDC_STATIC_CHECK_FOR_UPDATE     1067
 #define IDC_GITEE_RADIO                 1067
@@ -270,6 +273,8 @@
 #define IDC_SELECT_FONT_BUTTON          1101
 #define IDC_FONT_DESCRIPTION_STATIC     1102
 #define IDC_TEXT_COLOR_STATIC           1103
+#define IDC_USER_EXT_EDIT               1104
+#define IDC_RESTORE_DEFAULT_BUTTON      1105
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -407,7 +412,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        210
 #define _APS_NEXT_COMMAND_VALUE         33045
-#define _APS_NEXT_CONTROL_VALUE         1104
+#define _APS_NEXT_CONTROL_VALUE         1106
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

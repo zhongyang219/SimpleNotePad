@@ -11,6 +11,7 @@
 #include "resource.h"		// 主符号
 
 #include "CommonData.h"
+#include "UserDefinedLanguageStyle.h"
 
 // CSimpleNotePadApp:
 // 有关此类的实现，请参阅 SimpleNotePad.cpp
@@ -33,6 +34,9 @@ public:
 
     const EditSettingData& GetEditSettings() const;
     void SetEditSettings(const EditSettingData& data);
+
+    const CUserDefinedLanguageStyle& GetLanguageSettings() const;
+    void SetLanguageSettings(const CUserDefinedLanguageStyle& data);
 
     void CheckUpdate(bool message);     //检查更新，如果message为true，则在检查时弹出提示信息
     void CheckUpdateInThread(bool message); //在后台线程中检查更新
@@ -67,6 +71,7 @@ private:
     //选项设置数据
     SettingsData m_settings_data;   //常规设置
     EditSettingData m_edit_settings_data;   //编辑器设置
+    CUserDefinedLanguageStyle m_lanugage_settings_data;
 
     bool m_checking_update{ false };        //是否正在检查更新
     std::map<UINT, HICON> m_menu_icons;      //菜单图标资源。key是图标资源的ID，vlaue是图标的句柄

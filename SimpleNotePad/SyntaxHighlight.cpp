@@ -102,7 +102,7 @@ void CSyntaxHighlight::LoadFromFile(const wchar_t* file_path)
     });
 }
 
-const CLanguage& CSyntaxHighlight::FindLanguageByFileName(const wstring& file_name)
+const CLanguage& CSyntaxHighlight::FindLanguageByFileName(const wstring& file_name) const
 {
     CFilePathHelper helper(file_name);
     wstring ext = helper.GetFileExtension();
@@ -121,7 +121,7 @@ const CLanguage& CSyntaxHighlight::FindLanguageByFileName(const wstring& file_na
     return m_empty_language;
 }
 
-const CLanguage& CSyntaxHighlight::FindLanguageByName(const wchar_t* name)
+const CLanguage& CSyntaxHighlight::FindLanguageByName(const wchar_t* name) const
 {
     for (const auto& lan : m_language_list)
     {
@@ -133,7 +133,7 @@ const CLanguage& CSyntaxHighlight::FindLanguageByName(const wchar_t* name)
     return m_empty_language;
 }
 
-const CLanguage& CSyntaxHighlight::GetLanguage(int index)
+const CLanguage& CSyntaxHighlight::GetLanguage(int index) const
 {
     if (index >= 0 && index < static_cast<int>(m_language_list.size()))
         return m_language_list[index];
@@ -141,7 +141,7 @@ const CLanguage& CSyntaxHighlight::GetLanguage(int index)
         return m_empty_language;
 }
 
-int CSyntaxHighlight::IndexOf(const wstring& name)
+int CSyntaxHighlight::IndexOf(const wstring& name) const
 {
     int index = 0;
     for (const auto& lan : m_language_list)

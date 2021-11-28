@@ -70,6 +70,16 @@ void CSimpleNotePadApp::SetEditSettings(const EditSettingData & data)
     m_edit_settings_data = data;
 }
 
+const CUserDefinedLanguageStyle& CSimpleNotePadApp::GetLanguageSettings() const
+{
+    return m_lanugage_settings_data;
+}
+
+void CSimpleNotePadApp::SetLanguageSettings(const CUserDefinedLanguageStyle& data)
+{
+    m_lanugage_settings_data = data;
+}
+
 void CSimpleNotePadApp::CheckUpdate(bool message)
 {
     if (m_checking_update)      //如果还在检查更新，则直接返回
@@ -296,6 +306,8 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.font_size_hex = GetProfileInt(_T("hex_editor"), _T("font_size"), 10);
     m_edit_settings_data.show_invisible_characters_hex = GetProfileInt(_T("hex_editor"), _T("show_invisible_characters"), 0);
 
+    //载入语言格式设置
+    m_lanugage_settings_data.Load();
 }
 
 void CSimpleNotePadApp::SaveConfig()
@@ -327,6 +339,9 @@ void CSimpleNotePadApp::SaveConfig()
     WriteProfileString(_T("hex_editor"), _T("font_name"), m_edit_settings_data.font_name_hex);
     WriteProfileInt(L"hex_editor", L"font_size", m_edit_settings_data.font_size_hex);
     WriteProfileInt(_T("hex_editor"), _T("show_invisible_characters"), m_edit_settings_data.show_invisible_characters_hex);
+
+    //保存语言格式设置
+    m_lanugage_settings_data.Save();
 }
 
 
@@ -361,7 +376,6 @@ BOOL CSimpleNotePadApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinApp::InitInstance();
-
 
 	AfxEnableControlContainer();
 
