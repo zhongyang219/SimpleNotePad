@@ -456,10 +456,26 @@
 			<Syntax name= "SCE_REG_ADDEDKEY" id="6" color="0x808000" bold="1" />
 			<Syntax name= "SCE_REG_DELETEDKEY" id="7" color="0x4141C2" />
 			<Syntax name= "SCE_REG_ESCAPED" id="8" color="0x6C7D95" />
-			<Syntax name= "SCE_REG_KEYPATH_GUID" id="8" color="0xCE4597" />
-			<Syntax name= "SCE_REG_STRING_GUID" id="8" color="0xCE4597" />
-			<Syntax name= "SCE_REG_PARAMETER" id="9" color="0xC94B83" />
-			<Syntax name= "SCE_REG_OPERATOR" id="9" color="0x225AD6" />
+			<Syntax name= "SCE_REG_KEYPATH_GUID" id="9" color="0xCE4597" />
+			<Syntax name= "SCE_REG_STRING_GUID" id="10" color="0xCE4597" />
+			<Syntax name= "SCE_REG_PARAMETER" id="11" color="0xC94B83" />
+			<Syntax name= "SCE_REG_OPERATOR" id="12" color="0x225AD6" />
+		</SyntaxList>
+	</Language>
+	<Language name="YAML" lexId="48" ext="yml yaml">
+    <Comment commentLine="#"/>
+    <Keywords id="0">true false yes no</Keywords>
+		<SyntaxList>
+			<Syntax name= "SCE_YAML_DEFAULT" id="0" color="0x000000" />
+			<Syntax name= "SCE_YAML_COMMENT" id="1" color="0xB840B" />
+			<Syntax name= "SCE_YAML_IDENTIFIER" id="2" color="0x808000" />
+			<Syntax name= "SCE_YAML_KEYWORD" id="3" color="0xCD4230" bold="1" />
+			<Syntax name= "SCE_YAML_NUMBER" id="4" color="0x3B6DC7" />
+			<Syntax name= "SCE_YAML_REFERENCE" id="5" color="0x8A006F" />
+			<Syntax name= "SCE_YAML_DOCUMENT" id="6" color="1C4384" />
+			<Syntax name= "SCE_YAML_TEXT" id="7" color="0x9D6768" />
+			<Syntax name= "SCE_YAML_ERROR" id="8" color="0x2311E8" />
+			<Syntax name= "SCE_YAML_OPERATOR" id="9" color="0x84431C" />
 		</SyntaxList>
 	</Language>
 </SimpleNotepad>
