@@ -627,12 +627,22 @@ void ViewStyle::FindMaxAscentDescent() {
 	}
 }
 
+int Scintilla::ViewStyle::GetSizeWithZoom(int size) const
+{
+    int sizeZoom{};
+    double scale = zoomLevel * 0.1 + 1;
+    sizeZoom = static_cast<int>(size * scale);
+    if (sizeZoom < 1)
+        sizeZoom = 1;
+    return sizeZoom;
+}
+
 int Scintilla::ViewStyle::IndentGuideWidth() const
 {
-    int width{};
-    double scale = zoomLevel * 0.1 + 1;
-    width = indentGuideWidth * scale;
-    if (width < 1)
-        width = 1;
-    return width;
+    return GetSizeWithZoom(indentGuideWidth);
+}
+
+int Scintilla::ViewStyle::CaretWidth() const
+{
+    return GetSizeWithZoom(caretWidth);
 }

@@ -211,7 +211,9 @@ public:
 	bool DrawCaretInsideSelection(bool inOverstrike, bool imeCaretBlockOverride) const noexcept;
 	CaretShape CaretShapeForMode(bool inOverstrike) const noexcept;
 
+    int GetSizeWithZoom(int size) const;
     int IndentGuideWidth() const;
+    int CaretWidth() const;
 
 private:
 	void AllocStyles(size_t sizeNew);
