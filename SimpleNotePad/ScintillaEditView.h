@@ -188,6 +188,8 @@ public:
     int GetLinesSelected();     //获取选中的行数
     void GotoPos(int pos);
 
+    int GetTextWidth(const std::string& str);
+
 private:
 
 private:

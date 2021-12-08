@@ -760,6 +760,11 @@ void CScintillaEditView::GotoPos(int pos)
     SendMessage(SCI_GOTOPOS, pos);
 }
 
+int CScintillaEditView::GetTextWidth(const std::string& str)
+{
+    return SendMessage(SCI_TEXTWIDTH, STYLE_DEFAULT, (sptr_t)str.c_str());
+}
+
 // CScintillaEditView 消息处理程序
 
 

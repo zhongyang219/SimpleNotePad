@@ -662,18 +662,14 @@ void CSimpleNotePadDlg::UpdateLineNumberWidth(bool update)
     int leng_height = m_view->GetLineHeight();
     int line_per_page = m_window_size.cy / leng_height;
     int line_number = current_line + line_per_page;
-    int digits = static_cast<int>(std::log10(line_number)) + 1;
-    if (digits < 2)
-        digits = 2;
-    static int last_digits{ -1 };
-    if (update || last_digits != digits)
+    static int last_line_number{ -1 };
+    if (update || last_line_number != line_number)
     {
-        CString str_line_number = std::to_wstring(line_number).c_str();
-        int width = m_pDC->GetTextExtent(str_line_number).cx + theApp.DPI(8);
+        int width = m_view->GetTextWidth(std::to_string(line_number)) + theApp.DPI(8);
         m_view->SetLineNumberWidth(width);
         m_view->ShowLineNumber(m_show_line_number);
     }
-    last_digits = digits;
+    last_line_number = line_number;
 }
 
 CString CSimpleNotePadDlg::GetOpenFileFilter()
