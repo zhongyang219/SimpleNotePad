@@ -1724,6 +1724,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 	pMenu->CheckMenuItem(ID_SHOW_STATUSBAR, MF_BYCOMMAND | (m_show_statusbar ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_SHOW_LINE_NUMBER, MF_BYCOMMAND | (m_show_line_number ? MF_CHECKED : MF_UNCHECKED));
 	pMenu->CheckMenuItem(ID_SHOW_EOL, MF_BYCOMMAND | (m_show_eol ? MF_CHECKED : MF_UNCHECKED));
+	pMenu->CheckMenuItem(ID_MONITOR_MODE, MF_BYCOMMAND | (m_monitor_mode ? MF_CHECKED : MF_UNCHECKED));
 
     bool is_selection_empty = m_view->IsSelectionEmpty();
     pMenu->EnableMenuItem(ID_EDIT_COPY, is_selection_empty ? MF_GRAYED : MF_ENABLED);
@@ -1735,6 +1736,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
     pMenu->EnableMenuItem(ID_CONVERT_TO_LOWER_CASE, is_selection_empty || m_view->IsReadOnly() ? MF_GRAYED : MF_ENABLED);
     pMenu->EnableMenuItem(ID_CONVERT_TO_TITLE_CASE, is_selection_empty || m_view->IsReadOnly() ? MF_GRAYED : MF_ENABLED);
     pMenu->EnableMenuItem(ID_ADD_DELETE_COMMENT, IsCommentEnable() && !m_view->IsReadOnly() ? MF_ENABLED : MF_GRAYED);
+    pMenu->EnableMenuItem(ID_MONITOR_MODE, PathFileExists(m_file_path) ? MF_ENABLED : MF_GRAYED);
 
     //pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
 
@@ -2450,20 +2452,27 @@ afx_msg LRESULT CSimpleNotePadDlg::OnDeleteChar(WPARAM wParam, LPARAM lParam)
 
 void CSimpleNotePadDlg::OnMonitorMode()
 {
-    if (!m_monitor_mode)
+    if (PathFileExists(m_file_path))
     {
-        int rtn = SHMessageBoxCheck(m_hWnd, CCommon::LoadText(IDS_MONITOR_MODE_INQUERY), APP_NAME, MB_OKCANCEL | MB_ICONWARNING, IDOK, _T("{3BEAC8DD-040F-43E6-9CC6-E25309E4A42B}"));
-        if (rtn != IDOK)
-            return;
-
-        SaveInquiry(nullptr, &rtn);
-        if (rtn == IDNO)     //打开监视模式前询问用户是否保存
+        if (!m_monitor_mode)
         {
-            OpenFile();         //如果不保存，则重新加载文件
-            return;
+            int rtn = SHMessageBoxCheck(m_hWnd, CCommon::LoadText(IDS_MONITOR_MODE_INQUERY), APP_NAME, MB_OKCANCEL | MB_ICONWARNING, IDOK, _T("{3BEAC8DD-040F-43E6-9CC6-E25309E4A42B}"));
+            if (rtn != IDOK)
+                return;
+
+            SaveInquiry(nullptr, &rtn);
+            if (rtn == IDNO)     //打开监视模式前询问用户是否保存
+            {
+                OpenFile();         //如果不保存，则重新加载文件
+                return;
+            }
         }
+        m_monitor_mode = !m_monitor_mode;
     }
-    m_monitor_mode = !m_monitor_mode;
+    else
+    {
+        m_monitor_mode = false;
+    }
     SetTitle();
     m_view->SetReadOnly(m_monitor_mode);
 }
