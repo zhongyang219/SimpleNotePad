@@ -49,6 +49,7 @@ public:
     const char* GetText(int& size);      //获取UTF8格式文本（返回字符串指针，需要自行释放内存）
     std::string GetText(int start, int end);
     int GetDocLength();
+    int GetLines();
     void SetFontFaceW(const wchar_t* font_face);
     void SetFontSize(int font_size);
     void SetTabSize(int tab_size);

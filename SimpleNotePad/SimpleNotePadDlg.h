@@ -79,6 +79,8 @@ protected:
     bool m_show_line_number{ false };
     bool m_show_eol{ false };
     int m_cur_lan_index{ -1 };      //当前选择的语言索引
+    bool m_monitor_mode{ false };
+    unsigned __int64 m_last_modified_time{};
 
 	CFindReplaceDialog* m_pFindDlg{};	//查找对话框
 	CFindReplaceDialog* m_pReplaceDlg{};	//替换对话框
@@ -92,7 +94,7 @@ protected:
 protected:
     void ApplySettings(const SettingsData& genaral_settings_before, const EditSettingData& edit_settings_before, const CUserDefinedLanguageStyle& language_settings_before);
 
-	void OpenFile(LPCTSTR file_path);					//打开文件的处理
+	void OpenFile();					//打开文件的处理
 
     bool SaveFile(LPCTSTR file_path, CodeType code, UINT code_page = CP_ACP);	//保存文件的处理
 	bool JudgeCode();				//判断编码格式（如果编码格式可以完全确定，则返回true，否则返回false）
@@ -102,7 +104,7 @@ protected:
     void ConvertToCode(CodeType code_type); //转换为一种编码格式
 	virtual void SaveConfig() const override;				//保存设置
 	virtual void LoadConfig() override;				//载入设置
-	bool SaveInquiry(LPCTSTR info = NULL);	//询问用户是否保存，参数为提示信息(用户点击了取消后返回false，否则返回true)
+	bool SaveInquiry(LPCTSTR info = NULL, int* prtn = nullptr);	//询问用户是否保存，参数为提示信息(用户点击了取消后返回false，否则返回true。rtn：对话框的返回值)
 	void SetTitle();				//设置窗口标题
     void ShowStatusbar(bool show);  //显示或隐藏状态栏
 
@@ -223,4 +225,6 @@ public:
     afx_msg void OnViewZoomDefault();
 protected:
     afx_msg LRESULT OnDeleteChar(WPARAM wParam, LPARAM lParam);
+public:
+    afx_msg void OnMonitorMode();
 };

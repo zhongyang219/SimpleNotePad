@@ -143,7 +143,9 @@
 #define IDI_LANGUAGE                    192
 #define IDS_LANGUAGE_SETTINGS           192
 #define IDI_EXIT                        193
+#define IDS_MONITOR_MODE                193
 #define IDD_FIND_REPLACE_DIALOG         194
+#define IDS_MONITOR_MODE_INQUERY        194
 #define IDI_NEXT                        196
 #define IDI_PREVIOUS                    197
 #define IDI_NEW_WINDOW                  198
@@ -405,13 +407,15 @@
 #define ID_VIEW_ZOOM_IN                 33039
 #define ID_VIEW_ZOOM_OUT                33040
 #define ID_VIEW_ZOOM_DEFAULT            33041
+#define ID_MONITOR_MODE                 33045
+#define ID_TOOLS_MONITORINGMODE         33046
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        210
-#define _APS_NEXT_COMMAND_VALUE         33045
+#define _APS_NEXT_COMMAND_VALUE         33047
 #define _APS_NEXT_CONTROL_VALUE         1106
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

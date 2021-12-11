@@ -140,6 +140,12 @@ int CScintillaEditView::GetDocLength()
     return SendMessage(SCI_GETLENGTH);
 }
 
+int CScintillaEditView::GetLines()
+{
+    int pos = GetDocLength();
+    return SendMessage(SCI_LINEFROMPOSITION, pos);
+}
+
 void CScintillaEditView::SetFontFaceW(const wchar_t* font_face)
 {
     bool char_connot_convert;

@@ -71,6 +71,8 @@ public:
 
 	//static bool FileExist(const wchar_t* file);
 
+    static unsigned __int64 GetFileLastModified(const wstring& file_path);
+
 	//获取当前exe文件的路径（不含文件名）
 	static wstring GetCurrentPath();
 

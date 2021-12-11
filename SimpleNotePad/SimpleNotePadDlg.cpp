@@ -115,16 +115,16 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
     SetEditorSyntaxHight();
 }
 
-void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
+void CSimpleNotePadDlg::OpenFile()
 {
 	CWaitCursor wait_cursor;
 
 	m_edit_str.clear();
     m_view->SetSavePoint();
-	ifstream file{ file_path, std::ios::binary };
+	ifstream file{ m_file_path.GetString(), std::ios::binary };
 	if (file.fail())
 	{
-		MessageBox(CCommon::LoadTextFormat(IDS_CANNOT_OPEN_FILE_WARNING, { file_path }), NULL, MB_OK | MB_ICONSTOP);
+		MessageBox(CCommon::LoadTextFormat(IDS_CANNOT_OPEN_FILE_WARNING, { m_file_path }), NULL, MB_OK | MB_ICONSTOP);
         theApp.RemoveFromRecentFileList(m_file_path);
         m_file_path.Empty();
 		return;
@@ -136,7 +136,7 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
     file.seekg(0, file.beg);
     if (length > MAX_FILE_SIZE)	//当文件大小超过MAX_FILE_SIZE时禁止打开
     {
-        CString info = CCommon::LoadTextFormat(IDS_FILE_TOO_LARGE_WARNING, { file_path, MAX_FILE_SIZE / 1024 / 1024 });
+        CString info = CCommon::LoadTextFormat(IDS_FILE_TOO_LARGE_WARNING, { m_file_path, MAX_FILE_SIZE / 1024 / 1024 });
         if (MessageBox(info, NULL, MB_YESNO | MB_ICONQUESTION) != IDYES)
         {
             m_file_path.Empty();
@@ -174,6 +174,9 @@ void CSimpleNotePadDlg::OpenFile(LPCTSTR file_path)
 
     //文件打开后为编辑设置语法高亮
     SetEditorSyntaxHight();
+
+    //保存打开文件的最后修改时间
+    m_last_modified_time = CCommon::GetFileLastModified(m_file_path.GetString());
 }
 
 bool CSimpleNotePadDlg::SaveFile(LPCTSTR file_path, CodeType code, UINT code_page)
@@ -371,7 +374,7 @@ void CSimpleNotePadDlg::LoadConfig()
     m_zoom = theApp.GetProfileInt(_T("config"), _T("zoom"), 0);
 }
 
-bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
+bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info, int* prtn)
 {
 	if (m_view->IsModified())
 	{
@@ -392,6 +395,8 @@ bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info)
 		}
 
 		int rtn = MessageBox(text, NULL, MB_YESNOCANCEL | MB_ICONWARNING);
+        if (prtn != nullptr)
+            *prtn = rtn;
 		switch (rtn)
 		{
 		case IDYES:
@@ -418,6 +423,10 @@ void CSimpleNotePadDlg::SetTitle()
 		str_title += CCommon::LoadText(IDS_NO_TITLE);
 	str_title += _T(" - ");
     str_title += APP_NAME;
+
+    if (m_monitor_mode)
+        str_title += CCommon::LoadText(_T(" ("), IDS_MONITOR_MODE, _T(")"));
+
 #ifdef _DEBUG
     str_title += _T(" (Debug)");
 #endif
@@ -951,6 +960,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_VIEW_ZOOM_OUT, &CSimpleNotePadDlg::OnViewZoomOut)
     ON_COMMAND(ID_VIEW_ZOOM_DEFAULT, &CSimpleNotePadDlg::OnViewZoomDefault)
     ON_MESSAGE(WM_DELETE_CHAR, &CSimpleNotePadDlg::OnDeleteChar)
+    ON_COMMAND(ID_MONITOR_MODE, &CSimpleNotePadDlg::OnMonitorMode)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1127,6 +1137,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     //初始化查找替换对话框
     m_find_replace_dlg.Create(this);
 
+    SetTimer(TIMER_ID_MONITOR, 1000, NULL);
+
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -1240,7 +1253,7 @@ void CSimpleNotePadDlg::OnFileOpen()
 	if (IDOK == fileDlg.DoModal())
 	{
 		m_file_path = fileDlg.GetPathName();	//获取打开的文件路径
-		OpenFile(m_file_path);					//打开文件
+		OpenFile();					//打开文件
 		SetTitle();								//设置窗口标题
 	}
 }
@@ -1476,7 +1489,7 @@ void CSimpleNotePadDlg::OnDropFiles(HDROP hDropInfo)
 	wchar_t file_path[MAX_PATH];
 	DragQueryFile(hDropInfo, 0, file_path, MAX_PATH);
 	m_file_path = file_path;
-	OpenFile(m_file_path);	//打开文件
+	OpenFile();	//打开文件
 	SetTitle();				//设置窗口标题
 	DragFinish(hDropInfo);  //拖放结束后,释放内存
 
@@ -1509,8 +1522,22 @@ void CSimpleNotePadDlg::OnTimer(UINT_PTR nIDEvent)
 	if (nIDEvent == 1234)
 	{
 		KillTimer(1234);		//定时器响应一次后就将其销毁
-		OpenFile(m_file_path);		//如果文件是通过命令行打开的，则延时100毫秒再打开
+		OpenFile();		//如果文件是通过命令行打开的，则延时100毫秒再打开
 	}
+    if (nIDEvent == TIMER_ID_MONITOR)
+    {
+        if (m_monitor_mode && !m_file_path.IsEmpty())
+        {
+            //监视模式下，检查文件是否更新，如果有更新，则重新加载
+            unsigned __int64 modified_time = CCommon::GetFileLastModified(m_file_path.GetString());
+            if (modified_time > m_last_modified_time)
+            {
+                CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+                OpenFile();
+            }
+            m_last_modified_time = modified_time;
+        }
+    }
 
 	CBaseDialog::OnTimer(nIDEvent);
 }
@@ -1700,14 +1727,14 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 
     bool is_selection_empty = m_view->IsSelectionEmpty();
     pMenu->EnableMenuItem(ID_EDIT_COPY, is_selection_empty ? MF_GRAYED : MF_ENABLED);
-    pMenu->EnableMenuItem(ID_EDIT_CUT, is_selection_empty ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_EDIT_CUT, is_selection_empty || m_view->IsReadOnly() ? MF_GRAYED : MF_ENABLED);
     pMenu->EnableMenuItem(ID_EDIT_UNDO, m_view->CanUndo() ? MF_ENABLED : MF_GRAYED);
     pMenu->EnableMenuItem(ID_EDIT_REDO, m_view->CanRedo() ? MF_ENABLED : MF_GRAYED);
     pMenu->EnableMenuItem(ID_EDIT_PASTE, m_view->CanPaste() ? MF_ENABLED : MF_GRAYED);
-    pMenu->EnableMenuItem(ID_CONVERT_TO_CAPITAL, is_selection_empty ? MF_GRAYED : MF_ENABLED);
-    pMenu->EnableMenuItem(ID_CONVERT_TO_LOWER_CASE, is_selection_empty ? MF_GRAYED : MF_ENABLED);
-    pMenu->EnableMenuItem(ID_CONVERT_TO_TITLE_CASE, is_selection_empty ? MF_GRAYED : MF_ENABLED);
-    pMenu->EnableMenuItem(ID_ADD_DELETE_COMMENT, IsCommentEnable() ? MF_ENABLED : MF_GRAYED);
+    pMenu->EnableMenuItem(ID_CONVERT_TO_CAPITAL, is_selection_empty || m_view->IsReadOnly() ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_CONVERT_TO_LOWER_CASE, is_selection_empty || m_view->IsReadOnly() ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_CONVERT_TO_TITLE_CASE, is_selection_empty || m_view->IsReadOnly() ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_ADD_DELETE_COMMENT, IsCommentEnable() && !m_view->IsReadOnly() ? MF_ENABLED : MF_GRAYED);
 
     //pMenu->EnableMenuItem(ID_WORD_WRAP, MF_GRAYED);
 
@@ -2108,7 +2135,7 @@ BOOL CSimpleNotePadDlg::OnCommand(WPARAM wParam, LPARAM lParam)
             if (SaveInquiry())              //询问是否要保存更改
             {
                 m_file_path = file_path;	//获取打开的文件路径
-                OpenFile(m_file_path);					//打开文件
+                OpenFile();					//打开文件
                 SetTitle();								//设置窗口标题
             }
         }
@@ -2418,4 +2445,25 @@ afx_msg LRESULT CSimpleNotePadDlg::OnDeleteChar(WPARAM wParam, LPARAM lParam)
     int pos = static_cast<int>(wParam);
     m_view->DeleteText(pos, 1);
     return 0;
+}
+
+
+void CSimpleNotePadDlg::OnMonitorMode()
+{
+    if (!m_monitor_mode)
+    {
+        int rtn = SHMessageBoxCheck(m_hWnd, CCommon::LoadText(IDS_MONITOR_MODE_INQUERY), APP_NAME, MB_OKCANCEL | MB_ICONWARNING, IDOK, _T("{3BEAC8DD-040F-43E6-9CC6-E25309E4A42B}"));
+        if (rtn != IDOK)
+            return;
+
+        SaveInquiry(nullptr, &rtn);
+        if (rtn == IDNO)     //打开监视模式前询问用户是否保存
+        {
+            OpenFile();         //如果不保存，则重新加载文件
+            return;
+        }
+    }
+    m_monitor_mode = !m_monitor_mode;
+    SetTitle();
+    m_view->SetReadOnly(m_monitor_mode);
 }

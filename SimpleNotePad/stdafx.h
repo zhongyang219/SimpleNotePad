@@ -91,6 +91,8 @@ typedef char _tchar;
 #define APP_CLASS_NAME _T("SimpleNotePad_7HG074cT") //程序主窗口的类名
 #define APP_NAME _T("SimpleNotePad")
 
+#define TIMER_ID_MONITOR 1235
+
 #undef min
 #undef max
 

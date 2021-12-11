@@ -206,6 +206,18 @@ void CCommon::WritePrivateProfileInt(const wchar_t * AppName, const wchar_t * Ke
 	WritePrivateProfileStringW(AppName, KeyName, buff, Path);
 }
 
+unsigned __int64 CCommon::GetFileLastModified(const wstring& file_path)
+{
+    WIN32_FIND_DATA ffd;
+    HANDLE hFind = FindFirstFile(file_path.c_str(), &ffd);
+    FindClose(hFind);
+    unsigned __int64 last_modified_time{};
+    last_modified_time = ffd.ftLastWriteTime.dwLowDateTime;
+    unsigned __int64 hight_date_time = ffd.ftLastWriteTime.dwHighDateTime;
+    last_modified_time |= (hight_date_time << 32);
+    return last_modified_time;
+}
+
 //bool CCommon::FileExist(const wchar_t * file)
 //{
 //	_wfinddata_t fileinfo;
