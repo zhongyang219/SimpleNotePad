@@ -120,6 +120,9 @@
     <Filter Include="公共的类\DrawCommon">
       <UniqueIdentifier>{a995400c-fa47-458d-a8b3-48daf6cf8527}</UniqueIdentifier>
     </Filter>
+    <Filter Include="公共的类\CrashTool">
+      <UniqueIdentifier>{87670bbc-42e8-40d2-940d-52a39436bf51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -272,6 +275,9 @@
     <ClInclude Include="simplemarshal.h">
       <Filter>公共的类</Filter>
     </ClInclude>
+    <ClInclude Include="crashtool.h">
+      <Filter>公共的类\CrashTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -400,6 +406,9 @@
     </ClCompile>
     <ClCompile Include="UserDefinedLanguageStyle.cpp">
       <Filter>SyntaxHighlight</Filter>
+    </ClCompile>
+    <ClCompile Include="crashtool.cpp">
+      <Filter>公共的类\CrashTool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

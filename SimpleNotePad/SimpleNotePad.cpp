@@ -7,6 +7,7 @@
 #include "SimpleNotePadDlg.h"
 #include "UpdateHelper.h"
 #include "Test.h"
+#include "crashtool.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,6 +32,7 @@ CSimpleNotePadApp::CSimpleNotePadApp()
 
 	// TODO: 在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
+    CRASHREPORT::StartCrashReport();
 }
 
 void CSimpleNotePadApp::DPIFromWindow(CWnd* pWnd)

@@ -210,6 +210,7 @@
     <ClInclude Include="ColorStaticEx.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CommonData.h" />
+    <ClInclude Include="crashtool.h" />
     <ClInclude Include="CVariant.h" />
     <ClInclude Include="DeleteDataDlg.h" />
     <ClInclude Include="DonateDlg.h" />
@@ -258,6 +259,7 @@
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="ColorStaticEx.cpp" />
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="crashtool.cpp" />
     <ClCompile Include="CVariant.cpp" />
     <ClCompile Include="DeleteDataDlg.cpp" />
     <ClCompile Include="DonateDlg.cpp" />
