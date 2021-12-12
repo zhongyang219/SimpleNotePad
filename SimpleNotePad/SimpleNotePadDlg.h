@@ -43,8 +43,6 @@ protected:
     HACCEL m_hAccel;
     CScintillaEditView* m_view;     //Scintilla编辑控件
 	CStatusBarCtrl m_status_bar;	//状态栏
-	CFont m_font;			//字体
-    CDC* m_pDC{};
     CMenu m_context_menu;
 
 	CString m_file_path;	//当前打开的文件路径
@@ -123,7 +121,7 @@ protected:
     void SetEditorSyntaxHight();
     bool IsCommentEnable();     //当前语言的“添加/删除注释”功能是否可用
 
-    void CreateFontObject();
+    //void CreateFontObject();
 
     //数据当前行号的位数自动设置行号的宽度
     void UpdateLineNumberWidth(bool update = false);

@@ -84,7 +84,6 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& genaral_settings_befor
         //设置字体
         m_view->SetFontFaceW(theApp.GetEditSettings().font_name.GetString());
         m_view->SetFontSize(theApp.GetEditSettings().font_size);
-        CreateFontObject();
         UpdateLineNumberWidth(true);
         //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
         //SetSyntaxHight(m_syntax_highlight.GetLanguage(m_cur_lan_index));
@@ -654,17 +653,6 @@ bool CSimpleNotePadDlg::IsCommentEnable()
     return !comment.line.empty() || comment.isMultiLeneCommentValid();
 }
 
-void CSimpleNotePadDlg::CreateFontObject()
-{
-    //如果m_font已经关联了一个字体资源对象，则释放它
-    if (m_font.m_hObject)
-    {
-    	m_font.DeleteObject();
-    }
-    m_font.CreatePointFont(theApp.GetEditSettings().font_size * 10, theApp.GetEditSettings().font_name);
-    m_pDC->SelectObject(&m_font);
-}
-
 void CSimpleNotePadDlg::UpdateLineNumberWidth(bool update)
 {
     int current_line = m_view->GetFirstVisibleLine();
@@ -998,7 +986,6 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 	SetIcon(theApp.GetMenuIcon(IDR_MAINFRAME), FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
-    m_pDC = GetDC();
 
 	////初始化窗口大小
 	//SetWindowPos(nullptr, 0, 0, m_window_width, m_window_hight, SWP_NOZORDER | SWP_NOMOVE);
@@ -1035,7 +1022,6 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
     m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
 
-    CreateFontObject();
     UpdateLineNumberWidth();
     m_view->ShowLineNumber(m_show_line_number);
     m_view->SetLineNumberColor(RGB(75, 145, 175));
@@ -1330,7 +1316,6 @@ void CSimpleNotePadDlg::OnFormatFont()
 		//设置字体
         m_view->SetFontFaceW(theApp.GetEditSettings().font_name.GetString());
         m_view->SetFontSize(theApp.GetEditSettings().font_size);
-        CreateFontObject();
         UpdateLineNumberWidth(true);
         //设置字体后重新设置一下语法高亮，以解决字体设置无法立即生效的问题
         SetSyntaxHight(m_syntax_highlight.GetLanguage(m_cur_lan_index));
@@ -2257,7 +2242,6 @@ void CSimpleNotePadDlg::OnDestroy()
     CBaseDialog::OnDestroy();
 
     // TODO: 在此处添加消息处理程序代码
-    ReleaseDC(m_pDC);
 }
 
 
