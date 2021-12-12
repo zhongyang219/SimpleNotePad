@@ -28,7 +28,7 @@ END_MESSAGE_MAP()
 CSimpleNotePadApp::CSimpleNotePadApp()
 {
 	// 支持重新启动管理器
-	m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
+	//m_dwRestartManagerSupportFlags = AFX_RESTART_MANAGER_SUPPORT_RESTART;
 
 	// TODO: 在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
@@ -365,11 +365,6 @@ CSimpleNotePadApp theApp;
 
 BOOL CSimpleNotePadApp::InitInstance()
 {
-	wstring cmd_line{ m_lpCmdLine };
-	bool is_restart{ cmd_line.find(L"RestartByRestartManager") != wstring::npos };		//如果命令行参数中含有字符串“RestartByRestartManager”则说明程序是被Windows重新启动的
-	if (is_restart)				//如果程序被重新启动，则直接退出程序
-		return FALSE;
-
     //替换掉对话框程序的默认类名
     WNDCLASS wc;
     ::GetClassInfo(AfxGetInstanceHandle(), _T("#32770"), &wc);       //MFC默认的所有对话框的类名为#32770
