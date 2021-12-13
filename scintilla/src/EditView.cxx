@@ -312,8 +312,8 @@ void EditView::RefreshPixMaps(Surface *surfaceWindow, WindowID wid, const ViewSt
 	if (!pixmapIndentGuide->Initialised()) {
         int width = vsDraw.IndentGuideWidth();
 		// 1 extra pixel in height so can handle odd/even positions and so produce a continuous line
-		pixmapIndentGuide->InitPixMap(width, vsDraw.lineHeight + 1, surfaceWindow, wid);
-		pixmapIndentGuideHighlight->InitPixMap(width, vsDraw.lineHeight + 1, surfaceWindow, wid);
+		pixmapIndentGuide->InitPixMap(width, vsDraw.lineHeight /*+ 1*/, surfaceWindow, wid);
+		pixmapIndentGuideHighlight->InitPixMap(width, vsDraw.lineHeight /*+ 1*/, surfaceWindow, wid);
 		const PRectangle rcIG = PRectangle::FromInts(0, 0, width, vsDraw.lineHeight);
 		pixmapIndentGuide->FillRectangle(rcIG, vsDraw.styles[STYLE_INDENTGUIDE].back);
 		pixmapIndentGuideHighlight->FillRectangle(rcIG, vsDraw.styles[STYLE_BRACELIGHT].back);
