@@ -1,12 +1,14 @@
 ﻿#include "stdafx.h"
 #include "TabDlg.h"
 #include "SimpleNotePad.h"
+#include "WinVersionHelper.h"
 
 IMPLEMENT_DYNAMIC(CTabDlg, CDialogEx)
 
 CTabDlg::CTabDlg(UINT nIDTemplate, CWnd * pParent) : CDialogEx(nIDTemplate, pParent)
 {
 	m_pParent = pParent;
+    m_background_color = CWinVersionHelper::IsWindows11OrLater() ? RGB(249, 249, 249) : RGB(255, 255, 255);
 }
 
 
@@ -41,7 +43,7 @@ BOOL CTabDlg::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化
 	//将窗口背景设置成白色
-	SetBackgroundColor(RGB(255, 255, 255));
+    SetBackgroundColor(m_background_color);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
