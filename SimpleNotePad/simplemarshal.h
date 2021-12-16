@@ -9,6 +9,7 @@
 #include <vector>
 #include <set>
 #include <map>
+#include <iterator>
 
 namespace dakuang
 {
