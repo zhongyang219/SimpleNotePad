@@ -181,15 +181,18 @@ const std::vector<CString>& CSimpleNotePadApp::GetRecentFileList()
 
 void CSimpleNotePadApp::RemoveFromRecentFileList(LPCTSTR file_path)
 {
-    int length = m_pRecentFileList->GetSize();
-    for (int i = 0; i < length; i++)
-    {
-        if ((*m_pRecentFileList)[i] == file_path)
-        {
-            m_pRecentFileList->Remove(i);
-            i--;
-        }
-    }
+	if (m_pRecentFileList != nullptr)
+	{
+		int length = m_pRecentFileList->GetSize();
+		for (int i = 0; i < length; i++)
+		{
+			if ((*m_pRecentFileList)[i] == file_path)
+			{
+				m_pRecentFileList->Remove(i);
+				i--;
+			}
+		}
+	}
 }
 
 void CSimpleNotePadApp::WriteStringList(LPCTSTR app_name, LPCTSTR key_name, const std::vector<std::wstring>& string_list)
@@ -222,6 +225,25 @@ void CSimpleNotePadApp::GetStringList(LPCTSTR app_name, LPCTSTR key_name, std::v
             string_list.push_back(temp);
         }
     }
+}
+
+void CSimpleNotePadApp::WriteMarshalObj(LPCTSTR app_name, LPCTSTR key_name, const dakuang::Marshallable & obj)
+{
+	std::string stream;
+	Object2String(obj, stream);
+	WriteProfileBinary(app_name, key_name, (LPBYTE)stream.c_str(), stream.size());
+}
+
+void CSimpleNotePadApp::GetMarshalObj(LPCTSTR app_name, LPCTSTR key_name, dakuang::Marshallable & obj)
+{
+	LPBYTE buff;
+	UINT length{};
+	if (GetProfileBinary(app_name, key_name, &buff, &length))
+	{
+		std::string str_read((const char*)buff, length);
+		delete[] buff;
+		String2Object(str_read, obj);
+	}
 }
 
 bool CSimpleNotePadApp::AddExplorerContextMenuItem()
@@ -309,14 +331,7 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.show_invisible_characters_hex = GetProfileInt(_T("hex_editor"), _T("show_invisible_characters"), 0);
 
     //载入语言格式设置
-    LPBYTE buff;
-    UINT length{};
-    if (GetProfileBinary(_T("config"), _T("lanugage_settings"), &buff, &length))
-    {
-        std::string str_read((const char*)buff, length);
-        delete[] buff;
-        String2Object(str_read, m_lanugage_settings_data);
-    }
+	GetMarshalObj(_T("config"), _T("lanugage_settings"), m_lanugage_settings_data);
 }
 
 void CSimpleNotePadApp::SaveConfig()
@@ -350,9 +365,7 @@ void CSimpleNotePadApp::SaveConfig()
     WriteProfileInt(_T("hex_editor"), _T("show_invisible_characters"), m_edit_settings_data.show_invisible_characters_hex);
 
     //保存语言格式设置
-    std::string stream;
-    Object2String(m_lanugage_settings_data, stream);
-    WriteProfileBinary(_T("config"), _T("lanugage_settings"), (LPBYTE)stream.c_str(), stream.size());
+	WriteMarshalObj(_T("config"), _T("lanugage_settings"), m_lanugage_settings_data);
 }
 
 
@@ -407,12 +420,15 @@ BOOL CSimpleNotePadApp::InitInstance()
 
     //加载最近打开文件列表
     LoadStdProfileSettings(RECENT_FILE_LIST_MAX_SIZE);
-    for (int i = 0; i < m_pRecentFileList->GetSize(); i++)
-    {
-        CString str = (*m_pRecentFileList)[i];
-        if (!str.IsEmpty())
-            m_recent_file_list.push_back(str);
-    }
+	if (m_pRecentFileList != nullptr)
+	{
+		for (int i = 0; i < m_pRecentFileList->GetSize(); i++)
+		{
+			CString str = (*m_pRecentFileList)[i];
+			if (!str.IsEmpty())
+				m_recent_file_list.push_back(str);
+		}
+	}
 
     m_hScintillaModule = LoadLibrary(_T("SciLexer.dll"));
     if (m_hScintillaModule == NULL)

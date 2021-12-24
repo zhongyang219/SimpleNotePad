@@ -5,6 +5,7 @@
 #include "ScintillaEditView.h"
 #include "Common.h"
 #include "SimpleNotePad.h"
+#include <algorithm>
 
 
 // CScintillaEditView
@@ -691,6 +692,8 @@ void CScintillaEditView::SetFold()
     SendMessage(SCI_MARKERSETBACK, SC_MARKNUM_FOLDERTAIL, 0xa0a0a0);
 
     SendMessage(SCI_SETFOLDFLAGS, SC_FOLDFLAG_LINEAFTER_CONTRACTED, 0); //如果折叠就在折叠行的下面画一条横线
+
+	//SendMessage(SCI_SETMARGINWIDTHN, MARGIN_FOLD_INDEX, std::min(GetLineHeight(), theApp.DPI(16)));
 }
 
 void CScintillaEditView::SetContextMenu(CMenu* pMenu, CWnd* pMenuOwner)

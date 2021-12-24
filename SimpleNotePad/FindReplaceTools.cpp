@@ -185,16 +185,22 @@ int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CSc
     while (true)
     {
         //查找
+		if (ttf.chrg.cpMin >= end || ttf.chrg.cpMin >= pEditView->GetDocLength())
+			break;
         int find_result = pEditView->SendMessage(SCI_FINDTEXT, flags, (LPARAM)&ttf);
         if (find_result < 0)
             break;
-        ttf.chrg.cpMin = find_result + find_str.size();
+        ttf.chrg.cpMin = find_result + replace_str.size();
         //替换
         pEditView->SendMessage(SCI_SETTARGETSTART, find_result);
         pEditView->SendMessage(SCI_SETTARGETEND, find_result + find_str.size());
         UINT replace_msg = (options.find_mode == FindMode::REGULAR_EXPRESSION ? SCI_REPLACETARGETRE : SCI_REPLACETARGET);
         pEditView->SendMessage(replace_msg, replace_str.size(), (sptr_t)replace_str.c_str());
         replaced_count++;
+
+		//修end的位置
+		end += (replace_str.size() - find_str.size());
+		ttf.chrg.cpMax = end;
     }
     pEditView->SetEditChangeNotificationEnable(true);
     return replaced_count;
