@@ -33,7 +33,7 @@ void IterateAllFormat(std::function<void(const std::wstring&, const std::wstring
 IMPLEMENT_DYNAMIC(CFileRelateDlg, CTabDlg)
 
 CFileRelateDlg::CFileRelateDlg(CWnd* pParent /*=nullptr*/)
-	: CTabDlg(IDD_FILE_RELATE_DIALOG, pParent)
+    : CTabDlg(IDD_FILE_RELATE_DIALOG, pParent)
 {
 
 }
@@ -44,7 +44,7 @@ CFileRelateDlg::~CFileRelateDlg()
 
 void CFileRelateDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CTabDlg::DoDataExchange(pDX);
+    CTabDlg::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_LIST1, m_list_ctrl);
 }
 
@@ -82,6 +82,7 @@ void CFileRelateDlg::RefreshList()
         m_list_ctrl.SetItemText(index, 1, description.c_str());
         bool related = reg_file.IsFileTypeRelated(item.first.c_str());
         m_list_ctrl.SetCheck(index, related);
+        m_list_checked_state[index] = related;
         if (related)
             checked = true;
         else
@@ -102,6 +103,18 @@ void CFileRelateDlg::RefreshList()
     }
 }
 
+
+bool CFileRelateDlg::IsModified()
+{
+    int list_count = m_list_ctrl.GetItemCount();
+    for (int i = 0; i < list_count; i++)
+    {
+        bool checked = m_list_ctrl.GetCheck(i) != FALSE;
+        if (checked != m_list_checked_state[i])
+            return true;
+    }
+    return false;
+}
 
 BEGIN_MESSAGE_MAP(CFileRelateDlg, CTabDlg)
     ON_BN_CLICKED(IDC_SELECT_ALL_CHECK, &CFileRelateDlg::OnBnClickedSelectAllCheck)
@@ -139,21 +152,24 @@ BOOL CFileRelateDlg::OnInitDialog()
 void CFileRelateDlg::OnOK()
 {
     // TODO: 在此添加专用代码和/或调用基类
-    int list_count = m_list_ctrl.GetItemCount();
-    for (int i = 0; i < list_count; i++)
+    if (IsModified())
     {
-        bool checked = m_list_ctrl.GetCheck(i) != FALSE;
-        CRegFileRelate reg_file;
-        if (checked)
+        int list_count = m_list_ctrl.GetItemCount();
+        for (int i = 0; i < list_count; i++)
         {
-            CString file_ext = m_list_ctrl.GetItemText(i, 0);
-            wstring description = extensions[wstring(file_ext)];
+            bool checked = m_list_ctrl.GetCheck(i) != FALSE;
+            CRegFileRelate reg_file;
+            if (checked)
+            {
+                CString file_ext = m_list_ctrl.GetItemText(i, 0);
+                wstring description = extensions[wstring(file_ext)];
 
-            reg_file.AddFileTypeRelate(file_ext, 1, false, description.c_str());
-        }
-        else
-        {
-            reg_file.DeleteFileTypeRelate(m_list_ctrl.GetItemText(i, 0));
+                reg_file.AddFileTypeRelate(file_ext, 1, false, description.c_str());
+            }
+            else
+            {
+                reg_file.DeleteFileTypeRelate(m_list_ctrl.GetItemText(i, 0));
+            }
         }
     }
 
@@ -193,4 +209,3 @@ void CFileRelateDlg::OnBnClickedDefaultButton()
     }
 
 }
-
