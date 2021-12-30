@@ -12,46 +12,36 @@ bool FindReplaceTools::FindTexts(FindOption options, bool next, CScintillaEditVi
 
     UINT flags{ FindReplaceTools::buildSearchFlags(options) };
     static int find_result{};       //查找到的位置
-    static bool last_next{ !next }; //上一次是查找一下个还是查找下一个
     Sci_TextToFind ttf;
-    if (options.find_loop && find_result < 0)  //如果是循环查找，在找不到时重置查找
+    //设置查找位置
+    if (next)       //向后查找
     {
-        if (next)       //向后查找
-        {
-            ttf.chrg.cpMin = 0;
-            ttf.chrg.cpMax = pEditView->SendMessage(SCI_GETLENGTH, 0, 0);
-        }
-        else            //向前查找
-        {
-            ttf.chrg.cpMin = pEditView->SendMessage(SCI_GETLENGTH, 0, 0);
-            ttf.chrg.cpMax = 0;
-        }
+        ttf.chrg.cpMin = pEditView->SendMessage(SCI_GETCURRENTPOS);
+        ttf.chrg.cpMax = pEditView->SendMessage(SCI_GETLENGTH);
     }
-    else
+    else            //向前查找
     {
-        if (find_result < 0 && last_next == next)    //非循环查找，如果找不到则不再查找
-            return false;
-        //设置查找位置
-        if (next)       //向后查找
-        {
-            ttf.chrg.cpMin = pEditView->SendMessage(SCI_GETCURRENTPOS);
-            ttf.chrg.cpMax = pEditView->SendMessage(SCI_GETLENGTH);
-        }
-        else            //向前查找
-        {
-            ttf.chrg.cpMin = pEditView->SendMessage(SCI_GETANCHOR);
-            ttf.chrg.cpMax = 0;
-        }
+        ttf.chrg.cpMin = pEditView->SendMessage(SCI_GETANCHOR);
+        if (options.find_loop && ttf.chrg.cpMin == 0)
+            ttf.chrg.cpMin = pEditView->SendMessage(SCI_GETLENGTH);
+        ttf.chrg.cpMax = 0;
     }
     bool char_cannot_convert{};
     std::string find_str = CCommon::UnicodeToStr(options.find_str, char_cannot_convert, CodeType::UTF8_NO_BOM);
     ttf.lpstrText = find_str.c_str();
     //查找文本
     find_result = pEditView->SendMessage(SCI_FINDTEXT, flags, (LPARAM)&ttf);
-    //选中找到的文本
-    pEditView->SetSel(find_result, find_result + find_str.size());
+    if (find_result >= 0)
+    {
+        //选中找到的文本
+        pEditView->SetSel(find_result, find_result + find_str.size());
+    }
+    else
+    {
+        if (options.find_loop)
+            pEditView->SetSel(0, 0);
+    }
 
-    last_next = next;
     return find_result >= 0;
 }
 
@@ -185,8 +175,8 @@ int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CSc
     while (true)
     {
         //查找
-		if (ttf.chrg.cpMin >= end || ttf.chrg.cpMin >= pEditView->GetDocLength())
-			break;
+        if (ttf.chrg.cpMin >= end || ttf.chrg.cpMin >= pEditView->GetDocLength())
+            break;
         int find_result = pEditView->SendMessage(SCI_FINDTEXT, flags, (LPARAM)&ttf);
         if (find_result < 0)
             break;
@@ -198,9 +188,9 @@ int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, CSc
         pEditView->SendMessage(replace_msg, replace_str.size(), (sptr_t)replace_str.c_str());
         replaced_count++;
 
-		//修end的位置
-		end += (replace_str.size() - find_str.size());
-		ttf.chrg.cpMax = end;
+        //修正end的位置
+        end += (replace_str.size() - find_str.size());
+        ttf.chrg.cpMax = end;
     }
     pEditView->SetEditChangeNotificationEnable(true);
     return replaced_count;
