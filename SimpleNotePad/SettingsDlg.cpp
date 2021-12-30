@@ -22,20 +22,6 @@ CSettingsDlg::~CSettingsDlg()
 {
 }
 
-void CSettingsDlg::LoadSettings()
-{
-    m_general_settings_dlg.m_data = theApp.GetGeneralSettings();
-    m_edit_settings_dlg.m_data = theApp.GetEditSettings();
-    m_language_settings_dlg.m_data = theApp.GetLanguageSettings();
-}
-
-void CSettingsDlg::SaveSettings()
-{
-    theApp.SetGeneralSettings(m_general_settings_dlg.m_data);
-    theApp.SetEditSettings(m_edit_settings_dlg.m_data);
-    theApp.SetLanguageSettings(m_language_settings_dlg.m_data);
-}
-
 
 void CSettingsDlg::DoDataExchange(CDataExchange* pDX)
 {
