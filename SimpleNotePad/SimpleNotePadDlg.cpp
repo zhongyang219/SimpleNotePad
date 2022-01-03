@@ -651,13 +651,20 @@ void CSimpleNotePadDlg::SetSyntaxHight(const CLanguage& lan)
 
 void CSimpleNotePadDlg::SetEditorSyntaxHight()
 {
-    wstring wcs_file_path = m_file_path.GetString();
-    CFilePathHelper helper(wcs_file_path);
-    CLanguage lan = m_syntax_highlight.FindLanguageByFileName(helper.GetFileName());
-    if (lan.m_name.empty()) //如果根据当前文件的扩展名无法在默认语言列表中找到对应的语言，则在自定义语言列表中查找
+    CLanguage lan;
+    //如果文件的前5个字符是“<?xml”则认为是xml格式
+    if (m_edit_wcs.substr(0, 5) == L"<?xml")
+        lan = m_syntax_highlight.FindLanguageByName(L"XML");
+    if (lan.m_name.empty())
     {
-        wstring language_name = theApp.GetLanguageSettings().FindLanguageByFileName(helper.GetFileName());
-        lan = m_syntax_highlight.FindLanguageByName(language_name.c_str());
+        wstring wcs_file_path = m_file_path.GetString();
+        CFilePathHelper helper(wcs_file_path);
+        lan = m_syntax_highlight.FindLanguageByFileName(helper.GetFileName());
+        if (lan.m_name.empty()) //如果根据当前文件的扩展名无法在默认语言列表中找到对应的语言，则在自定义语言列表中查找
+        {
+            wstring language_name = theApp.GetLanguageSettings().FindLanguageByFileName(helper.GetFileName());
+            lan = m_syntax_highlight.FindLanguageByName(language_name.c_str());
+        }
     }
     SetSyntaxHight(lan);
 }
