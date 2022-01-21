@@ -624,6 +624,27 @@ void CCommon::ParseProcessMessage(COPYDATASTRUCT* copy_data, ProcessMsgType& msg
     }
 }
 
+bool CCommon::IsDebugMode()
+{
+#ifdef _DEBUG
+    return true;
+#else
+    return false;
+#endif // _DEBUG
+}
+
+bool CCommon::IsWindowDebugMode(HWND hWnd)
+{
+    //获取窗口的标题
+    TCHAR buff[256]{};
+    ::GetWindowText(hWnd, buff, 256);
+    CString title_text{ buff };
+    //Debug模式下的窗口末尾的字符串（应用程序名称+ (Debug)）
+    CString debug_str{ APP_NAME };
+    debug_str += _T(" (Debug)");
+    return (title_text.GetLength() > debug_str.GetLength() && title_text.Right(debug_str.GetLength()) == debug_str);
+}
+
 void CCommon::FindAllWindow(LPCTSTR class_name, std::vector<HWND>& result)
 {
     struct ParaData
@@ -641,7 +662,7 @@ void CCommon::FindAllWindow(LPCTSTR class_name, std::vector<HWND>& result)
             TCHAR buff[256]{};
             ::GetClassName(hWnd, buff, 256);
             ParaData* para_data = (ParaData*)lparam;
-            if (wstring(para_data->class_name) == buff)
+            if (wstring(para_data->class_name) == buff && IsDebugMode() == IsWindowDebugMode(hWnd))     //查找类名匹配且同为Debug或Release模式的窗口
                 para_data->result.push_back(hWnd);
             return TRUE;
 

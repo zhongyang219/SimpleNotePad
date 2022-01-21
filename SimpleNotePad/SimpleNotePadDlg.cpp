@@ -2466,7 +2466,7 @@ BOOL CSimpleNotePadDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
             ApplySettings(settings_data, edit_settings_data, lanugage_settings_data);
 
         }
-        catch (const std::runtime_error& e)
+        catch (const std::runtime_error&)
         {
             return FALSE;
         }

@@ -227,6 +227,12 @@ public:
     static void ParseProcessMessage(COPYDATASTRUCT* copy_data, ProcessMsgType& msg_id, std::wstring& msg_data);
     static void ParseProcessMessage(COPYDATASTRUCT* copy_data, ProcessMsgType& msg_id, std::string& msg_data);
 
+    //当前是否为Debug模式
+    static bool IsDebugMode();
+
+    //判断一个SimpleNotePad的窗口是否为Debug模式窗口
+    static bool IsWindowDebugMode(HWND hWnd);
+
     //根据类名查找所有句柄
     static void FindAllWindow(LPCTSTR class_name, std::vector<HWND>& result);
 
