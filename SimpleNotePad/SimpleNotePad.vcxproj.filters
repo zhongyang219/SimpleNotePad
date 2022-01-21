@@ -126,6 +126,9 @@
     <Filter Include="公共的类\CommonData">
       <UniqueIdentifier>{149269e4-862a-4e02-a860-0a8795dbea84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="公共的类\WinVersionHelper">
+      <UniqueIdentifier>{dcfc5931-7148-43e2-b55d-b86059db1e9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -281,6 +284,9 @@
     <ClInclude Include="CommonData.h">
       <Filter>公共的类\CommonData</Filter>
     </ClInclude>
+    <ClInclude Include="WinVersionHelper.h">
+      <Filter>公共的类\WinVersionHelper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleNotePad.cpp">
@@ -415,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="CommonData.cpp">
       <Filter>公共的类\CommonData</Filter>
+    </ClCompile>
+    <ClCompile Include="WinVersionHelper.cpp">
+      <Filter>公共的类\WinVersionHelper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
