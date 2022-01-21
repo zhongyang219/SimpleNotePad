@@ -83,6 +83,9 @@ protected:
     CSyntaxHighlight m_syntax_highlight;
     std::deque<std::wstring> m_clipboard_items;
     bool m_marked{ false };
+    bool m_text_changed{ false };           //如果已收到文本更改消息，则为true
+    bool m_text_changed_thread_exit{ false };   //如果为true，则退出响应文本改变的线程
+    CWinThread* m_text_change_thread{};         //响应文本改变的线程
 
 protected:
     void ApplySettings(const SettingsData& general_data, const EditSettingData& eidt_data, const CUserDefinedLanguageStyle& language_data);
@@ -133,6 +136,8 @@ protected:
     void UpdateMenuSettingsToAllProcess();          //通知所有进程更新菜单中的设置
 
     void FillFindText();    //向查找替换对话框中的查找文本框填充选中文本
+
+    static UINT TextChangeThreadCallback(LPVOID dwUser);
 
 private:
 

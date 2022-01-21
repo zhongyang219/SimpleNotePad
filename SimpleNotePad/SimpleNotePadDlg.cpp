@@ -892,6 +892,27 @@ void CSimpleNotePadDlg::FillFindText()
         m_find_replace_dlg.SetFindString(L"");
 }
 
+UINT CSimpleNotePadDlg::TextChangeThreadCallback(LPVOID dwUser)
+{
+    CSimpleNotePadDlg* pThis = dynamic_cast<CSimpleNotePadDlg*>(theApp.m_pMainWnd);
+    while (true)
+    {
+        if (pThis->m_text_changed_thread_exit)
+            break;
+
+        //响应编辑器文本变化
+        if (pThis->m_text_changed)
+        {
+            pThis->m_view->GetTextW(pThis->m_edit_wcs);
+            pThis->UpdateStatusBarInfo();
+            pThis->SetTitle();
+            pThis->m_text_changed = false;
+        }
+        Sleep(100);
+    }
+    return 0;
+}
+
 //void CSimpleNotePadDlg::SaveAsHex()
 //{
 //	//设置过滤器
@@ -1164,6 +1185,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
     SetTimer(TIMER_ID_MONITOR, 1000, NULL);
 
+    m_text_change_thread = AfxBeginThread(TextChangeThreadCallback, nullptr);
 
     return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -1968,9 +1990,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             UINT marsk = (SC_MOD_DELETETEXT | SC_MOD_INSERTTEXT | SC_PERFORMED_UNDO | SC_PERFORMED_REDO);
             if ((notification->modificationType & marsk) != 0)
             {
-                m_view->GetTextW(m_edit_wcs);
-                UpdateStatusBarInfo();
-                SetTitle();
+                m_text_changed = true;
             }
             //当删除了字符时
             if (notification->modificationType == (SC_MOD_DELETETEXT | SC_PERFORMED_USER)
@@ -2283,6 +2303,10 @@ void CSimpleNotePadDlg::OnDestroy()
     CBaseDialog::OnDestroy();
 
     // TODO: 在此处添加消息处理程序代码
+    m_text_changed_thread_exit = true;
+    if (m_text_change_thread != nullptr)
+        WaitForSingleObject(m_text_change_thread->m_hThread, 2000);   //等待线程退出
+
 }
 
 
