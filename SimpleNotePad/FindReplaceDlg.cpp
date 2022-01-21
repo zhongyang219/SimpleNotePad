@@ -12,7 +12,7 @@
 IMPLEMENT_DYNAMIC(CFindReplaceDlg, CBaseDialog)
 
 CFindReplaceDlg::CFindReplaceDlg(CWnd* pParent /*=nullptr*/)
-	: CBaseDialog(IDD_FIND_REPLACE_DIALOG, pParent)
+    : CBaseDialog(IDD_FIND_REPLACE_DIALOG, pParent)
 {
 
 }
@@ -58,6 +58,7 @@ void CFindReplaceDlg::SetFindString(LPCTSTR str)
     SetDlgItemText(IDC_FIND_COMBO, str);
     m_options.find_str = str;
     EnableControl();
+    m_find_combo.SetEditSel(0, -1);     //查找对话框中全选
 }
 
 void CFindReplaceDlg::SetReplaceString(LPCTSTR str)
