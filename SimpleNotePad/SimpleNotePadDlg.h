@@ -54,7 +54,6 @@ protected:
     UINT m_code_page{ CP_ACP };				//当编码格式指定为ANSI时的代码页
     CodeType m_save_code{ CodeType::ANSI };	//另存为时的编码格式
     //bool m_flag{ false };			//一个flag，当调用m_edit.SetWindowText()函数将文本显示在文本框内时，将它置为true
-    int m_zoom{};
 
     //状态栏各部分的定义
     enum StatusbarParts
@@ -71,12 +70,7 @@ protected:
     int m_status_bar_hight;		//状态栏高度
     int m_edit_bottom_space;	//编辑窗口底部距窗口底部的距离
 
-    bool m_word_wrap;		//是否自动换行
-    CScintillaEditView::eWordWrapMode m_word_wrap_mode{ CScintillaEditView::WW_WORD };  //自动换行模式
     bool m_always_on_top{ false };
-    bool m_show_statusbar{ true };
-    bool m_show_line_number{ false };
-    bool m_show_eol{ false };
     int m_cur_lan_index{ -1 };      //当前选择的语言索引
     bool m_monitor_mode{ false };
     unsigned __int64 m_last_modified_time{};
@@ -91,7 +85,7 @@ protected:
     bool m_marked{ false };
 
 protected:
-    void ApplySettings(CSettingsDlg* dlg);
+    void ApplySettings(const SettingsData& general_data, const EditSettingData& eidt_data, const CUserDefinedLanguageStyle& language_data);
 
     void OpenFile();					//打开文件的处理
 
@@ -135,6 +129,8 @@ protected:
     void InitClipboardHistoryMenu();
     CMenu* GetClipboardHistoryMenu(bool context_menu);
     void AddClipboardDataToAllProcess(const std::wstring str);    //将一个剪贴板数据添加到所有SimpleNotePad窗口
+    void UpdateOptionSettingsToAllProcess();        //通知所有进程更新选项设置
+    void UpdateMenuSettingsToAllProcess();          //通知所有进程更新菜单中的设置
 
     void FillFindText();    //向查找替换对话框中的查找文本框填充选中文本
 

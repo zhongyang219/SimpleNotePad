@@ -485,4 +485,29 @@
 		<Comment copyFrom="C" />
 		<SyntaxList copyFrom="C" />
 	</Language>
+	<Language name="NSIS" lexId="43" ext="nsi">
+		<Keywords id="0"></Keywords>
+		<Comment commentLine="; " commentStart="/*" commentEnd="*/"/>
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "STRINGDQ" id="2" color="0x1515A3" />
+			<Syntax name= "STRINGLQ" id="3" color="0x80" />
+			<Syntax name= "STRINGRQ" id="4" color="0x6B3685" />
+			<Syntax name= "Function" id="5" color="0x8A006F" />
+			<Syntax name= "Variable" id="6" color="1C4384" />
+			<Syntax name= "Label" id="7" color="0x9D6768" />
+			<Syntax name= "USERDEFINED" id="8" color="0x2311E8" />
+			<Syntax name= "SECTIONDEF" id="9" color="0x84431C" />
+			<Syntax name= "SUBSECTIONDEF" id="10" color="0x84431C" />
+			<Syntax name= "IFDEFINEDEF" id="11" color="0x84431C" />
+			<Syntax name= "MACRODEF" id="12" color="0x84431C" />
+			<Syntax name= "STRINGVAR" id="13" color="0x84431C" />
+			<Syntax name= "Number" id="14" color="0x84431C" />
+			<Syntax name= "SECTIONGROUP" id="15" color="0x84431C" />
+			<Syntax name= "PAGEEX" id="16" color="0x84431C" />
+			<Syntax name= "FUNCTIONDEF" id="17" color="0x84431C" />
+			<Syntax name= "COMMENTBOX" id="18" color="0x84431C" />
+		</SyntaxList>
+	</Language>
 </SimpleNotepad>

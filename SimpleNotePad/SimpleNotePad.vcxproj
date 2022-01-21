@@ -250,7 +250,6 @@
     <ClInclude Include="UpdateHelper.h" />
     <ClInclude Include="UserDefinedLanguageStyle.h" />
     <ClInclude Include="WIC.h" />
-    <ClInclude Include="WinVersionHelper.h" />
     <ClInclude Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +259,7 @@
     <ClCompile Include="ColorStatic.cpp" />
     <ClCompile Include="ColorStaticEx.cpp" />
     <ClCompile Include="Common.cpp" />
+    <ClCompile Include="CommonData.cpp" />
     <ClCompile Include="crashtool.cpp" />
     <ClCompile Include="CVariant.cpp" />
     <ClCompile Include="DeleteDataDlg.cpp" />
@@ -302,7 +302,6 @@
     <ClCompile Include="UpdateHelper.cpp" />
     <ClCompile Include="UserDefinedLanguageStyle.cpp" />
     <ClCompile Include="WIC.cpp" />
-    <ClCompile Include="WinVersionHelper.cpp" />
     <ClCompile Include="xmlMatchedTagsHighlighter\xmlMatchedTagsHighlighter.cpp" />
   </ItemGroup>
   <ItemGroup>

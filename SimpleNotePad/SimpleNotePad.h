@@ -5,7 +5,7 @@
 #pragma once
 
 #ifndef __AFXWIN_H__
-	#error "在包含此文件之前包含“stdafx.h”以生成 PCH 文件"
+#error "在包含此文件之前包含“stdafx.h”以生成 PCH 文件"
 #endif
 
 #include "resource.h"		// 主符号
@@ -20,16 +20,18 @@
 class CSimpleNotePadApp : public CWinApp
 {
 public:
-	CSimpleNotePadApp();
+    CSimpleNotePadApp();
 
-	bool m_compare_dialog_exit;	//用于指示文件比较对话框是否已退出
+    bool m_compare_dialog_exit;	//用于指示文件比较对话框是否已退出
 
     void DPIFromWindow(CWnd* pWnd);
 
     int DPI(int pixel);
     int DPI(double pixel);
 
-    SettingsData GetGeneralSettings() const;
+    MenuSettingsData& MenuSettings();
+
+    const SettingsData& GetGeneralSettings() const;
     void SetGeneralSettings(const SettingsData& data);
 
     const EditSettingData& GetEditSettings() const;
@@ -56,8 +58,8 @@ public:
     void WriteStringList(LPCTSTR app_name, LPCTSTR key_name, const std::vector<std::wstring>& string_list); //将一个字符串列表保存到配置
     void GetStringList(LPCTSTR app_name, LPCTSTR key_name, std::vector<std::wstring>& string_list);         //从配置读取一个字符串列表
 
-	void WriteMarshalObj(LPCTSTR app_name, LPCTSTR key_name, const dakuang::Marshallable& obj);
-	void GetMarshalObj(LPCTSTR app_name, LPCTSTR key_name, dakuang::Marshallable& obj);
+    void WriteMarshalObj(LPCTSTR app_name, LPCTSTR key_name, const dakuang::Marshallable& obj);
+    void GetMarshalObj(LPCTSTR app_name, LPCTSTR key_name, dakuang::Marshallable& obj);
 
     bool AddExplorerContextMenuItem();      //在资源管理器右键菜单中添加“使用SimpleNotePad打开”菜单项
     bool RemoveExplorerContextMenuItem();   //删除资源管理器右键菜单中的“使用SimpleNotePad打开”菜单项
@@ -72,6 +74,7 @@ private:
     int m_dpi;		//当前显示器的DPI设置100%时为96
 
     //选项设置数据
+    MenuSettingsData m_menu_settings_data;  //菜单中的设置
     SettingsData m_settings_data;   //常规设置
     EditSettingData m_edit_settings_data;   //编辑器设置
     CUserDefinedLanguageStyle m_lanugage_settings_data;
@@ -82,11 +85,11 @@ private:
 
 // 重写
 public:
-	virtual BOOL InitInstance();
+    virtual BOOL InitInstance();
 
-// 实现
+    // 实现
 
-	DECLARE_MESSAGE_MAP()
+    DECLARE_MESSAGE_MAP()
     afx_msg void OnFileNewWindow();
 };
 

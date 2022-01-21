@@ -1,6 +1,8 @@
 ﻿#pragma once
 #ifndef COMMON_DATA_H
 #define COMMON_DATA_H
+#include "simplemarshal.h"
+using namespace dakuang;
 
 //语言
 enum class Language
@@ -10,8 +12,23 @@ enum class Language
     SIMPLIFIED_CHINESE,     //简体中文
 };
 
+//菜单中的设置数据d
+struct MenuSettingsData : public Marshallable
+{
+    bool word_wrap;		//是否自动换行
+    bool show_statusbar{ true };    //是否显示状态栏
+    bool show_line_number{ false }; //是否显示行号
+    bool show_eol{ false };         //是否显示换行符
+    int word_wrap_mode{ };          //自动换行模式
+    int zoom{};
+
+    // 通过 Marshallable 继承
+    virtual void marshal(SimplePack&) const override;
+    virtual void unmarshal(const SimpleUnpack&) override;
+};
+
 //常规设置
-struct SettingsData
+struct SettingsData : public Marshallable
 {
     int default_code_page_selected{};
     UINT default_code_page{};
@@ -19,10 +36,14 @@ struct SettingsData
     int update_source{};
     //语言
     Language language;
+
+    // 通过 Marshallable 继承
+    virtual void marshal(SimplePack&) const override;
+    virtual void unmarshal(const SimpleUnpack&) override;
 };
 
 //编辑器设置
-struct EditSettingData
+struct EditSettingData : public Marshallable
 {
     bool current_line_highlight{};      //当前行高亮显示
     COLORREF current_line_highlight_color{ RGB(234, 243, 253) };    //当前行高亮颜色
@@ -43,6 +64,10 @@ struct EditSettingData
     CString font_name_hex;	//十六进制查看器的字体名称
     int font_size_hex{ 9 };		//十六进制查看器的字体大小
     bool show_invisible_characters_hex{ false };    //是否显示不可见字符
+
+    // 通过 Marshallable 继承
+    virtual void marshal(SimplePack&) const override;
+    virtual void unmarshal(const SimpleUnpack&) override;
 };
 
 //自定义消息

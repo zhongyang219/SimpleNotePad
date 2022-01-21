@@ -57,21 +57,21 @@ void CSimpleNotePadDlg::DoDataExchange(CDataExchange* pDX)
     //DDX_Control(pDX, IDC_EDIT1, m_edit);
 }
 
-void CSimpleNotePadDlg::ApplySettings(CSettingsDlg* dlg)
+void CSimpleNotePadDlg::ApplySettings(const SettingsData& general_data, const EditSettingData& eidt_data, const CUserDefinedLanguageStyle& language_data)
 {
-    bool highlight_changed{ theApp.GetEditSettings().current_line_highlight != dlg->m_edit_settings_dlg.m_data.current_line_highlight
-        || theApp.GetEditSettings().current_line_highlight_color != dlg->m_edit_settings_dlg.m_data.current_line_highlight_color };
-    bool background_color_changed{ theApp.GetEditSettings().background_color != dlg->m_edit_settings_dlg.m_data.background_color };
-    bool selection_color_changed{ theApp.GetEditSettings().selection_back_color != dlg->m_edit_settings_dlg.m_data.selection_back_color };
-    bool font_changed{ theApp.GetEditSettings().font_name != dlg->m_edit_settings_dlg.m_data.font_name || theApp.GetEditSettings().font_size != dlg->m_edit_settings_dlg.m_data.font_size };
-    bool tab_width_changed{ theApp.GetEditSettings().tab_width != dlg->m_edit_settings_dlg.m_data.tab_width };
-    bool clear_selection_mark{ !theApp.GetEditSettings().mark_same_words && dlg->m_edit_settings_dlg.m_data.mark_same_words };
-    bool clear_html_mark{ !theApp.GetEditSettings().mark_matched_html_mark && dlg->m_edit_settings_dlg.m_data.mark_matched_html_mark };
-    bool clear_matched_brackets{ !theApp.GetEditSettings().mark_matched_brackets && dlg->m_edit_settings_dlg.m_data.mark_matched_brackets };
+    bool highlight_changed{ theApp.GetEditSettings().current_line_highlight != eidt_data.current_line_highlight
+        || theApp.GetEditSettings().current_line_highlight_color != eidt_data.current_line_highlight_color };
+    bool background_color_changed{ theApp.GetEditSettings().background_color != eidt_data.background_color };
+    bool selection_color_changed{ theApp.GetEditSettings().selection_back_color != eidt_data.selection_back_color };
+    bool font_changed{ theApp.GetEditSettings().font_name != eidt_data.font_name || theApp.GetEditSettings().font_size != eidt_data.font_size };
+    bool tab_width_changed{ theApp.GetEditSettings().tab_width != eidt_data.tab_width };
+    bool clear_selection_mark{ !theApp.GetEditSettings().mark_same_words && eidt_data.mark_same_words };
+    bool clear_html_mark{ !theApp.GetEditSettings().mark_matched_html_mark && eidt_data.mark_matched_html_mark };
+    bool clear_matched_brackets{ !theApp.GetEditSettings().mark_matched_brackets && eidt_data.mark_matched_brackets };
 
-    theApp.SetGeneralSettings(dlg->m_general_settings_dlg.m_data);
-    theApp.SetEditSettings(dlg->m_edit_settings_dlg.m_data);
-    theApp.SetLanguageSettings(dlg->m_language_settings_dlg.m_data);
+    theApp.SetGeneralSettings(general_data);
+    theApp.SetEditSettings(eidt_data);
+    theApp.SetLanguageSettings(language_data);
 
 
     //如果当前行高亮设置发生了变化
@@ -316,7 +316,7 @@ void CSimpleNotePadDlg::UpdateStatusBarInfo()
     m_status_bar.SetText(str_eol, SP_EOL_MODE, 0);
 
     //显示缩放比例
-    int scale = 100 + m_zoom * 10;
+    int scale = 100 + theApp.MenuSettings().zoom * 10;
     CString str_zoom;
     str_zoom.Format(_T("%d%%"), scale);
     m_status_bar.SetText(str_zoom, SP_ZOOM, 0);
@@ -367,25 +367,13 @@ void CSimpleNotePadDlg::ConvertToCode(CodeType code_type)
 void CSimpleNotePadDlg::SaveConfig() const
 {
     CBaseDialog::SaveConfig();
-    theApp.WriteProfileInt(L"config", L"word_wrap", m_word_wrap);
-    theApp.WriteProfileInt(_T("config"), _T("word_wrap_mode"), m_word_wrap_mode);
     theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
-    theApp.WriteProfileInt(L"config", L"show_statusbar", m_show_statusbar);
-    theApp.WriteProfileInt(L"config", L"show_line_number", m_show_line_number);
-    theApp.WriteProfileInt(L"config", L"show_eol", m_show_eol);
-    theApp.WriteProfileInt(L"config", L"zoom", m_zoom);
 }
 
 void CSimpleNotePadDlg::LoadConfig()
 {
     CBaseDialog::LoadConfig();
-    m_word_wrap = (theApp.GetProfileInt(_T("config"), _T("word_wrap"), 1) != 0);
-    m_word_wrap_mode = static_cast<CScintillaEditView::eWordWrapMode>(theApp.GetProfileInt(_T("config"), _T("word_wrap_mode"), CScintillaEditView::WW_WORD));
     m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
-    m_show_statusbar = (theApp.GetProfileInt(_T("config"), _T("show_statusbar"), 1) != 0);
-    m_show_line_number = (theApp.GetProfileInt(_T("config"), _T("show_line_number"), 1) != 0);
-    m_show_eol = (theApp.GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
-    m_zoom = theApp.GetProfileInt(_T("config"), _T("zoom"), 0);
 }
 
 bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info, int* prtn)
@@ -686,7 +674,7 @@ void CSimpleNotePadDlg::UpdateLineNumberWidth(bool update)
     {
         int width = m_view->GetTextWidth(std::to_string(line_number)) + theApp.DPI(8);
         m_view->SetLineNumberWidth(width);
-        m_view->ShowLineNumber(m_show_line_number);
+        m_view->ShowLineNumber(theApp.MenuSettings().show_line_number);
     }
     last_line_number = line_number;
 }
@@ -865,6 +853,35 @@ void CSimpleNotePadDlg::AddClipboardDataToAllProcess(const std::wstring str)
     }
 }
 
+void CSimpleNotePadDlg::UpdateOptionSettingsToAllProcess()
+{
+    std::string str_data;
+    SimplePack pack;
+    pack << theApp.GetGeneralSettings() << theApp.GetEditSettings() << theApp.GetLanguageSettings();
+    str_data.assign(pack.data(), pack.size());
+    std::vector<HWND> handles;
+    CCommon::FindAllWindow(APP_CLASS_NAME, handles);
+    for (auto handle : handles)
+    {
+        if (handle != m_hWnd)
+            CCommon::SendProcessMessage(handle, CCommon::ProcessMsgType::SETTINGS_DATA, str_data);
+    }
+}
+
+
+void CSimpleNotePadDlg::UpdateMenuSettingsToAllProcess()
+{
+    std::string str_data;
+    Object2String(theApp.MenuSettings(), str_data);
+    std::vector<HWND> handles;
+    CCommon::FindAllWindow(APP_CLASS_NAME, handles);
+    for (auto handle : handles)
+    {
+        if (handle != m_hWnd)
+            CCommon::SendProcessMessage(handle, CCommon::ProcessMsgType::MENU_SETTINGS_DATA, str_data);
+    }
+}
+
 void CSimpleNotePadDlg::FillFindText()
 {
     //将选中文本设置到查找对话框中“查找”文本框
@@ -1033,7 +1050,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     CRect rect;
     GetClientRect(&rect);
     //rect.bottom = rect.bottom - 22;
-    if (m_show_statusbar)
+    if (theApp.MenuSettings().show_statusbar)
         rect.bottom = rect.bottom - m_edit_bottom_space - theApp.DPI(2);
     //m_edit.MoveWindow(rect);
 
@@ -1042,12 +1059,12 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_view->OnInitialUpdate();
     m_view->ShowWindow(SW_SHOW);
 
-    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
+    m_view->SetWordWrap(theApp.MenuSettings().word_wrap, static_cast<CScintillaEditView::eWordWrapMode>(theApp.MenuSettings().word_wrap_mode));
 
     UpdateLineNumberWidth();
-    m_view->ShowLineNumber(m_show_line_number);
+    m_view->ShowLineNumber(theApp.MenuSettings().show_line_number);
     m_view->SetLineNumberColor(RGB(75, 145, 175));
-    m_view->SetViewEol(m_show_eol);
+    m_view->SetViewEol(theApp.MenuSettings().show_eol);
     m_view->SetBackgroundColor(theApp.GetEditSettings().background_color);
     m_view->SetSelectionBackColor(theApp.GetEditSettings().selection_back_color);
     m_view->ShowIndentationGuides(theApp.GetEditSettings().show_indentation_guides);
@@ -1061,9 +1078,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
 
     InitStatusbarWidth();
     UpdateStatusBarInfo();
-    ShowStatusbar(m_show_statusbar);
+    ShowStatusbar(theApp.MenuSettings().show_statusbar);
 
-    m_view->SetZoom(m_zoom);
+    m_view->SetZoom(theApp.MenuSettings().zoom);
 
     //初始化字体
     //m_font.CreatePointFont(m_font_size * 10, m_font_name);
@@ -1218,7 +1235,7 @@ void CSimpleNotePadDlg::OnSize(UINT nType, int cx, int cy)
     CRect size;		//编辑框矩形区域
     size.right = cx;
     //size.bottom = cy - 22;		//窗口下方状态栏占20个像素高度
-    size.bottom = cy - (m_show_statusbar ? m_edit_bottom_space : -theApp.DPI(2));		//窗口下方状态栏占20个像素高度
+    size.bottom = cy - (theApp.MenuSettings().show_statusbar ? m_edit_bottom_space : -theApp.DPI(2));		//窗口下方状态栏占20个像素高度
     if (nType != SIZE_MINIMIZED && m_view->GetSafeHwnd() != NULL)
     {
         //窗口大小改变时改变编辑框大小
@@ -1563,15 +1580,16 @@ void CSimpleNotePadDlg::OnFileCompare()
 void CSimpleNotePadDlg::OnWordWrap()
 {
     // TODO: 在此添加命令处理程序代码
-    m_word_wrap = !m_word_wrap;
-    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
+    theApp.MenuSettings().word_wrap = !theApp.MenuSettings().word_wrap;
+    m_view->SetWordWrap(theApp.MenuSettings().word_wrap, static_cast<CScintillaEditView::eWordWrapMode>(theApp.MenuSettings().word_wrap_mode));
+    UpdateMenuSettingsToAllProcess();
 }
 
 
 //void CSimpleNotePadDlg::OnUpdateWordWrap(CCmdUI *pCmdUI)
 //{
 //	// TODO: 在此添加命令更新用户界面处理程序代码
-//	pCmdUI->SetCheck(m_word_wrap);
+//	pCmdUI->SetCheck(theApp.MenuSettings().word_wrap);
 //}
 
 
@@ -1726,11 +1744,11 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
         }
     }
 
-    pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (m_word_wrap ? MF_CHECKED : MF_UNCHECKED));
+    pMenu->CheckMenuItem(ID_WORD_WRAP, MF_BYCOMMAND | (theApp.MenuSettings().word_wrap ? MF_CHECKED : MF_UNCHECKED));
     pMenu->CheckMenuItem(ID_ALWAYS_ON_TOP, MF_BYCOMMAND | (m_always_on_top ? MF_CHECKED : MF_UNCHECKED));
-    pMenu->CheckMenuItem(ID_SHOW_STATUSBAR, MF_BYCOMMAND | (m_show_statusbar ? MF_CHECKED : MF_UNCHECKED));
-    pMenu->CheckMenuItem(ID_SHOW_LINE_NUMBER, MF_BYCOMMAND | (m_show_line_number ? MF_CHECKED : MF_UNCHECKED));
-    pMenu->CheckMenuItem(ID_SHOW_EOL, MF_BYCOMMAND | (m_show_eol ? MF_CHECKED : MF_UNCHECKED));
+    pMenu->CheckMenuItem(ID_SHOW_STATUSBAR, MF_BYCOMMAND | (theApp.MenuSettings().show_statusbar ? MF_CHECKED : MF_UNCHECKED));
+    pMenu->CheckMenuItem(ID_SHOW_LINE_NUMBER, MF_BYCOMMAND | (theApp.MenuSettings().show_line_number ? MF_CHECKED : MF_UNCHECKED));
+    pMenu->CheckMenuItem(ID_SHOW_EOL, MF_BYCOMMAND | (theApp.MenuSettings().show_eol ? MF_CHECKED : MF_UNCHECKED));
     pMenu->CheckMenuItem(ID_MONITOR_MODE, MF_BYCOMMAND | (m_monitor_mode ? MF_CHECKED : MF_UNCHECKED));
 
     bool is_selection_empty = m_view->IsSelectionEmpty();
@@ -1761,7 +1779,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
         break;
     }
 
-    switch (m_word_wrap_mode)
+    switch (theApp.MenuSettings().word_wrap_mode)
     {
     case CScintillaEditView::WW_WORD:
         pMenu->CheckMenuRadioItem(ID_WORD_WRAP_WORD, ID_WORD_WRAP_WHITESPACE, ID_WORD_WRAP_WORD, MF_BYCOMMAND | MF_CHECKED);
@@ -1922,7 +1940,8 @@ void CSimpleNotePadDlg::OnToolOptions()
     dlg.m_language_settings_dlg.m_data = theApp.GetLanguageSettings();
     if (dlg.DoModal() == IDOK)
     {
-        ApplySettings(&dlg);
+        ApplySettings(dlg.m_general_settings_dlg.m_data, dlg.m_edit_settings_dlg.m_data, dlg.m_language_settings_dlg.m_data);
+        UpdateOptionSettingsToAllProcess();
     }
 }
 
@@ -1974,8 +1993,9 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
         }
         else if (notification->nmhdr.code == SCN_ZOOM)
         {
-            m_zoom = m_view->GetZoom();
+            theApp.MenuSettings().zoom = m_view->GetZoom();
             UpdateStatusBarInfo();
+            UpdateMenuSettingsToAllProcess();
         }
         else if (notification->nmhdr.code == SCN_COPY)
         {
@@ -2068,8 +2088,9 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 void CSimpleNotePadDlg::OnShowLineNumber()
 {
     // TODO: 在此添加命令处理程序代码
-    m_show_line_number = !m_show_line_number;
-    m_view->ShowLineNumber(m_show_line_number);
+    theApp.MenuSettings().show_line_number = !theApp.MenuSettings().show_line_number;
+    m_view->ShowLineNumber(theApp.MenuSettings().show_line_number);
+    UpdateMenuSettingsToAllProcess();
 }
 
 
@@ -2103,8 +2124,9 @@ void CSimpleNotePadDlg::OnEolLf()
 void CSimpleNotePadDlg::OnShowEol()
 {
     // TODO: 在此添加命令处理程序代码
-    m_show_eol = !m_show_eol;
-    m_view->SetViewEol(m_show_eol);
+    theApp.MenuSettings().show_eol = !theApp.MenuSettings().show_eol;
+    m_view->SetViewEol(theApp.MenuSettings().show_eol);
+    UpdateMenuSettingsToAllProcess();
 }
 
 
@@ -2276,32 +2298,36 @@ void CSimpleNotePadDlg::OnFileOpenLocation()
 void CSimpleNotePadDlg::OnWordWrapWord()
 {
     // TODO: 在此添加命令处理程序代码
-    m_word_wrap_mode = CScintillaEditView::WW_WORD;
-    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
+    theApp.MenuSettings().word_wrap_mode = CScintillaEditView::WW_WORD;
+    m_view->SetWordWrap(theApp.MenuSettings().word_wrap, static_cast<CScintillaEditView::eWordWrapMode>(theApp.MenuSettings().word_wrap_mode));
+    UpdateMenuSettingsToAllProcess();
 }
 
 
 void CSimpleNotePadDlg::OnWordCharacter()
 {
     // TODO: 在此添加命令处理程序代码
-    m_word_wrap_mode = CScintillaEditView::WW_CHARACTER;
-    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
+    theApp.MenuSettings().word_wrap_mode = CScintillaEditView::WW_CHARACTER;
+    m_view->SetWordWrap(theApp.MenuSettings().word_wrap, static_cast<CScintillaEditView::eWordWrapMode>(theApp.MenuSettings().word_wrap_mode));
+    UpdateMenuSettingsToAllProcess();
 }
 
 
 void CSimpleNotePadDlg::OnWordWrapWhitespace()
 {
     // TODO: 在此添加命令处理程序代码
-    m_word_wrap_mode = CScintillaEditView::WW_WHITESPACE;
-    m_view->SetWordWrap(m_word_wrap, m_word_wrap_mode);
+    theApp.MenuSettings().word_wrap_mode = CScintillaEditView::WW_WHITESPACE;
+    m_view->SetWordWrap(theApp.MenuSettings().word_wrap, static_cast<CScintillaEditView::eWordWrapMode>(theApp.MenuSettings().word_wrap_mode));
+    UpdateMenuSettingsToAllProcess();
 }
 
 
 void CSimpleNotePadDlg::OnShowStatusbar()
 {
     // TODO: 在此添加命令处理程序代码
-    m_show_statusbar = !m_show_statusbar;
-    ShowStatusbar(m_show_statusbar);
+    theApp.MenuSettings().show_statusbar = !theApp.MenuSettings().show_statusbar;
+    ShowStatusbar(theApp.MenuSettings().show_statusbar);
+    UpdateMenuSettingsToAllProcess();
 }
 
 
@@ -2418,13 +2444,52 @@ afx_msg LRESULT CSimpleNotePadDlg::OnNpFindReplace(WPARAM wParam, LPARAM lParam)
 BOOL CSimpleNotePadDlg::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
 {
     // TODO: 在此添加消息处理程序代码和/或调用默认值
-    CCommon::ProcessMsgType msg_id{};
-    std::wstring mdg_data;
-    CCommon::ParseProcessMessage(pCopyDataStruct, msg_id, mdg_data);
+    CCommon::ProcessMsgType msg_id = static_cast<CCommon::ProcessMsgType>(pCopyDataStruct->dwData);
     if (msg_id == CCommon::ProcessMsgType::CLIP_BOARD)
     {
+        std::wstring mdg_data;
+        CCommon::ParseProcessMessage(pCopyDataStruct, msg_id, mdg_data);
         //收到其他进程传递的剪贴板消息，将字符串添加到当前剪贴板历史记录
         AddItemToClipboardHistory(mdg_data);
+    }
+    else if (msg_id == CCommon::ProcessMsgType::SETTINGS_DATA)
+    {
+        std::string mdg_data;
+        CCommon::ParseProcessMessage(pCopyDataStruct, msg_id, mdg_data);
+        try
+        {
+            SimpleUnpack unpack(mdg_data.data(), mdg_data.size());
+            SettingsData settings_data;   //常规设置
+            EditSettingData edit_settings_data;   //编辑器设置
+            CUserDefinedLanguageStyle lanugage_settings_data;
+            unpack >> settings_data >> edit_settings_data >> lanugage_settings_data;
+            ApplySettings(settings_data, edit_settings_data, lanugage_settings_data);
+
+        }
+        catch (const std::runtime_error& e)
+        {
+            return FALSE;
+        }
+    }
+    else if (msg_id == CCommon::ProcessMsgType::MENU_SETTINGS_DATA)
+    {
+        std::string mdg_data;
+        CCommon::ParseProcessMessage(pCopyDataStruct, msg_id, mdg_data);
+        try
+        {
+            String2Object(mdg_data, theApp.MenuSettings());
+            //应用设置
+            m_view->SetWordWrap(theApp.MenuSettings().word_wrap, static_cast<CScintillaEditView::eWordWrapMode>(theApp.MenuSettings().word_wrap_mode));
+            ShowStatusbar(theApp.MenuSettings().show_statusbar);
+            m_view->ShowLineNumber(theApp.MenuSettings().show_line_number);
+            m_view->SetViewEol(theApp.MenuSettings().show_eol);
+            m_view->SetZoom(theApp.MenuSettings().zoom);
+        }
+        catch (const std::runtime_error& e)
+        {
+            return FALSE;
+        }
+
     }
 
     return CBaseDialog::OnCopyData(pWnd, pCopyDataStruct);
@@ -2442,18 +2507,21 @@ void CSimpleNotePadDlg::OnAddDeleteComment()
 void CSimpleNotePadDlg::OnViewZoomIn()
 {
     m_view->Zoom(true);
+    UpdateMenuSettingsToAllProcess();
 }
 
 
 void CSimpleNotePadDlg::OnViewZoomOut()
 {
     m_view->Zoom(false);
+    UpdateMenuSettingsToAllProcess();
 }
 
 
 void CSimpleNotePadDlg::OnViewZoomDefault()
 {
     m_view->SetZoom(0);
+    UpdateMenuSettingsToAllProcess();
 }
 
 
