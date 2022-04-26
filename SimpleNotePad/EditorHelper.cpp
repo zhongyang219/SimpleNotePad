@@ -211,7 +211,10 @@ void CEditorHelper::HtmlMarkAutoComp(char character_input)
         //查找左侧HTML标记
         int cur_pos = m_view->GetCurrentIndex();
         int left_bracket_pos = m_view->Find("<", cur_pos, 0);
-        if (left_bracket_pos >= 0)
+        if (left_bracket_pos >= 0       //找到了“<”
+            && m_view->At(left_bracket_pos + 1) != '/'      //左括号后一个字符是'/'，说明这是一个结束HTML标记
+            && m_view->At(cur_pos - 2) != '/'               //右括号前一个字符是'/'，说明这个HTML标记不需要结束标记
+            )
         {
             std::string str_mark;
             int mark_end_pos = m_view->Find(" ", left_bracket_pos + 1, cur_pos - 1);
