@@ -42,6 +42,8 @@ public:
     CUserLanguage& GetLanguage(const std::wstring& language_name);
     const CUserLanguage& GetLanguage(const std::wstring& language_name) const;
     std::wstring FindLanguageByFileName(const std::wstring& file_name) const;
+    void RemoveLanguage(const std::wstring& language_name);
+    void RemoveAll();
 
     //void Load();
     //void Save();

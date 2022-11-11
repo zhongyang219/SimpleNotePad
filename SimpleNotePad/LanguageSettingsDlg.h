@@ -23,6 +23,7 @@ public:
 
 private:
     CString m_cur_lan;
+    CMenu m_restore_default_menu;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
@@ -44,4 +45,8 @@ protected:
 public:
     afx_msg void OnBnClickedRestoreDefaultButton();
     afx_msg void OnEnChangeUserExtEdit();
+    afx_msg void OnRestoreSelectedStyle();
+    afx_msg void OnRestoreSelectedLanguange();
+    afx_msg void OnRestoreAll();
+    afx_msg void OnInitMenu(CMenu* pMenu);
 };

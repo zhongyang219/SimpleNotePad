@@ -110,6 +110,18 @@ std::wstring CUserDefinedLanguageStyle::FindLanguageByFileName(const std::wstrin
     return std::wstring();
 }
 
+void CUserDefinedLanguageStyle::RemoveLanguage(const std::wstring& language_name)
+{
+    auto iter = m_language_map.find(language_name);
+    if (iter != m_language_map.end())
+        m_language_map.erase(iter);
+}
+
+void CUserDefinedLanguageStyle::RemoveAll()
+{
+    m_language_map.clear();
+}
+
 //void CUserDefinedLanguageStyle::Load()
 //{
 //}

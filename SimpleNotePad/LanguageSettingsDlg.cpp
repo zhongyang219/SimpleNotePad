@@ -40,7 +40,7 @@ void CLanguageSettingsDlg::EnableControl()
     EnableDlgCtrl(IDC_BOLD_CHECK, lan_enable && style_enable);
     EnableDlgCtrl(IDC_ITALIC_CHECK, lan_enable && style_enable);
     m_text_color_static.EnableWindow(lan_enable && style_enable);
-    EnableDlgCtrl(IDC_RESTORE_DEFAULT_BUTTON, lan_enable && style_enable);
+    //EnableDlgCtrl(IDC_RESTORE_DEFAULT_BUTTON, lan_enable && style_enable);
 }
 
 void CLanguageSettingsDlg::CurStyleFromUI()
@@ -66,6 +66,10 @@ BEGIN_MESSAGE_MAP(CLanguageSettingsDlg, CTabDlg)
     ON_MESSAGE(WM_COLOR_SELECTED, &CLanguageSettingsDlg::OnColorSelected)
     ON_BN_CLICKED(IDC_RESTORE_DEFAULT_BUTTON, &CLanguageSettingsDlg::OnBnClickedRestoreDefaultButton)
     ON_EN_CHANGE(IDC_USER_EXT_EDIT, &CLanguageSettingsDlg::OnEnChangeUserExtEdit)
+    ON_COMMAND(ID_RESTORE_SELECTED_STYLE, &CLanguageSettingsDlg::OnRestoreSelectedStyle)
+    ON_COMMAND(ID_RESTORE_SELECTED_LANGUANGE, &CLanguageSettingsDlg::OnRestoreSelectedLanguange)
+    ON_COMMAND(ID_RESTORE_ALL, &CLanguageSettingsDlg::OnRestoreAll)
+    ON_WM_INITMENU()
 END_MESSAGE_MAP()
 
 
@@ -77,6 +81,8 @@ BOOL CLanguageSettingsDlg::OnInitDialog()
     CTabDlg::OnInitDialog();
 
     // TODO:  在此添加额外的初始化
+
+    m_restore_default_menu.LoadMenu(IDR_RESTORE_DEFAULT_MENU);
 
     //初始化语言列表
     CSimpleNotePadDlg* main_wnd = dynamic_cast<CSimpleNotePadDlg*>(AfxGetMainWnd());
@@ -180,16 +186,16 @@ afx_msg LRESULT CLanguageSettingsDlg::OnColorSelected(WPARAM wParam, LPARAM lPar
 
 void CLanguageSettingsDlg::OnBnClickedRestoreDefaultButton()
 {
-    int style_index = m_style_list_box.GetCurSel();
-    CUserLanguage& user_lan = m_data.GetLanguage(m_cur_lan.GetString());
-    user_lan.RemoveStyle(style_index);
-
-    CSimpleNotePadDlg* main_wnd = CSimpleNotePadDlg::Instanse();
-    CLanguage cur_lan = main_wnd->GetSyntaxHighlight().FindLanguageByName(m_cur_lan.GetString());
-    CLanguage::SyntaxStyle style = cur_lan.m_syntax_list[style_index];
-    CheckDlgButton(IDC_BOLD_CHECK, style.bold);
-    CheckDlgButton(IDC_ITALIC_CHECK, style.italic);
-    m_text_color_static.SetFillColor(style.color);
+    CWnd* pBtn = GetDlgItem(IDC_RESTORE_DEFAULT_BUTTON);
+    CPoint point;
+    if (pBtn != nullptr)
+    {
+        CRect rect;
+        pBtn->GetWindowRect(rect);
+        point.x = rect.left;
+        point.y = rect.bottom;
+        m_restore_default_menu.GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, this);
+    }
 }
 
 
@@ -205,4 +211,49 @@ void CLanguageSettingsDlg::OnEnChangeUserExtEdit()
     GetDlgItemText(IDC_USER_EXT_EDIT, str);
     CUserLanguage& user_lan = m_data.GetLanguage(m_cur_lan.GetString());
     user_lan.ExtListFromString(str.GetString());
+}
+
+
+void CLanguageSettingsDlg::OnRestoreSelectedStyle()
+{
+    int style_index = m_style_list_box.GetCurSel();
+    CUserLanguage& user_lan = m_data.GetLanguage(m_cur_lan.GetString());
+    user_lan.RemoveStyle(style_index);
+
+    CSimpleNotePadDlg* main_wnd = CSimpleNotePadDlg::Instanse();
+    CLanguage cur_lan = main_wnd->GetSyntaxHighlight().FindLanguageByName(m_cur_lan.GetString());
+    CLanguage::SyntaxStyle style = cur_lan.m_syntax_list[style_index];
+    CheckDlgButton(IDC_BOLD_CHECK, style.bold);
+    CheckDlgButton(IDC_ITALIC_CHECK, style.italic);
+    m_text_color_static.SetFillColor(style.color);
+}
+
+
+void CLanguageSettingsDlg::OnRestoreSelectedLanguange()
+{
+    m_data.RemoveLanguage(m_cur_lan.GetString());
+
+    m_style_list_box.SetCurSel(-1);
+    EnableControl();
+}
+
+
+void CLanguageSettingsDlg::OnRestoreAll()
+{
+    m_data.RemoveAll();
+
+    m_style_list_box.SetCurSel(-1);
+    m_language_list_box.SetCurSel(-1);
+    EnableControl();
+}
+
+
+void CLanguageSettingsDlg::OnInitMenu(CMenu* pMenu)
+{
+    CTabDlg::OnInitMenu(pMenu);
+
+    bool lan_enable = m_language_list_box.GetCurSel() >= 0;
+    bool style_enable = m_style_list_box.GetCurSel() >= 0;
+    pMenu->EnableMenuItem(ID_RESTORE_SELECTED_STYLE, MF_BYCOMMAND | (lan_enable && style_enable ? MF_ENABLED : MF_GRAYED));
+    pMenu->EnableMenuItem(ID_RESTORE_SELECTED_LANGUANGE, MF_BYCOMMAND | (lan_enable ? MF_ENABLED : MF_GRAYED));
 }
