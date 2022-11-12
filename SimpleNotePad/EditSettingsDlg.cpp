@@ -134,6 +134,7 @@ void CEditSettingsDlg::OnBnClickedChooseFontButton()
     _tcscpy_s(lf.lfFaceName, LF_FACESIZE, font_name.GetString());
     lf.lfHeight = CCommon::FontSizeToLfHeight(font_size);
     CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
+    fontDlg.m_cf.Flags &= ~CF_EFFECTS;      //不显示删除线、下划线和文本颜色选项的控件
     if (IDOK == fontDlg.DoModal())     // 显示字体对话框
     {
         //获取字体信息
