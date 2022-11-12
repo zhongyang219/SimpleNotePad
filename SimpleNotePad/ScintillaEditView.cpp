@@ -331,8 +331,11 @@ void CScintillaEditView::Paste()
 
 void CScintillaEditView::Paste(const string& text)
 {
-    //插入要粘贴的文本
-    SendMessage(SCI_INSERTTEXT, -1, (sptr_t)text.c_str());
+    //判断是否有选中文本
+    if (IsSelectionEmpty())
+        InserText(text, -1);
+    else
+        ReplaceSelection(text);
 }
 
 void CScintillaEditView::PasteW(const wstring& text)
@@ -352,11 +355,16 @@ void CScintillaEditView::EmptyUndoBuffer()
     SendMessage(SCI_EMPTYUNDOBUFFER);
 }
 
-void CScintillaEditView::ReplaceSelectedW(const wstring& replace_str)
+void CScintillaEditView::ReplaceSelection(const string& replace_str)
+{
+    SendMessage(SCI_REPLACESEL, 0, (sptr_t)replace_str.c_str());
+}
+
+void CScintillaEditView::ReplaceSelectionW(const wstring& replace_str)
 {
     bool noused;
     string replaced_str = CCommon::UnicodeToStr(replace_str, noused, CodeType::UTF8_NO_BOM);
-    SendMessage(SCI_REPLACESEL, 0, (sptr_t)replaced_str.c_str());
+    ReplaceSelection(replaced_str);
 }
 
 void CScintillaEditView::InserText(const std::string& str, int pos)

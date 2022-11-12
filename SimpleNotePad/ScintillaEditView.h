@@ -81,7 +81,8 @@ public:
     void SelectAll();
     void EmptyUndoBuffer();     //清空撤销缓存
 
-    void ReplaceSelectedW(const wstring& replace_str);   //替换选中的字符串
+    void ReplaceSelection(const string& replace_str);   //替换选中的字符串
+    void ReplaceSelectionW(const wstring& replace_str);   //替换选中的字符串
     void InserText(const std::string& str, int pos);
     void DeleteText(int pos, int length);
 

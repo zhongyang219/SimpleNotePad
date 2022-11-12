@@ -2230,7 +2230,7 @@ void CSimpleNotePadDlg::OnConvertToCapital()
                 CCommon::ConvertCharCase(ch, true);
             }
             //替换成转换后的文本
-            m_view->ReplaceSelectedW(str_selected);
+            m_view->ReplaceSelectionW(str_selected);
             m_view->SetSelW(start, end, m_edit_wcs);
             SetTitle();
         }
@@ -2256,7 +2256,7 @@ void CSimpleNotePadDlg::OnConvertToLowerCase()
                 CCommon::ConvertCharCase(ch, false);
             }
             //替换成转换后的文本
-            m_view->ReplaceSelectedW(str_selected);
+            m_view->ReplaceSelectionW(str_selected);
             m_view->SetSelW(start, end, m_edit_wcs);
             SetTitle();
         }
@@ -2290,7 +2290,7 @@ void CSimpleNotePadDlg::OnConvertToTitleCase()
                 }
             }
             //替换成转换后的文本
-            m_view->ReplaceSelectedW(str_selected);
+            m_view->ReplaceSelectionW(str_selected);
             m_view->SetSelW(start, end, m_edit_wcs);
             SetTitle();
         }
