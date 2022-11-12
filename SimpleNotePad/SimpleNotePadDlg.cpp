@@ -532,7 +532,7 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
 
     //fileDlg.SetControlLabel(IDC_SAVE_COMBO_BOX, _T("编码类型："));
     //根据当前设置的另存为格式为组合选择框设置默认选中的项目
-    fileDlg.SetSelectedControlItem(IDC_SAVE_COMBO_BOX, static_cast<DWORD>(m_save_code));
+    fileDlg.SetSelectedControlItem(IDC_SAVE_COMBO_BOX, static_cast<DWORD>(CONST_VAL->GetCodeTypeItemIndex(m_code, m_code_page)));
 
     ////设置“另存为”对话框标题
     //CString str{ _T("另存为") };
@@ -551,15 +551,16 @@ bool CSimpleNotePadDlg::_OnFileSaveAs()
         fileDlg.GetSelectedControlItem(IDC_SAVE_COMBO_BOX, selected_item);	//获取“编码格式”中选中的项目
         if (selected_item >= 0 && selected_item < static_cast<DWORD>(CONST_VAL->CodeList().size()))
         {
-            m_save_code = CONST_VAL->CodeList()[selected_item].code_type;
+            CodeType save_code = CONST_VAL->CodeList()[selected_item].code_type;
             UINT save_code_page = CONST_VAL->CodeList()[selected_item].code_page;
             if (save_code_page == CODE_PAGE_DEFAULT)
                 save_code_page = theApp.GetGeneralSettings().default_code_page;
-            if (SaveFile(fileDlg.GetPathName().GetString(), m_save_code, save_code_page))
+            if (SaveFile(fileDlg.GetPathName().GetString(), save_code, save_code_page))
             {
                 m_file_path = fileDlg.GetPathName();	//另存为后，当前文件名为保存的文件名
                 SetTitle();					//用新的文件名设置标题
-                m_code = m_save_code;		//另存为后当前编码类型设置为另存为的编码类型
+                m_code = save_code;		    //另存为后当前编码类型设置为另存为的编码类型
+                m_code_page = save_code_page;
                 UpdateStatusBarInfo();			//刷新状态栏
                 return true;
             }

@@ -247,6 +247,7 @@ struct ConstVal
 public:
     const vector<CodeTypeItem>& CodeList() { return code_list; }
     const vector<CodeTypeItem>& CodePageList() { return code_page_list; }
+    int GetCodeTypeItemIndex(CodeType code_type, UINT code_page);
     static ConstVal* Instance();
 
 private:

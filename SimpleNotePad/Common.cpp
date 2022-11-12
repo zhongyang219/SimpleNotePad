@@ -687,6 +687,17 @@ bool CCommon::OpenRegItem(CRegKey& key, LPCTSTR item_str)
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
+
+int ConstVal::GetCodeTypeItemIndex(CodeType code_type, UINT code_page)
+{
+    for (size_t i = 0; i < code_list.size(); i++)
+    {
+        if (code_list[i].code_type == code_type && code_list[i].code_page == code_page)
+            return static_cast<int>(i);
+    }
+    return -1;
+}
+
 ConstVal* ConstVal::Instance()
 {
     static std::shared_ptr<ConstVal> instance;

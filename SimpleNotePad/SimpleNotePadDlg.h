@@ -52,7 +52,7 @@ protected:
 
     CodeType m_code{ CodeType::ANSI };		//编码格式
     UINT m_code_page{ CP_ACP };				//当编码格式指定为ANSI时的代码页
-    CodeType m_save_code{ CodeType::ANSI };	//另存为时的编码格式
+    //CodeType m_save_code{ CodeType::ANSI };	//另存为时的编码格式
     //bool m_flag{ false };			//一个flag，当调用m_edit.SetWindowText()函数将文本显示在文本框内时，将它置为true
 
     //状态栏各部分的定义
