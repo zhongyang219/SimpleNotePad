@@ -315,12 +315,13 @@ void CSimpleNotePadApp::LoadConfig()
     m_menu_settings_data.show_eol = (GetProfileInt(_T("config"), _T("show_eol"), 0) != 0);
     m_menu_settings_data.zoom = GetProfileInt(_T("config"), _T("zoom"), 0);
 
-    //载入选项设置
+    //载入常规设置
     m_settings_data.default_code_page_selected = GetProfileInt(L"config", L"default_code_page_selected", 0);
     m_settings_data.default_code_page = GetProfileInt(L"config", L"default_code_page", 0);
     m_settings_data.check_update_when_start = (GetProfileInt(L"config", L"check_update_when_start", 1) != 0);
     m_settings_data.update_source = GetProfileInt(L"config", L"update_source", 0);
     m_settings_data.language = static_cast<Language>(GetProfileInt(_T("config"), L"language", 0));
+    m_settings_data.default_code = static_cast<CodeType>(GetProfileInt(_T("config"), L"default_code", 0));
 
     //载入编辑器设置
     m_edit_settings_data.current_line_highlight = (GetProfileInt(L"config", L"current_line_highlight", 0) != 0);
@@ -357,12 +358,13 @@ void CSimpleNotePadApp::SaveConfig()
     WriteProfileInt(L"config", L"show_eol", m_menu_settings_data.show_eol);
     WriteProfileInt(L"config", L"zoom", m_menu_settings_data.zoom);
 
-    //保存选项设置
+    //保存常规设置
     WriteProfileInt(L"config", L"default_code_page_selected", m_settings_data.default_code_page_selected);
     WriteProfileInt(L"config", L"default_code_page", m_settings_data.default_code_page);
     WriteProfileInt(L"config", L"check_update_when_start", m_settings_data.check_update_when_start);
     WriteProfileInt(L"config", L"update_source", m_settings_data.update_source);
     WriteProfileInt(L"config", L"language", static_cast<int>(m_settings_data.language));
+    WriteProfileInt(L"config", L"default_code", static_cast<int>(m_settings_data.default_code));
 
     //保存编辑器设置
     WriteProfileInt(L"config", L"current_line_highlight", m_edit_settings_data.current_line_highlight);

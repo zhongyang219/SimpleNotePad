@@ -28,6 +28,7 @@ void CGeneralSettingsDlg::DoDataExchange(CDataExchange* pDX)
     CTabDlg::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_DEFAULT_CODE_PAGE_COMBO, m_default_page_code_combo);
     DDX_Control(pDX, IDC_LANGUAGE_COMBO, m_language_combo);
+    DDX_Control(pDX, IDC_DEFAULT_CODE_TYPE_COMBO, m_default_code_type_combo);
 }
 
 
@@ -67,6 +68,13 @@ BOOL CGeneralSettingsDlg::OnInitDialog()
     m_language_combo.AddString(_T("English"));
     m_language_combo.AddString(_T("简体中文"));
     m_language_combo.SetCurSel(static_cast<int>(m_data.language));
+
+    m_default_code_type_combo.AddString(_T("ANSI"));
+    m_default_code_type_combo.AddString(CCommon::LoadText(IDS_UTF8_BOM));
+    m_default_code_type_combo.AddString(CCommon::LoadText(IDS_UTF8_NO_BOM));
+    m_default_code_type_combo.AddString(_T("UTF16"));
+    m_default_code_type_combo.AddString(_T("UTF16 Big Ending"));
+    m_default_code_type_combo.SetCurSel(static_cast<int>(m_data.default_code));
 
     m_explorer_context_menu_exist = theApp.IsExplorerContextMenuExist();
     CheckDlgButton(IDC_EXCLORER_CONTEXT_MENU_CHECK, m_explorer_context_menu_exist);
@@ -118,6 +126,8 @@ void CGeneralSettingsDlg::OnOK()
         else
             theApp.RemoveExplorerContextMenuItem();
     }
+
+    m_data.default_code = static_cast<CodeType>(m_default_code_type_combo.GetCurSel());
 
     CTabDlg::OnOK();
 }

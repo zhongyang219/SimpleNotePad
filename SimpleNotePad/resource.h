@@ -249,6 +249,8 @@
 #define IDC_LANGUAGE_COMBO              1069
 #define IDC_STATIC_DONATE               1069
 #define IDC_FIND_PREVIOUS_BUTTON        1070
+#define IDC_LANGUAGE_COMBO2             1070
+#define IDC_DEFAULT_CODE_TYPE_COMBO     1070
 #define IDC_FIND_NEXT_BUTTON            1071
 #define IDC_REPLACE_BUTTON              1074
 #define IDC_REPLACE_ALL_BUTTON          1075

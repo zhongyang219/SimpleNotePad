@@ -67,6 +67,8 @@ public:
 
 private:
     void LoadConfig();
+
+public:
     void SaveConfig();
 
 private:

@@ -7,42 +7,6 @@
 using std::wstring;
 using std::string;
 
-#define CODE_PAGE_CHS 936
-#define CODE_PAGE_CHT 950
-#define CODE_PAGE_JP 932
-#define CODE_PAGE_EN 1252
-#define CODE_PAGE_KOR 949
-#define CODE_PAGE_THAI 874
-#define CODE_PAGE_VIET 1258
-
-#define CODE_PAGE_DEFAULT (UINT32_MAX)
-
-enum class CodeType
-{
-    ANSI,
-    UTF8,
-    UTF8_NO_BOM,
-    UTF16,
-    UTF16BE,
-    AUTO
-};
-
-struct CodeTypeItem
-{
-    CString name;
-    CodeType code_type{};
-    UINT code_page{};
-
-    CodeTypeItem() {}
-    CodeTypeItem(const CString& _name, CodeType _code_type, UINT _code_page)
-        : name(_name), code_type(_code_type), code_page(_code_page)
-    {}
-    CodeTypeItem(const CString& _name, UINT _code_page)
-        : name(_name), code_type(CodeType::ANSI), code_page(_code_page)
-    {}
-};
-
-
 class CCommon
 {
 public:

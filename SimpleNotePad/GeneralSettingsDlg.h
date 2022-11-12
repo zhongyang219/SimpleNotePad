@@ -24,6 +24,7 @@ private:
     CComboBox m_default_page_code_combo;
     CComboBox m_language_combo;
     bool m_explorer_context_menu_exist{};
+    CComboBox m_default_code_type_combo;
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持

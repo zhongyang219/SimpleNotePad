@@ -128,6 +128,8 @@ void CSimpleNotePadDlg::ApplySettings(const SettingsData& general_data, const Ed
     }
     //重新设置语法高亮
     SetEditorSyntaxHight();
+
+    theApp.SaveConfig();
 }
 
 void CSimpleNotePadDlg::OpenFile()
@@ -1060,6 +1062,9 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     m_hAccel = LoadAccelerators(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDR_ACCELERATOR1));
     m_context_menu.LoadMenu(IDR_POPUP_MENU);
 
+    m_code = theApp.GetGeneralSettings().default_code;
+    m_code_page = theApp.GetGeneralSettings().default_code_page;
+
     //加载语法高亮设置
     wstring path;
 #ifdef DEBUG
@@ -1561,7 +1566,8 @@ void CSimpleNotePadDlg::OnFileNew()
     m_file_path.Empty();
     m_view->SetTextW(L"");
     m_view->EmptyUndoBuffer();
-    m_code = CodeType::ANSI;
+    m_code = theApp.GetGeneralSettings().default_code;
+    m_code_page = theApp.GetGeneralSettings().default_code_page;
     m_view->SetSavePoint();
     UpdateStatusBarInfo();
     SetWindowText(CCommon::LoadText(IDS_NO_TITLE, _T(" - SimpleNotePad")));
