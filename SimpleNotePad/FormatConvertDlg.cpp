@@ -297,10 +297,10 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
     if (index >= 0 && index < static_cast<int>(CONST_VAL->CodePageList().size()))
         m_code_page = CONST_VAL->CodePageList()[index].code_page;
 
-	int convert_cnt{};
+    std::set<std::wstring> convert_file_list;        //所有要转换的文件的路径
 	for (const auto& item : m_file_list)
 	{
-        //判断列表中的荐是文件还是文件夹
+        //判断列表中的项目是文件还是文件夹
         if (CCommon::IsFolder(item))
         {
             //遍历文件夹下所有文件
@@ -308,16 +308,21 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
             CCommon::GetFiles((item + L"*.*").c_str(), files);
             for (const auto& file_name : files)
             {
-                if (ConvertSingleFile(item + file_name))
-                    convert_cnt++;
+                convert_file_list.insert(item + file_name);
             }
         }
         else if (CCommon::IsFile(item))
         {
-            if (ConvertSingleFile(item))
-                convert_cnt++;
+            convert_file_list.insert(item);
         }
 	}
+
+	int convert_cnt{};
+    for (const auto& file_path : convert_file_list)
+    {
+        if (ConvertSingleFile(file_path))
+            convert_cnt++;
+    }
 
 	CString info = CCommon::LoadTextFormat(IDS_CONVERT_FINISH_INFO, { convert_cnt });
 	MessageBox(info, NULL, MB_ICONINFORMATION);
