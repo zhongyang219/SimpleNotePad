@@ -581,6 +581,7 @@ void CSimpleNotePadDlg::SaveHex()
     file << m_edit_str;
     m_view->SetSavePoint();
     SetTitle();
+    UpdateStatusBarInfo();
     MessageBox(CCommon::LoadText(IDS_HEX_SAVED_INFO), NULL, MB_ICONINFORMATION);
 }
 
@@ -1493,8 +1494,7 @@ void CSimpleNotePadDlg::OnHexView()
     string edit_str{ m_edit_str };		//进行十六进制编辑前先保存编辑前的数据
     CHexViewDlg hex_view_dlg(m_edit_str, m_code, m_file_path);
     hex_view_dlg.DoModal();
-    //if (!m_file_path.IsEmpty() && !hex_view_dlg.m_modified_data.empty())
-    if (!m_file_path.IsEmpty() && hex_view_dlg.IsModified())
+    if (hex_view_dlg.IsModified())
     {
         if (m_view->IsModified())
         {
