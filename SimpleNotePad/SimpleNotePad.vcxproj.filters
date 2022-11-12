@@ -129,6 +129,9 @@
     <Filter Include="公共的类\WinVersionHelper">
       <UniqueIdentifier>{dcfc5931-7148-43e2-b55d-b86059db1e9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="对话框类\DonateDlg">
+      <UniqueIdentifier>{d40a85a0-1a65-41eb-a9b6-e0f4d6931cff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -263,9 +266,6 @@
     <ClInclude Include="FileRelateDlg.h">
       <Filter>对话框类\FileRelateDlg</Filter>
     </ClInclude>
-    <ClInclude Include="DonateDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="DrawCommon.h">
       <Filter>公共的类\DrawCommon</Filter>
     </ClInclude>
@@ -286,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="WinVersionHelper.h">
       <Filter>公共的类\WinVersionHelper</Filter>
+    </ClInclude>
+    <ClInclude Include="DonateDlg.h">
+      <Filter>对话框类\DonateDlg</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -406,7 +409,6 @@
     <ClCompile Include="FileRelateDlg.cpp">
       <Filter>对话框类\FileRelateDlg</Filter>
     </ClCompile>
-    <ClCompile Include="DonateDlg.cpp" />
     <ClCompile Include="DrawCommon.cpp">
       <Filter>公共的类\DrawCommon</Filter>
     </ClCompile>
@@ -424,6 +426,9 @@
     </ClCompile>
     <ClCompile Include="WinVersionHelper.cpp">
       <Filter>公共的类\WinVersionHelper</Filter>
+    </ClCompile>
+    <ClCompile Include="DonateDlg.cpp">
+      <Filter>对话框类\DonateDlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +546,9 @@
     </Image>
     <Image Include="res\donate_wechat.bmp">
       <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\reload.ico">
+      <Filter>资源文件\icon</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

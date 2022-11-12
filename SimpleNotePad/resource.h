@@ -157,8 +157,9 @@
 #define IDB_DONATE                      205
 #define IDB_DONATE_WECHAT               206
 #define IDD_LANGUAGE_SETTING_DIALOG     207
-#define IDR_MENU2                       210
 #define IDR_RESTORE_DEFAULT_MENU        210
+#define IDI_ICON2                       211
+#define IDI_RELOAD                      211
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -415,13 +416,14 @@
 #define ID_RESTORE_SELECTED_STYLE       33048
 #define ID_RESTORE_SELECTED_LANGUANGE   33049
 #define ID_RESTORE_ALL                  33050
+#define ID_FILE_RELOAD                  33051
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        211
-#define _APS_NEXT_COMMAND_VALUE         33051
+#define _APS_NEXT_RESOURCE_VALUE        212
+#define _APS_NEXT_COMMAND_VALUE         33054
 #define _APS_NEXT_CONTROL_VALUE         1106
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

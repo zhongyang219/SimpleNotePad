@@ -728,6 +728,7 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE, FALSE, theApp.GetMenuIcon(IDI_SAVE));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_SAVE_AS, FALSE, theApp.GetMenuIcon(IDI_SAVE_AS));
     CMenuIcon::AddIconToMenuItem(menu, ID_FILE_OPEN_LOCATION, FALSE, theApp.GetMenuIcon(IDI_EXPLORE));
+    CMenuIcon::AddIconToMenuItem(menu, ID_FILE_RELOAD, FALSE, theApp.GetMenuIcon(IDI_RELOAD));
     CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(0)->GetSafeHmenu(), 6, TRUE, theApp.GetMenuIcon(IDI_RECENT_FILES));
     CMenuIcon::AddIconToMenuItem(menu, ID_APP_EXIT, FALSE, theApp.GetMenuIcon(IDI_EXIT));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_UNDO, FALSE, theApp.GetMenuIcon(IDI_UNDO));
@@ -1009,6 +1010,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_COMMAND(ID_VIEW_ZOOM_DEFAULT, &CSimpleNotePadDlg::OnViewZoomDefault)
     ON_MESSAGE(WM_DELETE_CHAR, &CSimpleNotePadDlg::OnDeleteChar)
     ON_COMMAND(ID_MONITOR_MODE, &CSimpleNotePadDlg::OnMonitorMode)
+    ON_COMMAND(ID_FILE_RELOAD, &CSimpleNotePadDlg::OnFileReload)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -1129,7 +1131,7 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
         }
 
         //初始化最近打开文件列表
-        CMenu* pRecentFileMenu = pMenu->GetSubMenu(0)->GetSubMenu(6);
+        CMenu* pRecentFileMenu = pMenu->GetSubMenu(0)->GetSubMenu(7);
         ASSERT(pRecentFileMenu != nullptr);
         if (pRecentFileMenu != nullptr)
         {
@@ -1722,6 +1724,7 @@ void CSimpleNotePadDlg::OnInitMenu(CMenu* pMenu)
 
     // TODO: 在此处添加消息处理程序代码
     pMenu->EnableMenuItem(ID_FILE_OPEN_LOCATION, m_file_path.IsEmpty() ? MF_GRAYED : MF_ENABLED);
+    pMenu->EnableMenuItem(ID_FILE_RELOAD, m_file_path.IsEmpty() ? MF_GRAYED : MF_ENABLED);
 
     if (m_code == CodeType::ANSI && m_code_page != CP_ACP)
     {
@@ -2582,4 +2585,17 @@ void CSimpleNotePadDlg::OnMonitorMode()
     }
     SetTitle();
     m_view->SetReadOnly(m_monitor_mode);
+}
+
+
+void CSimpleNotePadDlg::OnFileReload()
+{
+    if (!m_file_path.IsEmpty())
+    {
+        if (SaveInquiry())
+        {
+            CScintillaEditView::KeepCurrentLine keep_current_line(m_view);
+            OpenFile();
+        }
+    }
 }

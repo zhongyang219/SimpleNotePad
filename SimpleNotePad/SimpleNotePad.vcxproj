@@ -339,6 +339,7 @@
     <Image Include="res\previous.ico" />
     <Image Include="res\recent_files.ico" />
     <Image Include="res\redo.ico" />
+    <Image Include="res\reload.ico" />
     <Image Include="res\replace.ico" />
     <Image Include="res\save.ico" />
     <Image Include="res\save_as.ico" />

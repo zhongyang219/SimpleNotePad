@@ -227,4 +227,5 @@ protected:
     afx_msg LRESULT OnDeleteChar(WPARAM wParam, LPARAM lParam);
 public:
     afx_msg void OnMonitorMode();
+    afx_msg void OnFileReload();
 };
