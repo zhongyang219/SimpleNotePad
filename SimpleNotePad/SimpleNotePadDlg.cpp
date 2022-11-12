@@ -2030,6 +2030,7 @@ BOOL CSimpleNotePadDlg::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
             theApp.MenuSettings().zoom = m_view->GetZoom();
             UpdateStatusBarInfo();
             UpdateMenuSettingsToAllProcess();
+            UpdateLineNumberWidth();
         }
         else if (notification->nmhdr.code == SCN_COPY)
         {
