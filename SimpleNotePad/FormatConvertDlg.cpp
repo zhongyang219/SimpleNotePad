@@ -50,6 +50,8 @@ void CFormatConvertDlg::JudgeCode()
 		m_input_format = CodeType::UTF8;
 	else if (m_input_string.size() >= 2 && m_input_string[0] == -1 && m_input_string[1] == -2)
 		m_input_format = CodeType::UTF16;
+	else if (m_input_string.size() >= 2 && m_input_string[0] == -2 && m_input_string[1] == -1)
+		m_input_format = CodeType::UTF16BE;
 	else if (CCommon::IsUTF8Bytes(m_input_string.c_str()))
 		m_input_format = CodeType::UTF8_NO_BOM;
 	else m_input_format = CodeType::ANSI;
@@ -167,11 +169,14 @@ BOOL CFormatConvertDlg::OnInitDialog()
 	m_input_box.AddString(_T("ANSI"));
 	m_input_box.AddString(_T("UTF8"));
 	m_input_box.AddString(_T("UTF16"));
+	m_input_box.AddString(_T("UTF16 Big Ending"));
 	m_input_box.SetCurSel(0);
 
 	m_output_box.AddString(_T("ANSI"));
-	m_output_box.AddString(_T("UTF8"));
+	m_output_box.AddString(CCommon::LoadText(IDS_UTF8_BOM));
+    m_output_box.AddString(CCommon::LoadText(IDS_UTF8_NO_BOM));
 	m_output_box.AddString(_T("UTF16"));
+	m_output_box.AddString(_T("UTF16 Big Ending"));
 	m_output_box.SetCurSel(1);
 
     for (size_t i{}; i < CONST_VAL->CodePageList().size() - 1; i++)
@@ -277,7 +282,9 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 	{
 	case 0: m_output_format = CodeType::ANSI; break;
 	case 1: m_output_format = CodeType::UTF8; break;
-	case 2: m_output_format = CodeType::UTF16; break;
+    case 2: m_output_format = CodeType::UTF8_NO_BOM; break;
+	case 3: m_output_format = CodeType::UTF16; break;
+	case 4: m_output_format = CodeType::UTF16BE; break;
 	default:
 		break;
 	}
@@ -288,6 +295,7 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
     case 1: m_input_format = CodeType::ANSI; break;
     case 2: m_input_format = CodeType::UTF8; break;
     case 3: m_input_format = CodeType::UTF16; break;
+    case 4: m_input_format = CodeType::UTF16BE; break;
     default: break;
     }
     m_input_auto_detect = (m_input_box.GetCurSel() == 0);
