@@ -1013,6 +1013,7 @@ BEGIN_MESSAGE_MAP(CSimpleNotePadDlg, CBaseDialog)
     ON_MESSAGE(WM_DELETE_CHAR, &CSimpleNotePadDlg::OnDeleteChar)
     ON_COMMAND(ID_MONITOR_MODE, &CSimpleNotePadDlg::OnMonitorMode)
     ON_COMMAND(ID_FILE_RELOAD, &CSimpleNotePadDlg::OnFileReload)
+    ON_COMMAND(ID_EDIT_TIME_DATE, &CSimpleNotePadDlg::OnEditTimeDate)
 END_MESSAGE_MAP()
 
 // CSimpleNotePadDlg 消息处理程序
@@ -2599,4 +2600,15 @@ void CSimpleNotePadDlg::OnFileReload()
             OpenFile();
         }
     }
+}
+
+
+void CSimpleNotePadDlg::OnEditTimeDate()
+{
+    //插入当前时间/日期
+    CString time_data;
+    SYSTEMTIME t{};
+    GetLocalTime(&t);
+    time_data.Format(_T("%02d:%02d %04d/%02d/%02d"), t.wHour, t.wMinute, t.wYear, t.wMonth, t.wDay);
+    m_view->PasteW(time_data.GetString());
 }

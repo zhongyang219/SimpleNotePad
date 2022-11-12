@@ -228,4 +228,5 @@ protected:
 public:
     afx_msg void OnMonitorMode();
     afx_msg void OnFileReload();
+    afx_msg void OnEditTimeDate();
 };

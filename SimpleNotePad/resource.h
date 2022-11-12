@@ -418,13 +418,15 @@
 #define ID_RESTORE_SELECTED_LANGUANGE   33049
 #define ID_RESTORE_ALL                  33050
 #define ID_FILE_RELOAD                  33051
+#define ID_33056                        33056
+#define ID_EDIT_TIME_DATE               33057
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        212
-#define _APS_NEXT_COMMAND_VALUE         33056
+#define _APS_NEXT_COMMAND_VALUE         33060
 #define _APS_NEXT_CONTROL_VALUE         1106
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
