@@ -18,6 +18,7 @@
 #include "GoToLineDlg.h"
 #include "FindReplaceTools.h"
 #include "EditorHelper.h"
+#include "WinVersionHelper.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -749,7 +750,8 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_TITLE_CASE, FALSE, theApp.GetMenuIcon(IDI_CAPITAL));
     CMenuIcon::AddIconToMenuItem(menu, ID_FORMAT_FONT, FALSE, theApp.GetMenuIcon(IDI_FONT));
     CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(3)->GetSafeHmenu(), 7, TRUE, theApp.GetMenuIcon(IDI_LANGUAGE));
-    CMenuIcon::AddIconToMenuItem(menu, ID_ALWAYS_ON_TOP, FALSE, theApp.GetMenuIcon(IDI_PIN));
+    if (!CWinVersionHelper::IsWindows7OrLater())
+        CMenuIcon::AddIconToMenuItem(menu, ID_ALWAYS_ON_TOP, FALSE, theApp.GetMenuIcon(IDI_PIN));
     CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(4)->GetSafeHmenu(), 1, TRUE, theApp.GetMenuIcon(IDI_ZOOM_IN));
     CMenuIcon::AddIconToMenuItem(menu, ID_VIEW_ZOOM_IN, FALSE, theApp.GetMenuIcon(IDI_ZOOM_IN));
     CMenuIcon::AddIconToMenuItem(menu, ID_VIEW_ZOOM_OUT, FALSE, theApp.GetMenuIcon(IDI_ZOOM_OUT));
