@@ -194,6 +194,12 @@ public:
     //返回值: 读取成功返回读取到的文件内容的const char类型的指针，在使用完毕后这个指针需要自行使用delete释放。读取失败返回nullptr
     static const char* GetFileContent(const wchar_t* file_path, size_t& length);
 
+    static bool IsFile(const std::wstring& path);
+    static bool IsFolder(const std::wstring& path);
+
+    //获取path路径下的文件或文件夹，并将文件或文件夹名称保存在files容器中。
+    static void GetFiles(const wchar_t* path, vector<wstring>& files);
+
     //获取当前进程exe文件所在目录
     static wstring GetExePath();
 

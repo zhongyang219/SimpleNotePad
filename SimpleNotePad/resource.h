@@ -158,7 +158,6 @@
 #define IDB_DONATE_WECHAT               206
 #define IDD_LANGUAGE_SETTING_DIALOG     207
 #define IDR_RESTORE_DEFAULT_MENU        210
-#define IDI_ICON2                       211
 #define IDI_RELOAD                      211
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
@@ -201,6 +200,7 @@
 #define IDC_CLEAR_BUTTON                1031
 #define IDC_CONVERT_BUTTON              1032
 #define IDC_INPUT_COMBO2                1033
+#define IDC_ADD_FOLDER_BUTTON           1034
 #define IDC_SPIN1                       1036
 #define IDC_RADIO_BYTE                  1037
 #define IDC_RADIO_WORD                  1038
@@ -235,6 +235,7 @@
 #define IDC_CHECK_UPDATE_CHECK          1065
 #define IDC_MATCH_WHOLE_WORD_CHECK      1065
 #define IDC_BOLD_CHECK                  1065
+#define IDC_COVER_ORI_FILE_CHECK        1065
 #define IDC_HEX_SET_FONT_BUTTON         1066
 #define IDC_STATIC_GITEE                1066
 #define IDC_GITHUB_RADIO                1066

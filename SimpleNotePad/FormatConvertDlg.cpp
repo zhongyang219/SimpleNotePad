@@ -5,7 +5,7 @@
 #include "SimpleNotePad.h"
 #include "FormatConvertDlg.h"
 #include "afxdialogex.h"
-
+#include "FilePathHelper.h"
 
 // CFormatConvertDlg 对话框
 
@@ -19,6 +19,18 @@ CFormatConvertDlg::CFormatConvertDlg(CWnd* pParent /*=NULL*/)
 
 CFormatConvertDlg::~CFormatConvertDlg()
 {
+}
+
+void CFormatConvertDlg::LoadConfig()
+{
+    bool cover_original_file = (theApp.GetProfileInt(_T("format_convert"), _T("cover_original_file"), 1) != 0);
+    CheckDlgButton(IDC_COVER_ORI_FILE_CHECK, cover_original_file);
+}
+
+void CFormatConvertDlg::SaveConfig() const
+{
+    bool cover_original_file = (IsDlgButtonChecked(IDC_COVER_ORI_FILE_CHECK) != 0);
+    theApp.WriteProfileInt(_T("format_convert"), _T("cover_original_file"), cover_original_file);
 }
 
 void CFormatConvertDlg::ShowFileList()
@@ -98,6 +110,13 @@ bool CFormatConvertDlg::SaveFile(LPCTSTR file_path)
 	return true;
 }
 
+void CFormatConvertDlg::EnableControl()
+{
+    bool cover_original_file = (IsDlgButtonChecked(IDC_COVER_ORI_FILE_CHECK) != 0);
+    EnableDlgCtrl(IDC_FOLDER_EDIT, !cover_original_file);
+    EnableDlgCtrl(IDC_BROWSE_BUTTON, !cover_original_file);
+}
+
 CString CFormatConvertDlg::GetDialogName() const
 {
 	return _T("FormatConvertDlg");
@@ -122,6 +141,9 @@ BEGIN_MESSAGE_MAP(CFormatConvertDlg, CBaseDialog)
 	ON_BN_CLICKED(IDC_BROWSE_BUTTON, &CFormatConvertDlg::OnBnClickedBrowseButton)
 	ON_BN_CLICKED(IDC_CONVERT_BUTTON, &CFormatConvertDlg::OnBnClickedConvertButton)
 	ON_WM_DROPFILES()
+    ON_BN_CLICKED(IDC_COVER_ORI_FILE_CHECK, &CFormatConvertDlg::OnBnClickedCoverOriFileCheck)
+    ON_WM_DESTROY()
+    ON_BN_CLICKED(IDC_ADD_FOLDER_BUTTON, &CFormatConvertDlg::OnBnClickedAddFolderButton)
 END_MESSAGE_MAP()
 
 
@@ -133,6 +155,9 @@ BOOL CFormatConvertDlg::OnInitDialog()
 	CBaseDialog::OnInitDialog();
 
 	// TODO:  在此添加额外的初始化
+    LoadConfig();
+    EnableControl();
+
     SetIcon(theApp.GetMenuIcon(IDI_CODE_BATCH), FALSE);
 
 	//设置该对话框在任务栏显示
@@ -214,6 +239,25 @@ void CFormatConvertDlg::OnBnClickedBrowseButton()
 }
 
 
+bool CFormatConvertDlg::ConvertSingleFile(const std::wstring& file_path)
+{
+    if (!OpenFile(file_path.c_str()))
+        return false;		//如果当前文件无法打开，就跳过它
+
+    wstring file_name = CFilePathHelper(file_path).GetFileName();
+    wstring dest_file_path;
+    if (IsDlgButtonChecked(IDC_COVER_ORI_FILE_CHECK) != 0)      //覆盖源文件
+    {
+        dest_file_path = file_path;
+    }
+    else
+    {
+        dest_file_path = m_output_path + file_name;
+    }
+    return SaveFile(dest_file_path.c_str());
+}
+
+
 void CFormatConvertDlg::OnBnClickedConvertButton()
 {
 	// TODO: 在此添加控件通知处理程序代码
@@ -222,7 +266,7 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 		MessageBox(CCommon::LoadText(IDS_ADD_CONVERT_FILE_WARNING), NULL, MB_ICONWARNING);
 		return;
 	}
-	if (m_output_path.empty())
+	if (IsDlgButtonChecked(IDC_COVER_ORI_FILE_CHECK) == 0 && m_output_path.empty())
 	{
 		MessageBox(CCommon::LoadText(IDS_SELECT_OUTPUT_FOLDER_WARNING), NULL, MB_ICONWARNING);
 		return;
@@ -256,15 +300,23 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
 	int convert_cnt{};
 	for (const auto& item : m_file_list)
 	{
-		if(!OpenFile(item.c_str())) continue;		//如果当前文件无法打开，就跳过它
-		
-		wstring file_name;
-		size_t index;
-		index = item.find_last_of(L'\\');
-		if (index == string::npos) continue;
-		file_name = item.substr(index);
-		if(!SaveFile((m_output_path + file_name).c_str())) continue;
-		convert_cnt++;
+        //判断列表中的荐是文件还是文件夹
+        if (CCommon::IsFolder(item))
+        {
+            //遍历文件夹下所有文件
+            std::vector<std::wstring> files;
+            CCommon::GetFiles((item + L"*.*").c_str(), files);
+            for (const auto& file_name : files)
+            {
+                if (ConvertSingleFile(item + file_name))
+                    convert_cnt++;
+            }
+        }
+        else if (CCommon::IsFile(item))
+        {
+            if (ConvertSingleFile(item))
+                convert_cnt++;
+        }
 	}
 
 	CString info = CCommon::LoadTextFormat(IDS_CONVERT_FINISH_INFO, { convert_cnt });
@@ -284,4 +336,33 @@ void CFormatConvertDlg::OnDropFiles(HDROP hDropInfo)
 	}
 	ShowFileList();
 	CBaseDialog::OnDropFiles(hDropInfo);
+}
+
+
+void CFormatConvertDlg::OnBnClickedCoverOriFileCheck()
+{
+    EnableControl();
+}
+
+
+void CFormatConvertDlg::OnDestroy()
+{
+    SaveConfig();
+
+    CBaseDialog::OnDestroy();
+}
+
+
+void CFormatConvertDlg::OnBnClickedAddFolderButton()
+{
+    //构造打开文件对话框
+    CFolderPickerDialog fileDlg(nullptr, 0, this);
+    //显示打开文件对话框
+    if (IDOK == fileDlg.DoModal())
+    {
+        std::wstring folder_path = fileDlg.GetPathName().GetString();
+        folder_path.push_back(L'\\');
+        m_file_list.push_back(folder_path);
+        ShowFileList();
+    }
 }

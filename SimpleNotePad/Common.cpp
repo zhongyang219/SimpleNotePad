@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Common.h"
 #include <afxinet.h>    //用于支持使用网络相关的类
-
+#include <corecrt_io.h>
 
 CCommon::CCommon()
 {
@@ -469,6 +469,34 @@ const char* CCommon::GetFileContent(const wchar_t* file_path, size_t& length)
     file.close();
 
     return buff;
+}
+
+bool CCommon::IsFile(const std::wstring& path)
+{
+    return PathFileExistsW(path.c_str()) && !PathIsDirectoryW(path.c_str());
+}
+
+bool CCommon::IsFolder(const std::wstring& path)
+{
+    return PathFileExistsW(path.c_str()) && PathIsDirectoryW(path.c_str());
+}
+
+void CCommon::GetFiles(const wchar_t* path, vector<wstring>& files)
+{
+    //文件句柄
+    intptr_t hFile = 0;
+    //文件信息
+    _wfinddata_t fileinfo;
+    if ((hFile = _wfindfirst(path, &fileinfo)) != -1)
+    {
+        do
+        {
+            std::wstring file_name = fileinfo.name;
+            if (file_name != L"." && file_name != L"..")
+                files.push_back(file_name);  //将文件名保存(忽略"."和"..")
+        } while (_wfindnext(hFile, &fileinfo) == 0);
+    }
+    _findclose(hFile);
 }
 
 wstring CCommon::GetExePath()

@@ -36,11 +36,17 @@ protected:
 	wstring m_temp_string;		//转换成Unicode之后的文本
 	string m_output_string;		//转换成目标格式后用于输出的文本
 
+    void LoadConfig();
+    void SaveConfig() const;
+
 	void ShowFileList();
 
 	void JudgeCode();
 	bool OpenFile(LPCTSTR file_path);
 	bool SaveFile(LPCTSTR file_path);
+
+    void EnableControl();
+    bool ConvertSingleFile(const std::wstring& file_path);
 
 	virtual CString GetDialogName() const override;
 
@@ -56,4 +62,7 @@ public:
 	afx_msg void OnBnClickedBrowseButton();
 	afx_msg void OnBnClickedConvertButton();
 	afx_msg void OnDropFiles(HDROP hDropInfo);
+    afx_msg void OnBnClickedCoverOriFileCheck();
+    afx_msg void OnDestroy();
+    afx_msg void OnBnClickedAddFolderButton();
 };
