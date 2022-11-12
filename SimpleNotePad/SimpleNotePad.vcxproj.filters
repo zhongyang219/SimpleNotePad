@@ -550,6 +550,9 @@
     <Image Include="res\reload.ico">
       <Filter>资源文件\icon</Filter>
     </Image>
+    <Image Include="res\help.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="lang.xml" />

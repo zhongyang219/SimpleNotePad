@@ -327,6 +327,7 @@
     <Image Include="res\file.ico" />
     <Image Include="res\find.ico" />
     <Image Include="res\font.ico" />
+    <Image Include="res\help.ico" />
     <Image Include="res\hex_view.ico" />
     <Image Include="res\language.ico" />
     <Image Include="res\lower_case.ico" />

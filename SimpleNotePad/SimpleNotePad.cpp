@@ -18,7 +18,7 @@ const std::string SPLIT_STRING{ '\xff', '\xff', '\xff', '\xff' };
 // CSimpleNotePadApp
 
 BEGIN_MESSAGE_MAP(CSimpleNotePadApp, CWinApp)
-    ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+    ON_COMMAND(ID_HELP, &CSimpleNotePadApp::OnHelp)
     ON_COMMAND(ID_FILE_NEW_WINDOW, &CSimpleNotePadApp::OnFileNewWindow)
 END_MESSAGE_MAP()
 
@@ -522,4 +522,10 @@ void CSimpleNotePadApp::OnFileNewWindow()
     TCHAR path[MAX_PATH];
     GetModuleFileNameW(NULL, path, MAX_PATH);
     ShellExecuteW(NULL, _T("open"), path, NULL, NULL, SW_NORMAL);       //打开一个新的实例
+}
+
+
+void CSimpleNotePadApp::OnHelp()
+{
+    ShellExecute(NULL, _T("open"), _T("https://github.com/zhongyang219/SimpleNotePad/wiki"), NULL, NULL, SW_SHOW);
 }

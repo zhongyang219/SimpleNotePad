@@ -762,6 +762,7 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(menu, ID_FORMAT_CONVERT, FALSE, theApp.GetMenuIcon(IDI_CODE_BATCH));
     CMenuIcon::AddIconToMenuItem(menu, ID_CODE_CONVERT, FALSE, theApp.GetMenuIcon(IDI_CODE));
     CMenuIcon::AddIconToMenuItem(menu, ID_TOOL_OPTIONS, FALSE, theApp.GetMenuIcon(IDI_SETTINGS));
+    CMenuIcon::AddIconToMenuItem(menu, ID_HELP, FALSE, theApp.GetMenuIcon(IDI_HELP));
     CMenuIcon::AddIconToMenuItem(menu, ID_APP_ABOUT, FALSE, theApp.GetMenuIcon(IDR_MAINFRAME));
 
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_UNDO, FALSE, theApp.GetMenuIcon(IDI_UNDO));
