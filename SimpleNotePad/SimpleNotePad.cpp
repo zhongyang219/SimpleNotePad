@@ -232,14 +232,12 @@ void CSimpleNotePadApp::GetStringList(LPCTSTR app_name, LPCTSTR key_name, std::v
     }
 }
 
-void CSimpleNotePadApp::WriteMarshalObj(LPCTSTR app_name, LPCTSTR key_name, const dakuang::Marshallable& obj)
+void CSimpleNotePadApp::WriteBinary(LPCTSTR app_name, LPCTSTR key_name, std::string binary_data)
 {
-    std::string stream;
-    Object2String(obj, stream);
-    WriteProfileBinary(app_name, key_name, (LPBYTE)stream.c_str(), stream.size());
+    WriteProfileBinary(app_name, key_name, (LPBYTE)binary_data.c_str(), binary_data.size());
 }
 
-void CSimpleNotePadApp::GetMarshalObj(LPCTSTR app_name, LPCTSTR key_name, dakuang::Marshallable& obj)
+std::string CSimpleNotePadApp::GetBinary(LPCTSTR app_name, LPCTSTR key_name)
 {
     LPBYTE buff;
     UINT length{};
@@ -247,6 +245,23 @@ void CSimpleNotePadApp::GetMarshalObj(LPCTSTR app_name, LPCTSTR key_name, dakuan
     {
         std::string str_read((const char*)buff, length);
         delete[] buff;
+        return str_read;
+    }
+    return std::string();
+}
+
+void CSimpleNotePadApp::WriteMarshalObj(LPCTSTR app_name, LPCTSTR key_name, const dakuang::Marshallable& obj)
+{
+    std::string stream;
+    Object2String(obj, stream);
+    WriteBinary(app_name, key_name, stream);
+}
+
+void CSimpleNotePadApp::GetMarshalObj(LPCTSTR app_name, LPCTSTR key_name, dakuang::Marshallable& obj)
+{
+    std::string str_read = GetBinary(app_name, key_name);
+    if (!str_read.empty())
+    {
         String2Object(str_read, obj);
     }
 }

@@ -10,6 +10,7 @@
 #include <set>
 #include <map>
 #include <iterator>
+#include <deque>
 
 namespace dakuang
 {
@@ -396,6 +397,20 @@ namespace dakuang
     inline const SimpleUnpack& operator >> (const SimpleUnpack& up, std::set<T>& set)
     {
         unmarshal_container(up, std::inserter(set, set.begin()));
+        return up;
+    }
+
+    template <class T>
+    inline SimplePack& operator << (SimplePack& p, const std::deque<T>& deque)
+    {
+        marshal_container(p, deque);
+        return p;
+    }
+
+    template <class T>
+    inline const SimpleUnpack& operator >> (const SimpleUnpack& up, std::deque<T>& deque)
+    {
+        unmarshal_container(up, std::inserter(deque, deque.begin()));
         return up;
     }
 

@@ -371,12 +371,21 @@ void CSimpleNotePadDlg::SaveConfig() const
 {
     CBaseDialog::SaveConfig();
     theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
+    SimplePack pack;
+    pack << m_clipboard_items;
+    theApp.WriteProfileBinary(L"config", L"clipboard_items", (LPBYTE)pack.data(), pack.size());
 }
 
 void CSimpleNotePadDlg::LoadConfig()
 {
     CBaseDialog::LoadConfig();
     m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
+    std::string clipboard_items = theApp.GetBinary(L"config", L"clipboard_items");
+    if (!clipboard_items.empty())
+    {
+        SimpleUnpack unpack(clipboard_items.c_str(), clipboard_items.size());
+        unpack >> m_clipboard_items;
+    }
 }
 
 bool CSimpleNotePadDlg::SaveInquiry(LPCTSTR info, int* prtn)
@@ -1192,6 +1201,8 @@ BOOL CSimpleNotePadDlg::OnInitDialog()
     SetAlwaysOnTop();
 
     InitMenuIcon();
+
+    InitClipboardHistoryMenu();
 
     //初始化查找替换对话框
     m_find_replace_dlg.Create(this);
