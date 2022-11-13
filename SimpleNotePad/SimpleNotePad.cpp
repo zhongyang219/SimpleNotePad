@@ -353,6 +353,7 @@ void CSimpleNotePadApp::LoadConfig()
     m_edit_settings_data.mark_matched_html_mark = (GetProfileInt(_T("config"), _T("mark_matched_html_mark"), 1) != 0);
     m_edit_settings_data.brackets_auto_comp = (GetProfileInt(_T("config"), _T("brackets_auto_comp"), 1) != 0);
     m_edit_settings_data.html_mark_auto_comp = (GetProfileInt(_T("config"), _T("html_mark_auto_comp"), 1) != 0);
+    m_edit_settings_data.remember_clipboard_history = (GetProfileInt(_T("config"), _T("remember_clipboard_history"), 0) != 0);
 
     //十六进制查看器
     m_edit_settings_data.font_name_hex = GetProfileString(_T("hex_editor"), _T("font_name"), _T("Consolas"));
@@ -396,6 +397,7 @@ void CSimpleNotePadApp::SaveConfig()
     WriteProfileInt(_T("config"), _T("mark_matched_html_mark"), m_edit_settings_data.mark_matched_html_mark);
     WriteProfileInt(_T("config"), _T("brackets_auto_comp"), m_edit_settings_data.brackets_auto_comp);
     WriteProfileInt(_T("config"), _T("html_mark_auto_comp"), m_edit_settings_data.html_mark_auto_comp);
+    WriteProfileInt(_T("config"), _T("remember_clipboard_history"), m_edit_settings_data.remember_clipboard_history);
 
     //十六进制查看器
     WriteProfileString(_T("hex_editor"), _T("font_name"), m_edit_settings_data.font_name_hex);

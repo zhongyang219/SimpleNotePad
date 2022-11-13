@@ -159,8 +159,11 @@
 #define IDD_LANGUAGE_SETTING_DIALOG     207
 #define IDR_RESTORE_DEFAULT_MENU        210
 #define IDI_RELOAD                      211
-#define IDI_ICON2                       212
 #define IDI_HELP                        212
+#define IDI_MARK                        213
+#define IDI_DATE_TIME                   214
+#define IDI_ICON2                       215
+#define IDI_COMMENT                     215
 #define IDC_EDIT1                       1000
 #define IDC_FONE_NAME_EDIT              1000
 #define IDC_HEX_EDIT                    1001
@@ -284,6 +287,7 @@
 #define IDC_TEXT_COLOR_STATIC           1103
 #define IDC_USER_EXT_EDIT               1104
 #define IDC_RESTORE_DEFAULT_BUTTON      1105
+#define IDC_REMEMBER_CLIPBOARD_HISTORY_CHECK 1106
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -428,9 +432,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        213
+#define _APS_NEXT_RESOURCE_VALUE        216
 #define _APS_NEXT_COMMAND_VALUE         33060
-#define _APS_NEXT_CONTROL_VALUE         1106
+#define _APS_NEXT_CONTROL_VALUE         1107
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

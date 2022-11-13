@@ -371,20 +371,32 @@ void CSimpleNotePadDlg::SaveConfig() const
 {
     CBaseDialog::SaveConfig();
     theApp.WriteProfileInt(L"config", L"always_on_top", m_always_on_top);
-    SimplePack pack;
-    pack << m_clipboard_items;
-    theApp.WriteProfileBinary(L"config", L"clipboard_items", (LPBYTE)pack.data(), pack.size());
+
+    if (theApp.GetEditSettings().remember_clipboard_history)
+    {
+        SimplePack pack;
+        pack << m_clipboard_items;
+        theApp.WriteProfileBinary(L"config", L"clipboard_items", (LPBYTE)pack.data(), pack.size());
+    }
+    else
+    {
+        theApp.WriteProfileBinary(L"config", L"clipboard_items", nullptr, 0);
+    }
 }
 
 void CSimpleNotePadDlg::LoadConfig()
 {
     CBaseDialog::LoadConfig();
     m_always_on_top = (theApp.GetProfileInt(_T("config"), _T("always_on_top"), 0) != 0);
-    std::string clipboard_items = theApp.GetBinary(L"config", L"clipboard_items");
-    if (!clipboard_items.empty())
+
+    if (theApp.GetEditSettings().remember_clipboard_history)
     {
-        SimpleUnpack unpack(clipboard_items.c_str(), clipboard_items.size());
-        unpack >> m_clipboard_items;
+        std::string clipboard_items = theApp.GetBinary(L"config", L"clipboard_items");
+        if (!clipboard_items.empty())
+        {
+            SimpleUnpack unpack(clipboard_items.c_str(), clipboard_items.size());
+            unpack >> m_clipboard_items;
+        }
     }
 }
 
@@ -755,10 +767,14 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_REPLACE, FALSE, theApp.GetMenuIcon(IDI_REPLACE));
     CMenuIcon::AddIconToMenuItem(menu, ID_FIND_PRIVIOUS, FALSE, theApp.GetMenuIcon(IDI_PREVIOUS));
     CMenuIcon::AddIconToMenuItem(menu, ID_FIND_NEXT, FALSE, theApp.GetMenuIcon(IDI_NEXT));
+    CMenuIcon::AddIconToMenuItem(menu, ID_MARK_ALL, FALSE, theApp.GetMenuIcon(IDI_MARK));
     CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_SELECT_ALL, FALSE, theApp.GetMenuIcon(IDI_SELECT_ALL));
+    CMenuIcon::AddIconToMenuItem(menu, ID_EDIT_TIME_DATE, FALSE, theApp.GetMenuIcon(IDI_DATE_TIME));
+    CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(1)->GetSafeHmenu(), 17, TRUE, theApp.GetMenuIcon(IDI_CAPITAL));
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_CAPITAL, FALSE, theApp.GetMenuIcon(IDI_FONT));
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_LOWER_CASE, FALSE, theApp.GetMenuIcon(IDI_LOWER_CASE));
     CMenuIcon::AddIconToMenuItem(menu, ID_CONVERT_TO_TITLE_CASE, FALSE, theApp.GetMenuIcon(IDI_CAPITAL));
+    CMenuIcon::AddIconToMenuItem(menu, ID_ADD_DELETE_COMMENT, FALSE, theApp.GetMenuIcon(IDI_COMMENT));
     CMenuIcon::AddIconToMenuItem(menu, ID_FORMAT_FONT, FALSE, theApp.GetMenuIcon(IDI_FONT));
     CMenuIcon::AddIconToMenuItem(GetMenu()->GetSubMenu(3)->GetSafeHmenu(), 7, TRUE, theApp.GetMenuIcon(IDI_LANGUAGE));
     if (!CWinVersionHelper::IsWindows7OrLater())
@@ -781,9 +797,11 @@ void CSimpleNotePadDlg::InitMenuIcon()
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_PASTE, FALSE, theApp.GetMenuIcon(IDI_PASTE));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSubMenu(0)->GetSafeHmenu(), 6, TRUE, theApp.GetMenuIcon(IDI_CLIPBOARD));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_EDIT_SELECT_ALL, FALSE, theApp.GetMenuIcon(IDI_SELECT_ALL));
+    CMenuIcon::AddIconToMenuItem(m_context_menu.GetSubMenu(0)->GetSafeHmenu(), 9, TRUE, theApp.GetMenuIcon(IDI_CAPITAL));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_CONVERT_TO_CAPITAL, FALSE, theApp.GetMenuIcon(IDI_FONT));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_CONVERT_TO_LOWER_CASE, FALSE, theApp.GetMenuIcon(IDI_LOWER_CASE));
     CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_CONVERT_TO_TITLE_CASE, FALSE, theApp.GetMenuIcon(IDI_CAPITAL));
+    CMenuIcon::AddIconToMenuItem(m_context_menu.GetSafeHmenu(), ID_ADD_DELETE_COMMENT, FALSE, theApp.GetMenuIcon(IDI_COMMENT));
 }
 
 void CSimpleNotePadDlg::AddItemToClipboardHistory(const std::wstring& str)
@@ -1379,20 +1397,13 @@ void CSimpleNotePadDlg::OnFileSaveAs()
 void CSimpleNotePadDlg::OnFormatFont()
 {
     // TODO: 在此添加命令处理程序代码
-    LOGFONT lf{ 0 };             //LOGFONT变量
-    //m_font.GetLogFont(&lf);
-    _tcscpy_s(lf.lfFaceName, LF_FACESIZE, theApp.GetEditSettings().font_name.GetString());	//将lf中的元素字体名设为“微软雅黑”
+    LOGFONT lf{ 0 };
+    _tcscpy_s(lf.lfFaceName, LF_FACESIZE, theApp.GetEditSettings().font_name.GetString());	//设置字体名称
     lf.lfHeight = CCommon::FontSizeToLfHeight(theApp.GetEditSettings().font_size);
     CFontDialog fontDlg(&lf);	//构造字体对话框，初始选择字体为之前字体
+    fontDlg.m_cf.Flags &= ~CF_EFFECTS;      //不显示删除线、下划线和文本颜色选项的控件
     if (IDOK == fontDlg.DoModal())     // 显示字体对话框
     {
-        ////如果m_font已经关联了一个字体资源对象，则释放它
-        //if (m_font.m_hObject)
-        //{
-        //	m_font.DeleteObject();
-        //}
-        //使用选定字体的LOGFONT创建新的字体
-        //m_font.CreateFontIndirect(fontDlg.m_cf.lpLogFont);
         //获取字体信息
         auto edit_settings = theApp.GetEditSettings();
         edit_settings.font_name = fontDlg.m_cf.lpLogFont->lfFaceName;

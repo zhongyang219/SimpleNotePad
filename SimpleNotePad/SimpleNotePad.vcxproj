@@ -317,9 +317,11 @@
     <Image Include="res\clipboard.ico" />
     <Image Include="res\code.ico" />
     <Image Include="res\code_batch.ico" />
+    <Image Include="res\comment.ico" />
     <Image Include="res\compare.ico" />
     <Image Include="res\copy.ico" />
     <Image Include="res\cut.ico" />
+    <Image Include="res\date_time.ico" />
     <Image Include="res\donate.bmp" />
     <Image Include="res\donate_wechat.bmp" />
     <Image Include="res\exit.ico" />
@@ -331,6 +333,7 @@
     <Image Include="res\hex_view.ico" />
     <Image Include="res\language.ico" />
     <Image Include="res\lower_case.ico" />
+    <Image Include="res\mark.ico" />
     <Image Include="res\new.ico" />
     <Image Include="res\new_window.ico" />
     <Image Include="res\next.ico" />

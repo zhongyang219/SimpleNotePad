@@ -84,7 +84,7 @@ void SettingsData::unmarshal(const SimpleUnpack& su)
 
 void EditSettingData::marshal(SimplePack& sp) const
 {
-    sp << 1
+    sp << 2
         << current_line_highlight
         << static_cast<uint32_t>(current_line_highlight_color)
         << static_cast<uint32_t>(background_color)
@@ -102,6 +102,7 @@ void EditSettingData::marshal(SimplePack& sp) const
         << std::wstring(font_name_hex.GetString())
         << font_size_hex
         << show_invisible_characters_hex
+        << remember_clipboard_history
         ;
 }
 
@@ -136,5 +137,6 @@ void EditSettingData::unmarshal(const SimpleUnpack& su)
     font_name_hex = _font_name_hex.c_str();
     su >> font_size_hex;
     su >> show_invisible_characters_hex;
-
+    if (version >= 0)
+        su >> remember_clipboard_history;
 }

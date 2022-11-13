@@ -66,6 +66,8 @@ BOOL CEditSettingsDlg::OnInitDialog()
     m_tab_width_edit.SetRange(1, 16);
     m_tab_width_edit.SetValue(m_data.tab_width);
 
+    CheckDlgButton(IDC_REMEMBER_CLIPBOARD_HISTORY_CHECK, m_data.remember_clipboard_history);
+
     CheckDlgButton(IDC_SHOW_INDENTATION_GUIDE_CHECK, m_data.show_indentation_guides);
     CheckDlgButton(IDC_MARK_SAME_WORD_CHECK, m_data.mark_same_words);
     CheckDlgButton(IDC_MARK_MATCHED_BRACKETS_CHECK, m_data.mark_matched_brackets);
@@ -89,6 +91,7 @@ void CEditSettingsDlg::OnOK()
     GetDlgItemText(IDC_FONE_NAME_EDIT, m_data.font_name);
     m_data.font_size = m_font_size_edit.GetValue();
     m_data.tab_width = m_tab_width_edit.GetValue();
+    m_data.remember_clipboard_history = (IsDlgButtonChecked(IDC_REMEMBER_CLIPBOARD_HISTORY_CHECK) != 0);
     m_data.show_indentation_guides = (IsDlgButtonChecked(IDC_SHOW_INDENTATION_GUIDE_CHECK) != 0);
     m_data.mark_same_words = (IsDlgButtonChecked(IDC_MARK_SAME_WORD_CHECK) != 0);
     m_data.mark_matched_brackets = (IsDlgButtonChecked(IDC_MARK_MATCHED_BRACKETS_CHECK) != 0);

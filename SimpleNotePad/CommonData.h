@@ -91,6 +91,8 @@ struct EditSettingData : public Marshallable
     int font_size{ 9 };		//字体大小
     int tab_width{ 4 };     //制表符宽度
     bool show_indentation_guides{};
+    bool remember_clipboard_history{};  //在程序退出后记住剪贴板历史记录
+
     bool show_auto_comp_list{}; //显示自动完成列表
     bool mark_same_words;           //标记相同的单词
     bool mark_matched_brackets{};   //标记匹配的括号

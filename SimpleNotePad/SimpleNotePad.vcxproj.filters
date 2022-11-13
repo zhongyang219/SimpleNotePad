@@ -553,6 +553,15 @@
     <Image Include="res\help.ico">
       <Filter>资源文件\icon</Filter>
     </Image>
+    <Image Include="res\mark.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\comment.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
+    <Image Include="res\date_time.ico">
+      <Filter>资源文件\icon</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="lang.xml" />
