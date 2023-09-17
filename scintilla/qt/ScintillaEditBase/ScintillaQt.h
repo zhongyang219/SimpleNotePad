@@ -1,4 +1,4 @@
-//
+﻿//
 //          Copyright (c) 1990-2011, Scientific Toolworks, Inc.
 //
 // The License.txt file describes the conditions under which this software may be distributed.
@@ -136,7 +136,7 @@ private:
 	std::string CaseMapString(const std::string &s, int caseMapping) override;
 
 	void CreateCallTipWindow(PRectangle rc) override;
-	void AddToPopUp(const char *label, int cmd = 0, bool enabled = true) override;
+    void AddToPopUp(const wchar_t *label, int cmd = 0, bool enabled = true) override;
 	sptr_t WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) override;
 	sptr_t DefWndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) override;
 

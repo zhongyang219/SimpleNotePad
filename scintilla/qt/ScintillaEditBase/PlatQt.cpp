@@ -1,4 +1,4 @@
-//
+﻿//
 //          Copyright (c) 1990-2011, Scientific Toolworks, Inc.
 //
 // The License.txt file describes the conditions under which this software may be distributed.
@@ -541,7 +541,7 @@ void SurfaceImpl::MeasureWidths(Font &font,
 	}
 }
 
-XYPOSITION SurfaceImpl::WidthText(Font &font, std::string_view text)
+XYPOSITION SurfaceImpl::WidthText(const Font &font, std::string_view text)
 {
 	QFontMetricsF metrics(*FontPointer(font), device);
 	SetCodec(font);

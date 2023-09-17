@@ -1,4 +1,4 @@
-//
+﻿//
 //          Copyright (c) 1990-2011, Scientific Toolworks, Inc.
 //
 // The License.txt file describes the conditions under which this software may be distributed.
@@ -120,7 +120,7 @@ public:
 		std::string_view text, ColourDesired fore) override;
 	void MeasureWidths(Font &font, std::string_view text,
 		XYPOSITION *positions) override;
-	XYPOSITION WidthText(Font &font, std::string_view text) override;
+    XYPOSITION WidthText(const Font &font, std::string_view text) override;
 	XYPOSITION Ascent(Font &font) override;
 	XYPOSITION Descent(Font &font) override;
 	XYPOSITION InternalLeading(Font &font) override;

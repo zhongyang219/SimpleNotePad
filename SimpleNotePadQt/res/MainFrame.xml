@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+界面xml文件说明：
+root节点：
+  xml文件唯一的根节点。
+  属性说明：
+    appName：程序的名称，用于显示在标题栏和右下角通知的默认标题。
+Page节点：
+  Page节点为主界面中的一个标签页，对应一个模块。
+  属性说明：
+    name：模块名，用于显示在标签页上。
+    modulePath：需要加载的模块的路径。（必须使用相对路径，不需要扩展名，框架会自动根据当前系统系统类型加载正确的动态库）
+Action节点：
+  Action节点用于设置模块标签页下工具栏中的命令、菜单下的命令，以及标签栏右上角的命令。
+  属性说明：
+    name：用于显示在工具栏中命令的名称。
+    icon：用于显示在工具栏中命令的图标的路径。
+    id：命令的ID，用于在程序中响应命令、设置命令状态时需要用到的ID。注意：即使在不同模块中，每个命令的ID也必须是唯一的。
+    checkable：设置此命令是否可以被选中。
+    tip：设置鼠标指向此命令时的鼠标提示。
+    radioGroup：命令组号，用于设置此命令是否要和其他命令组成一组单选按钮，也就是说，处于同一个命令组的命令，一次只会有一个命令被选中。注意：即使在不同模块中，不同命令组的ID也不能相同。
+    shortcut：执行此命令的快捷键
+    smallIcon：是否为小图标，如果为true，则若干个连续的小图标会在工具栏中垂直排列以节省空间。
+    btnStyle：命令的风格，可以为以下值之一：
+      compact：紧凑按钮，文本显示在图标旁边，效果同smallIcon为true。
+      textOnly：仅文本，即使指定了icon属性也不显示图标。
+      iconOnly：仅图标，不显示文本。
+    
+Separator节点：
+  显示在工具栏中的分隔符。
+
+Menu节点：
+  在工具栏中显示一个有下拉菜单的按钮
+  属性说明：
+    name：菜单按钮的名称
+    icon：菜单按钮的图标
+    menuBtn：如果为true，此按钮显示为按钮和箭头两部分，点击按钮部分响应命令，点击箭头部分显示下拉菜单。如果为false，则此按钮只有一个部分，点击后直接显示下拉菜单。
+    id：命令id，当menuBtn为true时有效
+    smallIcon：同Action节点
+    btnStyle：同Action节点
+  Menu节点下面可以包含Action节点、Separator节点和其他控件节点，也可以嵌套Menu节点。
+
+SystemMenu节点
+  显示在界面左上角按钮，点击后会弹出系统菜单
+  属性说明：
+    name:按钮上的文本
+  SystemMenu节点下面可以包含Action和Separator节点。
+
+QuickAccessBar节点
+  显示在界面左上角的快速启动栏，子节点可以是Action节点、Separator节点、Menu节点。
+
+Label节点
+  添加一个QLabel对象。
+LineEdit节点
+  添加一个QLineEdit对象。
+  属性说明：
+    editable：是否可以编辑。未指定时为true
+TextEdit/Edit节点
+  添加一个QTextEdit对象。
+  属性说明：
+    editable：是否可以编辑。未指定时为true
+ComboBox节点
+  添加一个QComboBox对象。
+  属性说明：
+    editable：是否可以编辑。未指定时为false
+CheckBox节点
+  添加一个QCheckBox对象。
+RadioButton节点
+  添加一个QRadioButton对象。
+  属性说明：
+    radioGroup：设置QRadioButton所在组，具有相同radioGroup值的RadioButton为同一组。
+ListWidget节点
+  添加一个QListWidget对象。
+  属性说明：
+    horizontalArrange：如果为true，则ListWidget中的项目为水平排列。
+UserWidget节点
+  添加一个用户自定义控件。
+  当框架需要创建此控件时，会调用对应IModule接口中的CreateRibbonWidget函数，模块需要在此函数中根据id创建自定义控件，并返回控件的指针。
+
+ActionGroup节点
+  将若干个Action和其他控件添加到一个组中
+  属性说明：
+    name：组的名称。
+
+-->
+
+<root>
+    <!-- 右上角命令 -->
+    <Action name="设置" icon="://res/Image/settings.png" id="Settings"/>
+    <Menu name="主题" icon="://res/Image/select_all.png" id="Theme" btnStyle="compact">
+        <Action name="默认主题" id="DefaultStyle" checkable="true"/>
+    </Menu>
+    <Menu name="帮助" icon="://res/Image/help1.png" id="Help">
+        <Action name="关于" id="AppAbout"/>
+        <Action name="关于Qt" id="AppAboutQt"/>
+    </Menu>
+    <!-- 主菜单 -->
+    <SystemMenu name="文件">
+        <Action name="新建" icon="://res/Image/new.png" id="FileNew"/>
+        <Action name="新窗口" icon="://res/Image/new_window.png" id="FileNewWindow"/>
+        <Action name="打开" icon="://res/Image/open.png" id="FileOpen"/>
+        <Action name="保存" icon="://res/Image/save.png" id="FileSave"/>
+        <Action name="另存为" icon="://res/Image/save_as.png" id="FileSaveAs"/>
+        <Action name="重新加载" icon="://res/Image/reload.png" id="FileReload"/>
+        <Action name="打开文件位置" icon="://res/Image/explore.png" id="FileExplore"/>
+        <Separator/>
+        <Action name="退出" id="AppExit" icon="://res/Image/exit.png"/>
+    </SystemMenu>
+    <!-- Ribbin标签 -->
+    <Page name="编辑">
+        <ActionGroup name="剪贴板">
+            <Action name="粘贴" icon="://res/Image/paste.png" id="EditPaste"/>
+            <Action name="剪切" icon="://res/Image/cut.png" id="EditCut" smallIcon="true"/>
+            <Action name="复制" icon="://res/Image/copy.png" id="EditCopy" smallIcon="true"/>
+        </ActionGroup>
+        <ActionGroup name="编辑">
+            <Action name="撤消" icon="://res/Image/undo.png" id="EditUndo" smallIcon="true"/>
+            <Action name="重做" icon="://res/Image/redo.png" id="EditRedo" smallIcon="true"/>
+            <Action name="标记全部/清除" icon="://res/Image/mark.png" id="EditMarkAll" smallIcon="true"/>
+            <Action name="添加/删除注释" icon="://res/Image/comment.png" id="EditAddRemoveComment" smallIcon="true"/>
+            <Action name="全选" icon="://res/Image/select_all.png" id="EditSelectAll" smallIcon="true"/>
+            <Action name="转到行..." icon="://res/Image/" id="EditGoToLine" smallIcon="true"/>
+            <Menu name="大小写转换" icon="://res/Image/capital.png">
+                <Action name="转换为大写" icon="://res/Image/font.png" id="EditCapitalCase"/>
+                <Action name="转换为小写" icon="://res/Image/lower_case.png" id="EditLowerCase"/>
+                <Action name="转换为首字母大写" icon="://res/Image/capital.png" id="EditTitalCase"/>
+            </Menu>
+        </ActionGroup>
+        <ActionGroup name="查找替换">
+            <Action name="查找" icon="://res/Image/find.png" id="EditFind"/>
+            <Action name="查找上一个" icon="://res/Image/previous.png" id="EditFindPrevious" smallIcon="true"/>
+            <Action name="查找下一个" icon="://res/Image/next.png" id="EditFindNext" smallIcon="true"/>
+            <Action name="替换" icon="://res/Image/replace.png" id="EditReplace"/>
+        </ActionGroup>
+        <ActionGroup name="插入">
+            <Action name="时间日期" icon="://res/Image/date_time.png" id="EditDateTime" smallIcon="true"/>
+        </ActionGroup>
+    </Page>
+
+    <Page name="编码">
+        <Action name="ANSI" id="CodeAnsi" checkable="true" radioGroup="1" smallIcon="true"/>
+        <Action name="UTF8" id="CodeUtf8" checkable="true" radioGroup="1" smallIcon="true"/>
+        <Action name="UTF16" id="CodeUtf16" checkable="true" radioGroup="1" smallIcon="true"/>
+        <Action name="UTF16 Big Ending" id="CodeUtf16BigEnding" checkable="true" radioGroup="1" smallIcon="true"/>
+        <Menu name="编码字符集" icon="://res/Image/language.png">
+            <Action name="简体中文(GB2312)" id="CodePageChs" radioGroup="1"/>
+            <Action name="繁体中文(Big5)" id="CodePageCht" radioGroup="1"/>
+            <Action name="日文(Shift-JIS)" id="CodePageJp" radioGroup="1"/>
+            <Action name="西欧语言 (Windows)" id="CodePageEn" radioGroup="1"/>
+            <Action name="韩文" id="CodePageKor" radioGroup="1"/>
+            <Action name="泰文" id="CodePageThai" radioGroup="1"/>
+            <Action name="越南文" id="CodePageViet" radioGroup="1"/>
+            <Separator/>
+            <Action name="手动指定代码页" id="CodeSpecifyCodePage"/>
+        </Menu>
+        <Menu name="转换为" icon="://res/Image/code.png">
+            <Action name="ANSI" id="CodeConvertToAnsi"/>
+            <Action name="UTF-8 BOM" id="CodeConvertToUtf8Bom"/>
+            <Action name="UTF-8无BOM" id="CodeConvertToUtf8WithoutBom"/>
+            <Action name="UTF-16" id="CodeConvertToUtf16"/>
+            <Action name="UTF-16 Big Ending" id="CodeConvertToUtf16Be"/>
+        </Menu>
+    </Page>
+
+    <!-- 其他插件，不关联现有标签页 -->
+    <Plugins>
+            <Plugin path="StylePlugin"/>
+    </Plugins>
+</root>
