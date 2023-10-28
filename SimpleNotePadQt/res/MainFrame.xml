@@ -86,63 +86,74 @@ ActionGroup节点
 
 <root>
     <!-- 右上角命令 -->
-    <Action name="设置" icon="://res/Image/settings.png" id="Settings"/>
-    <Menu name="主题" icon="://res/Image/select_all.png" id="Theme" btnStyle="compact">
+    <Action name="设置" icon=":/res/Image/settings.png" id="Settings" shortcut="Ctrl+I"/>
+    <Menu name="主题" icon=":/res/Image/theme.png" id="Theme" btnStyle="compact">
         <Action name="默认主题" id="DefaultStyle" checkable="true"/>
     </Menu>
-    <Menu name="帮助" icon="://res/Image/help1.png" id="Help">
+    <Menu name="帮助" icon=":/res/Image/help1.png" id="Help">
+        <Action name="帮助" id="AppHelp" icon=":/res/Image/help.png" shortcut="F1"/>
         <Action name="关于" id="AppAbout"/>
         <Action name="关于Qt" id="AppAboutQt"/>
     </Menu>
     <!-- 主菜单 -->
     <SystemMenu name="文件">
-        <Action name="新建" icon="://res/Image/new.png" id="FileNew"/>
-        <Action name="新窗口" icon="://res/Image/new_window.png" id="FileNewWindow"/>
-        <Action name="打开" icon="://res/Image/open.png" id="FileOpen"/>
-        <Action name="保存" icon="://res/Image/save.png" id="FileSave"/>
-        <Action name="另存为" icon="://res/Image/save_as.png" id="FileSaveAs"/>
-        <Action name="重新加载" icon="://res/Image/reload.png" id="FileReload"/>
-        <Action name="打开文件位置" icon="://res/Image/explore.png" id="FileExplore"/>
+        <Action name="新建" icon=":/res/Image/new.png" id="FileNew" shortcut="Ctrl+N"/>
+        <Action name="新窗口" icon=":/res/Image/new_window.png" id="FileNewWindow" shortcut="Ctrl+Shift+N"/>
+        <Action name="打开" icon=":/res/Image/open.png" id="FileOpen" shortcut="Ctrl+O"/>
+        <Action name="保存" icon=":/res/Image/save.png" id="FileSave" shortcut="Ctrl+S"/>
+        <Action name="另存为" icon=":/res/Image/save_as.png" id="FileSaveAs" shortcut="Ctrl+Shift+I"/>
+        <Action name="重新加载" icon=":/res/Image/reload.png" id="FileReload" shortcut="Ctrl+R"/>
+        <Action name="打开文件位置" icon=":/res/Image/explore.png" id="FileExplore" shortcut="Ctrl+B"/>
         <Separator/>
-        <Action name="退出" id="AppExit" icon="://res/Image/exit.png"/>
+        <Action name="退出" id="AppExit" icon=":/res/Image/exit.png" shortcut="Ctrl+W"/>
     </SystemMenu>
+    <!-- 快速启动栏 -->
+    <QuickAccessBar>
+        <Action name="保存" icon=":/res/Image/save.png" id="FileSave" shortcut="Ctrl+S"/>
+        <Action name="撤消" icon=":/res/Image/undo.png" id="EditUndo"/>
+        <Action name="重做" icon=":/res/Image/redo.png" id="EditRedo"/>
+    </QuickAccessBar>
+
     <!-- Ribbin标签 -->
     <Page name="编辑">
         <ActionGroup name="剪贴板">
-            <Action name="粘贴" icon="://res/Image/paste.png" id="EditPaste"/>
-            <Action name="剪切" icon="://res/Image/cut.png" id="EditCut" smallIcon="true"/>
-            <Action name="复制" icon="://res/Image/copy.png" id="EditCopy" smallIcon="true"/>
+            <Action name="粘贴" icon=":/res/Image/paste.png" id="EditPaste"/>
+            <Action name="剪切" icon=":/res/Image/cut.png" id="EditCut" smallIcon="true"/>
+            <Action name="复制" icon=":/res/Image/copy.png" id="EditCopy" smallIcon="true"/>
         </ActionGroup>
         <ActionGroup name="编辑">
-            <Action name="撤消" icon="://res/Image/undo.png" id="EditUndo" smallIcon="true"/>
-            <Action name="重做" icon="://res/Image/redo.png" id="EditRedo" smallIcon="true"/>
-            <Action name="标记全部/清除" icon="://res/Image/mark.png" id="EditMarkAll" smallIcon="true"/>
-            <Action name="添加/删除注释" icon="://res/Image/comment.png" id="EditAddRemoveComment" smallIcon="true"/>
-            <Action name="全选" icon="://res/Image/select_all.png" id="EditSelectAll" smallIcon="true"/>
-            <Action name="转到行..." icon="://res/Image/" id="EditGoToLine" smallIcon="true"/>
-            <Menu name="大小写转换" icon="://res/Image/capital.png">
-                <Action name="转换为大写" icon="://res/Image/font.png" id="EditCapitalCase"/>
-                <Action name="转换为小写" icon="://res/Image/lower_case.png" id="EditLowerCase"/>
-                <Action name="转换为首字母大写" icon="://res/Image/capital.png" id="EditTitalCase"/>
+            <Action name="撤消" icon=":/res/Image/undo.png" id="EditUndo" smallIcon="true"/>
+            <Action name="重做" icon=":/res/Image/redo.png" id="EditRedo" smallIcon="true"/>
+            <Action name="标记全部/清除" icon=":/res/Image/mark.png" id="EditMarkAll" smallIcon="true"/>
+            <Action name="添加/删除注释" icon=":/res/Image/comment.png" id="EditAddRemoveComment" smallIcon="true"/>
+            <Action name="全选" icon=":/res/Image/select_all.png" id="EditSelectAll" smallIcon="true"/>
+            <Action name="转到行..." id="EditGoToLine" smallIcon="true"/>
+            <Menu name="大小写转换" icon=":/res/Image/capital.png">
+                <Action name="转换为大写" icon=":/res/Image/font.png" id="EditCapitalCase"/>
+                <Action name="转换为小写" icon=":/res/Image/lower_case.png" id="EditLowerCase"/>
+                <Action name="转换为首字母大写" icon=":/res/Image/capital.png" id="EditTitalCase"/>
             </Menu>
         </ActionGroup>
         <ActionGroup name="查找替换">
-            <Action name="查找" icon="://res/Image/find.png" id="EditFind"/>
-            <Action name="查找上一个" icon="://res/Image/previous.png" id="EditFindPrevious" smallIcon="true"/>
-            <Action name="查找下一个" icon="://res/Image/next.png" id="EditFindNext" smallIcon="true"/>
-            <Action name="替换" icon="://res/Image/replace.png" id="EditReplace"/>
+            <Action name="查找" icon=":/res/Image/find.png" id="EditFind"/>
+            <Action name="查找上一个" icon=":/res/Image/previous.png" id="EditFindPrevious" smallIcon="true"/>
+            <Action name="查找下一个" icon=":/res/Image/next.png" id="EditFindNext" smallIcon="true"/>
+            <Action name="替换" icon=":/res/Image/replace.png" id="EditReplace"/>
         </ActionGroup>
         <ActionGroup name="插入">
-            <Action name="时间日期" icon="://res/Image/date_time.png" id="EditDateTime" smallIcon="true"/>
+            <Action name="时间日期" icon=":/res/Image/date_time.png" id="EditDateTime" smallIcon="true"/>
         </ActionGroup>
     </Page>
 
     <Page name="编码">
-        <Action name="ANSI" id="CodeAnsi" checkable="true" radioGroup="1" smallIcon="true"/>
-        <Action name="UTF8" id="CodeUtf8" checkable="true" radioGroup="1" smallIcon="true"/>
-        <Action name="UTF16" id="CodeUtf16" checkable="true" radioGroup="1" smallIcon="true"/>
-        <Action name="UTF16 Big Ending" id="CodeUtf16BigEnding" checkable="true" radioGroup="1" smallIcon="true"/>
-        <Menu name="编码字符集" icon="://res/Image/language.png">
+        <ActionGroup name="编码格式">
+            <RadioButton name="ANSI" id="CodeAnsi" checkable="true" radioGroup="1"/>
+            <RadioButton name="UTF8" id="CodeUtf8" checkable="true" radioGroup="1"/>
+            <RadioButton name="UTF16" id="CodeUtf16" checkable="true" radioGroup="1"/>
+            <RadioButton name="UTF16 Big Ending" id="CodeUtf16BigEnding" checkable="true" radioGroup="1"/>
+        </ActionGroup>
+<!--
+        <Menu name="编码字符集" icon=":/res/Image/language.png">
             <Action name="简体中文(GB2312)" id="CodePageChs" radioGroup="1"/>
             <Action name="繁体中文(Big5)" id="CodePageCht" radioGroup="1"/>
             <Action name="日文(Shift-JIS)" id="CodePageJp" radioGroup="1"/>
@@ -153,7 +164,8 @@ ActionGroup节点
             <Separator/>
             <Action name="手动指定代码页" id="CodeSpecifyCodePage"/>
         </Menu>
-        <Menu name="转换为" icon="://res/Image/code.png">
+-->
+        <Menu name="转换为" icon=":/res/Image/code.png">
             <Action name="ANSI" id="CodeConvertToAnsi"/>
             <Action name="UTF-8 BOM" id="CodeConvertToUtf8Bom"/>
             <Action name="UTF-8无BOM" id="CodeConvertToUtf8WithoutBom"/>
@@ -161,6 +173,49 @@ ActionGroup节点
             <Action name="UTF-16 Big Ending" id="CodeConvertToUtf16Be"/>
         </Menu>
     </Page>
+
+    <Page name="格式">
+        <CheckBox name="自动换行" id="WordWrap"/>
+        <CheckBox name="显示行号" id="ShowLineNumber"/>
+        <CheckBox name="显示换行符" id="ShowReturnMark"/>
+        <Separator/>
+        <Menu name="换行符" smallIcon="true">
+            <Action name="CRLF" id="ReturnMarkCRLF" radioGroup="2"/>
+            <Action name="CR" id="ReturnMarkCR" radioGroup="2"/>
+            <Action name="LF" id="ReturnMarkLF" radioGroup="2"/>
+        </Menu>
+        <Menu name="自动换行模式" smallIcon="true">
+            <Action name="单词" id="WordWrapModeWord" radioGroup="3"/>
+            <Action name="字符" id="WordWrapModeCharactor" radioGroup="3"/>
+            <Action name="空格" id="WordWrapModeSpace" radioGroup="3"/>
+        </Menu>
+        <Action name="字体" id="FormatFont" icon=":/res/Image/font.png"/>
+        <Action name="语言" id="FormatLanguage" icon=":/res/Image/language.png"/>
+    </Page>
+
+    <Page name="查看">
+        <ActionGroup name="显示">
+            <Action name="总是置顶" id="AlwaysOnTop" icon=":/res/Image/pin.png" smallIcon="true" checkable="true"/>
+            <Action name="状态栏" id="ShowStatusBar" smallIcon="true" checkable="true"/>
+        </ActionGroup>
+        <ActionGroup name="缩放">
+            <Action name="放大" id="ZoomIn" icon=":/res/Image/zoom_in.png"/>
+            <Action name="缩小" id="ZoomOut" icon=":/res/Image/zoom_out.png"/>
+            <Action name="恢复默认缩放" id="ZoomDefault"/>
+        </ActionGroup>
+    </Page>
+
+    <Page name="工具">
+        <Action name="十六进制查看" id="HexView" icon=":/res/Image/hex_view.png" smallIcon="true"/>
+        <Action name="文件二进制比较" id="FileCompareBinary" icon=":/res/Image/compare.png" smallIcon="true"/>
+        <Action name="编码批量转换" id="CodeConvertBatch" icon=":/res/Image/code_batch.png" smallIcon="true"/>
+        <Action name="编码转换" id="CodeConvert" icon=":/res/Image/code.png" smallIcon="true"/>
+        <Separator/>
+        <CheckBox name="监视模式" id="MonitorMode"/>
+        <Action name="选项" id="Options" icon=":/res/Image/settings.png"/>
+
+    </Page>
+
 
     <!-- 其他插件，不关联现有标签页 -->
     <Plugins>

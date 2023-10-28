@@ -82,7 +82,7 @@ public:
 
     /**
      * @brief       向一个模块发送消息
-     * @param[in]	moduleName 模块名称
+     * @param[in]	moduleName 模块名称（如果为nullptr或空字符，则向所有模块发送）
      * @param[in]	msgType 消息类型
      * @param[in]	para1 para2 可选参数
      * @return      返回的消息
@@ -103,6 +103,18 @@ public:
      */
     virtual void* GetWidget(const char* strId) = 0;
 
+    /**
+     * @brief       从主窗口Ribbin工具栏获取一个菜单
+     * @param[in]	strId: 菜单的ID
+     * @return      菜单的QMenu指针
+     */
+    virtual void* GetMenu(const char* strId) = 0;
+
+    /**
+     * @brief       设置状态栏文本
+     * @param[in]	text 要设置的文本
+     * @param[in]	timeOut 文本显示的时长，单位为毫秒，0表示一直显示
+     */
     virtual void SetStatusBarText(const char* text, int timeOut) = 0;
 };
 

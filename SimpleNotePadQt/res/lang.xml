@@ -1,0 +1,513 @@
+﻿<SimpleNotepad>
+	<Language name="C" lexId="3" ext="c">
+		<Keywords id="0">auto break case char const continue default do double else enum extern float for goto if int long register return short signed sizeof static struct switch typedef union unsigned void volatile while inline restrict _Bool _Complex _Imaginary _Alignas _Alignof _Atomic _Static_assert _Noreturn _Thread_local _Generic</Keywords>
+    <Comment commentLine="//" commentStart="/*" commentEnd="*/"/>
+    <SyntaxList>
+			<Syntax name= "White space" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Line Comment" id="2" color="0xB840B" />
+			<Syntax name= "Doc comment" id="3" color="0x5A7F00" />
+			<Syntax name= "Number" id="4" color="0x153886" />
+			<Syntax name= "Keyword" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "Double quoted string" id="6" color="0x1515a3" />
+			<Syntax name= "Single quoted string" id="7" color="0x80" />
+			<Syntax name= "UUIDs (only in IDL)" id="8" color="0x73684a" />
+			<Syntax name= "Preprocessor" id="9" color="0x8a006f" />
+			<Syntax name= "Operators" id="10" color="0x8d1913" />
+			<Syntax name= "Identifiers" id="11" color="0x000000" />
+			<Syntax name= "End of line where string is not closed" id="12" color="0x2020e2" />
+			<Syntax name= "Verbatim strings for C#" id="13" color="0x96260a" />
+			<Syntax name= "Regular expressions for JavaScript" id="14" color="0xf97720" />
+			<Syntax name= "Doc Comment Line" id="15" color="0x638000" />
+			<Syntax name= "Keywords2" id="16" color="0xa17200" bold="1" italic="1" />
+			<Syntax name= "Comment keyword" id="17" color="0x907600" bold="1" />
+			<Syntax name= "Comment keyword error" id="18" color="0x655A2B" bold="1" />
+			<Syntax name= "Global class" id="19" color="0x808000" />
+			<Syntax name= "Raw strings for C++0x" id="20" color="0x1515a3" />
+			<Syntax name= "Triple-quoted strings for Vala" id="21" color="0x1515a3" />
+			<Syntax name= "Hash-quoted strings for Pike" id="22" color="0x1515a3" />
+			<Syntax name= "Preprocessor stream comment" id="23" color="0x6a7e01" />
+			<Syntax name= "Preprocessor stream doc comment" id="24" color="0x6a7e01" />
+			<Syntax name= "User defined literals" id="25" color="0x808000" />
+			<Syntax name= "Task Marker" id="26" color="0xC94B83" />
+			<Syntax name= "Escape sequence" id="27" color="0x000000" />
+		</SyntaxList>
+	</Language>
+	<Language name="C++" lexId="3" ext="h cpp cxx cc hxx hpp inl">
+		<Keywords id="0">asm do if return typedef inline typeid dynamic_cast typename break else sizeof case mutable static catch explicit namespace static_cast using export new virtual class extern operator struct switch const false private template volatile const_cast protected this continue for public throw while default friend register true delete goto reinterpret_cast try alignas alignof constexpr decltype noexcept nullptr static_assert thread_local</Keywords>
+		<Keywords id="1">auto double short long bool int signed union enum unsigned char float wchar_t char16_t char32_t void </Keywords>
+		<Keywords id="2">author brief date copyright file note para param return ref see version</Keywords>
+    <Comment copyFrom="C" />
+		<SyntaxList copyFrom="C" />
+	</Language>
+	<Language name="C#" lexId="3" ext="cs">
+		<Keywords id="0">abstract as base break case catch checked class const continue decimal default delegate do else enum event explicit extern false finally fixed for foreach goto if implicit in interface internal is lock namespace new null object operator out override params private protected public readonly ref return sizeof stackalloc static struct switch this throw true try typeof unchecked unsafe using virtual volatile while</Keywords>
+		<Keywords id="1">bool byte char double float int long sbyte sealed short string uint ulong ushort void </Keywords>
+		<Keywords id="2">c code example exception include list para param paramref permission summary returns see seealso value</Keywords>
+    <Comment copyFrom="C" />
+    <SyntaxList copyFrom="C" />
+	</Language>
+	<Language name="Java" lexId="3" ext="java">
+		<Keywords id="0">instanceof assert if else switch case default break goto return for while do continue new throw throws try catch finally this super extends implements import true false null volatile transient strictfp package publicclass interface native private protected final abstract synchronized</Keywords>
+		<Keywords id="1">void char short int long double float const static byte boolean enum</Keywords>
+		<SyntaxList copyFrom="C" />
+    <Comment copyFrom="C" />
+  </Language>
+	<Language name="JavaScript" lexId="3" ext="js jse jsm">
+		<Keywords id="0">abstract arguments boolean break byte case catch char class const continue debugger default delete do double else enum eval export extends false final finally float for function goto if implements import in instanceof int interface let long native new null package private protected public return short static super switch synchronized this throw throws transient true try typeof var void volatile while with yield</Keywords>
+		<Keywords id="1">Array Date eval function hasOwnProperty Infinity isFinite isNaN isPrototypeOf length Math NaN name Number Object prototype String toString undefined valueOf alert all anchor anchors area assign blur button checkbox clearInterval clearTimeout clientInformation close closed confirm constructor crypto decodeURI decodeURIComponent defaultStatus document element elements embed embeds encodeURI encodeURIComponent escape event fileUpload focus form forms frame innerHeight innerWidth layer layers link location mimeTypes navigate navigator frames frameRate hidden history image images offscreenBuffering open opener option outerHeight outerWidth packages pageXOffset pageYOffset parent parseFloat parseInt password pkcs11 plugin prompt propertyIsEnum radio reset screenX screenY scroll secure select self setInterval setTimeout status submit taint text textarea top unescape untaint window</Keywords>
+		<SyntaxList copyFrom="C" />
+    <Comment copyFrom="C" />
+  </Language>
+	<Language name="XML" lexId="5" ext="xml">
+		<Keywords id="0"></Keywords>
+    <Comment commentStart="&lt;!--" commentEnd="--&gt;"/>
+    <SyntaxList>
+			<Syntax name= "Text" id="0" color="0x2E2E2E" bold="1" />
+			<Syntax name= "Tags" id="1" color="0xDD5A19" />
+			<Syntax name= "Unknown Tags" id="2" color="0xB58476" />
+			<Syntax name= "Attributes" id="3" color="0x1A1A9E" />
+			<Syntax name= "Unknown Attributes" id="4" color="0x7474A4" />
+			<Syntax name= "Numbers" id="5" color="0x225AD6" />
+			<Syntax name= "Double quoted strings" id="6" color="0xBA265E" bold="1" />
+			<Syntax name= "Single quoted strings" id="7" color="0xBA265E" />
+			<Syntax name= "Other inside tag,  including space and '='" id="8" color="0x2E2E2E" />
+			<Syntax name= "Comment" id="9" color="0xB840B" />
+			<Syntax name= "Entities" id="10" color="0x2E2E2E" />
+			<Syntax name= "XML style tag ends" id="11" color="0xDD5A19" />
+			<Syntax name= "XML identifier start" id="12" color="0x8132B1" />
+			<Syntax name= "XML identifier end" id="13" color="0x8132B1" />
+			<Syntax name= "Internal state which should never be visible" id="14" color="0x506E6C" />
+			<Syntax name= "ASP" id="15" color="0x2E2E2E" />
+			<Syntax name= "ASP" id="16" color="0x2E2E2E" />
+			<Syntax name= "CDATA" id="17" color="0x2E2E2E" />
+			<Syntax name= "PHP" id="18" color="0x2E2E2E" />
+			<Syntax name= "Unquoted values" id="19" color="0x2E2E2E" />
+			<Syntax name= "JSP Comment" id="20" color="0xB840B" />
+			<Syntax name= "SGML tags" id="21" color="0x808000" />
+			<Syntax name= "SGML command" id="22" color="0x2E2E2E" />
+			<Syntax name= "SGML 1st param" id="23" color="0x2E2E2E" />
+			<Syntax name= "SGML double string" id="24" color="0x2E2E2E" />
+			<Syntax name= "SGML single string" id="25" color="0x2E2E2E" />
+			<Syntax name= "SGML error" id="26" color="0x2E2E2E" />
+			<Syntax name= "SGML special (#XXXX type)" id="27" color="0x2E2E2E" />
+			<Syntax name= "SGML entity" id="28" color="0x2E2E2E" />
+			<Syntax name= "SGML comment" id="29" color="0x2E2E2E" />
+			<Syntax name= "SGML first parameter - lexer internal. It is an error if any text is in this style." id="30" color="0x2E2E2E" />
+			<Syntax name= "SGML block" id="31" color="0x2E2E2E" />
+		</SyntaxList>
+	</Language>
+	<Language name="HTML" lexId="4" ext="htm html">
+		<Keywords id="0"></Keywords>
+		<Comment copyFrom="XML" />
+		<SyntaxList copyFrom="XML" />
+	</Language>
+	<Language name="JSON" lexId="120" ext="json">
+		<Keywords id="0">false null true</Keywords>
+		<SyntaxList>
+			<Syntax name="Default" id="0" color="0x000000"/>
+			<Syntax name="Number" id="1" color="0xCD4230"/>
+			<Syntax name="String" id="2" color="0x3434A2"/>
+			<Syntax name="String eol" id="3" color="0x3B6DC7"/>
+			<Syntax name="Property name" id="4" color="0x808000" bold="1"/>
+			<Syntax name="Escape sequence" id="5" color="0x000000"/>
+			<Syntax name="Line comment" id="6" color="0xB840B"/>
+			<Syntax name="Block comment" id="7" color="0x52820B"/>
+			<Syntax name="Operator" id="8" color="0x9A3124"/>
+			<Syntax name="Uri" id="9" color="0xFA6B0C"/>
+			<Syntax name="Compactiri" id="10" color="0x000000"/>
+			<Syntax name="Keyword" id="11" color="0xff0000" bold="1" />
+			<Syntax name="Ldkeyword" id="12" color="0x000000" bold="1"/>
+			<Syntax name="Error" id="13" color="0x2020E2"/>
+		</SyntaxList>
+	</Language>
+	<Language name="Config" lexId="17" ext="conf">
+    <Comment commentLine="#"/>
+    <Keywords id="0"></Keywords>
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Number" id="2" color="0x3B6DC7" />
+			<Syntax name= "Identifier" id="3" color="0xCD4230" bold="1" />
+			<Syntax name= "Extension" id="4" color="0xC94B83" />
+			<Syntax name= "Parameter" id="5" color="0x8132B1" />
+			<Syntax name= "String" id="6" color="0x4141C2" />
+			<Syntax name= "Operator" id="7" color="0xCD4230" />
+			<Syntax name= "Ip" id="8" color="0x3E5553" />
+			<Syntax name= "Directive" id="9" color="0x5C2F14" />
+		</SyntaxList>
+	</Language>
+	<Language name="Batch" lexId="12" ext="bat cmd nt">
+		<Keywords id="0">assoc aux break call cd chcp chdir choice cls cmdextversion color com com1 com2 com3 com4 con copy country ctty date defined del dir do dpath echo else endlocal erase errorlevel exist exit for ftype goto if in loadfix loadhigh lpt lpt1 lpt2 lpt3 lpt4 md mkdir move not nul path pause popd prn prompt pushd rd rem ren rename rmdir set setlocal shift start time title type ver verify vol</Keywords>
+    <Comment commentLine="REM " />
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Word" id="2" color="0xCD4230" bold="1" />
+			<Syntax name= "Label" id="3" color="0x2020E2" />
+			<Syntax name= "Hide" id="4" color="0xA67B60" />
+			<Syntax name= "Command" id="5" color="0x808000" />
+			<Syntax name= "Identifier" id="6" color="0xC94B83" />
+			<Syntax name= "Operator" id="7" color="0x8F2E21" />
+		</SyntaxList>
+	</Language>
+	<Language name="CSS" lexId="38" ext="css qss">
+		<Keywords id="0">-khtml-background-clip -khtml-background-origin -khtml-background-size -khtml-border-bottom-left-radius -khtml-border-bottom-right-radius -khtml-border-radius -khtml-border-top-left-radius -khtml-border-top-right-radius -khtml-opacity -moz-animation -moz-animation-delay -moz-animation-direction -moz-animation-duration -moz-animation-fill-mode -moz-animation-iteration-count -moz-animation-name -moz-animation-play-state -moz-animation-timing-function -moz-appearance -moz-background-clip -moz-background-inline-policy -moz-background-origin -moz-background-size -moz-binding -moz-border-bottom-colors -moz-border-end -moz-border-end-color -moz-border-end-style -moz-border-end-width -moz-border-image -moz-border-left-colors -moz-border-radius -moz-border-radius-bottomleft -moz-border-radius-bottomright -moz-border-radius-topleft -moz-border-radius-topright -moz-border-right-colors -moz-border-start -moz-border-start-color -moz-border-start-style -moz-border-start-width -moz-border-top-colors -moz-box-align -moz-box-direction -moz-box-flex -moz-box-flex-group -moz-box-flexgroup -moz-box-ordinal-group -moz-box-orient -moz-box-pack -moz-box-shadow -moz-box-sizing -moz-column-count -moz-column-gap -moz-column-rule -moz-column-rule-color -moz-column-rule-style -moz-column-rule-width -moz-column-width -moz-float-edge -moz-force-broken-image-icon -moz-image-region -moz-linear-gradient -moz-margin-end -moz-margin-start -moz-opacity -moz-outline -moz-outline-color -moz-outline-offset -moz-outline-radius -moz-outline-radius-bottomleft -moz-outline-radius-bottomright -moz-outline-radius-topleft -moz-outline-radius-topright -moz-outline-style -moz-outline-width -moz-padding-end -moz-padding-start -moz-radial-gradient -moz-stack-sizing -moz-text-decoration-color -moz-text-decoration-line -moz-text-decoration-style -moz-transform -moz-transform-origin -moz-transition -moz-transition-delay -moz-transition-duration -moz-transition-property -moz-transition-timing-function -moz-user-focus -moz-user-input -moz-user-modify -moz-user-select -moz-window-shadow -ms-filter -ms-transform -ms-transform-origin -o-transform -webkit-animation -webkit-animation-delay -webkit-animation-direction -webkit-animation-duration -webkit-animation-fill-mode -webkit-animation-iteration-count -webkit-animation-name -webkit-animation-play-state -webkit-animation-timing-function -webkit-appearance -webkit-backface-visibility -webkit-background-clip -webkit-background-composite -webkit-background-origin -webkit-background-size -webkit-border-bottom-left-radius -webkit-border-bottom-right-radius -webkit-border-horizontal-spacing -webkit-border-image -webkit-border-radius -webkit-border-top-left-radius -webkit-border-top-right-radius -webkit-border-vertical-spacing -webkit-box-align -webkit-box-direction -webkit-box-flex -webkit-box-flex-group -webkit-box-lines -webkit-box-ordinal-group -webkit-box-orient -webkit-box-pack -webkit-box-reflect -webkit-box-shadow -webkit-box-sizing -webkit-column-break-after -webkit-column-break-before -webkit-column-break-inside -webkit-column-count -webkit-column-gap -webkit-column-rule -webkit-column-rule-color -webkit-column-rule-style -webkit-column-rule-width -webkit-column-width -webkit-columns -webkit-dashboard-region -webkit-font-smoothing -webkit-gradient -webkit-line-break -webkit-linear-gradient -webkit-margin-bottom-collapse -webkit-margin-collapse -webkit-margin-start -webkit-margin-top-collapse -webkit-marquee -webkit-marquee-direction -webkit-marquee-increment -webkit-marquee-repetition -webkit-marquee-speed -webkit-marquee-style -webkit-mask -webkit-mask-attachment -webkit-mask-box-image -webkit-mask-clip -webkit-mask-composite -webkit-mask-image -webkit-mask-origin -webkit-mask-position -webkit-mask-position-x -webkit-mask-position-y -webkit-mask-repeat -webkit-mask-size -webkit-nbsp-mode -webkit-padding-start -webkit-perspective -webkit-perspective-origin -webkit-radial-gradient -webkit-rtl-ordering -webkit-tap-highlight-color -webkit-text-fill-color -webkit-text-security -webkit-text-size-adjust -webkit-text-stroke -webkit-text-stroke-color -webkit-text-stroke-width -webkit-touch-callout -webkit-transform -webkit-transform-origin -webkit-transform-origin-x -webkit-transform-origin-y -webkit-transform-origin-z -webkit-transform-style -webkit-transition -webkit-transition-delay -webkit-transition-duration -webkit-transition-property -webkit-transition-timing-function -webkit-user-drag -webkit-user-modify -webkit-user-select align-content align-items align-self alignment-adjust alignment-baseline all animation animation-delay animation-direction animation-duration animation-fill-mode animation-iteration-count animation-name animation-play-state animation-timing-function appearance azimuth backface-visibility background background-attachment background-blend-mode background-break background-clip background-color background-image background-origin background-position background-repeat background-size baseline-shift binding bleed bookmark-label bookmark-level bookmark-state bookmark-target border border-bottom border-bottom-color border-bottom-left-radius border-bottom-right-radius border-bottom-style border-bottom-width border-collapse border-color border-image border-image-outset border-image-repeat border-image-slice border-image-source border-image-width border-left border-left-color border-left-style border-left-width border-radius border-right border-right-color border-right-style border-right-width border-spacing border-style border-top border-top-color border-top-left-radius border-top-right-radius border-top-style border-top-width border-width bottom box-align box-decoration-break box-direction box-flex box-flex-group box-lines box-ordinal-group box-orient box-pack box-shadow box-sizing break-after break-before break-inside caption-side clear clip color color-profile column-count column-fill column-gap column-rule column-rule-color column-rule-style column-rule-width column-span column-width columns content counter-increment counter-reset crop cue cue-after cue-before cursor direction display dominant-baseline drop-initial-after-adjust drop-initial-after-align drop-initial-before-adjust drop-initial-before-align drop-initial-size drop-initial-value elevation empty-cells filter fit fit-position flex flex-basis flex-direction flex-flow flex-grow flex-shrink flex-wrap float float-offset font font-effect font-emphasize font-family font-size font-size-adjust font-stretch font-style font-variant font-weight grid-columns grid-rows hanging-punctuation height hyphenate-after hyphenate-before hyphenate-character hyphenate-lines hyphenate-resource hyphens icon image-orientation image-rendering image-resolution inline-box-align justify-content left letter-spacing line-height line-stacking line-stacking-ruby line-stacking-shift line-stacking-strategy list-style list-style-image list-style-position list-style-type margin margin-bottom margin-left margin-right margin-top mark mark-after mark-before marker-offset marks marquee-direction marquee-play-count marquee-speed marquee-style max-height max-width min-height min-width move-to nav-down nav-index nav-left nav-right nav-up opacity order orphans outline outline-color outline-offset outline-style outline-width overflow overflow-style overflow-x overflow-y padding padding-bottom padding-left padding-right padding-top page page-break-after page-break-before page-break-inside page-policy pause pause-after pause-before perspective perspective-origin phonemes pitch pitch-range play-during position presentation-level punctuation-trim quotes rendering-intent resize rest rest-after rest-before richness right rotation rotation-point ruby-align ruby-overhang ruby-position ruby-span size speak speak-header speak-numeral speak-punctuation speech-rate stress string-set tab-size table-layout target target-name target-new target-position text-align text-align-last text-decoration text-decoration-color text-decoration-line text-decoration-style text-emphasis text-height text-indent text-justify text-outline text-overflow text-shadow text-transform text-wrap top transform transform-origin transform-style transition transition-delay transition-duration transition-property transition-timing-function unicode-bidi vertical-align visibility voice-balance voice-duration voice-family voice-pitch voice-pitch-range voice-rate voice-stress voice-volume volume white-space white-space-collapse widows width word-break word-spacing word-wrap z-index</Keywords>
+		<Keywords id="1">active after before check checked disabled empty enabled first first-child first-letter first-line first-of-type focus hover indeterminate invalid lang last-child last-of-type left link not nth-child nth-last-child nth-of-type nth-last-of-type only-child only-of-type optional read-only read-write required right root selection target valid visited</Keywords>
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Tag" id="1" color="0xEA2020"/>
+			<Syntax name= "Class" id="2" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "Pseudoclass" id="3" color="0x3B6DC7" />
+			<Syntax name= "Unknown Pseudoclass" id="4" color="0x6C7D95" />
+			<Syntax name= "Operator" id="5" color="0x5C2F14" />
+			<Syntax name= "Identifier" id="6" color="0xC94B83" bold="1" />
+			<Syntax name= "Unknown Identifier" id="7" color="0x85606F" bold="1" />
+			<Syntax name= "Value" id="8" color="0x000000" />
+			<Syntax name= "Comment" id="9" color="0xB840B" />
+			<Syntax name= "Id" id="10" color="0xEE8400" />
+			<Syntax name= "Important" id="11" color="0xF38AE" />
+			<Syntax name= "Directive" id="12" color="0xEE8400" />
+			<Syntax name= "Doublestring" id="13" color="0x1515A3" />
+			<Syntax name= "Singlestring" id="14" color="0x80" />
+			<Syntax name= "Identifier2" id="15" color="0x3B6DC7" bold="1" />
+			<Syntax name= "Attribute" id="16" color="0x2020E2" />
+			<Syntax name= "Identifier3" id="17" color="0x000000" />
+			<Syntax name= "Pseudoelement" id="18" color="0x000000" />
+			<Syntax name= "Extended Identifier" id="19" color="0x000000" />
+			<Syntax name= "Extended Pseudoclass" id="20" color="0x000000" />
+			<Syntax name= "Extended Pseudoelement" id="21" color="0x000000" />
+			<Syntax name= "Media" id="22" color="0x000000" />
+			<Syntax name= "Variable" id="23" color="0x000000" />
+		</SyntaxList>
+	</Language>
+	<Language name="VisualBasic" lexId="8" ext="vb vbs frm bas">
+		<Keywords id="0">reserved keywords addhandler addressof alias and andalso as boolean byref byte byval call case catch cbool cbyte cchar cdate cdbl cdec char cint class constraint statement clng cobj const continue csbyte cshort csng cstr ctype cuint culng cushort date decimal declare default delegate dim directcast do double each else elseif end endif enum erase error event exit false finally for in for next friend function get gettype getxmlnamespace global gosub goto handles if implements imports in inherits integer interface is isnot let lib like long loop me mod module mustinherit mustoverride mybase myclass nameof narrowing new operator next not nothing notinheritable notoverridable object of on option optional or orelse out overloads overridable overrides paramarray partial private property protected public raiseevent readonly redim rem removehandler resume return sbyte select set shadows shared short single static step stop string structure sub synclock then throw to true try trycast typeof uinteger ulong ushort using variant wend when while widening with withevents writeonly xor const else elseif end if </Keywords>
+    <Comment commentLine="&apos;" />
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Number" id="2" color="0x225AD6" />
+			<Syntax name= "Keyword" id="3" color="0xEA2020" bold="1" />
+			<Syntax name= "String" id="4" color="0x1515A3" />
+			<Syntax name= "Preprocessor" id="5" color="0x8a006f" />
+			<Syntax name= "Operator" id="6" color="0x5C2F14" />
+			<Syntax name= "Identifier" id="7" color="0x000000" />
+			<Syntax name= "Date" id="8" color="0xC94B83" />
+			<Syntax name= "String eol" id="9" color="0x80" />
+			<Syntax name= "Keyword2" id="10" color="0x808000" bold="1" />
+			<Syntax name= "Keyword3" id="11" color="0x000000" />
+			<Syntax name= "Keyword4" id="12" color="0x000000" />
+			<Syntax name= "Constant" id="13" color="0x906950" />
+			<Syntax name= "Asm" id="14" color="0x506E6C" />
+			<Syntax name= "Label" id="15" color="0x4141C2" />
+			<Syntax name= "Error" id="16" color="0x2020E2" />
+			<Syntax name= "Hex number" id="17" color="0x225AD6" />
+			<Syntax name= "Bin number" id="18" color="0x225AD6" />
+			<Syntax name= "Comment block" id="19" color="0x000000" />
+			<Syntax name= "Doc line" id="20" color="0x5A7F00" />
+			<Syntax name= "Doc block" id="21" color="0x5A7F00" />
+			<Syntax name= "Doc keyword" id="22" color="0x5A7F00" bold="1" />
+		</SyntaxList>
+	</Language>
+	<Language name="Makefile" lexId="11" ext="mak make mk dsp">
+    <Comment commentLine="#"/>
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Preprocessor" id="2" color="0xC94B83" />
+			<Syntax name= "Identifier" id="3" color="0xEA2020" bold="1" />
+			<Syntax name= "Operator" id="4" color="0x5C2F14" />
+			<Syntax name= "Target" id="5" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "Id eol" id="6" color="0x80" />
+		</SyntaxList>
+	</Language>
+<!-- 	<Language name="HexView" lexId="200" ext="">
+		<Keywords id="0"></Keywords>
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Address" id="1" color="0xCD4230" bold="1" />
+			<Syntax name= "Bytes" id="2" color="0x794E41" />
+			<Syntax name= "Dump" id="3" color="0x737300" />
+		</SyntaxList>
+	</Language>
+ -->
+	<Language name="Property files" lexId="9" ext="ini inf properties">
+    <Comment commentLine=";"/>
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Section" id="2" color="0x808000" bold="1" />
+			<Syntax name= "Assignment" id="3" color="0x1515A3" />
+			<Syntax name= "Def val" id="4" color="0x5C2F14" />
+			<Syntax name= "Key" id="5" color="0xAD4E41"/>
+		</SyntaxList>
+	</Language>
+	<Language name="Markdown" lexId="98" ext="md">
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Line Begin" id="1" color="0x5C2F14" />
+			<Syntax name= "Strong1" id="2" color="0x5C2F14" bold="1" />
+			<Syntax name= "Strong2" id="3" color="0x942C5A" bold="1" />
+			<Syntax name= "Em1" id="4" color="0xB58476" />
+			<Syntax name= "Em2" id="5" color="0xDD834D" />
+			<Syntax name= "Header1" id="6" color="0x808000" bold="1" />
+			<Syntax name= "Header2" id="7" color="0x808000" bold="1" />
+			<Syntax name= "Header3" id="8" color="0x808000" bold="1" />
+			<Syntax name= "Header4" id="9" color="0x808000" bold="1" />
+			<Syntax name= "Header5" id="10" color="0x808000" bold="1" />
+			<Syntax name= "Header6" id="11" color="0x808000" bold="1" />
+			<Syntax name= "Prechar" id="12" color="0x506E6C" />
+			<Syntax name= "Ulist Item" id="13" color="0x84431C" italic="1" />
+			<Syntax name= "Olist Item" id="14" color="0x84431C" italic="1" />
+			<Syntax name= "Block quote" id="15" color="0x80" />
+			<Syntax name= "Strikeout" id="16" color="0x1515A3" />
+			<Syntax name= "HRULE" id="17" color="0x8132B1" />
+			<Syntax name= "Link" id="18" color="0xEE8400" />
+			<Syntax name= "Code" id="19" color="0x506E6C" />
+			<Syntax name= "Code2" id="20" color="0xA67B60" />
+			<Syntax name= "Codebk" id="21" color="0x3B6DC7" />
+		</SyntaxList>
+	</Language>
+	<Language name="SQL Query" lexId="7" ext="sql">
+		<Keywords id="0">abs absolute access acos add add_months adddate admin after aggregate all allocate alter and any app_name are array as asc ascii asin assertion at atan atn2 audit authid authorization autonomous_transaction avg before begin benchmark between bfilename bigint bin binary binary_checksum binary_integer bit bit_count bit_and bit_or blob body boolean both breadth bulk by call cascade cascaded case cast catalog ceil ceiling char char_base character charindex chartorowid check checksum checksum_agg chr class clob close cluster coalesce col_length col_name collate collation collect column comment commit completion compress concat concat_ws connect connection constant constraint constraints constructorcreate contains containsable continue conv convert corr corresponding cos cot count count_big covar_pop covar_samp create cross cube cume_dist current current_date current_path current_role current_time current_timestamp current_user currval cursor cycle data datalength databasepropertyex date date_add date_format date_sub dateadd datediff datename datepart datetime day db_id db_name deallocate dec declare decimal decode default deferrable deferred degrees delete dense_rank depth deref desc describe descriptor destroy destructor deterministic diagnostics dictionary disconnect difference distinct do domain double drop dump dynamic each else elsif empth encode encrypt end end-exec equals escape every except exception exclusive exec execute exists exit exp export_set extends external extract false fetch first first_value file float floor file_id file_name filegroup_id filegroup_name filegroupproperty fileproperty for forall foreign format formatmessage found freetexttable from from_days fulltextcatalog fulltextservice function general get get_lock getdate getansinull getutcdate global go goto grant greatest group grouping having heap hex hextoraw host host_id host_name hour ident_incr ident_seed ident_current identified identity if ifnull ignore immediate in increment index index_col indexproperty indicator initcap initial initialize initially inner inout input insert instr instrb int integer interface intersect interval into is is_member is_srvrolemember is_null is_numeric isdate isnull isolation iterate java join key lag language large last last_day last_value lateral lcase lead leading least left len length lengthb less level like limit limited ln lpad local localtime localtimestamp locator lock log log10 long loop lower ltrim make_ref map match max maxextents mid min minus minute mlslabel mod mode modifies modify module month months_between names national natural naturaln nchar nclob new new_time newid next next_day nextval no noaudit nocompress nocopy none not nowait null nullif number number_base numeric nvl nvl2 object object_id object_name object_property ocirowid oct of off offline old on online only opaque open operator operation option or ord order ordinalityorganization others out outer output package pad parameter parameters partial partition path pctfree percent_rank pi pls_integer positive positiven postfix pow power pragma precision prefix preorder prepare preserve primary prior private privileges procedure public radians raise rand range rank ratio_to_export raw rawtohex read reads real record recursive ref references referencing reftohex relative release release_lock rename repeat replace resource restrict result return returns reverse revoke right rollback rollup round routine row row_number rowid rowidtochar rowlabel rownum rows rowtype rpad rtrim savepoint schema scroll scope search second section seddev_samp select separate sequence session session_user set sets share sign sin sinh size smallint some soundex space specific specifictype sql sqlcode sqlerrm sqlexception sqlstate sqlwarning sqrt start state statement static std stddev stdev_pop strcmp structure subdate substr substrb substring substring_index subtype successful sum synonym sys_context sys_guid sysdate system_user table tan tanh temporary terminate than then time timestamp timezone_abbr timezone_minute timezone_hour timezone_region tinyint to to_char to_date to_days to_number to_single_byte trailing transaction translate translation treat trigger trim true trunc truncate type ucase uid under union unique unknown unnest update upper usage use user userenv using validate value values var_pop var_samp varbinary varchar varchar2 variable variance varying view vsize when whenever where with without while with work write year zone</Keywords>
+    <Comment commentLine="--" commentStart="/*" commentEnd="*/"/>
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Comment line" id="2" color="0xB840B" />
+			<Syntax name= "Comment doc" id="3" color="0x5A7F00" />
+			<Syntax name= "Number" id="4" color="0x3B6DC7" />
+			<Syntax name= "Word" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "String" id="6" color="0x1515A3" />
+			<Syntax name= "Character" id="7" color="0x80" />
+			<Syntax name= "Sqlplus" id="8" color="0x5C2F14" />
+			<Syntax name= "Sqlplus Prompt" id="9" color="0x5C2F14" />
+			<Syntax name= "Operator" id="10" color="0x5C2F14" />
+			<Syntax name= "Identifier" id="11" color="0x000000" />
+			<Syntax name= "Sqlplus Comment" id="13" color="0xB840B" />
+			<Syntax name= "Comment line doc" id="15" color="0x5A7F00" />
+			<Syntax name= "Word2" id="16" color="0xC94B83" />
+			<Syntax name= "Comment doc keyword" id="17" color="0x5A7F00" bold="1" />
+			<Syntax name= "Comment doc keyword error" id="18" color="0x1515A3" bold="1" />
+			<Syntax name= "User1" id="19" color="0x8A006F" />
+			<Syntax name= "User2" id="20" color="0x8A006F" />
+			<Syntax name= "User3" id="21" color="0x8A006F" />
+			<Syntax name= "User4" id="22" color="0x8A006F" />
+			<Syntax name= "Quoted identifier" id="23" color="0x942C5A" />
+			<Syntax name= "QOPERATOR" id="24" color="0x5C2F14" />
+		</SyntaxList>
+	</Language>
+	<Language name="Bash" lexId="62" ext="sh bash">
+		<Keywords id="0">alias ar asa awk banner basename bash bc bdiff break bunzip2 bzip2 cal calendar case cat cc cd chmod cksum clear cmp col comm compress continue cp cpio crypt csplit ctags cut date dc dd declare deroff dev df diff diff3 dircmp dirname do done du echo ed egrep elif else env esac eval ex exec exit expand export expr false fc fgrep fi file find fmt fold for function functions getconf getopt getopts grep gres hash head help history iconv id if in integer jobs join kill local lc let line ln logname look ls m4 mail mailx make man mkdir more mt mv newgrp nl nm nohup ntps od pack paste patch pathchk pax pcat perl pg pr print printf ps pwd read readonly red return rev rm rmdir sed select set sh shift size sleep sort spell split start stop strings strip stty sum suspend sync tail tar tee test then time times touch tr trap true tsort tty type typeset ulimit umask unalias uname uncompress unexpand uniq unpack unset until uudecode uuencode vi vim vpax wait wc whence which while who wpaste wstart xargs zcat</Keywords>
+    <Comment commentLine="#"/>
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Error" id="1" color="0x2020E2" />
+			<Syntax name= "Comment line" id="2" color="0xB840B" />
+			<Syntax name= "Number" id="3" color="0x3B6DC7" />
+			<Syntax name= "Word" id="4" color="0xEA2020" bold="1" />
+			<Syntax name= "String" id="5" color="0x1515A3" />
+			<Syntax name= "Character" id="6" color="0x80" />
+			<Syntax name= "Operator" id="7" color="0x5C2F14" />
+			<Syntax name= "Identifier" id="8" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "Scalar" id="9" color="0x942C5A" />
+			<Syntax name= "Param" id="10" color="0xA67B60" />
+			<Syntax name= "Backticks" id="11" color="0x506E6C" />
+			<Syntax name= "HERE_DELIM" id="12" color="0xEE8400" />
+			<Syntax name= "HERE_Q" id="13" color="0xA35A00" />
+		</SyntaxList>
+	</Language>
+	<Language name="Python" lexId="2" ext="py pyw">
+		<Keywords id="0">and as assert break class continue def del elif else except exec False finally for from global if import in is lambda None not or pass print raise return triple True try while with yield</Keywords>
+    <Comment commentLine="#"/>
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Commentline" id="1" color="0xB840B" />
+			<Syntax name= "Number" id="2" color="0x3B6DC7" />
+			<Syntax name= "String" id="3" color="0x1515A3" />
+			<Syntax name= "Character" id="4" color="0x80" />
+			<Syntax name= "Word" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "Triple" id="6" color="0xA67B60" />
+			<Syntax name= "Triple double" id="7" color="0xA67B60" />
+			<Syntax name= "Class name" id="8" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "Def name" id="9" color="0x8A006F" />
+			<Syntax name= "Operator" id="10" color="0x5C2F14" />
+			<Syntax name= "Identifier" id="11" color="0x808000"/>
+			<Syntax name= "Comment block" id="12" color="0x5A7F00" />
+			<Syntax name= "String eol" id="13" color="0x000000" />
+			<Syntax name= "Word2" id="14" color="0x000000" />
+			<Syntax name= "Decorator" id="15" color="0x6C7D95" />
+			<Syntax name= "FSTRING" id="16" color="0x576579" />
+			<Syntax name= "FCHARACTER" id="17" color="0x6C7D95" />
+			<Syntax name= "FTRIPLE" id="18" color="0xA67B60" />
+			<Syntax name= "FTRIPLEDOUBLE" id="19" color="0xB47251" />
+		</SyntaxList>
+	</Language>
+	<Language name="RC" lexId="3" ext="rc">
+		<Keywords id="0">ACCELERATORS ALT AUTO3STATE AUTOCHECKBOX AUTORADIOBUTTON BEGIN BITMAP BLOCK BUTTON CAPTION CHARACTERISTICS CHECKBOX CLASS COMBOBOX CONTROL CTEXT CURSOR DEFPUSHBUTTON DIALOG DIALOGEX DISCARDABLE EDITTEXT END EXSTYLE FONT GROUPBOX ICON LANGUAGE LISTBOX LTEXT MENU MENUEX MENUITEM MESSAGETABLE POPUP PUSHBUTTON RADIOBUTTON RCDATA RTEXT SCROLLBAR SEPARATOR SHIFT STATE3 STRINGTABLE STYLE TEXTINCLUDE VALUE VERSION VERSIONINFO VIRTKEY</Keywords>
+    <Comment commentLine="//" commentStart="/*" commentEnd="*/"/>
+    <SyntaxList copyFrom="C" />
+	</Language>
+	<Language name="Ruby" lexId="22" ext="rb rbw">
+		<Keywords id="0">ARGF ARGV BEGIN END ENV FALSE DATA NIL RUBY_PATCHLEVEL RUBY_PLATFORM RUBY_RELEASE_DATE RUBY_VERSION PLATFORM RELEASE_DATE STDERR STDIN STDOUT TOPLEVEL_BINDING TRUE __ENCODING__ __END__ __FILE__ __LINE__ alias and begin break case class def defined? do else elsif end ensure false for if in module next nil not or redo rescue retry return self super then true undef unless until when while yield</Keywords>
+    <Comment commentLine="#"/>
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Error" id="1" color="0x1448DD" />
+			<Syntax name= "Comment line" id="2" color="0xB840B" />
+			<Syntax name= "POD" id="3" color="0x43804" />
+			<Syntax name= "Number" id="4" color="0x3B6DC7" />
+			<Syntax name= "Word" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "String" id="6" color="0x1515A3" />
+			<Syntax name= "Character" id="7" color="0x80" />
+			<Syntax name= "Class name" id="8" color="0xCD4230" />
+			<Syntax name= "Def name" id="9" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "Operator" id="10" color="0x5C2F14" />
+			<Syntax name= "Identifier" id="11" color="0x000000" />
+			<Syntax name= "Regex" id="12" color="0xEE8400" />
+			<Syntax name= "Global" id="13" color="0x5C2F14" />
+			<Syntax name= "Symbol" id="14" color="0x942C5A" />
+			<Syntax name= "Module Name" id="15" color="0x4080" />
+			<Syntax name= "Instance Var" id="16" color="0x84431C" />
+			<Syntax name= "Class Var" id="17" color="0xA67B60" />
+			<Syntax name= "Backticks" id="18" color="0x506E6C" />
+			<Syntax name= "Datasection" id="19" color="0x6C7D95" />
+			<Syntax name= "HERE_DELIM" id="20" color="0x8A006F" />
+			<Syntax name= "HERE_Q" id="21" color="0x000000" />
+			<Syntax name= "HERE_QQ" id="22" color="0x000000" />
+			<Syntax name= "HERE_QX" id="23" color="0x000000" />
+			<Syntax name= "STRING_Q" id="24" color="0x000000" />
+			<Syntax name= "STRING_QQ" id="25" color="0x000000" />
+			<Syntax name= "STRING_QX" id="26" color="0x000000" />
+			<Syntax name= "STRING_QR" id="27" color="0x000000" />
+			<Syntax name= "STRING_QW" id="28" color="0x000000" />
+			<Syntax name= "WORD_DEMOTED" id="29" color="0x000000" />
+			<Syntax name= "STDIN" id="30" color="0x000000" />
+			<Syntax name= "STDOUT" id="31" color="0x000000" />
+			<Syntax name= "STDERR" id="40" color="0x000000" />
+			<Syntax name= "UPPER_BOUND" id="41" color="0x000000" />
+		</SyntaxList>
+	</Language>
+	<Language name="Rust" lexId="111" ext="rs">
+		<Keywords id="0">alignof as be box break const continue crate do else enum extern false fn for if impl in let loop match mod mut offsetof once priv proc pub pure ref return self sizeof static struct super trait true type typeof unsafe unsized use virtual while yield</Keywords>
+		<Keywords id="1">bool char f32 f64 i16 i32 i64 i8 int str u16 u32 u64 u8 uint</Keywords>
+		<Keywords id="2">Self</Keywords>
+    <Comment commentLine="//" commentStart="/*" commentEnd="*/"/>
+    <SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment block" id="1" color="0x5A7F00" />
+			<Syntax name= "Comment line" id="2" color="0xB840B" />
+			<Syntax name= "Comment block doc" id="3" color="0x5A7F00" />
+			<Syntax name= "Comment line doc" id="4" color="0xB840B" />
+			<Syntax name= "Number" id="5" color="0x3B6DC7" />
+			<Syntax name= "Word" id="6" color="0xEA2020" bold="1" />
+			<Syntax name= "Word2" id="7" color="0x808000" bold="1" italic="1" />
+			<Syntax name= "Word3" id="8" color="0x808000" bold="1" />
+			<Syntax name= "Word4" id="9" color="0x000000" />
+			<Syntax name= "Word5" id="10" color="0x000000" />
+			<Syntax name= "Word6" id="11" color="0x000000" />
+			<Syntax name= "Word7" id="12" color="0x000000" />
+			<Syntax name= "String" id="13" color="0x1515A3" />
+			<Syntax name= "STRINGR" id="14" color="0x6B3685" />
+			<Syntax name= "CHARACTER" id="15" color="0x80" />
+			<Syntax name= "Operator" id="16" color="0x5C2F14" />
+			<Syntax name= "Identifier" id="17" color="0x000000" />
+			<Syntax name= "Lifetime" id="18" color="1C4384" />
+			<Syntax name= "Macro" id="19" color="0x8A006F" />
+			<Syntax name= "LEXERROR" id="20" color="0x2020E2" />
+			<Syntax name= "BYTESTRING" id="21" color="0x1515A3" />
+			<Syntax name= "BYTESTRINGR" id="22" color="0x6B3685" />
+			<Syntax name= "BYTECHARACTER" id="23" color="0x80" />
+		</SyntaxList>
+	</Language>
+	<Language name="CMake" lexId="80" ext="$CMakeLists.txt $CMakeCache.txt">
+		<Keywords id="0">add_custom_command add_custom_target add_definitions add_dependencies add_executable add_library add_subdirectory add_test aux_source_directory build_command build_name cmake_minimum_required configure_file create_test_sourcelist else elseif enable_language enable_testing endforeach endif endmacro endwhile exec_program execute_process export_library_dependencies file find_file find_library find_package find_path find_program fltk_wrap_ui foreach get_cmake_property get_directory_property get_filename_component get_source_file_property get_target_property get_test_property if include include_directories include_external_msproject include_regular_expression install install_files install_programs install_targets link_directories link_libraries list load_cache load_command macro make_directory mark_as_advanced math message option output_required_files project qt_wrap_cpp qt_wrap_ui remove remove_definitions separate_arguments set set_directory_properties set_source_files_properties set_target_properties set_tests_properties site_name source_group string subdir_depends subdirs target_link_libraries try_compile try_run use_mangled_mesa utility_source variable_requires vtk_make_instantiator vtk_wrap_java vtk_wrap_python vtk_wrap_tcl while write_file</Keywords>
+		<Keywords id="1">ABSOLUTE ABSTRACT ADDITIONAL_MAKE_CLEAN_FILES ALL AND APPEND ARGS ASCII BEFORE CACHE CACHE_VARIABLES CLEAR COMMAND COMMANDS COMMAND_NAME COMMENT COMPARE COMPILE_FLAGS COPYONLY DEFINED DEFINE_SYMBOL DEPENDS DOC EQUAL ESCAPE_QUOTES EXCLUDE EXCLUDE_FROM_ALL EXISTS EXPORT_MACRO EXT EXTRA_INCLUDE FATAL_ERROR FILE FILES FORCE FUNCTION GENERATED GLOB GLOB_RECURSE GREATER GROUP_SIZE HEADER_FILE_ONLY HEADER_LOCATION IMMEDIATE INCLUDES INCLUDE_DIRECTORIES INCLUDE_INTERNALS INCLUDE_REGULAR_EXPRESSION LESS LINK_DIRECTORIES LINK_FLAGS LOCATION MACOSX_BUNDLE MACROS MAIN_DEPENDENCY MAKE_DIRECTORY MATCH MATCHALL MATCHES MODULE NAME NAME_WE NOT NOTEQUAL NO_SYSTEM_PATH OBJECT_DEPENDS OPTIONAL OR OUTPUT OUTPUT_VARIABLE PATH PATHS POST_BUILD POST_INSTALL_SCRIPT PREFIX PREORDER PRE_BUILD PRE_INSTALL_SCRIPT PRE_LINK PROGRAM PROGRAM_ARGS PROPERTIES QUIET RANGE READ REGEX REGULAR_EXPRESSION REPLACE REQUIRED RETURN_VALUE RUNTIME_DIRECTORY SEND_ERROR SHARED SOURCES STATIC STATUS STREQUAL STRGREATER STRLESS SUFFIX TARGET TOLOWER TOUPPER VAR VARIABLES VERSION WIN32 WRAP_EXCLUDE WRITE APPLE MINGW MSYS CYGWIN BORLAND WATCOM MSVC MSVC_IDE MSVC60 MSVC70 MSVC71 MSVC80 CMAKE_COMPILER_2005 OFF ON</Keywords>
+		<Comment commentLine="#"/>
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "STRINGDQ" id="2" color="0x1515A3" />
+			<Syntax name= "STRINGLQ" id="3" color="0x80" />
+			<Syntax name= "STRINGRQ" id="4" color="0x6B3685" />
+			<Syntax name= "COMMANDS" id="5" color="0xEA2020" bold="1" />
+			<Syntax name= "PARAMETERS" id="6" color="0x808000" bold="1" />
+			<Syntax name= "VARIABLE" id="7" color="0x8A006F" />
+			<Syntax name= "USERDEFINED" id="8" color="0x808000" />
+			<Syntax name= "WHILEDEF" id="9" color="0xEE8400" bold="1" />
+			<Syntax name= "FOREACHDEF" id="10" color="0xB36300" bold="1" />
+			<Syntax name= "IFDEFINEDEF" id="11" color="0x942C5A" bold="1" />
+			<Syntax name= "MACRODEF" id="12" color="0x8A006F" bold="1" />
+			<Syntax name= "STRINGVAR" id="13" color="0x1515A3" bold="1" />
+			<Syntax name= "NUMBER" id="14" color="0x3B6DC7" />
+		</SyntaxList>
+	</Language>
+	<Language name="Registry" lexId="115" ext="reg">
+    <Comment commentLine=";;"/>
+    <Keywords id="0"></Keywords>
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Value name" id="2" color="0xEE8400" />
+			<Syntax name= "String" id="3" color="0xAD4E41" />
+			<Syntax name= "Hex digit" id="4" color="0xB36300" />
+			<Syntax name= "Value type" id="5" color="0x8A006F" />
+			<Syntax name= "Added key" id="6" color="0x808000" bold="1" />
+			<Syntax name= "Deleted key" id="7" color="0x4141C2" />
+			<Syntax name= "Escaped" id="8" color="0x6C7D95" />
+			<Syntax name= "Keypath Guid" id="9" color="0xCE4597" />
+			<Syntax name= "String Guid" id="10" color="0xCE4597" />
+			<Syntax name= "Parameter" id="11" color="0xC94B83" />
+			<Syntax name= "Operator" id="12" color="0x225AD6" />
+		</SyntaxList>
+	</Language>
+	<Language name="YAML" lexId="48" ext="yml yaml">
+    <Comment commentLine="#"/>
+    <Keywords id="0">true false yes no</Keywords>
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "Identifier" id="2" color="0x808000" />
+			<Syntax name= "Keyword" id="3" color="0xCD4230" bold="1" />
+			<Syntax name= "Number" id="4" color="0x3B6DC7" />
+			<Syntax name= "Reference" id="5" color="0x8A006F" />
+			<Syntax name= "Document" id="6" color="1C4384" />
+			<Syntax name= "Text" id="7" color="0x9D6768" />
+			<Syntax name= "Error" id="8" color="0x2311E8" />
+			<Syntax name= "Operator" id="9" color="0x84431C" />
+		</SyntaxList>
+	</Language>
+	<Language name="Google Buffer" lexId="3" ext="proto">
+		<Keywords id="0">message enum option package syntax java_package java_outer_classname csharp_namespace required optional repeated optimize_for</Keywords>
+		<Keywords id="1">string int32 int64 uint32 uint64 sint32 sint64 fixed32 fixed64 sfixed32 sfixed64 bytes bool float double </Keywords>
+		<Keywords id="3">LITE_RUNTIME</Keywords>
+		<Comment copyFrom="C" />
+		<SyntaxList copyFrom="C" />
+	</Language>
+	<Language name="NSIS" lexId="43" ext="nsi">
+		<Keywords id="0"></Keywords>
+		<Comment commentLine="; " commentStart="/*" commentEnd="*/"/>
+		<SyntaxList>
+			<Syntax name= "Default" id="0" color="0x000000" />
+			<Syntax name= "Comment" id="1" color="0xB840B" />
+			<Syntax name= "STRINGDQ" id="2" color="0x1515A3" />
+			<Syntax name= "STRINGLQ" id="3" color="0x80" />
+			<Syntax name= "STRINGRQ" id="4" color="0x6B3685" />
+			<Syntax name= "Function" id="5" color="0x8A006F" />
+			<Syntax name= "Variable" id="6" color="1C4384" />
+			<Syntax name= "Label" id="7" color="0x9D6768" />
+			<Syntax name= "USERDEFINED" id="8" color="0x2311E8" />
+			<Syntax name= "SECTIONDEF" id="9" color="0x84431C" />
+			<Syntax name= "SUBSECTIONDEF" id="10" color="0x84431C" />
+			<Syntax name= "IFDEFINEDEF" id="11" color="0x84431C" />
+			<Syntax name= "MACRODEF" id="12" color="0x84431C" />
+			<Syntax name= "STRINGVAR" id="13" color="0x84431C" />
+			<Syntax name= "Number" id="14" color="0x84431C" />
+			<Syntax name= "SECTIONGROUP" id="15" color="0x84431C" />
+			<Syntax name= "PAGEEX" id="16" color="0x84431C" />
+			<Syntax name= "FUNCTIONDEF" id="17" color="0x84431C" />
+			<Syntax name= "COMMENTBOX" id="18" color="0x84431C" />
+		</SyntaxList>
+	</Language>
+</SimpleNotepad>

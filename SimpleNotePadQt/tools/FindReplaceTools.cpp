@@ -1,0 +1,323 @@
+﻿#include "FindReplaceTools.h"
+#include "common.h"
+
+
+bool FindReplaceTools::FindTexts(FindOption options, bool next, ScintillaEditor* pEditView)
+{
+    if (options.find_mode == FindMode::EXTENDED)
+    {
+        options.find_str = FindReplaceTools::convertExtendedToString(options.find_str);
+    }
+
+    unsigned int flags{ FindReplaceTools::buildSearchFlags(options) };
+    static int find_result{};       //查找到的位置
+    Sci_TextToFind ttf;
+    //设置查找位置
+    if (next)       //向后查找
+    {
+        ttf.chrg.cpMin = pEditView->send(SCI_GETCURRENTPOS);
+        ttf.chrg.cpMax = pEditView->send(SCI_GETLENGTH);
+    }
+    else            //向前查找
+    {
+        ttf.chrg.cpMin = pEditView->send(SCI_GETANCHOR);
+        if (options.find_loop && ttf.chrg.cpMin == 0)
+            ttf.chrg.cpMin = pEditView->send(SCI_GETLENGTH);
+        ttf.chrg.cpMax = 0;
+    }
+    QByteArray find_str = options.find_str.toUtf8();
+    ttf.lpstrText = find_str.constData();
+    //查找文本
+    find_result = pEditView->send(SCI_FINDTEXT, flags, (sptr_t)&ttf);
+    if (find_result >= 0)
+    {
+        //选中找到的文本
+        pEditView->SetSel(find_result, find_result + options.find_str.size());
+    }
+    else
+    {
+        if (options.find_loop)
+            pEditView->SetSel(0, 0);
+    }
+
+    return find_result >= 0;
+}
+
+
+bool FindReplaceTools::ReplaceTexts(FindOption options, ScintillaEditor* pEditView)
+{
+    if (pEditView->IsSelectionEmpty())
+        return false;
+    if (options.find_mode == FindMode::EXTENDED)
+    {
+        options.replace_str = FindReplaceTools::convertExtendedToString(options.replace_str);
+        options.find_str = FindReplaceTools::convertExtendedToString(options.find_str);
+    }
+    if (pEditView->GetSelectedText() != options.find_str)
+        return false;
+    QByteArray replace_str = options.replace_str.toUtf8();
+    int start = pEditView->send(SCI_GETANCHOR);
+    int end = pEditView->send(SCI_GETCURRENTPOS);
+    pEditView->send(SCI_SETTARGETSTART, start);
+    pEditView->send(SCI_SETTARGETEND, end);
+    bool char_cannot_convert{};
+    unsigned int replace_msg = (options.find_mode == FindMode::REGULAR_EXPRESSION ? SCI_REPLACETARGETRE : SCI_REPLACETARGET);
+    pEditView->send(replace_msg, replace_str.size(), (sptr_t)replace_str.constData());
+    pEditView->send(SCI_SETSEL, start, start + replace_str.size());
+    return true;
+}
+
+int FindReplaceTools::ReplaceAll(FindOption options, ScintillaEditor* pEditView)
+{
+    return ReplaceInRange(0, pEditView->send(SCI_GETLENGTH), options, pEditView);
+}
+
+int FindReplaceTools::ReplaceSelection(FindOption options, ScintillaEditor* pEditView)
+{
+    int start = pEditView->send(SCI_GETANCHOR);
+    int end = pEditView->send(SCI_GETCURRENTPOS);
+    if (start != end)
+        return ReplaceInRange(start, end, options, pEditView);
+    return 0;
+}
+
+int FindReplaceTools::MarkAll(FindOption options, ScintillaEditor* pEditView)
+{
+    if (options.find_str.isEmpty() || pEditView->send(SCI_GETLENGTH) <= 0)
+        return false;
+    int count{};
+    if (options.find_mode == FindMode::EXTENDED)
+    {
+        options.find_str = FindReplaceTools::convertExtendedToString(options.find_str);
+    }
+
+    unsigned int flags{ FindReplaceTools::buildSearchFlags(options) };
+    Sci_TextToFind ttf;
+    ttf.chrg.cpMin = 0;
+    ttf.chrg.cpMax = pEditView->send(SCI_GETLENGTH);
+    QByteArray find_str = options.find_str.toUtf8();
+    ttf.lpstrText = find_str.constData();
+    while (true)
+    {
+        //查找
+        int find_result = pEditView->send(SCI_FINDTEXT, flags, (sptr_t)&ttf);
+        if (find_result < 0)
+            break;
+        ttf.chrg.cpMin = find_result + find_str.size();
+        //标记
+        pEditView->SetMark(ScintillaEditor::MarkStyle::MARK_ALL, find_result, find_str.size());
+        count++;
+    }
+    pEditView->SetEditChangeNotificationEnable(true);
+    return count;
+}
+
+bool FindReplaceTools::MarkSameWord(const QString& str, ScintillaEditor::MarkStyle mark_style, ScintillaEditor* pEditView)
+{
+    if (str.isEmpty() || pEditView->send(SCI_GETLENGTH) <= 0)
+        return false;
+
+    Sci_TextToFind ttf;
+    ttf.chrg.cpMin = 0;
+    ttf.chrg.cpMax = pEditView->send(SCI_GETLENGTH);
+    QByteArray strData = str.toUtf8();
+    ttf.lpstrText = strData.constData();
+    int mark_count{};   //统计匹配次数
+    int last_find_result{}; //上次匹配的位置
+    while (true)
+    {
+        //查找
+        int find_result = pEditView->send(SCI_FINDTEXT, SCFIND_WHOLEWORD, (sptr_t)&ttf);
+        if (find_result < 0)
+            break;
+        ttf.chrg.cpMin = find_result + str.size();
+        //标记
+        pEditView->SetMark(ScintillaEditor::MarkStyle::SELECTION_MARK, find_result, str.size());
+        last_find_result = find_result;
+        mark_count++;
+    }
+    //如果只匹配到1次，则清除标记
+    if (mark_count == 1)
+        pEditView->ClearMark(ScintillaEditor::MarkStyle::SELECTION_MARK, last_find_result, str.size());
+    return mark_count > 1;
+}
+
+int FindReplaceTools::ReplaceInRange(int start, int end, FindOption options, ScintillaEditor* pEditView)
+{
+    if (options.find_str.isEmpty() || pEditView->send(SCI_GETLENGTH) <= 0)
+        return false;
+    pEditView->SetEditChangeNotificationEnable(false);
+    ScintillaEditor::UndoRedoActionLocker locker(pEditView);
+    int replaced_count{};
+    if (options.find_mode == FindMode::EXTENDED)
+    {
+        options.find_str = FindReplaceTools::convertExtendedToString(options.find_str);
+        options.replace_str = FindReplaceTools::convertExtendedToString(options.replace_str);
+    }
+    bool char_cannot_convert{};
+
+    unsigned int flags{ FindReplaceTools::buildSearchFlags(options) };
+    Sci_TextToFind ttf;
+    ttf.chrg.cpMin = start;
+    ttf.chrg.cpMax = end;
+    QByteArray find_str = options.find_str.toUtf8();
+    QByteArray replace_str = options.replace_str.toUtf8();
+    ttf.lpstrText = find_str.constData();
+    while (true)
+    {
+        //查找
+        if (ttf.chrg.cpMin >= end || ttf.chrg.cpMin >= pEditView->GetDocLength())
+            break;
+        int find_result = pEditView->send(SCI_FINDTEXT, flags, (sptr_t)&ttf);
+        if (find_result < 0)
+            break;
+        ttf.chrg.cpMin = find_result + replace_str.size();
+        //替换
+        pEditView->send(SCI_SETTARGETSTART, find_result);
+        pEditView->send(SCI_SETTARGETEND, find_result + find_str.size());
+        unsigned int replace_msg = (options.find_mode == FindMode::REGULAR_EXPRESSION ? SCI_REPLACETARGETRE : SCI_REPLACETARGET);
+        pEditView->send(replace_msg, replace_str.size(), (sptr_t)replace_str.constData());
+        replaced_count++;
+
+        //修正end的位置
+        end += (replace_str.size() - find_str.size());
+        ttf.chrg.cpMax = end;
+    }
+    pEditView->SetEditChangeNotificationEnable(true);
+    return replaced_count;
+}
+
+QString FindReplaceTools::convertExtendedToString(const QString query)
+{
+    QString result;
+    result.resize(query.size() + 1);
+    int length = query.size();
+    //query may equal to result, since it always gets smaller
+    int i = 0, j = 0;
+    int charLeft = length;
+    char current;
+    while (i < length)
+    {	//because the backslash escape quences always reduce the size of the generic_string, no overflow checks have to be made for target, assuming parameters are correct
+        current = query[i].toLatin1();
+        --charLeft;
+        if (current == '\\' && charLeft)
+        {	//possible escape sequence
+            ++i;
+            --charLeft;
+            current = query[i].toLatin1();
+            switch (current)
+            {
+            case 'r':
+                result[j] = '\r';
+                break;
+            case 'n':
+                result[j] = '\n';
+                break;
+            case '0':
+                result[j] = '\0';
+                break;
+            case 't':
+                result[j] = '\t';
+                break;
+            case '\\':
+                result[j] = '\\';
+                break;
+            case 'b':
+            case 'd':
+            case 'o':
+            case 'x':
+            case 'u':
+            {
+                int size = 0, base = 0;
+                if (current == 'b')
+                {	//11111111
+                    size = 8, base = 2;
+                }
+                else if (current == 'o')
+                {	//377
+                    size = 3, base = 8;
+                }
+                else if (current == 'd')
+                {	//255
+                    size = 3, base = 10;
+                }
+                else if (current == 'x')
+                {	//0xFF
+                    size = 2, base = 16;
+                }
+                else if (current == 'u')
+                {	//0xCDCD
+                    size = 4, base = 16;
+                }
+
+                if (charLeft >= size)
+                {
+                    int res = 0;
+                    if (FindReplaceTools::readBase(query.toUtf8().constData() + (i + 1), &res, base, size))
+                    {
+                        result[j] = res;
+                        i += size;
+                        break;
+                    }
+                }
+                //not enough chars to make parameter, use default method as fallback
+            }
+
+            default:
+            {	//unknown sequence, treat as regular text
+                result[j] = '\\';
+                ++j;
+                result[j] = current;
+                break;
+            }
+            }
+        }
+        else
+        {
+            result[j] = query[i];
+        }
+        ++i;
+        ++j;
+    }
+    result.resize(j);
+    return result;
+}
+
+unsigned int FindReplaceTools::buildSearchFlags(const FindOption& option)
+{
+    return	(option.match_whole_word ? SCFIND_WHOLEWORD : 0) |
+        (option.match_case ? SCFIND_MATCHCASE : 0) |
+        (option.find_mode == FindMode::REGULAR_EXPRESSION ? SCFIND_REGEXP | SCFIND_POSIX : 0);
+};
+
+bool FindReplaceTools::readBase(const char *str, int* value, int base, int size)
+{
+    int i = 0, temp = 0;
+    *value = 0;
+    char max = '0' + static_cast<char>(base) - 1;
+    char current;
+    while (i < size)
+    {
+        current = str[i];
+        if (current >= 'A')
+        {
+            current &= 0xdf;
+            current -= ('A' - '0' - 10);
+        }
+        else if (current > '9')
+            return false;
+
+        if (current >= '0' && current <= max)
+        {
+            temp *= base;
+            temp += (current - '0');
+        }
+        else
+        {
+            return false;
+        }
+        ++i;
+    }
+    *value = temp;
+    return true;
+}

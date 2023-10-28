@@ -44,5 +44,6 @@
         <file>res/Image/undo.png</file>
         <file>res/Image/zoom_in.png</file>
         <file>res/Image/zoom_out.png</file>
+        <file>res/lang.xml</file>
     </qresource>
 </RCC>

@@ -28,27 +28,33 @@ public:
     RibbonFrameWindow(QWidget *parent = nullptr, const QString& xmlPath = QString(), bool initUiManual = false);
     virtual ~RibbonFrameWindow();
 
+    //UI初始化函数，包含了xml文件的解析、模块的加载等操作。
+    //默认情况下会在构造函数中被调用，如果构造函数的参数initUiManual为true，则需要手动调用此函数。
     void InitUi();
 
 signals:
 
 private slots:
     void OnTabIndexChanged(int index);      //响应标签切换
+    void OnTabBarClicked(int index);
+    void OnTabBarDoubleClicked(int index);
     void OnActionTriggerd(bool checked);    //响应任意一个工具栏中的按钮被点击
     void OnItemIndexChanged(int index);     //响应工具栏中ComboBox或ListWidget当前项改变
     void OnEditTextChanged(const QString& text);    //响应LineEdit文本改变
     void OnEditTextChanged();    //响应TextEdit文本改变
+    void FocusChanged(QWidget* old, QWidget* now);
 
 private:
     void LoadUIFromXml(QString xmlPath);           //从xml文件加载界面
-    IModule* LoadPlugin(const QString &strModulePath);
+    IModule* LoadPlugin(const QString &strModulePath);  //加载一个模块
     void LoadMainFrameUi(const QDomElement& element);   //从一个xml节点加载界面
     void LoadUiElement(const QDomElement& element, QToolBar* pToolbar);     //加载一组UI元素（用于Ribbin的Page）
     void LoadSimpleToolbar(const QDomElement& element, QToolBar* pToolbar);   //加载一组Action元素，图标全部为小图标（用于快速启动栏）
 
     QAction* LoadUiAction(const QDomElement& element);    //从一个xml节点加载Action
     QWidget* LoadUiWidget(const QDomElement& element, QWidget* pParent, bool& smallIcon); //从一个xml节点加载Widget
-    QMenu* LoadUiMenu(const QDomElement& element);      //从一个xml节点加载菜单
+    QMenu* LoadUiMenu(const QDomElement& element, bool enableWidget = true);      //从一个xml节点加载菜单
+    void LoadMenuItemFromXml(const QDomElement& element, QMenu* pMenu, bool enableWidget);
 
     /**
      * @brief       向界面添加一个控件
@@ -65,8 +71,13 @@ private:
 
     QWidget* GetModuleMainWindow(IModule* pModule);  //获取模块的主窗口
 
-protected:
+    void SetRibbonPin(bool pin);
+    void ShowHideRibbon(bool show);
 
+    QAction* AddRibbonContextAction(const QString& strId, const QString& strName);
+
+protected:
+    //获取当前模块
     IModule* CurrentModule() const;
 
     /**
@@ -89,6 +100,7 @@ protected:
 
     QAction *_GetAction(const QString& strCmd) const;
     QWidget *_GetWidget(const QString& strCmd) const;
+    QMenu *_GetMenu(const QString& strCmd) const;
     void SetItemIcon(const QString& strId, const QIcon& icon);
 
     void SetTabIndex(int index);
@@ -132,6 +144,7 @@ public:
     virtual void SetItemIcon(const char* strId, const char* iconPath, int iconSize) override;
     virtual void* GetAcion(const char* strId) override;
     virtual void* GetWidget(const char* strId) override;
+    virtual void* GetMenu(const char* strId) override;
     virtual void SetStatusBarText(const char* text, int timeOut) override;
     virtual int GetItemCurIndex(const char* strId) override;
     virtual void SetItemCurIIndex(const char* strId, int index) override;

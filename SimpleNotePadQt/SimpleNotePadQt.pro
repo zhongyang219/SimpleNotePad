@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,16 +9,34 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    common.cpp \
+    configdata.cpp \
+    dialog/findreplacedialog.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    scintillaeditor.cpp \
+    tools/EditorHelper.cpp \
+    tools/FindReplaceTools.cpp \
+    tools/SyntaxHighlight.cpp \
+    tools/UserDefinedLanguageStyle.cpp \
+    tools/xmlMatchedTagsHighlighter.cpp
 
 HEADERS += \
     ../include/mainframe_global.h \
     ../include/mainframeinterface.h \
     ../include/moduleinterface.h \
     ../include/ribbonframewindow.h \
+    common.h \
+    configdata.h \
+    dialog/findreplacedialog.h \
     mainframedefine.h \
-    mainwindow.h
+    mainwindow.h \
+    scintillaeditor.h \
+    tools/EditorHelper.h \
+    tools/FindReplaceTools.h \
+    tools/SyntaxHighlight.h \
+    tools/UserDefinedLanguageStyle.h \
+    tools/xmlMatchedTagsHighlighter.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -45,3 +63,6 @@ RESOURCES += \
 
 RC_FILE += \
     res/res.rc
+
+FORMS += \
+    dialog/findreplacedialog.ui
