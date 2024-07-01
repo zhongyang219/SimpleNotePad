@@ -1,4 +1,4 @@
-﻿//
+//
 //          Copyright (c) 1990-2011, Scientific Toolworks, Inc.
 //
 // The License.txt file describes the conditions under which this software may be distributed.
@@ -692,12 +692,12 @@ void ScintillaQt::CreateCallTipWindow(PRectangle rc)
 	}
 }
 
-void ScintillaQt::AddToPopUp(const wchar_t *label,
+void ScintillaQt::AddToPopUp(const char *label,
                              int cmd,
                              bool enabled)
 {
-    QMenu *menu = static_cast<QMenu *>(popup.GetID());
-    QString text(QString::fromWCharArray(label));
+	QMenu *menu = static_cast<QMenu *>(popup.GetID());
+	QString text(label);
 
 	if (text.isEmpty()) {
 		menu->addSeparator();
