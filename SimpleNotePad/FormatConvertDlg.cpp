@@ -103,9 +103,9 @@ bool CFormatConvertDlg::SaveFile(LPCTSTR file_path)
 	ofstream file{ file_path, std::ios::binary };
 	if (file.fail())
 	{
-		CString info;
-		info.Format(CCommon::LoadText(IDS_FILE_CONNOT_SAVE_PATH_WARNING), file_path);
-		MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
+		//CString info;
+		//info.Format(CCommon::LoadText(IDS_FILE_CONNOT_SAVE_PATH_WARNING), file_path);
+		//MessageBox(info, NULL, MB_OK | MB_ICONSTOP);
 		return false;
 	}
 	file << m_output_string;
@@ -332,7 +332,7 @@ void CFormatConvertDlg::OnBnClickedConvertButton()
             convert_cnt++;
     }
 
-	CString info = CCommon::LoadTextFormat(IDS_CONVERT_FINISH_INFO, { convert_cnt });
+	CString info = CCommon::LoadTextFormat(IDS_CONVERT_FINISH_INFO, { convert_file_list.size(), convert_cnt, convert_file_list.size() - convert_cnt });
 	MessageBox(info, NULL, MB_ICONINFORMATION);
 }
 
